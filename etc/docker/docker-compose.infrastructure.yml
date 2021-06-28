@@ -1,0 +1,20 @@
+version: '3.7'
+
+services:
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:management-alpine    
+      
+  redis:
+    container_name: redis
+    image: redis:alpine
+    
+  sql-server-db:
+    container_name: sql-server-db
+    image: mcr.microsoft.com/mssql/server
+    volumes:
+      - sqldata:/var/opt/mssql
+ 
+      
+volumes:
+  sqldata:

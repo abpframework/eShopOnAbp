@@ -1,15 +1,13 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Modularity;
-using Volo.Abp.Application;
+using Volo.Abp.TenantManagement;
 
 namespace EShopOnAbp.SaasService
 {
     [DependsOn(
         typeof(SaasServiceDomainModule),
-        typeof(SaasServiceApplicationContractsModule),
-        typeof(AbpDddApplicationModule),
-        typeof(AbpAutoMapperModule)
+        typeof(AbpTenantManagementApplicationModule)
         )]
     public class SaasServiceApplicationModule : AbpModule
     {

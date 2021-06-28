@@ -23,7 +23,7 @@
 
     <ItemGroup>
 <!--        <ProjectReference Include="..\..\services\administration\src\MyCompanyName.MyProjectName.AdministrationService.EntityFrameworkCore\MyCompanyName.MyProjectName.AdministrationService.EntityFrameworkCore.csproj" />-->
-<!--        <ProjectReference Include="..\..\services\saas\src\MyCompanyName.MyProjectName.SaasService.EntityFrameworkCore\MyCompanyName.MyProjectName.SaasService.EntityFrameworkCore.csproj" />-->
+        <ProjectReference Include="..\..\services\saas\src\EShopOnAbp.SaasService.EntityFrameworkCore\EShopOnAbp.SaasService.EntityFrameworkCore.csproj" />
     </ItemGroup>
 
 </Project>

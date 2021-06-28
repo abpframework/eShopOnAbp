@@ -1,27 +1,27 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
+using Volo.Abp.TenantManagement;
+using Volo.Abp.TenantManagement.EntityFrameworkCore;
 
 namespace EShopOnAbp.SaasService.EntityFrameworkCore
 {
     [ConnectionStringName(SaasServiceDbProperties.ConnectionStringName)]
-    public class SaasServiceDbContext : AbpDbContext<SaasServiceDbContext>, ISaasServiceDbContext
+    public class SaasServiceDbContext : AbpDbContext<SaasServiceDbContext>, ITenantManagementDbContext
     {
-        /* Add DbSet for each Aggregate Root here. Example:
-         * public DbSet<Question> Questions { get; set; }
-         */
+        public DbSet<Tenant> Tenants { get; }
+        public DbSet<TenantConnectionString> TenantConnectionStrings { get; }
 
-        public SaasServiceDbContext(DbContextOptions<SaasServiceDbContext> options) 
+        public SaasServiceDbContext(DbContextOptions<SaasServiceDbContext> options)
             : base(options)
         {
-
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
-            builder.ConfigureSaasService();
+            
+            builder.ConfigureTenantManagement();
         }
     }
 }

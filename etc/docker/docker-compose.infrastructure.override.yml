@@ -1,0 +1,18 @@
+version: '3.7'
+
+services:
+  rabbitmq:
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+
+  redis:
+    ports:
+      - "6379:6379"
+      
+  sql-server-db:
+    ports:
+      - "1434:1433"
+    environment:
+      SA_PASSWORD: "myPassw0rd"
+      ACCEPT_EULA: "Y"

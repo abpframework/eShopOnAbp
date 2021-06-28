@@ -1,15 +1,14 @@
 ﻿using Volo.Abp.Modularity;
 using Volo.Abp.Localization;
 using EShopOnAbp.SaasService.Localization;
-using Volo.Abp.Localization.ExceptionHandling;
-using Volo.Abp.Validation;
+using Volo.Abp.TenantManagement;
 using Volo.Abp.Validation.Localization;
 using Volo.Abp.VirtualFileSystem;
 
 namespace EShopOnAbp.SaasService
 {
     [DependsOn(
-        typeof(AbpValidationModule)
+        typeof(AbpTenantManagementDomainSharedModule)
     )]
     public class SaasServiceDomainSharedModule : AbpModule
     {
@@ -26,11 +25,6 @@ namespace EShopOnAbp.SaasService
                     .Add<SaasServiceResource>("en")
                     .AddBaseTypes(typeof(AbpValidationResource))
                     .AddVirtualJson("/Localization/SaasService");
-            });
-
-            Configure<AbpExceptionLocalizationOptions>(options =>
-            {
-                options.MapCodeNamespace("SaasService", typeof(SaasServiceResource));
             });
         }
     }

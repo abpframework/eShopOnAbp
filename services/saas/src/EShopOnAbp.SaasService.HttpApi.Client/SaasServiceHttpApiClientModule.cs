@@ -1,21 +1,19 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Volo.Abp.Http.Client;
 using Volo.Abp.Modularity;
+using Volo.Abp.TenantManagement;
 
 namespace EShopOnAbp.SaasService
 {
     [DependsOn(
         typeof(SaasServiceApplicationContractsModule),
-        typeof(AbpHttpClientModule))]
+        typeof(AbpTenantManagementHttpApiClientModule))]
     public class SaasServiceHttpApiClientModule : AbpModule
     {
-        public const string RemoteServiceName = "SaasService";
-
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
             context.Services.AddHttpClientProxies(
                 typeof(SaasServiceApplicationContractsModule).Assembly,
-                RemoteServiceName
+                SaasServiceRemoteServiceConsts.RemoteServiceName
             );
         }
     }

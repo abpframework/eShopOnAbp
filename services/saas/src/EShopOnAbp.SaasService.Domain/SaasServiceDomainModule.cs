@@ -1,10 +1,10 @@
-﻿using Volo.Abp.Domain;
-using Volo.Abp.Modularity;
+﻿using Volo.Abp.Modularity;
+using Volo.Abp.TenantManagement;
 
 namespace EShopOnAbp.SaasService
 {
     [DependsOn(
-        typeof(AbpDddDomainModule),
+        typeof(AbpTenantManagementDomainModule),
         typeof(SaasServiceDomainSharedModule)
     )]
     public class SaasServiceDomainModule : AbpModule
