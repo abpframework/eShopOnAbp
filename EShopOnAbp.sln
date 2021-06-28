@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "apps", "apps", "{866DB6CC-FEA8-4CC2-A2E4-143537D197B6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gateways", "gateways", "{1484E912-DCF3-4568-A72C-4C7622104DB8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "services", "services", "{F415FFFD-E52D-4EBE-98DC-067C1EFFFFE3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "shared", "shared", "{B8B59303-2178-459B-91A8-DF353044E090}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EShopOnAbp.AuthServer", "apps\auth-server\src\EShopOnAbp.AuthServer\EShopOnAbp.AuthServer.csproj", "{09F9A583-778D-4940-83B0-958C5D4E6D52}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EShopOnAbp.Shared.Hosting", "shared\EShopOnAbp.Shared.Hosting\EShopOnAbp.Shared.Hosting.csproj", "{B473B411-0B14-47A9-B4BB-9F0F4E884C87}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EShopOnAbp.Shared.Hosting.AspNetCore", "shared\EShopOnAbp.Shared.Hosting.AspNetCore\EShopOnAbp.Shared.Hosting.AspNetCore.csproj", "{6FCB66AF-6044-478D-B2A0-90F7E555C152}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EShopOnAbp.Shared.Localization", "shared\EShopOnAbp.Shared.Localization\EShopOnAbp.Shared.Localization.csproj", "{2B608875-8226-44E4-B93A-D475E11A7B80}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{09F9A583-778D-4940-83B0-958C5D4E6D52} = {866DB6CC-FEA8-4CC2-A2E4-143537D197B6}
+		{B473B411-0B14-47A9-B4BB-9F0F4E884C87} = {B8B59303-2178-459B-91A8-DF353044E090}
+		{6FCB66AF-6044-478D-B2A0-90F7E555C152} = {B8B59303-2178-459B-91A8-DF353044E090}
+		{2B608875-8226-44E4-B93A-D475E11A7B80} = {B8B59303-2178-459B-91A8-DF353044E090}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{09F9A583-778D-4940-83B0-958C5D4E6D52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09F9A583-778D-4940-83B0-958C5D4E6D52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09F9A583-778D-4940-83B0-958C5D4E6D52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09F9A583-778D-4940-83B0-958C5D4E6D52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B473B411-0B14-47A9-B4BB-9F0F4E884C87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B473B411-0B14-47A9-B4BB-9F0F4E884C87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B473B411-0B14-47A9-B4BB-9F0F4E884C87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B473B411-0B14-47A9-B4BB-9F0F4E884C87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FCB66AF-6044-478D-B2A0-90F7E555C152}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FCB66AF-6044-478D-B2A0-90F7E555C152}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FCB66AF-6044-478D-B2A0-90F7E555C152}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FCB66AF-6044-478D-B2A0-90F7E555C152}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B608875-8226-44E4-B93A-D475E11A7B80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B608875-8226-44E4-B93A-D475E11A7B80}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B608875-8226-44E4-B93A-D475E11A7B80}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B608875-8226-44E4-B93A-D475E11A7B80}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
