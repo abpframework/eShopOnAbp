@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.prod.json",
+  "compilerOptions": {
+    "paths": {
+      "@e-shop-on-abp/saas-service": [
+        "projects/saas-service/src/public-api.ts"
+      ],
+      "@e-shop-on-abp/saas-service/config": [
+        "projects/saas-service/config/src/public-api.ts"
+      ],
+      "@proxy": ["projects/saas-service/src/lib/proxy/index.ts"],
+      "@proxy/*": ["projects/saas-service/src/lib/proxy/*"]
+    }
+  }
+}

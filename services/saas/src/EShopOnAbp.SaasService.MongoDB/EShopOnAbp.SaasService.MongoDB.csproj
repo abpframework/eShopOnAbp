@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>EShopOnAbp.SaasService</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.MongoDB" Version="4.3.3" />
+    <ProjectReference Include="..\EShopOnAbp.SaasService.Domain\EShopOnAbp.SaasService.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,26 @@
+﻿@page
+@using Localization.Resources.AbpUi
+@using Microsoft.Extensions.Localization
+@using EShopOnAbp.SaasService.Pages
+@using Volo.Abp.Users
+@model IndexModel
+@inject IStringLocalizer<AbpUiResource> Localizer
+@inject ICurrentUser CurrentUser
+
+<abp-card>
+    <abp-card-header>Welcome</abp-card-header>
+    <abp-card-body>
+        @if (!CurrentUser.IsAuthenticated)
+        {
+            <a href="~/Account/Login">@Localizer["Login"]</a>
+        }
+        else
+        {
+            <span>Welcome: @CurrentUser.UserName</span>
+        }
+        <hr />
+        <p class="text-right"><a href="https://abp.io?ref=tmpl" target="_blank">abp.io</a></p>
+    </abp-card-body>
+</abp-card>
+
+
