@@ -22,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EShopOnAbp.AdministrationSe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EShopOnAbp.SaasService.HttpApi.Host", "services\saas\src\EShopOnAbp.SaasService.HttpApi.Host\EShopOnAbp.SaasService.HttpApi.Host.csproj", "{9203C6CC-F491-4A9F-93B3-3BEA018D87B4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EShopOnAbp.IdentityService.HttpApi.Host", "services\identity\src\EShopOnAbp.IdentityService.HttpApi.Host\EShopOnAbp.IdentityService.HttpApi.Host.csproj", "{FDFCA1B4-FD9D-445C-8655-3DF3F2D57CEA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,7 @@ Global
 		{49DDB3F1-6200-445E-9A0D-0339E31D5D77} = {B8B59303-2178-459B-91A8-DF353044E090}
 		{0FA9667E-6A08-4EFF-8CAF-D2A3C3C1FBBD} = {F415FFFD-E52D-4EBE-98DC-067C1EFFFFE3}
 		{9203C6CC-F491-4A9F-93B3-3BEA018D87B4} = {F415FFFD-E52D-4EBE-98DC-067C1EFFFFE3}
+		{FDFCA1B4-FD9D-445C-8655-3DF3F2D57CEA} = {F415FFFD-E52D-4EBE-98DC-067C1EFFFFE3}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{09F9A583-778D-4940-83B0-958C5D4E6D52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -65,5 +68,9 @@ Global
 		{9203C6CC-F491-4A9F-93B3-3BEA018D87B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9203C6CC-F491-4A9F-93B3-3BEA018D87B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9203C6CC-F491-4A9F-93B3-3BEA018D87B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDFCA1B4-FD9D-445C-8655-3DF3F2D57CEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDFCA1B4-FD9D-445C-8655-3DF3F2D57CEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDFCA1B4-FD9D-445C-8655-3DF3F2D57CEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDFCA1B4-FD9D-445C-8655-3DF3F2D57CEA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

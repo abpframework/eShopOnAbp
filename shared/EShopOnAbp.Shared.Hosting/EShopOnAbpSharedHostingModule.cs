@@ -32,12 +32,12 @@ namespace EShopOnAbp.Shared.Hosting
                     database.MappedConnections.Add("AbpFeatureManagement");
                     database.MappedConnections.Add("AbpBlobStoring");
                 });
-                //
-                // options.Databases.Configure("IdentityService", database =>
-                // {
-                //     database.MappedConnections.Add("AbpIdentity");
-                //     database.MappedConnections.Add("AbpIdentityServer");
-                // });
+                
+                options.Databases.Configure("IdentityService", database =>
+                {
+                    database.MappedConnections.Add("AbpIdentity");
+                    database.MappedConnections.Add("AbpIdentityServer");
+                });
                 //
                 // options.Databases.Configure("ProductService", database =>
                 // {
