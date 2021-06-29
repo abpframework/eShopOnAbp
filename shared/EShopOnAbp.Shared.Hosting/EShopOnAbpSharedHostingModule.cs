@@ -23,17 +23,15 @@ namespace EShopOnAbp.Shared.Hosting
                     database.MappedConnections.Add("AbpTenantManagement");
                     database.IsUsedByTenants = false;
                 });
-                //
-                // options.Databases.Configure("AdministrationService", database =>
-                // {
-                //     database.MappedConnections.Add("AbpAuditLogging");
-                //     database.MappedConnections.Add("AbpPermissionManagement");
-                //     database.MappedConnections.Add("AbpSettingManagement");
-                //     database.MappedConnections.Add("AbpFeatureManagement");
-                //     database.MappedConnections.Add("AbpLanguageManagement");
-                //     database.MappedConnections.Add("TextTemplateManagement");
-                //     database.MappedConnections.Add("AbpBlobStoring");
-                // });
+
+                options.Databases.Configure("AdministrationService", database =>
+                {
+                    database.MappedConnections.Add("AbpAuditLogging");
+                    database.MappedConnections.Add("AbpPermissionManagement");
+                    database.MappedConnections.Add("AbpSettingManagement");
+                    database.MappedConnections.Add("AbpFeatureManagement");
+                    database.MappedConnections.Add("AbpBlobStoring");
+                });
                 //
                 // options.Databases.Configure("IdentityService", database =>
                 // {
