@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
+using Serilog;
 using Volo.Abp;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
@@ -108,16 +109,17 @@ namespace EShopOnAbp.Shared.Hosting.Microservices.DbMigrations
             var tryCount = IncrementEventTryCount(eventData);
             if (tryCount <= MaxEventTryCount)
             {
-                Logger.LogWarning($"Could not apply database migrations. Re-queueing the operation. TenantId = {eventData.TenantId}, Database Name = {eventData.DatabaseName}.");
-                Logger.LogException(exception, LogLevel.Warning);
+                Log.Warning($"Could not apply database migrations. Re-queueing the operation. TenantId = {eventData.TenantId}, Database Name = {eventData.DatabaseName}.");
+                Log.Error(exception.ToString());
     
                 await Task.Delay(RandomHelper.GetRandom(5000, 15000));
+                Log.Warning("Re publishing the event!");
                 await DistributedEventBus.PublishAsync(eventData);
             }
             else
             {
-                Logger.LogError($"Could not apply database migrations. Canceling the operation. TenantId = {eventData.TenantId}, DatabaseName = {eventData.DatabaseName}.");
-                Logger.LogException(exception);
+                Log.Error($"Could not apply database migrations. Canceling the operation. TenantId = {eventData.TenantId}, DatabaseName = {eventData.DatabaseName}.");
+                Log.Error(exception.ToString());
             }
         }
     
