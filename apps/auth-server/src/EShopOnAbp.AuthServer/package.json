@@ -1,9 +1,9 @@
 {
   "version": "0.1.0",
-  "name": "MyProjectNameAuthServer",
+  "name": "EShopOnAbpAuthServer",
   "private": true,
   "dependencies": {
-    "@volo/abp.aspnetcore.mvc.ui.theme.lepton": "~4.3.3",
-    "@volo/account": "~4.3.3"
+    "@abp/aspnetcore.mvc.ui.theme.basic": "^4.4.0-rc.1",
+    "@volo/account": "^4.3.3"
   }
 }
