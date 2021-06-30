@@ -4,6 +4,7 @@ using EShopOnAbp.Localization;
 using Localization.Resources.AbpUi;
 using Microsoft.Extensions.Configuration;
 using Volo.Abp.Account.Localization;
+using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.UI.Navigation;
 
 namespace EShopOnAbp.PublicWeb.Menus
@@ -63,17 +64,8 @@ namespace EShopOnAbp.PublicWeb.Menus
             var uiResource = context.GetLocalizer<AbpUiResource>();
             var accountResource = context.GetLocalizer<AccountResource>();
 
-            context.Menu.AddItem(new ApplicationMenuItem("Account.Manage", accountResource["MyAccount"],
-                $"{identityServerUrl.EnsureEndsWith('/')}Account/Manage", icon: "fa fa-cog", order: 1000, null,
-                "_blank"));
-            context.Menu.AddItem(new ApplicationMenuItem("Account.SecurityLogs", accountResource["MySecurityLogs"],
-                $"{identityServerUrl.EnsureEndsWith('/')}Account/SecurityLogs", target: "_blank"));
-            context.Menu.AddItem(new ApplicationMenuItem("Account.Logout", uiResource["Logout"],
-                url: "~/Account/Logout", icon: "fa fa-power-off", order: int.MaxValue - 1000));
-
-            // context.Menu.AddItem(new ApplicationMenuItem("Account.Manage", accountResource["MyAccount"], $"{identityServerUrl.EnsureEndsWith('/')}Account/Manage", icon: "fa fa-cog", order: 1000, null, "_blank").RequireAuthenticated());
-            // context.Menu.AddItem(new ApplicationMenuItem("Account.SecurityLogs", accountResource["MySecurityLogs"], $"{identityServerUrl.EnsureEndsWith('/')}Account/SecurityLogs", target: "_blank").RequireAuthenticated());
-            // context.Menu.AddItem(new ApplicationMenuItem("Account.Logout", uiResource["Logout"], url: "~/Account/Logout", icon: "fa fa-power-off", order: int.MaxValue - 1000).RequireAuthenticated());
+            context.Menu.AddItem(new ApplicationMenuItem("Account.Manage", accountResource["MyAccount"], $"{identityServerUrl.EnsureEndsWith('/')}Account/Manage", icon: "fa fa-cog", order: 1000, null, "_blank").RequireAuthenticated());
+            context.Menu.AddItem(new ApplicationMenuItem("Account.Logout", uiResource["Logout"], url: "~/Account/Logout", icon: "fa fa-power-off", order: int.MaxValue - 1000).RequireAuthenticated());
 
             return Task.CompletedTask;
         }
