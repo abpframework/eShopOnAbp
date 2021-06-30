@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\shared\EShopOnAbp.Shared.Hosting.Gateways\EShopOnAbp.Shared.Hosting.Gateways.csproj" />
+    <ProjectReference Include="..\..\..\..\services\identity\src\EShopOnAbp.IdentityService.HttpApi\EShopOnAbp.IdentityService.HttpApi.csproj" />
+    <ProjectReference Include="..\..\..\..\services\saas\src\EShopOnAbp.SaasService.HttpApi\EShopOnAbp.SaasService.HttpApi.csproj" />
+    <ProjectReference Include="..\..\..\..\services\administration\src\EShopOnAbp.AdministrationService.HttpApi\EShopOnAbp.AdministrationService.HttpApi.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Logs\**" />
+    <Content Remove="Logs\**" />
+    <EmbeddedResource Remove="Logs\**" />
+    <None Remove="Logs\**" />
+  </ItemGroup>
+
+</Project>
