@@ -26,35 +26,35 @@ namespace EShopOnAbp.IdentityService.EntityFrameworkCore
     public class IdentityServiceDbContext : AbpDbContext<IdentityServiceDbContext>, IIdentityDbContext,
         IIdentityServerDbContext
     {
-        public DbSet<IdentityUser> Users { get; }
-        public DbSet<IdentityRole> Roles { get; }
-        public DbSet<IdentityClaimType> ClaimTypes { get; }
-        public DbSet<OrganizationUnit> OrganizationUnits { get; }
-        public DbSet<IdentitySecurityLog> SecurityLogs { get; }
-        public DbSet<IdentityLinkUser> LinkUsers { get; }
-        public DbSet<ApiResource> ApiResources { get; }
-        public DbSet<ApiResourceSecret> ApiResourceSecrets { get; }
-        public DbSet<ApiResourceClaim> ApiResourceClaims { get; }
-        public DbSet<ApiResourceScope> ApiResourceScopes { get; }
-        public DbSet<ApiResourceProperty> ApiResourceProperties { get; }
-        public DbSet<ApiScope> ApiScopes { get; }
-        public DbSet<ApiScopeClaim> ApiScopeClaims { get; }
-        public DbSet<ApiScopeProperty> ApiScopeProperties { get; }
-        public DbSet<IdentityResource> IdentityResources { get; }
-        public DbSet<IdentityResourceClaim> IdentityClaims { get; }
-        public DbSet<IdentityResourceProperty> IdentityResourceProperties { get; }
-        public DbSet<Client> Clients { get; }
-        public DbSet<ClientGrantType> ClientGrantTypes { get; }
-        public DbSet<ClientRedirectUri> ClientRedirectUris { get; }
-        public DbSet<ClientPostLogoutRedirectUri> ClientPostLogoutRedirectUris { get; }
-        public DbSet<ClientScope> ClientScopes { get; }
-        public DbSet<ClientSecret> ClientSecrets { get; }
-        public DbSet<ClientClaim> ClientClaims { get; }
-        public DbSet<ClientIdPRestriction> ClientIdPRestrictions { get; }
-        public DbSet<ClientCorsOrigin> ClientCorsOrigins { get; }
-        public DbSet<ClientProperty> ClientProperties { get; }
-        public DbSet<PersistedGrant> PersistedGrants { get; }
-        public DbSet<DeviceFlowCodes> DeviceFlowCodes { get; }
+        public DbSet<IdentityUser> Users { get; set; }
+        public DbSet<IdentityRole> Roles { get; set; }
+        public DbSet<IdentityClaimType> ClaimTypes { get; set; }
+        public DbSet<OrganizationUnit> OrganizationUnits { get; set; }
+        public DbSet<IdentitySecurityLog> SecurityLogs { get; set; }
+        public DbSet<IdentityLinkUser> LinkUsers { get; set; }
+        public DbSet<ApiResource> ApiResources { get; set; }
+        public DbSet<ApiResourceSecret> ApiResourceSecrets { get; set; }
+        public DbSet<ApiResourceClaim> ApiResourceClaims { get; set; }
+        public DbSet<ApiResourceScope> ApiResourceScopes { get; set; }
+        public DbSet<ApiResourceProperty> ApiResourceProperties { get; set; }
+        public DbSet<ApiScope> ApiScopes { get; set; }
+        public DbSet<ApiScopeClaim> ApiScopeClaims { get; set; }
+        public DbSet<ApiScopeProperty> ApiScopeProperties { get; set; }
+        public DbSet<IdentityResource> IdentityResources { get; set; }
+        public DbSet<IdentityResourceClaim> IdentityClaims { get; set; }
+        public DbSet<IdentityResourceProperty> IdentityResourceProperties { get; set; }
+        public DbSet<Client> Clients { get; set; }
+        public DbSet<ClientGrantType> ClientGrantTypes { get; set; }
+        public DbSet<ClientRedirectUri> ClientRedirectUris { get; set; }
+        public DbSet<ClientPostLogoutRedirectUri> ClientPostLogoutRedirectUris { get; set; }
+        public DbSet<ClientScope> ClientScopes { get; set; }
+        public DbSet<ClientSecret> ClientSecrets { get; set; }
+        public DbSet<ClientClaim> ClientClaims { get; set; }
+        public DbSet<ClientIdPRestriction> ClientIdPRestrictions { get; set; }
+        public DbSet<ClientCorsOrigin> ClientCorsOrigins { get; set; }
+        public DbSet<ClientProperty> ClientProperties { get; set; }
+        public DbSet<PersistedGrant> PersistedGrants { get; set; }
+        public DbSet<DeviceFlowCodes> DeviceFlowCodes { get; set; }
 
         public IdentityServiceDbContext(DbContextOptions<IdentityServiceDbContext> options)
             : base(options)
