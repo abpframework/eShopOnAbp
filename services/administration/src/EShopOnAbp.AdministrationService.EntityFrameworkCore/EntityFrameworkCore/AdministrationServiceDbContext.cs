@@ -39,12 +39,12 @@ namespace EShopOnAbp.AdministrationService.EntityFrameworkCore
 
         }
 
-        public DbSet<PermissionGrant> PermissionGrants { get; }
-        public DbSet<Setting> Settings { get; }
-        public DbSet<FeatureValue> FeatureValues { get; }
-        public DbSet<AuditLog> AuditLogs { get; }
-        public DbSet<DatabaseBlobContainer> BlobContainers { get; }
-        public DbSet<DatabaseBlob> Blobs { get; }
+        public DbSet<PermissionGrant> PermissionGrants { get; set; }
+        public DbSet<Setting> Settings { get; set; }
+        public DbSet<FeatureValue> FeatureValues { get; set; }
+        public DbSet<AuditLog> AuditLogs { get; set; }
+        public DbSet<DatabaseBlobContainer> BlobContainers { get; set; }
+        public DbSet<DatabaseBlob> Blobs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
