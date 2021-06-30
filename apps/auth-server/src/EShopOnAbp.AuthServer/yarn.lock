@@ -505,7 +505,7 @@
   dependencies:
     "@abp/aspnetcore.mvc.ui.theme.shared" "~4.3.3"
 
-"@volo/abp.aspnetcore.mvc.ui.theme.lepton@^4.3.3":
+"@volo/abp.aspnetcore.mvc.ui.theme.lepton@~4.3.3":
   version "4.3.3"
   resolved "https://registry.yarnpkg.com/@volo/abp.aspnetcore.mvc.ui.theme.lepton/-/abp.aspnetcore.mvc.ui.theme.lepton-4.3.3.tgz#0725e3d064d3137e507a42e62d5c402fb34d1099"
   integrity sha512-Sk/JH6VZHcHLYWwSey574rluBZLf/l4i0HomIlsf+twdtN8Ew/M9Qs6rdaso6sdSIvQugx/rOU2ZZoliP06iXA==
@@ -513,7 +513,7 @@
     "@abp/flag-icon-css" "~4.3.3"
     "@volo/abp.aspnetcore.mvc.ui.theme.commercial" "~4.3.3"
 
-"@volo/account@^4.3.3":
+"@volo/account@~4.3.3":
   version "4.3.3"
   resolved "https://registry.yarnpkg.com/@volo/account/-/account-4.3.3.tgz#d5bf04c1fa434cbca54e0ecf8d78158b299156ce"
   integrity sha512-MnK6QAM97EWKYGT4Zgh/HAXoxAUfgOw5srql3u9tcV5lm2uqngNDQaFC5ck48jsaoXJeK/GrnMBlfDbVjwMO6g==
