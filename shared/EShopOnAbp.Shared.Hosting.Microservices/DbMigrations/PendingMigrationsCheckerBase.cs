@@ -55,7 +55,7 @@ namespace EShopOnAbp.Shared.Hosting.Microservices.DbMigrations
                             }
                         );
                     }
-    
+
                     await uow.CompleteAsync();
                 }
             }

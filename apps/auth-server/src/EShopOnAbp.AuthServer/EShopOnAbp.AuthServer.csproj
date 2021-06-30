@@ -21,6 +21,10 @@
     <ItemGroup>
       <ProjectReference Include="..\..\..\..\shared\EShopOnAbp.Shared.Hosting.AspNetCore\EShopOnAbp.Shared.Hosting.AspNetCore.csproj" />
       <ProjectReference Include="..\..\..\..\shared\EShopOnAbp.Shared.Localization\EShopOnAbp.Shared.Localization.csproj" />
+      <ProjectReference Include="..\..\..\..\services\administration\src\EShopOnAbp.AdministrationService.EntityFrameworkCore\EShopOnAbp.AdministrationService.EntityFrameworkCore.csproj" />
+      <ProjectReference Include="..\..\..\..\services\identity\src\EShopOnAbp.IdentityService.EntityFrameworkCore\EShopOnAbp.IdentityService.EntityFrameworkCore.csproj" />
+      <ProjectReference Include="..\..\..\..\services\saas\src\EShopOnAbp.SaasService.EntityFrameworkCore\EShopOnAbp.SaasService.EntityFrameworkCore.csproj" />
     </ItemGroup>
+
 
 </Project>

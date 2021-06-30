@@ -1,0 +1,9 @@
+{
+  "version": "0.1.0",
+  "name": "MyProjectNameAuthServer",
+  "private": true,
+  "dependencies": {
+    "@volo/abp.aspnetcore.mvc.ui.theme.lepton": "^4.3.3",
+    "@volo/account": "^4.3.3"
+  }
+}

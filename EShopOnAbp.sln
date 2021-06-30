@@ -1,5 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31320.298
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "apps", "apps", "{866DB6CC-FEA8-4CC2-A2E4-143537D197B6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gateways", "gateways", "{1484E912-DCF3-4568-A72C-4C7622104DB8}"
@@ -8,36 +11,30 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "services", "services", "{F4
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "shared", "shared", "{B8B59303-2178-459B-91A8-DF353044E090}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EShopOnAbp.AuthServer", "apps\auth-server\src\EShopOnAbp.AuthServer\EShopOnAbp.AuthServer.csproj", "{09F9A583-778D-4940-83B0-958C5D4E6D52}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShopOnAbp.AuthServer", "apps\auth-server\src\EShopOnAbp.AuthServer\EShopOnAbp.AuthServer.csproj", "{09F9A583-778D-4940-83B0-958C5D4E6D52}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EShopOnAbp.Shared.Hosting", "shared\EShopOnAbp.Shared.Hosting\EShopOnAbp.Shared.Hosting.csproj", "{B473B411-0B14-47A9-B4BB-9F0F4E884C87}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShopOnAbp.Shared.Hosting", "shared\EShopOnAbp.Shared.Hosting\EShopOnAbp.Shared.Hosting.csproj", "{B473B411-0B14-47A9-B4BB-9F0F4E884C87}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EShopOnAbp.Shared.Hosting.AspNetCore", "shared\EShopOnAbp.Shared.Hosting.AspNetCore\EShopOnAbp.Shared.Hosting.AspNetCore.csproj", "{6FCB66AF-6044-478D-B2A0-90F7E555C152}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShopOnAbp.Shared.Hosting.AspNetCore", "shared\EShopOnAbp.Shared.Hosting.AspNetCore\EShopOnAbp.Shared.Hosting.AspNetCore.csproj", "{6FCB66AF-6044-478D-B2A0-90F7E555C152}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EShopOnAbp.Shared.Localization", "shared\EShopOnAbp.Shared.Localization\EShopOnAbp.Shared.Localization.csproj", "{2B608875-8226-44E4-B93A-D475E11A7B80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShopOnAbp.Shared.Localization", "shared\EShopOnAbp.Shared.Localization\EShopOnAbp.Shared.Localization.csproj", "{2B608875-8226-44E4-B93A-D475E11A7B80}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EShopOnAbp.Shared.Hosting.Microservices", "shared\EShopOnAbp.Shared.Hosting.Microservices\EShopOnAbp.Shared.Hosting.Microservices.csproj", "{49DDB3F1-6200-445E-9A0D-0339E31D5D77}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShopOnAbp.Shared.Hosting.Microservices", "shared\EShopOnAbp.Shared.Hosting.Microservices\EShopOnAbp.Shared.Hosting.Microservices.csproj", "{49DDB3F1-6200-445E-9A0D-0339E31D5D77}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EShopOnAbp.AdministrationService.HttpApi.Host", "services\administration\src\EShopOnAbp.AdministrationService.HttpApi.Host\EShopOnAbp.AdministrationService.HttpApi.Host.csproj", "{0FA9667E-6A08-4EFF-8CAF-D2A3C3C1FBBD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShopOnAbp.AdministrationService.HttpApi.Host", "services\administration\src\EShopOnAbp.AdministrationService.HttpApi.Host\EShopOnAbp.AdministrationService.HttpApi.Host.csproj", "{0FA9667E-6A08-4EFF-8CAF-D2A3C3C1FBBD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EShopOnAbp.SaasService.HttpApi.Host", "services\saas\src\EShopOnAbp.SaasService.HttpApi.Host\EShopOnAbp.SaasService.HttpApi.Host.csproj", "{9203C6CC-F491-4A9F-93B3-3BEA018D87B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShopOnAbp.SaasService.HttpApi.Host", "services\saas\src\EShopOnAbp.SaasService.HttpApi.Host\EShopOnAbp.SaasService.HttpApi.Host.csproj", "{9203C6CC-F491-4A9F-93B3-3BEA018D87B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EShopOnAbp.IdentityService.HttpApi.Host", "services\identity\src\EShopOnAbp.IdentityService.HttpApi.Host\EShopOnAbp.IdentityService.HttpApi.Host.csproj", "{FDFCA1B4-FD9D-445C-8655-3DF3F2D57CEA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShopOnAbp.IdentityService.HttpApi.Host", "services\identity\src\EShopOnAbp.IdentityService.HttpApi.Host\EShopOnAbp.IdentityService.HttpApi.Host.csproj", "{FDFCA1B4-FD9D-445C-8655-3DF3F2D57CEA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EShopOnAbp.Shared.Hosting.Gateways", "shared\EShopOnAbp.Shared.Hosting.Gateways\EShopOnAbp.Shared.Hosting.Gateways.csproj", "{590B609C-5887-4896-9FC5-5E54A2658B18}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShopOnAbp.InternalGateway", "gateways\internal\src\EShopOnAbp.InternalGateway\EShopOnAbp.InternalGateway.csproj", "{857EE54A-6116-46AA-AB34-50B19E51DB3B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{09F9A583-778D-4940-83B0-958C5D4E6D52} = {866DB6CC-FEA8-4CC2-A2E4-143537D197B6}
-		{B473B411-0B14-47A9-B4BB-9F0F4E884C87} = {B8B59303-2178-459B-91A8-DF353044E090}
-		{6FCB66AF-6044-478D-B2A0-90F7E555C152} = {B8B59303-2178-459B-91A8-DF353044E090}
-		{2B608875-8226-44E4-B93A-D475E11A7B80} = {B8B59303-2178-459B-91A8-DF353044E090}
-		{49DDB3F1-6200-445E-9A0D-0339E31D5D77} = {B8B59303-2178-459B-91A8-DF353044E090}
-		{0FA9667E-6A08-4EFF-8CAF-D2A3C3C1FBBD} = {F415FFFD-E52D-4EBE-98DC-067C1EFFFFE3}
-		{9203C6CC-F491-4A9F-93B3-3BEA018D87B4} = {F415FFFD-E52D-4EBE-98DC-067C1EFFFFE3}
-		{FDFCA1B4-FD9D-445C-8655-3DF3F2D57CEA} = {F415FFFD-E52D-4EBE-98DC-067C1EFFFFE3}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{09F9A583-778D-4940-83B0-958C5D4E6D52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -72,5 +69,31 @@ Global
 		{FDFCA1B4-FD9D-445C-8655-3DF3F2D57CEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FDFCA1B4-FD9D-445C-8655-3DF3F2D57CEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FDFCA1B4-FD9D-445C-8655-3DF3F2D57CEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{590B609C-5887-4896-9FC5-5E54A2658B18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{590B609C-5887-4896-9FC5-5E54A2658B18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{590B609C-5887-4896-9FC5-5E54A2658B18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{590B609C-5887-4896-9FC5-5E54A2658B18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{857EE54A-6116-46AA-AB34-50B19E51DB3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{857EE54A-6116-46AA-AB34-50B19E51DB3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{857EE54A-6116-46AA-AB34-50B19E51DB3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{857EE54A-6116-46AA-AB34-50B19E51DB3B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{09F9A583-778D-4940-83B0-958C5D4E6D52} = {866DB6CC-FEA8-4CC2-A2E4-143537D197B6}
+		{B473B411-0B14-47A9-B4BB-9F0F4E884C87} = {B8B59303-2178-459B-91A8-DF353044E090}
+		{6FCB66AF-6044-478D-B2A0-90F7E555C152} = {B8B59303-2178-459B-91A8-DF353044E090}
+		{2B608875-8226-44E4-B93A-D475E11A7B80} = {B8B59303-2178-459B-91A8-DF353044E090}
+		{49DDB3F1-6200-445E-9A0D-0339E31D5D77} = {B8B59303-2178-459B-91A8-DF353044E090}
+		{0FA9667E-6A08-4EFF-8CAF-D2A3C3C1FBBD} = {F415FFFD-E52D-4EBE-98DC-067C1EFFFFE3}
+		{9203C6CC-F491-4A9F-93B3-3BEA018D87B4} = {F415FFFD-E52D-4EBE-98DC-067C1EFFFFE3}
+		{FDFCA1B4-FD9D-445C-8655-3DF3F2D57CEA} = {F415FFFD-E52D-4EBE-98DC-067C1EFFFFE3}
+		{590B609C-5887-4896-9FC5-5E54A2658B18} = {B8B59303-2178-459B-91A8-DF353044E090}
+		{857EE54A-6116-46AA-AB34-50B19E51DB3B} = {1484E912-DCF3-4568-A72C-4C7622104DB8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {26F82565-C6A4-439D-93A4-3251E3E7D5B0}
 	EndGlobalSection
 EndGlobal

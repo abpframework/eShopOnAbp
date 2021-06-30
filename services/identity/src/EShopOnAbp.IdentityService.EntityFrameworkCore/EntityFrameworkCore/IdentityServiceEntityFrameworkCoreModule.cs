@@ -27,7 +27,6 @@ namespace EShopOnAbp.IdentityService.EntityFrameworkCore
                 options.ReplaceDbContext<IIdentityDbContext>();
                 options.ReplaceDbContext<IIdentityServerDbContext>();
 
-                /* includeAllEntities: true allows to use IRepository<TEntity, TKey> also for non aggregate root entities */
                 options.AddDefaultRepositories(includeAllEntities: true);
             });
 
