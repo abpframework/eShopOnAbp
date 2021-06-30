@@ -3,16 +3,19 @@ using Volo.Abp.FeatureManagement;
 using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
 using Volo.Abp.PermissionManagement;
+using Volo.Abp.PermissionManagement.Identity;
+using Volo.Abp.PermissionManagement.IdentityServer;
 using Volo.Abp.SettingManagement;
 
 namespace EShopOnAbp.AdministrationService
 {
     [DependsOn(
         typeof(AdministrationServiceDomainSharedModule),
-        typeof(AbpPermissionManagementDomainModule),
         typeof(AbpFeatureManagementDomainModule),
         typeof(AbpSettingManagementDomainModule),
-        typeof(AbpAuditLoggingDomainModule)
+        typeof(AbpAuditLoggingDomainModule),
+        typeof(AbpPermissionManagementDomainIdentityModule),
+        typeof(AbpPermissionManagementDomainIdentityServerModule)
     )]
     public class AdministrationServiceDomainModule : AbpModule
     {
