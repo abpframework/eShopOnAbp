@@ -1,13 +1,16 @@
-﻿using System.Collections.Generic;
-using EShopOnAbp.AdministrationService;
+﻿using EShopOnAbp.AdministrationService;
 using EShopOnAbp.IdentityService;
 using EShopOnAbp.SaasService;
 using EShopOnAbp.Shared.Hosting.Gateways;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Ocelot.Middleware;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Volo.Abp;
 using Volo.Abp.Modularity;
 
@@ -37,6 +40,25 @@ namespace EShopOnAbp.WebGateway
                     },
                 apiTitle: "Web Gateway API"
             );
+
+            context.Services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder
+                        .WithOrigins(
+                            configuration["App:CorsOrigins"]
+                                .Split(",", StringSplitOptions.RemoveEmptyEntries)
+                                .Select(o => o.Trim().RemovePostFix("/"))
+                                .ToArray()
+                        )
+                        .WithAbpExposedHeaders()
+                        .SetIsOriginAllowedToAllowWildcardSubdomains()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
+                });
+            });
         }
 
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
@@ -50,6 +72,7 @@ namespace EShopOnAbp.WebGateway
             }
 
             app.UseCorrelationId();
+            app.UseCors();
             app.UseSwagger();
             app.UseSwaggerUI(options =>
             {
