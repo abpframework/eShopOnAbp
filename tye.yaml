@@ -1,0 +1,73 @@
+name: EShopOnAbp
+services:
+- name: auth-server
+  project: apps/auth-server/src/EShopOnAbp.AuthServer/EShopOnAbp.AuthServer.csproj
+  bindings:
+    - protocol: https
+      port: 44330
+  env:
+    - Kestrel__Certificates__Default__Path=../../../../etc/dev-cert/localhost.pfx
+    - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49
+
+- name: identity-service
+  project: services/identity/src/EShopOnAbp.IdentityService.HttpApi.Host/EShopOnAbp.IdentityService.HttpApi.Host.csproj
+  bindings:
+    - protocol: https
+      port: 44351
+  env:
+    - Kestrel__Certificates__Default__Path=../../../../etc/dev-cert/localhost.pfx
+    - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49
+
+- name: saas-service
+  project: services/saas/src/EShopOnAbp.SaasService.HttpApi.Host/EShopOnAbp.SaasService.HttpApi.Host.csproj
+  bindings:
+    - protocol: https
+      port: 44352
+  env:
+    - Kestrel__Certificates__Default__Path=../../../../etc/dev-cert/localhost.pfx
+    - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49
+
+- name: administration-service
+  project: services/administration/src/EShopOnAbp.AdministrationService.HttpApi.Host/EShopOnAbp.AdministrationService.HttpApi.Host.csproj
+  bindings:
+    - protocol: https
+      port: 44353
+  env:
+    - Kestrel__Certificates__Default__Path=../../../../etc/dev-cert/localhost.pfx
+    - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49
+
+- name: web-gateway
+  project: gateways/web/src/EShopOnAbp.WebGateway/EShopOnAbp.WebGateway.csproj
+  bindings:
+    - protocol: https
+      port: 44372
+  env:
+    - Kestrel__Certificates__Default__Path=../../../../etc/dev-cert/localhost.pfx
+    - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49  
+
+- name: web-public-gateway
+  project: gateways/web-public/src/EShopOnAbp.WebPublicGateway/EShopOnAbp.WebPublicGateway.csproj
+  bindings:
+    - protocol: https
+      port: 44373
+  env:
+    - Kestrel__Certificates__Default__Path=../../../../etc/dev-cert/localhost.pfx
+    - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49
+
+- name: internal-gateway
+  project: gateways/internal/src/EShopOnAbp.InternalGateway/EShopOnAbp.InternalGateway.csproj
+  bindings:
+    - protocol: https
+      port: 44371
+  env:
+    - Kestrel__Certificates__Default__Path=../../../../etc/dev-cert/localhost.pfx
+    - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49
+
+- name: public-web
+  project: apps/public-web/src/EShopOnAbp.PublicWeb/EShopOnAbp.PublicWeb.csproj
+  bindings:
+    - protocol: https
+      port: 44335
+  env:
+    - Kestrel__Certificates__Default__Path=../../../../etc/dev-cert/localhost.pfx
+    - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49
