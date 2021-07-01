@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,9 +18,12 @@ using Volo.Abp;
 using Volo.Abp.Account;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.UI.MultiTenancy;
+using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.Http.Client.IdentityModel.Web;
+using Volo.Abp.Identity;
 using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
+using Volo.Abp.MultiTenancy;
 using Volo.Abp.Threading;
 using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.VirtualFileSystem;
@@ -34,14 +38,15 @@ namespace EShopOnAbp.AdministrationService
         typeof(AbpAccountApplicationContractsModule),
         typeof(AbpHttpClientIdentityModelWebModule),
         typeof(AbpAspNetCoreMvcUiMultiTenancyModule),
-        typeof(SaasServiceApplicationContractsModule)        
+        typeof(SaasServiceApplicationContractsModule),
+        typeof(AbpIdentityHttpApiClientModule)
     )]
     public class AdministrationServiceHttpApiHostModule : AbpModule
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
             JwtBearerConfigurationHelper.Configure(context, "AdministrationService");
-            SwaggerConfigurationHelper.Configure(context, "Administration Service API");           
+            SwaggerConfigurationHelper.Configure(context, "Administration Service API");
         }
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
         {
@@ -85,6 +90,14 @@ namespace EShopOnAbp.AdministrationService
                         .GetRequiredService<AdministrationServiceDatabaseMigrationChecker>()
                         .CheckAsync()
                 );
+
+                //Log.Information("Sending event...");
+
+                //AsyncHelper.RunSync(
+                //    () => scope.ServiceProvider
+                //        .GetRequiredService<IDistributedEventBus>()
+                //        .PublishAsync(new TenantCreatedEto { Id = Guid.Empty, Name = "Sample" })
+                //    );
             }
         }
     }
