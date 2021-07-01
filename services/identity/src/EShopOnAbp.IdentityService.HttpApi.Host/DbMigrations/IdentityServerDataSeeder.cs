@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using IdentityServer4.Models;
 using Microsoft.Extensions.Configuration;
 using Volo.Abp.Authorization.Permissions;
+using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Guids;
 using Volo.Abp.Identity;
@@ -21,7 +22,7 @@ using Client = Volo.Abp.IdentityServer.Clients.Client;
 
 namespace EShopOnAbp.IdentityService.DbMigrations
 {
-    public class IdentityServerDataSeeder : ITransientDependency
+    public class IdentityServerDataSeeder : IDataSeedContributor, ITransientDependency
     {
         private readonly IApiResourceRepository _apiResourceRepository;
         private readonly IApiScopeRepository _apiScopeRepository;
@@ -50,6 +51,11 @@ namespace EShopOnAbp.IdentityService.DbMigrations
             _permissionDataSeeder = permissionDataSeeder;
             _configuration = configuration;
             _currentTenant = currentTenant;
+        }
+
+        public virtual Task SeedAsync(DataSeedContext context)
+        {
+            return SeedAsync();
         }
 
         [UnitOfWork]
@@ -95,7 +101,7 @@ namespace EShopOnAbp.IdentityService.DbMigrations
                 new[] { "IdentityService", "AdministrationService", "SaasService" });
             await CreateSwaggerClientAsync("WebGateway",
                 new[] { "IdentityService", "AdministrationService", "SaasService" });
-            await CreateSwaggerClientAsync("WebPublicGateway" );
+            await CreateSwaggerClientAsync("WebPublicGateway");
         }
 
         private async Task CreateSwaggerClientAsync(string name, string[] scopes = null)

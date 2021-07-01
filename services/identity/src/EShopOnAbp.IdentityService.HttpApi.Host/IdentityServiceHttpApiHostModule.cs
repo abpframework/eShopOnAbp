@@ -7,6 +7,7 @@ using EShopOnAbp.Shared.Hosting.Microservices;
 using Volo.Abp;
 using Volo.Abp.Modularity;
 using Volo.Abp.Threading;
+using Volo.Abp.Data;
 
 namespace EShopOnAbp.IdentityService
 {
@@ -69,6 +70,13 @@ namespace EShopOnAbp.IdentityService
                         .GetRequiredService<IdentityServiceDatabaseMigrationChecker>()
                         .CheckAsync()
                 );
+
+                AsyncHelper.RunSync(async () =>
+                {
+                    await scope.ServiceProvider
+                        .GetRequiredService<IDataSeeder>()
+                        .SeedAsync();
+                });
             }
         }
     }
