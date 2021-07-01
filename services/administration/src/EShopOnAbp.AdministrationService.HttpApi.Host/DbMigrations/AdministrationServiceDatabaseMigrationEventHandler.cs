@@ -1,9 +1,7 @@
 ﻿using EShopOnAbp.AdministrationService.EntityFrameworkCore;
 using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Data;

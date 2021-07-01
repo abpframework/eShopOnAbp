@@ -1,13 +1,13 @@
 using EShopOnAbp.IdentityService.DbMigrations;
+using EShopOnAbp.IdentityService.EntityFrameworkCore;
+using EShopOnAbp.Shared.Hosting.Microservices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using EShopOnAbp.IdentityService.EntityFrameworkCore;
-using EShopOnAbp.Shared.Hosting.Microservices;
 using Volo.Abp;
+using Volo.Abp.Data;
 using Volo.Abp.Modularity;
 using Volo.Abp.Threading;
-using Volo.Abp.Data;
 
 namespace EShopOnAbp.IdentityService
 {

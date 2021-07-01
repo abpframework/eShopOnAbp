@@ -1,11 +1,11 @@
-﻿using System;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using Volo.Abp.Modularity;
 
 namespace EShopOnAbp.Shared.Hosting.Microservices
 {
-    public class JwtBearerConfigurationHelper
+    public static class JwtBearerConfigurationHelper
     {
         public static void Configure(
             ServiceConfigurationContext context,

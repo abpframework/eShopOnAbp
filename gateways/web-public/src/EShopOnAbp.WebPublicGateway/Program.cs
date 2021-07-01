@@ -1,10 +1,10 @@
-using System;
-using System.Threading.Tasks;
 using EShopOnAbp.Shared.Hosting.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
+using System;
+using System.Threading.Tasks;
 
 namespace EShopOnAbp.WebPublicGateway
 {

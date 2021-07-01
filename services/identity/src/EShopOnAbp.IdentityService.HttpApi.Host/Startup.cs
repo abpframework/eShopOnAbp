@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace EShopOnAbp.IdentityService
 {
@@ -12,7 +10,7 @@ namespace EShopOnAbp.IdentityService
             services.AddApplication<IdentityServiceHttpApiHostModule>();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app)
         {
             app.InitializeApplication();
         }

@@ -7,6 +7,7 @@ namespace EShopOnAbp.Shared.Hosting.AspNetCore
     {
         public static void Configure(string applicationName)
         {
+            // TODO: Uncomment following lines for ElasticSearch configuration
             // var configuration = new ConfigurationBuilder()
             //     .SetBasePath(Directory.GetCurrentDirectory())
             //     .AddJsonFile("appsettings.json")
@@ -24,6 +25,7 @@ namespace EShopOnAbp.Shared.Hosting.AspNetCore
                 .Enrich.FromLogContext()
                 .Enrich.WithProperty("Application", $"{applicationName}")
                 .WriteTo.Async(c => c.File("Logs/logs.txt"))
+                // TODO: Uncomment following lines for ElasticSearch configuration
                 // .WriteTo.Elasticsearch(
                 //     new ElasticsearchSinkOptions(new Uri(configuration["ElasticSearch:Url"]))
                 //     {

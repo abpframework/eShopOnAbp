@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EShopOnAbp.WebPublicGateway
@@ -11,7 +10,7 @@ namespace EShopOnAbp.WebPublicGateway
             services.AddApplication<EShopOnAbpWebPublicGatewayModule>();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
             app.InitializeApplication();
         }

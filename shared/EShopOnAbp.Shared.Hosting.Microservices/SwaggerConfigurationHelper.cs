@@ -4,7 +4,7 @@ using Volo.Abp.Modularity;
 
 namespace EShopOnAbp.Shared.Hosting.Microservices
 {
-    public class SwaggerConfigurationHelper
+    public static class SwaggerConfigurationHelper
     {
         public static void Configure(
             ServiceConfigurationContext context,

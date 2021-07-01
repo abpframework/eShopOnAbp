@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using EShopOnAbp.Shared.Hosting.Gateways;
+﻿using EShopOnAbp.Shared.Hosting.Gateways;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Ocelot.Middleware;
+using System.Collections.Generic;
 using Volo.Abp;
 using Volo.Abp.Account;
 using Volo.Abp.Modularity;

@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using EShopOnAbp.IdentityService.EntityFrameworkCore;
+﻿using EShopOnAbp.IdentityService.EntityFrameworkCore;
 using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations;
 using Serilog;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Volo.Abp.Data;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.Identity;

@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using EShopOnAbp.AdministrationService.EntityFrameworkCore;
+﻿using EShopOnAbp.AdministrationService.EntityFrameworkCore;
 using EShopOnAbp.IdentityService.EntityFrameworkCore;
 using EShopOnAbp.SaasService.EntityFrameworkCore;
 using EShopOnAbp.Shared.Hosting.AspNetCore;
@@ -12,6 +9,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using StackExchange.Redis;
+using System;
+using System.IO;
+using System.Linq;
 using Volo.Abp;
 using Volo.Abp.Account;
 using Volo.Abp.Account.Web;
@@ -39,9 +39,9 @@ namespace EShopOnAbp.AuthServer
         typeof(AbpAccountApplicationModule),
         typeof(EShopOnAbpSharedHostingAspNetCoreModule),
         typeof(EShopOnAbpSharedLocalizationModule),
-         typeof(AdministrationServiceEntityFrameworkCoreModule),
-         typeof(IdentityServiceEntityFrameworkCoreModule),
-         typeof(SaasServiceEntityFrameworkCoreModule)
+        typeof(AdministrationServiceEntityFrameworkCoreModule),
+        typeof(IdentityServiceEntityFrameworkCoreModule),
+        typeof(SaasServiceEntityFrameworkCoreModule)
     )]
     public class EShopOnAbpAuthServerModule : AbpModule
     {
