@@ -29,7 +29,6 @@ namespace EShopOnAbp.IdentityService.DbMigrations
             LocalEventBus = localEventBus;
         }
 
-
         public override async Task<bool> CheckAsync()
         {
             var isMigrationRequired = await base.CheckAsync();
