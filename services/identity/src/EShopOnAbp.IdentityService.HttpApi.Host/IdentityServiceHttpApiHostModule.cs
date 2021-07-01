@@ -70,13 +70,6 @@ namespace EShopOnAbp.IdentityService
                         .GetRequiredService<IdentityServiceDatabaseMigrationChecker>()
                         .CheckAsync()
                 );
-
-                AsyncHelper.RunSync(async () =>
-                {
-                    await scope.ServiceProvider
-                        .GetRequiredService<IDataSeeder>()
-                        .SeedAsync();
-                });
             }
         }
     }

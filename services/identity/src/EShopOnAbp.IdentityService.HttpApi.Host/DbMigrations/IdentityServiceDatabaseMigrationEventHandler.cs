@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Volo.Abp.Data;
 using Volo.Abp.EventBus.Distributed;
+using Volo.Abp.EventBus.Local;
 using Volo.Abp.Identity;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.TenantManagement;
@@ -20,6 +21,7 @@ namespace EShopOnAbp.IdentityService.DbMigrations
     {
         private readonly IIdentityDataSeeder _identityDataSeeder;
         private readonly IdentityServerDataSeeder _identityServerDataSeeder;
+        private readonly ILocalEventBus _localEventBus;
 
         public IdentityServiceDatabaseMigrationEventHandler(
             ICurrentTenant currentTenant,
@@ -28,7 +30,8 @@ namespace EShopOnAbp.IdentityService.DbMigrations
             IIdentityDataSeeder identityDataSeeder,
             IdentityServerDataSeeder identityServerDataSeeder,
             ITenantRepository tenantRepository,
-            IDistributedEventBus distributedEventBus
+            IDistributedEventBus distributedEventBus,
+            ILocalEventBus localEventBus
         ) : base(
             currentTenant,
             unitOfWorkManager,
@@ -39,6 +42,7 @@ namespace EShopOnAbp.IdentityService.DbMigrations
         {
             _identityDataSeeder = identityDataSeeder;
             _identityServerDataSeeder = identityServerDataSeeder;
+            _localEventBus = localEventBus;
         }
 
         public async Task HandleEventAsync(ApplyDatabaseMigrationsEto eventData)
@@ -62,11 +66,14 @@ namespace EShopOnAbp.IdentityService.DbMigrations
                     /* Migrate tenant databases after host migration */
                     await QueueTenantMigrationsAsync();
                 }
+
+                await _localEventBus.PublishAsync(new ApplyDatabaseSeedsEto());
             }
             catch (Exception ex)
             {
                 await HandleErrorOnApplyDatabaseMigrationAsync(eventData, ex);
             }
+
         }
 
         public async Task HandleEventAsync(TenantCreatedEto eventData)
