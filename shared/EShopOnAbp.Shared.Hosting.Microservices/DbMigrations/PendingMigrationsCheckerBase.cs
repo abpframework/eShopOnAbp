@@ -34,8 +34,10 @@ namespace EShopOnAbp.Shared.Hosting.Microservices.DbMigrations
             DatabaseName = databaseName;
         }
     
-        public virtual async Task CheckAsync()
+        public virtual async Task<bool> CheckAsync()
         {
+            var isMigrationRequired = false;
+
             using (CurrentTenant.Change(null))
             {
                 // Create database tables if needed
@@ -54,10 +56,13 @@ namespace EShopOnAbp.Shared.Hosting.Microservices.DbMigrations
                                 DatabaseName = DatabaseName
                             }
                         );
+                        isMigrationRequired = true;
                     }
 
                     await uow.CompleteAsync();
                 }
+
+                return isMigrationRequired;
             }
         }
     }
