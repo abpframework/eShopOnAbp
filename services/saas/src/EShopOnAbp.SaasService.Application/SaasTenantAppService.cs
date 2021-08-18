@@ -15,15 +15,12 @@ namespace EShopOnAbp.SaasService
     [Dependency(ReplaceServices = true)]
     public class SaasTenantAppService : TenantAppService, ITenantAppService
     {
-        protected IDistributedEventBus DistributedEventBus { get; }
-
         public SaasTenantAppService(
             ITenantRepository tenantRepository,
             ITenantManager tenantManager,
             IDataSeeder dataSeeder,
-            IDistributedEventBus distributedEventBus) : base(tenantRepository, tenantManager, dataSeeder)
+            IDistributedEventBus distributedEventBus) : base(tenantRepository, tenantManager, dataSeeder, distributedEventBus)
         {
-            DistributedEventBus = distributedEventBus;
         }
 
         public override async Task<TenantDto> CreateAsync(TenantCreateDto input)

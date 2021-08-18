@@ -10,9 +10,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.PermissionManagement.HttpApi.Client" Version="4.4.0-rc.1" />
-    <PackageReference Include="Volo.Abp.FeatureManagement.HttpApi.Client" Version="4.4.0-rc.1" />
-    <PackageReference Include="Volo.Abp.SettingManagement.HttpApi.Client" Version="4.4.0-rc.1" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.HttpApi.Client" Version="4.4.0" />
+    <PackageReference Include="Volo.Abp.FeatureManagement.HttpApi.Client" Version="4.4.0" />
+    <PackageReference Include="Volo.Abp.SettingManagement.HttpApi.Client" Version="4.4.0" />
   </ItemGroup>
 
 </Project>
