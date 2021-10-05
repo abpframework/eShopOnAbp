@@ -6,14 +6,12 @@ using Microsoft.Extensions.Hosting;
 using Ocelot.Middleware;
 using System.Collections.Generic;
 using Volo.Abp;
-using Volo.Abp.Account;
 using Volo.Abp.Modularity;
 
 namespace EShopOnAbp.WebPublicGateway
 {
     [DependsOn(
-    typeof(EShopOnAbpSharedHostingGatewaysModule),
-    typeof(AbpAccountHttpApiModule)
+    typeof(EShopOnAbpSharedHostingGatewaysModule)
 )]
     public class EShopOnAbpWebPublicGatewayModule : AbpModule
     {

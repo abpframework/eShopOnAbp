@@ -5,10 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.Account.HttpApi" Version="4.4.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\..\..\shared\EShopOnAbp.Shared.Hosting.Gateways\EShopOnAbp.Shared.Hosting.Gateways.csproj" />
   </ItemGroup>
 
