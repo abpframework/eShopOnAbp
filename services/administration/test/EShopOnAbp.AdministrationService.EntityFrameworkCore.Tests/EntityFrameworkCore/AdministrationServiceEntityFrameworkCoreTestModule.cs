@@ -11,7 +11,7 @@ using Volo.Abp.Modularity;
 namespace EShopOnAbp.AdministrationService.EntityFrameworkCore
 {
     [DependsOn(
-        typeof(AdministrationServiceEntityFrameworkCoreDbMigrationsModule),
+        typeof(AdministrationServiceEntityFrameworkCoreModule),
         typeof(AdministrationServiceTestBaseModule),
         typeof(AbpEntityFrameworkCoreSqliteModule)
         )]
@@ -47,11 +47,11 @@ namespace EShopOnAbp.AdministrationService.EntityFrameworkCore
             var connection = new SqliteConnection("Data Source=:memory:");
             connection.Open();
 
-            var options = new DbContextOptionsBuilder<AdministrationServiceMigrationsDbContext>()
+            var options = new DbContextOptionsBuilder<AdministrationServiceDbContext>()
                 .UseSqlite(connection)
                 .Options;
 
-            using (var context = new AdministrationServiceMigrationsDbContext(options))
+            using (var context = new AdministrationServiceDbContext(options))
             {
                 context.GetService<IRelationalDatabaseCreator>().CreateTables();
             }
