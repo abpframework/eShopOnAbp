@@ -1,7 +1,4 @@
-﻿using EShopOnAbp.AdministrationService;
-using EShopOnAbp.IdentityService;
-using EShopOnAbp.SaasService;
-using EShopOnAbp.Shared.Hosting.Gateways;
+﻿using EShopOnAbp.Shared.Hosting.Gateways;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,10 +11,7 @@ using Volo.Abp.Modularity;
 namespace EShopOnAbp.InternalGateway
 {
     [DependsOn(
-    typeof(EShopOnAbpSharedHostingGatewaysModule),
-    typeof(IdentityServiceHttpApiModule),
-    typeof(SaasServiceHttpApiModule),
-    typeof(AdministrationServiceHttpApiModule)
+    typeof(EShopOnAbpSharedHostingGatewaysModule)
 )]
     public class EShopOnAbpInternalGatewayModule : AbpModule
     {
