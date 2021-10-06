@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
@@ -9,16 +9,16 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="5.0.*" />
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.*" />
+        <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="6.0.0-rc.1.21452.15" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.0-rc.1.21452.15" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Volo.Abp.AspNetCore.MultiTenancy" Version="4.4.0" />
-        <PackageReference Include="Volo.Abp.EventBus.RabbitMQ" Version="4.4.0" />
-        <PackageReference Include="Volo.Abp.BackgroundJobs.RabbitMQ" Version="4.4.0" />
-        <PackageReference Include="Volo.Abp.Caching.StackExchangeRedis" Version="4.4.0" />
+        <PackageReference Include="Volo.Abp.AspNetCore.MultiTenancy" Version="5.0.0-beta.1" />
+        <PackageReference Include="Volo.Abp.EventBus.RabbitMQ" Version="5.0.0-beta.1" />
+        <PackageReference Include="Volo.Abp.BackgroundJobs.RabbitMQ" Version="5.0.0-beta.1" />
+        <PackageReference Include="Volo.Abp.Caching.StackExchangeRedis" Version="5.0.0-beta.1" />
     </ItemGroup>
 
     <ItemGroup>
