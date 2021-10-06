@@ -97,10 +97,10 @@ namespace EShopOnAbp.IdentityService.DbMigrations
 
         private async Task CreateSwaggerClientsAsync()
         {
-            await CreateSwaggerClientAsync("InternalGateway",
-                new[] { "IdentityService", "AdministrationService", "SaasService" });
-            await CreateSwaggerClientAsync("WebGateway",
-                new[] { "IdentityService", "AdministrationService", "SaasService" });
+            await CreateSwaggerClientAsync("IdentityService",
+                new[] { "IdentityService"});
+            await CreateSwaggerClientAsync("AdministrationService",
+                new[] { "AdministrationService" });
             await CreateSwaggerClientAsync("WebPublicGateway");
         }
 
