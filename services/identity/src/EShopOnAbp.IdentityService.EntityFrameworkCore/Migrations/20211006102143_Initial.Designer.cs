@@ -13,8 +13,8 @@ using Volo.Abp.EntityFrameworkCore;
 namespace EShopOnAbp.IdentityService.Migrations
 {
     [DbContext(typeof(IdentityServiceDbContext))]
-    [Migration("20211006090548_FrameworkUpdateTo5_0_beta_1")]
-    partial class FrameworkUpdateTo5_0_beta_1
+    [Migration("20211006102143_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
