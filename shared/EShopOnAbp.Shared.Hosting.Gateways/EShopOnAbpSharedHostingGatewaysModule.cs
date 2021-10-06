@@ -11,7 +11,6 @@ namespace EShopOnAbp.Shared.Hosting.Gateways
 {
     [DependsOn(
         typeof(EShopOnAbpSharedHostingAspNetCoreModule),
-        typeof(AbpSwashbuckleModule),
         typeof(AbpAspNetCoreMvcUiMultiTenancyModule)
     )]
     public class EShopOnAbpSharedHostingGatewaysModule : AbpModule
