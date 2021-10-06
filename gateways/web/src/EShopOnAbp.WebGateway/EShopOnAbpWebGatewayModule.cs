@@ -8,6 +8,8 @@ using Ocelot.Middleware;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using EShopOnAbp.Shared.Hosting.AspNetCore;
+using Microsoft.OpenApi.Models;
 using Volo.Abp;
 using Volo.Abp.Modularity;
 
@@ -22,37 +24,7 @@ namespace EShopOnAbp.WebGateway
         {
             var configuration = context.Services.GetConfiguration();
             var hostingEnvironment = context.Services.GetHostingEnvironment();
-
-            SwaggerWithAuthConfigurationHelper.Configure(
-                context: context,
-                authority: configuration["AuthServer:Authority"],
-                scopes: new Dictionary<string, string> /* Requested scopes for authorization code request and descriptions for swagger UI only */
-                    {
-                      {"IdentityService", "Identity Service API"},
-                      {"AdministrationService", "Administration Service API"},
-                      {"SaasService", "Saas Service API"},
-                    },
-                apiTitle: "Web Gateway API"
-            );
-
-            context.Services.AddCors(options =>
-            {
-                options.AddDefaultPolicy(builder =>
-                {
-                    builder
-                        .WithOrigins(
-                            configuration["App:CorsOrigins"]
-                                .Split(",", StringSplitOptions.RemoveEmptyEntries)
-                                .Select(o => o.Trim().RemovePostFix("/"))
-                                .ToArray()
-                        )
-                        .WithAbpExposedHeaders()
-                        .SetIsOriginAllowedToAllowWildcardSubdomains()
-                        .AllowAnyHeader()
-                        .AllowAnyMethod()
-                        .AllowCredentials();
-                });
-            });
+            SwaggerConfigurationHelper.Configure(context, "Web Gateway");
         }
 
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
@@ -66,14 +38,21 @@ namespace EShopOnAbp.WebGateway
             }
 
             app.UseCorrelationId();
-            app.UseCors();
             app.UseSwagger();
             app.UseSwaggerUI(options =>
             {
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Web Gateway API");
                 var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
-                options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
-                options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
+                var routes = configuration.GetSection("Routes").Get<List<OcelotConfiguration>>();
+                
+                foreach (var config in routes.GroupBy(t => t.ServiceName).Select(r => r.First()).Distinct())
+                {
+                    var url =
+                        $"{config.DownstreamScheme}://{config.DownstreamHostAndPorts.FirstOrDefault()?.Host}:{config.DownstreamHostAndPorts.FirstOrDefault()?.Port}";
+
+                    options.SwaggerEndpoint($"{url}/swagger/v1/swagger.json", $"{config.ServiceName} API");
+                    options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
+                    options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
+                }
             });
             app.UseAbpSerilogEnrichers();
             app.MapWhen(

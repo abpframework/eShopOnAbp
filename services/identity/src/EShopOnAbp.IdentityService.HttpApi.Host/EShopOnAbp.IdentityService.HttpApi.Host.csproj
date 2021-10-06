@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\shared\EShopOnAbp.Shared.Hosting.Gateways\EShopOnAbp.Shared.Hosting.Gateways.csproj" />
     <ProjectReference Include="..\..\..\..\shared\EShopOnAbp.Shared.Hosting.Microservices\EShopOnAbp.Shared.Hosting.Microservices.csproj" />
     <ProjectReference Include="..\EShopOnAbp.IdentityService.Application\EShopOnAbp.IdentityService.Application.csproj" />
     <ProjectReference Include="..\EShopOnAbp.IdentityService.EntityFrameworkCore\EShopOnAbp.IdentityService.EntityFrameworkCore.csproj" />

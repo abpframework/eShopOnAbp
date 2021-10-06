@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using EShopOnAbp.SaasService.EntityFrameworkCore;
+using EShopOnAbp.Shared.Hosting.AspNetCore;
 using EShopOnAbp.Shared.Hosting.Microservices;
 using StackExchange.Redis;
 using Microsoft.OpenApi.Models;
@@ -34,10 +35,40 @@ namespace EShopOnAbp.SaasService
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
+            var configuration = context.Services.GetConfiguration();
             context.Services.AddAbpDbContext<SaasServiceDbContext>();
 
             JwtBearerConfigurationHelper.Configure(context, "SaasService");
-            SwaggerConfigurationHelper.Configure(context, "Saas Service API");
+            // SwaggerConfigurationHelper.Configure(context, "Saas Service API");
+            
+            SwaggerWithAuthConfigurationHelper.Configure(
+                context: context,
+                authority: configuration["AuthServer:Authority"],
+                scopes: new Dictionary<string, string> /* Requested scopes for authorization code request and descriptions for swagger UI only */
+                {
+                    {"SaasService", "Saas Service API"},
+                },
+                apiTitle: "Saas Service API"
+            );
+            
+            context.Services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder
+                        .WithOrigins(
+                            configuration["App:CorsOrigins"]
+                                .Split(",", StringSplitOptions.RemoveEmptyEntries)
+                                .Select(o => o.Trim().RemovePostFix("/"))
+                                .ToArray()
+                        )
+                        .WithAbpExposedHeaders()
+                        .SetIsOriginAllowedToAllowWildcardSubdomains()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
+                });
+            });
         }
 
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
@@ -51,6 +82,7 @@ namespace EShopOnAbp.SaasService
             }
 
             app.UseCorrelationId();
+            app.UseCors();
             app.UseAbpRequestLocalization();
             app.UseStaticFiles();
             app.UseRouting();
