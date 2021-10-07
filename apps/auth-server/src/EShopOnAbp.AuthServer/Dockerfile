@@ -1,4 +1,4 @@
-  FROM mcr.microsoft.com/dotnet/aspnet:5.0
-  COPY bin/Release/net5.0/publish/ app/
+  FROM mcr.microsoft.com/dotnet/aspnet:6.0
+  COPY bin/Release/net6.0/publish/ app/
   WORKDIR /app
   ENTRYPOINT ["dotnet", "EShopOnAbp.AuthServer.dll"]
