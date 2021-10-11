@@ -18,3 +18,5 @@ Next milestone is Phase 1 presented below:
 
 ![eSopOnAbp Phase 1](/docs/roadmap/Phase_1.png)
 
+_See Phase 2 planning from [here](docs/roadmap/Phase_2.png)_
+
