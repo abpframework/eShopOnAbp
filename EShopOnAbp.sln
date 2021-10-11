@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31320.298
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31717.71
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "apps", "apps", "{866DB6CC-FEA8-4CC2-A2E4-143537D197B6}"
 EndProject
@@ -27,15 +27,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShopOnAbp.SaasService.Http
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShopOnAbp.IdentityService.HttpApi.Host", "services\identity\src\EShopOnAbp.IdentityService.HttpApi.Host\EShopOnAbp.IdentityService.HttpApi.Host.csproj", "{FDFCA1B4-FD9D-445C-8655-3DF3F2D57CEA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EShopOnAbp.Shared.Hosting.Gateways", "shared\EShopOnAbp.Shared.Hosting.Gateways\EShopOnAbp.Shared.Hosting.Gateways.csproj", "{590B609C-5887-4896-9FC5-5E54A2658B18}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShopOnAbp.Shared.Hosting.Gateways", "shared\EShopOnAbp.Shared.Hosting.Gateways\EShopOnAbp.Shared.Hosting.Gateways.csproj", "{590B609C-5887-4896-9FC5-5E54A2658B18}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShopOnAbp.InternalGateway", "gateways\internal\src\EShopOnAbp.InternalGateway\EShopOnAbp.InternalGateway.csproj", "{857EE54A-6116-46AA-AB34-50B19E51DB3B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EShopOnAbp.WebGateway", "gateways\web\src\EShopOnAbp.WebGateway\EShopOnAbp.WebGateway.csproj", "{5D653BE4-7653-4684-B9F0-9A9B955093E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShopOnAbp.WebGateway", "gateways\web\src\EShopOnAbp.WebGateway\EShopOnAbp.WebGateway.csproj", "{5D653BE4-7653-4684-B9F0-9A9B955093E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EShopOnAbp.WebPublicGateway", "gateways\web-public\src\EShopOnAbp.WebPublicGateway\EShopOnAbp.WebPublicGateway.csproj", "{2E0B715C-3AAD-47B3-B2EB-D34CB24CBEFA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShopOnAbp.WebPublicGateway", "gateways\web-public\src\EShopOnAbp.WebPublicGateway\EShopOnAbp.WebPublicGateway.csproj", "{2E0B715C-3AAD-47B3-B2EB-D34CB24CBEFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EShopOnAbp.PublicWeb", "apps\public-web\src\EShopOnAbp.PublicWeb\EShopOnAbp.PublicWeb.csproj", "{969029FC-CFCF-4F95-9778-E5C69117711E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShopOnAbp.PublicWeb", "apps\public-web\src\EShopOnAbp.PublicWeb\EShopOnAbp.PublicWeb.csproj", "{969029FC-CFCF-4F95-9778-E5C69117711E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShopOnAbp.CatalogService.HttpApi.Host", "services\catalog\src\EShopOnAbp.CatalogService.HttpApi.Host\EShopOnAbp.CatalogService.HttpApi.Host.csproj", "{3381E059-A2B5-4660-AFDA-5063DEE64154}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -95,6 +97,10 @@ Global
 		{969029FC-CFCF-4F95-9778-E5C69117711E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{969029FC-CFCF-4F95-9778-E5C69117711E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{969029FC-CFCF-4F95-9778-E5C69117711E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3381E059-A2B5-4660-AFDA-5063DEE64154}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3381E059-A2B5-4660-AFDA-5063DEE64154}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3381E059-A2B5-4660-AFDA-5063DEE64154}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3381E059-A2B5-4660-AFDA-5063DEE64154}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -113,6 +119,7 @@ Global
 		{5D653BE4-7653-4684-B9F0-9A9B955093E5} = {1484E912-DCF3-4568-A72C-4C7622104DB8}
 		{2E0B715C-3AAD-47B3-B2EB-D34CB24CBEFA} = {1484E912-DCF3-4568-A72C-4C7622104DB8}
 		{969029FC-CFCF-4F95-9778-E5C69117711E} = {866DB6CC-FEA8-4CC2-A2E4-143537D197B6}
+		{3381E059-A2B5-4660-AFDA-5063DEE64154} = {F415FFFD-E52D-4EBE-98DC-067C1EFFFFE3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {26F82565-C6A4-439D-93A4-3251E3E7D5B0}
