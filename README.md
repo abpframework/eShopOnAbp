@@ -9,3 +9,12 @@ See [the announcement](https://blog.abp.io/abp/Introducing-the-eShopOnAbp-Projec
 ### Issues
 
 Please open issues on the main GitHub repository: https://github.com/abpframework/abp/issues
+
+
+
+### Roadmap
+
+Next milestone is Phase 1 presented below:
+
+![eSopOnAbp Phase 1](/docs/roadmap/Phase_1.png)
+
