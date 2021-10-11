@@ -4,7 +4,7 @@ using Volo.Abp.EntityFrameworkCore;
 
 namespace EShopOnAbp.CatalogService.EntityFrameworkCore
 {
-    [ConnectionStringName("Default")]
+    [ConnectionStringName(CatalogServiceDbProperties.ConnectionStringName)]
     public class CatalogServiceDbContext :
         AbpDbContext<CatalogServiceDbContext>
     {

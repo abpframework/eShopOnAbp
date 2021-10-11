@@ -6,6 +6,6 @@
 
         public static string DbSchema { get; set; } = null;
 
-        public const string ConnectionStringName = "SaasService";
+        public const string ConnectionStringName = "CatalogService";
     }
 }

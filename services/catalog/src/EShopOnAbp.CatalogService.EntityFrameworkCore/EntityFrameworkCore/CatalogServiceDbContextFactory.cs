@@ -16,7 +16,7 @@ namespace EShopOnAbp.CatalogService.EntityFrameworkCore
             var configuration = BuildConfiguration();
 
             var builder = new DbContextOptionsBuilder<CatalogServiceDbContext>()
-                .UseSqlServer(configuration.GetConnectionString("Default"));
+                .UseSqlServer(configuration.GetConnectionString(CatalogServiceDbProperties.ConnectionStringName));
 
             return new CatalogServiceDbContext(builder.Options);
         }
@@ -24,7 +24,7 @@ namespace EShopOnAbp.CatalogService.EntityFrameworkCore
         private static IConfigurationRoot BuildConfiguration()
         {
             var builder = new ConfigurationBuilder()
-                .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../EShopOnAbp.CatalogService.DbMigrator/"))
+                .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../EShopOnAbp.CatalogService.HttpApi.Host"))
                 .AddJsonFile("appsettings.json", optional: false);
 
             return builder.Build();
