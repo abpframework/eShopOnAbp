@@ -36,6 +36,15 @@ services:
     - Kestrel__Certificates__Default__Path=../../../../etc/dev-cert/localhost.pfx
     - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49
 
+- name: catalog-service
+  project: services/catalog/src/EShopOnAbp.CatalogService.HttpApi.Host/EShopOnAbp.CatalogService.HttpApi.Host.csproj
+  bindings:
+    - protocol: https
+      port: 44354
+  env:
+    - Kestrel__Certificates__Default__Path=../../../../etc/dev-cert/localhost.pfx
+    - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49
+
 - name: web-gateway
   project: gateways/web/src/EShopOnAbp.WebGateway/EShopOnAbp.WebGateway.csproj
   bindings:
