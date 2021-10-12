@@ -30,17 +30,17 @@ namespace EShopOnAbp.PaymentService
             var hostingEnvironment = context.Services.GetHostingEnvironment();
             var configuration = context.Services.GetConfiguration();
 
-            JwtBearerConfigurationHelper.Configure(context, "CatalogService");
-            // SwaggerConfigurationHelper.Configure(context, "Catalog Service API");
+            JwtBearerConfigurationHelper.Configure(context, "PaymentService");
+            // SwaggerConfigurationHelper.Configure(context, "Payment Service API");
 
             SwaggerWithAuthConfigurationHelper.Configure(
                 context: context,
                 authority: configuration["AuthServer:Authority"],
                 scopes: new Dictionary<string, string> /* Requested scopes for authorization code request and descriptions for swagger UI only */
                 {
-                    {"CatalogService", "Catalog Service API"},
+                    {"PaymentService", "Payment Service API"},
                 },
-                apiTitle: "Catalog Service API"
+                apiTitle: "Payment Service API"
             );
 
             context.Services.AddCors(options =>
