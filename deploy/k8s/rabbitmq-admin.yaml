@@ -1,0 +1,16 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: rabbitmq-admin
+  namespace: eshop
+  labels:
+    app: eshop
+    service: rabbitmq-admin
+spec:
+  type: NodePort
+  selector:
+    service: rabbitmq
+  ports:
+    - port: 15672
+      nodePort: 31672
+      name: rabbitmq-port

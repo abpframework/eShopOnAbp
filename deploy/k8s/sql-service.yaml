@@ -1,0 +1,16 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: sql-service
+  namespace: eshop
+  labels:
+    app: eshop
+    service: sql-service
+spec:
+  type: NodePort
+  selector:
+    service: sqldb
+  ports:
+    - port: 1433
+      nodePort: 31433
+      name: sql-port

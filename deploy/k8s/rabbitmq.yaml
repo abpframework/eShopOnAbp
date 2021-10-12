@@ -5,7 +5,7 @@ metadata:
   namespace: eshop
   labels:
     app: eshop
-    service: redis
+    service: rabbitmq
 spec:
   replicas: 1
   selector:
@@ -25,9 +25,6 @@ spec:
           - name: amqp
             containerPort: 5672
             protocol: TCP
-          - name: http
-            containerPort: 15672
-            protocol: TCP
 ---
 
 kind: Service
@@ -39,17 +36,11 @@ metadata:
     app: eshop
     service: rabbitmq
 spec:
-  type: NodePort
+  type: ClusterIP
   ports:
     - port: 5672
       targetPort: 5672
-      nodePort: 32672
       protocol: TCP
       name: amqp
-    - port: 15672
-      targetPort: 15672
-      nodePort: 32673
-      protocol: TCP
-      name: http  
   selector:
     service: rabbitmq

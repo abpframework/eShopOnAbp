@@ -42,11 +42,10 @@ metadata:
     app: eshop
     service: sqldb
 spec:
-  type: NodePort
+  type: ClusterIP
   ports:
     - port: 1433
       targetPort: 1434
-      nodePort: 31433
       protocol: TCP
       name: tds
   selector:
