@@ -24,7 +24,6 @@ namespace EShopOnAbp.PaymentService
         )]
     public class PaymentServiceHttpApiHostModule : AbpModule
     {
-
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
             var hostingEnvironment = context.Services.GetHostingEnvironment();
