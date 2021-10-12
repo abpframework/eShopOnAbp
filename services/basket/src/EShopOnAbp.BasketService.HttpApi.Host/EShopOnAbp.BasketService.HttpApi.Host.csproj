@@ -10,10 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.Account.Application.Contracts" Version="5.0.0-beta.1" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\EShopOnAbp.BasketService.Application\EShopOnAbp.BasketService.Application.csproj" />
     <ProjectReference Include="..\EShopOnAbp.BasketService.HttpApi\EShopOnAbp.BasketService.HttpApi.csproj" />
   </ItemGroup>
