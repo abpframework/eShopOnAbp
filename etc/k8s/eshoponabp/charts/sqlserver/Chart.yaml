@@ -1,5 +1,5 @@
 apiVersion: v2
-name: sqlserver
+name: sqldb
 appVersion: "1.0"
 description: Runs SQL Server Instance
 version: 1.0.0

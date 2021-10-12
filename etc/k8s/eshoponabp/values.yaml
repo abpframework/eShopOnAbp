@@ -80,3 +80,29 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+global:
+  dotnetEnvironment: "Staging"
+  authServer:
+    domain: eshoponabp-authserver
+    url: https://eshoponabp-authserver
+    containerImage: "eshoponabp.authserver"
+  identityService:
+    domain: eshoponabp-identity
+    url: https://eshoponabp-identity
+    containerImage: "eshoponabp.identity"
+    connString: "Server=eshoponabp-sqldb,1434;Database=EShopOnAbp_Identity;User Id=sa;password=myPassw@rd;MultipleActiveResultSets=true"
+  administrationService:
+    domain: eshoponabp-administration
+    url: https://eshoponabp-administration
+    containerImage: "eshoponabp.authserver"
+    connString: "Server=eshoponabp-sqldb,1434;Database=EShopOnAbp_Administration;User Id=sa;password=myPassw@rd;MultipleActiveResultSets=true"
+  saasService:
+    domain: eshoponabp-saas
+    url: https://eshoponabp-saas
+    containerImage: "eshoponabp.saas"
+    connString: "Server=eshoponabp-sqldb,1434;Database=EShopOnAbp_Saas;User Id=sa;password=myPassw@rd;MultipleActiveResultSets=true"
+  redisConfiguration: "eshoponabp-redis"
+  nginxProxyBufferSize: "32k"
+  nginxProxyBuffersNumber: "8"
+  eshoponabpImageVersion: latest
