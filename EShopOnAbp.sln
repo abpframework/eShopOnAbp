@@ -41,6 +41,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShopOnAbp.CatalogService.H
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShopOnAbp.BasketService.HttpApi.Host", "services\basket\src\EShopOnAbp.BasketService.HttpApi.Host\EShopOnAbp.BasketService.HttpApi.Host.csproj", "{6AD19BC3-9B40-49AC-AD24-1769C57C60F1}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShopOnAbp.OrderingService.HttpApi.Host", "services\ordering\src\EShopOnAbp.OrderingService.HttpApi.Host\EShopOnAbp.OrderingService.HttpApi.Host.csproj", "{CE23F65B-BCDD-40D5-8AB5-80D9F52D3FA1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -107,6 +109,10 @@ Global
 		{6AD19BC3-9B40-49AC-AD24-1769C57C60F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6AD19BC3-9B40-49AC-AD24-1769C57C60F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6AD19BC3-9B40-49AC-AD24-1769C57C60F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE23F65B-BCDD-40D5-8AB5-80D9F52D3FA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE23F65B-BCDD-40D5-8AB5-80D9F52D3FA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE23F65B-BCDD-40D5-8AB5-80D9F52D3FA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE23F65B-BCDD-40D5-8AB5-80D9F52D3FA1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -127,6 +133,7 @@ Global
 		{969029FC-CFCF-4F95-9778-E5C69117711E} = {866DB6CC-FEA8-4CC2-A2E4-143537D197B6}
 		{3381E059-A2B5-4660-AFDA-5063DEE64154} = {F415FFFD-E52D-4EBE-98DC-067C1EFFFFE3}
 		{6AD19BC3-9B40-49AC-AD24-1769C57C60F1} = {F415FFFD-E52D-4EBE-98DC-067C1EFFFFE3}
+		{CE23F65B-BCDD-40D5-8AB5-80D9F52D3FA1} = {F415FFFD-E52D-4EBE-98DC-067C1EFFFFE3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {26F82565-C6A4-439D-93A4-3251E3E7D5B0}
