@@ -19,7 +19,8 @@ namespace EShopOnAbp.PaymentService
     [DependsOn(
         typeof(PaymentServiceApplicationModule),
         typeof(PaymentServiceEntityFrameworkCoreModule),
-        typeof(PaymentServiceHttpApiModule)
+        typeof(PaymentServiceHttpApiModule),
+        typeof(EShopOnAbpSharedHostingMicroservicesModule)
         )]
     public class PaymentServiceHttpApiHostModule : AbpModule
     {
