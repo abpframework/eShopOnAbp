@@ -36,9 +36,9 @@ namespace EShopOnAbp.CatalogService
                 authority: configuration["AuthServer:Authority"],
                 scopes: new Dictionary<string, string> /* Requested scopes for authorization code request and descriptions for swagger UI only */
                 {
-                    {"SaasService", "Saas Service API"},
+                    {"CatalogService", "Catalog Service API"},
                 },
-                apiTitle: "Saas Service API"
+                apiTitle: "Catalog Service API"
             );
 
             context.Services.AddCors(options =>
