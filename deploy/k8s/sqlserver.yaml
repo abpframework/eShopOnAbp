@@ -1,0 +1,53 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: sqldb
+  namespace: eshop
+  labels:
+    app: eshop
+    service: sqldb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: sqldb
+  template:
+    metadata:
+      labels:
+        app: eshop
+        service: sqldb
+    spec:
+      containers:
+        - name: sqldb
+          image: mcr.microsoft.com/mssql/server
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: sqlserver
+              containerPort: 1433
+              protocol: TCP
+          env:
+            - name: SA_PASSWORD
+              value: Pass@word
+            - name: ACCEPT_EULA
+              value: "Y"
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: sqldb
+  namespace: eshop
+  labels:
+    app: eshop
+    service: sqldb
+spec:
+  type: NodePort
+  ports:
+    - port: 1433
+      targetPort: 1434
+      nodePort: 31433
+      protocol: TCP
+      name: tds
+  selector:
+    service: sqldb
