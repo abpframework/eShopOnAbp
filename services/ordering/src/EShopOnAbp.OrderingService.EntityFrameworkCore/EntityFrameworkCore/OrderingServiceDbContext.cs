@@ -1,14 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Data;
-using Volo.Abp.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
 
 namespace EShopOnAbp.OrderingService.EntityFrameworkCore
 {
-    [ConnectionStringName("Default")]
-    public class OrderingServiceDbContext : 
+    [ConnectionStringName(OrderingServiceDbProperties.ConnectionStringName)]
+    public class OrderingServiceDbContext :
         AbpDbContext<OrderingServiceDbContext>
-    {        
+    {
         public OrderingServiceDbContext(DbContextOptions<OrderingServiceDbContext> options)
             : base(options)
         {
