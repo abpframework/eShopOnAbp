@@ -1,3 +1,4 @@
+using EShopOnAbp.OrderingService.DbMigrations;
 using EShopOnAbp.OrderingService.EntityFrameworkCore;
 using EShopOnAbp.Shared.Hosting.AspNetCore;
 using EShopOnAbp.Shared.Hosting.Microservices;
@@ -10,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Volo.Abp;
 using Volo.Abp.Modularity;
+using Volo.Abp.Threading;
 
 namespace EShopOnAbp.OrderingService
 {
@@ -89,6 +91,18 @@ namespace EShopOnAbp.OrderingService
             {
                 // endpoints.MapMetrics();
             });
+        }
+
+        public override void OnPostApplicationInitialization(ApplicationInitializationContext context)
+        {
+            using (var scope = context.ServiceProvider.CreateScope())
+            {
+                AsyncHelper.RunSync(
+                    () => scope.ServiceProvider
+                        .GetRequiredService<OrderingServiceDatabaseMigrationChecker>()
+                        .CheckAsync()
+                );
+            }
         }
     }
 }
