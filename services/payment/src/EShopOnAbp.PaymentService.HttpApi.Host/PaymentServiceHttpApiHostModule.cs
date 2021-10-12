@@ -1,18 +1,17 @@
+using EShopOnAbp.PaymentService.DbMigrations;
 using EShopOnAbp.PaymentService.EntityFrameworkCore;
+using EShopOnAbp.Shared.Hosting.AspNetCore;
 using EShopOnAbp.Shared.Hosting.Microservices;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Volo.Abp;
-using Volo.Abp.EntityFrameworkCore.SqlServer;
-using EShopOnAbp.Shared.Hosting.AspNetCore;
 using Volo.Abp.Modularity;
 using Volo.Abp.Threading;
-using System.Collections.Generic;
-using System;
-using EShopOnAbp.PaymentService.DbMigrations;
-using System.Linq;
-using Microsoft.AspNetCore.Cors;
 
 namespace EShopOnAbp.PaymentService
 {
