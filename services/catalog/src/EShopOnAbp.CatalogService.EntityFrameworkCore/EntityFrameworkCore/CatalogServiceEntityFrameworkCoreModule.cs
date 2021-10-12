@@ -1,12 +1,13 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
+using Volo.Abp.EntityFrameworkCore.SqlServer;
 using Volo.Abp.Modularity;
 
 namespace EShopOnAbp.CatalogService.EntityFrameworkCore
 {
     [DependsOn(
         typeof(CatalogServiceDomainModule),
-        typeof(AbpEntityFrameworkCoreModule)
+        typeof(AbpEntityFrameworkCoreSqlServerModule)
         )]
     public class CatalogServiceEntityFrameworkCoreModule : AbpModule
     {
