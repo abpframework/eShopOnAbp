@@ -20,6 +20,12 @@ services:
       - sqldata:/var/opt/mssql
     networks: 
       - eshoponabp-network
+  
+  consul:
+    container_name: consul
+    image: consul
+    networks: 
+      - eshoponabp-network
       
 volumes:
   sqldata:
