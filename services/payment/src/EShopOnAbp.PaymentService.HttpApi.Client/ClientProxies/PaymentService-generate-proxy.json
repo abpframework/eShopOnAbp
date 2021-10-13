@@ -1,0 +1,53 @@
+{
+  "modules": {
+    "PaymentService": {
+      "rootPath": "PaymentService",
+      "remoteServiceName": "PaymentService",
+      "controllers": {
+        "EShopOnAbp.PaymentService.Samples.SampleController": {
+          "controllerName": "Sample",
+          "controllerGroupName": "Sample",
+          "type": "EShopOnAbp.PaymentService.Samples.SampleController",
+          "interfaces": [
+            {
+              "type": "EShopOnAbp.PaymentService.Samples.ISampleAppService"
+            }
+          ],
+          "actions": {
+            "GetAsync": {
+              "uniqueName": "GetAsync",
+              "name": "GetAsync",
+              "httpMethod": "GET",
+              "url": "api/PaymentService/sample",
+              "supportedVersions": [],
+              "parametersOnMethod": [],
+              "parameters": [],
+              "returnValue": {
+                "type": "EShopOnAbp.PaymentService.Samples.SampleDto",
+                "typeSimple": "EShopOnAbp.PaymentService.Samples.SampleDto"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "EShopOnAbp.PaymentService.Samples.ISampleAppService"
+            },
+            "GetAuthorizedAsync": {
+              "uniqueName": "GetAuthorizedAsync",
+              "name": "GetAuthorizedAsync",
+              "httpMethod": "GET",
+              "url": "api/PaymentService/sample/authorized",
+              "supportedVersions": [],
+              "parametersOnMethod": [],
+              "parameters": [],
+              "returnValue": {
+                "type": "EShopOnAbp.PaymentService.Samples.SampleDto",
+                "typeSimple": "EShopOnAbp.PaymentService.Samples.SampleDto"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "EShopOnAbp.PaymentService.Samples.ISampleAppService"
+            }
+          }
+        }
+      }
+    }
+  },
+  "types": {}
+}
