@@ -1,6 +1,7 @@
 ﻿using EShopOnAbp.CatalogService.EntityFrameworkCore;
 using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations;
 using System;
+using System.Threading.Tasks;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.Uow;
@@ -21,7 +22,6 @@ namespace EShopOnAbp.CatalogService.DbMigrations
                 distributedEventBus,
                 CatalogServiceDbProperties.ConnectionStringName)
         {
-
         }
     }
 }

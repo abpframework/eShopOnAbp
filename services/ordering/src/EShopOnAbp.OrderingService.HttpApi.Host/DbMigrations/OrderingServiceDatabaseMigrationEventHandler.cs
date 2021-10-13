@@ -22,8 +22,14 @@ namespace EShopOnAbp.OrderingService.DbMigrations
             IUnitOfWorkManager unitOfWorkManager,
             ITenantStore tenantStore,
             ITenantRepository tenantRepository,
-            IDistributedEventBus distributedEventBus,
-            string databaseName) : base(currentTenant, unitOfWorkManager, tenantStore, tenantRepository, distributedEventBus, databaseName)
+            IDistributedEventBus distributedEventBus) 
+            : base(
+                currentTenant,
+                unitOfWorkManager,
+                tenantStore,
+                tenantRepository,
+                distributedEventBus,
+                OrderingServiceDbProperties.ConnectionStringName)
         {
         }
 

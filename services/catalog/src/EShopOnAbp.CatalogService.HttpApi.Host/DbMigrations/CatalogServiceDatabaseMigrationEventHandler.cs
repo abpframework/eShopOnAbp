@@ -14,7 +14,19 @@ namespace EShopOnAbp.CatalogService.DbMigrations
         : DatabaseMigrationEventHandlerBase<CatalogServiceDbContext>,
         IDistributedEventHandler<ApplyDatabaseMigrationsEto>
     {
-        public CatalogServiceDatabaseMigrationEventHandler(ICurrentTenant currentTenant, IUnitOfWorkManager unitOfWorkManager, ITenantStore tenantStore, ITenantRepository tenantRepository, IDistributedEventBus distributedEventBus, string databaseName) : base(currentTenant, unitOfWorkManager, tenantStore, tenantRepository, distributedEventBus, databaseName)
+        public CatalogServiceDatabaseMigrationEventHandler(
+            ICurrentTenant currentTenant,
+            IUnitOfWorkManager unitOfWorkManager,
+            ITenantStore tenantStore,
+            ITenantRepository tenantRepository,
+            IDistributedEventBus distributedEventBus
+            ) : base(
+                currentTenant,
+                unitOfWorkManager,
+                tenantStore,
+                tenantRepository,
+                distributedEventBus,
+                CatalogServiceDbProperties.ConnectionStringName)
         {
         }
 

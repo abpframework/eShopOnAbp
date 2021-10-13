@@ -3,7 +3,7 @@ using Volo.Abp.EventBus;
 
 namespace EShopOnAbp.IdentityService.DbMigrations
 {
-    [EventName("abp.data.apply_database_seeds")]
+    [EventName("abp.identity.apply_database_seeds")]
     public class ApplyDatabaseSeedsEto : EtoBase
     {
     }
