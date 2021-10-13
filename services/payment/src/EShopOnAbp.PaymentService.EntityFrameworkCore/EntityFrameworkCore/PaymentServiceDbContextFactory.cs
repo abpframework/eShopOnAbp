@@ -16,7 +16,7 @@ namespace EShopOnAbp.PaymentService.EntityFrameworkCore
             var configuration = BuildConfiguration();
 
             var builder = new DbContextOptionsBuilder<PaymentServiceDbContext>()
-                .UseSqlServer(configuration.GetConnectionString("Default"));
+                .UseSqlServer(configuration.GetConnectionString(PaymentServiceDbProperties.ConnectionStringName));
 
             return new PaymentServiceDbContext(builder.Options);
         }
