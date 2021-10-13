@@ -86,6 +86,10 @@ namespace EShopOnAbp.IdentityService.DbMigrations
             await CreateApiResourceAsync("IdentityService", commonApiUserClaims);
             await CreateApiResourceAsync("AdministrationService", commonApiUserClaims);
             await CreateApiResourceAsync("SaasService", commonApiUserClaims);
+            await CreateApiResourceAsync("CatalogService", commonApiUserClaims);
+            await CreateApiResourceAsync("BasketService", commonApiUserClaims);
+            await CreateApiResourceAsync("OrderingService", commonApiUserClaims);
+            await CreateApiResourceAsync("PaymentService", commonApiUserClaims);
         }
 
         private async Task CreateApiScopesAsync()
@@ -93,15 +97,34 @@ namespace EShopOnAbp.IdentityService.DbMigrations
             await CreateApiScopeAsync("IdentityService");
             await CreateApiScopeAsync("AdministrationService");
             await CreateApiScopeAsync("SaasService");
+            await CreateApiScopeAsync("CatalogService");
+            await CreateApiScopeAsync("BasketService");
+            await CreateApiScopeAsync("OrderingService");
+            await CreateApiScopeAsync("PaymentService");
         }
 
         private async Task CreateSwaggerClientsAsync()
         {
             await CreateSwaggerClientAsync("IdentityService",
                 new[] { "IdentityService"});
+
+            await CreateSwaggerClientAsync("SaasService",
+                new[] { "SaasService" });
+
             await CreateSwaggerClientAsync("AdministrationService",
                 new[] { "AdministrationService" });
-            await CreateSwaggerClientAsync("WebPublicGateway");
+
+            await CreateSwaggerClientAsync("CatalogService",
+                new[] { "CatalogService" });
+
+            await CreateSwaggerClientAsync("BasketService",
+                new[] { "BasketService" });
+
+            await CreateSwaggerClientAsync("OrderingService",
+                new[] { "OrderingService" });
+
+            await CreateSwaggerClientAsync("PaymentService",
+                new[] { "PaymentService" });
         }
 
         private async Task CreateSwaggerClientAsync(string name, string[] scopes = null)
