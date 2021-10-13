@@ -3,6 +3,7 @@ using Consul;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace EShopOnAbp.Shared.Hosting.Microservices
 {
@@ -20,13 +21,13 @@ namespace EShopOnAbp.Shared.Hosting.Microservices
 
         public static string UseConsul(this IApplicationBuilder app)
         {
+            var appLifetime = app.ApplicationServices.GetService<IHostApplicationLifetime>();
             using (var scope = app.ApplicationServices.CreateScope())
             {
                 var configuration = scope.ServiceProvider.GetService<IConfiguration>();
 
                 bool isEnabled = configuration.GetValue<bool>("Consul:Enabled");
                 string serviceName = configuration.GetValue<string>("Consul:Service");
-                string host = configuration.GetValue<string>("Consul:Host");
                 var appString = configuration.GetValue<string>("App:SelfUrl");
                 Uri appUrl = new Uri(appString, UriKind.Absolute);
 
@@ -38,7 +39,7 @@ namespace EShopOnAbp.Shared.Hosting.Microservices
 
                 var client = scope.ServiceProvider.GetService<IConsulClient>();
 
-                var consulServiceRistration = new AgentServiceRegistration
+                var consulServiceRegistration = new AgentServiceRegistration
                 {
                     Name = serviceName,
                     ID = consulServiceID,
@@ -46,7 +47,11 @@ namespace EShopOnAbp.Shared.Hosting.Microservices
                     Port = appUrl.Port
                 };
 
-                client.Agent.ServiceRegister(consulServiceRistration);
+                client.Agent.ServiceRegister(consulServiceRegistration);
+                appLifetime.ApplicationStopping.Register(() =>
+                {
+                    client.Agent.ServiceDeregister(consulServiceRegistration.ID);
+                });
 
                 return consulServiceID;
             }
