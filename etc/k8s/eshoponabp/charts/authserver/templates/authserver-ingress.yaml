@@ -14,10 +14,10 @@ metadata:
 spec:
   tls:
   - hosts:
-      - {{ .Values.global.authServerDomain }}
+      - {{ .Values.global.authServer.domain }}
     secretName: {{ .Release.Name }}-{{ .Chart.Name }}-tls
   rules:
-  - host: "{{ .Values.global.authServerDomain }}"
+  - host: "{{ .Values.global.authServer.domain }}"
     http:
       paths:
       - path: /

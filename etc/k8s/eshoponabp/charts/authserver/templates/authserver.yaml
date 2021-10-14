@@ -12,7 +12,7 @@ spec:
         app: {{ .Release.Name }}-{{ .Chart.Name }}
     spec:
       containers:
-      - image: {{ .Values.containerImage }}:{{ .Values.global.eshoponabpImageVersion }}
+      - image: {{ .Values.global.authServer.containerImage }}:{{ .Values.global.eshoponabpImageVersion }}
         imagePullPolicy: {{ .Values.global.imagePullPolicy }}
         name: {{ .Release.Name }}-{{ .Chart.Name }}
         ports:

@@ -1,6 +1,0 @@
-apiVersion: v2
-name: www
-appVersion: "1.0"
-description: EventHub WWW Application
-version: 1.0.0
-type: application

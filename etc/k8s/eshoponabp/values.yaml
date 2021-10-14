@@ -83,10 +83,11 @@ affinity: {}
 
 global:
   dotnetEnvironment: "Staging"
+  eshoponabpImageVersion: latest
   authServer:
     domain: eshoponabp-authserver
     url: https://eshoponabp-authserver
-    containerImage: "eshoponabp.authserver"
+    containerImage: "eshoponabp/app-authserver"
   identityService:
     domain: eshoponabp-identity
     url: https://eshoponabp-identity
@@ -104,5 +105,4 @@ global:
     connString: "Server=eshoponabp-sqldb,1434;Database=EShopOnAbp_Saas;User Id=sa;password=myPassw@rd;MultipleActiveResultSets=true"
   redisConfiguration: "eshoponabp-redis"
   nginxProxyBufferSize: "32k"
-  nginxProxyBuffersNumber: "8"
-  eshoponabpImageVersion: latest
+  nginxProxyBuffersNumber: "8"  

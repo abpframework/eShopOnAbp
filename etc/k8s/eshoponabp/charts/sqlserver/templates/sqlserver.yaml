@@ -39,5 +39,5 @@ spec:
       storageClassName: "managed-premium-retain"
       resources:
         requests:
-          storage: 64Gi
+          storage: 32Gi
 {{- end }}
