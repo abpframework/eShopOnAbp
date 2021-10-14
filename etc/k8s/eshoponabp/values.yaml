@@ -93,7 +93,7 @@ global:
     domain: eshoponabp-identity
     url: https://eshoponabp-identity
     containerImage: "eshoponabp/service-identity"
-    connString: "Server=eshoponabp-sqldb,1433;Database=EShopOnAbp_Identity;User Id=sa;password=myPassw@rd;MultipleActiveResultSets=true"
+    connString: "Server=eshoponabp-sqldb,1433;Database=EShopOnAbp_Identity;User Id=sa;password=myPassw@rd;MultipleActiveResultSets=false"
   administrationService:
     domain: eshoponabp-administration
     url: https://eshoponabp-administration
