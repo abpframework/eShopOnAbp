@@ -74,4 +74,6 @@ Create the name of the service account to use
   value: "{{ .Values.global.internalAuthServerRequireHttpsMetadata }}"
 - name: "StringEncryption__DefaultPassPhrase"
   value: "{{ .Values.global.stringEncryptionDefaultPassPhrase }}"
+- name: "RabbitMQ__Connections__Default__HostName"
+  value: "{{ .Values.global.rabbitMqHostName }}"  
 {{- end }}

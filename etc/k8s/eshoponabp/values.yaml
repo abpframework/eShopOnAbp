@@ -93,20 +93,21 @@ global:
     domain: eshoponabp-identity
     url: https://eshoponabp-identity
     containerImage: "eshoponabp/service-identity"
-    connString: "Server=eshoponabp-sqldb,1434;Database=EShopOnAbp_Identity;User Id=sa;password=myPassw@rd;MultipleActiveResultSets=true"
+    connString: "Server=eshoponabp-sqldb,1433;Database=EShopOnAbp_Identity;User Id=sa;password=myPassw@rd;MultipleActiveResultSets=true"
   administrationService:
     domain: eshoponabp-administration
     url: https://eshoponabp-administration
     containerImage: "eshoponabp/service-administration"
-    connString: "Server=eshoponabp-sqldb,1434;Database=EShopOnAbp_Administration;User Id=sa;password=myPassw@rd;MultipleActiveResultSets=true"
+    connString: "Server=eshoponabp-sqldb,1433;Database=EShopOnAbp_Administration;User Id=sa;password=myPassw@rd;MultipleActiveResultSets=true"
   saasService:
     domain: eshoponabp-saas
     url: https://eshoponabp-saas
     containerImage: "eshoponabp/service-saas"
-    connString: "Server=eshoponabp-sqldb,1434;Database=EShopOnAbp_Saas;User Id=sa;password=myPassw@rd;MultipleActiveResultSets=true"
+    connString: "Server=eshoponabp-sqldb,1433;Database=EShopOnAbp_Saas;User Id=sa;password=myPassw@rd;MultipleActiveResultSets=true"
   redisConfiguration: "eshoponabp-redis"
+  rabbitMqHostName: "eshoponabp-rabbitmq"
   nginxProxyBufferSize: "32k"
   nginxProxyBuffersNumber: "8"
   internalAuthServerAuthority: "http://eshoponabp-authserver"
   internalAuthServerRequireHttpsMetadata: "false"
-  stringEncryptionDefaultPassPhrase: "TxVIZFPxK33czbbv"
+  stringEncryptionDefaultPassPhrase: "gsKnGZ041HLL4IM8"

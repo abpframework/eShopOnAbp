@@ -27,4 +27,4 @@ spec:
         - name: "ConnectionStrings__AdministrationService"
           value: {{ .Values.global.administrationService.connString }}
         - name: "ConnectionStrings__SaasService"
-          value: {{ .Values.global.saasService.connString }}  
+          value: {{ .Values.global.saasService.connString }}

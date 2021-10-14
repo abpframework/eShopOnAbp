@@ -24,10 +24,10 @@ spec:
 {{- end }}
           ports:
             - name: sqlserver
-              containerPort: 1434
+              containerPort: 1433
           env:
           - name: SA_PASSWORD
-            value: "myPassw0rd"
+            value: "myPassw@rd"
           - name: ACCEPT_EULA
             value: "Y"
 {{- if eq .Release.Name "eh-az" }}
