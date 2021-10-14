@@ -16,3 +16,8 @@ services:
     environment:
       SA_PASSWORD: "myPassw0rd"
       ACCEPT_EULA: "Y"
+   
+  consul:
+    ports:
+      - "8500:8500"
+      - "8600:8600"

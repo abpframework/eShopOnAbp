@@ -2,6 +2,7 @@
 using EShopOnAbp.SaasService.EntityFrameworkCore;
 using EShopOnAbp.Shared.Hosting.AspNetCore;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Redis;
 using Volo.Abp.AspNetCore.MultiTenancy;
@@ -44,6 +45,8 @@ namespace EShopOnAbp.Shared.Hosting.Microservices
             context.Services
                 .AddDataProtection()
                 .PersistKeysToStackExchangeRedis(redis, "EShopOnAbp-Protection-Keys");
+
+            context.Services.AddConsulConfig(configuration);
         }
     }
 }

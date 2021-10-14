@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using EShopOnAbp.SaasService.EntityFrameworkCore;
 using EShopOnAbp.Shared.Hosting.AspNetCore;
 using EShopOnAbp.Shared.Hosting.Microservices;
+using Microsoft.Extensions.Options;
 using StackExchange.Redis;
 using Microsoft.OpenApi.Models;
 using Volo.Abp;
@@ -26,11 +27,11 @@ using Volo.Abp.VirtualFileSystem;
 namespace EShopOnAbp.SaasService
 {
     [DependsOn(
-        typeof(EShopOnAbpSharedHostingMicroservicesModule),        
+        typeof(EShopOnAbpSharedHostingMicroservicesModule),
         typeof(SaasServiceEntityFrameworkCoreModule),
         typeof(SaasServiceApplicationModule),
         typeof(SaasServiceHttpApiModule)
-        )]
+    )]
     public class SaasServiceHttpApiHostModule : AbpModule
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
@@ -40,17 +41,18 @@ namespace EShopOnAbp.SaasService
 
             JwtBearerConfigurationHelper.Configure(context, "SaasService");
             // SwaggerConfigurationHelper.Configure(context, "Saas Service API");
-            
+
             SwaggerWithAuthConfigurationHelper.Configure(
                 context: context,
                 authority: configuration["AuthServer:Authority"],
-                scopes: new Dictionary<string, string> /* Requested scopes for authorization code request and descriptions for swagger UI only */
-                {
-                    {"SaasService", "Saas Service API"},
-                },
+                scopes: new
+                    Dictionary<string, string> /* Requested scopes for authorization code request and descriptions for swagger UI only */
+                    {
+                        { "SaasService", "Saas Service API" },
+                    },
                 apiTitle: "Saas Service API"
             );
-            
+
             context.Services.AddCors(options =>
             {
                 options.AddDefaultPolicy(builder =>
@@ -96,6 +98,7 @@ namespace EShopOnAbp.SaasService
             app.UseAbpSerilogEnrichers();
             app.UseAuditing();
             app.UseUnitOfWork();
+            app.UseConsul();
             app.UseConfiguredEndpoints(endpoints =>
             {
                 // endpoints.MapMetrics();
@@ -113,5 +116,11 @@ namespace EShopOnAbp.SaasService
                 );
             }
         }
+    }
+
+    public class Test
+    {
+        public string ID { get; set; }
+        public string Name { get; set; }
     }
 }
