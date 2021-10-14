@@ -85,6 +85,10 @@ global:
   dotnetEnvironment: "Staging"
   imagePullPolicy: Never
   eshoponabpImageVersion: latest
+  publicWeb:
+    domain:  eshoponabp-public-web
+    url: https://eshoponabp-public-web
+    containerImage: "eshoponabp/app-publicweb"
   authServer:
     domain: eshoponabp-authserver
     url: https://eshoponabp-authserver
@@ -93,7 +97,7 @@ global:
     domain: eshoponabp-identity
     url: https://eshoponabp-identity
     containerImage: "eshoponabp/service-identity"
-    connString: "Server=eshoponabp-sqldb,1433;Database=EShopOnAbp_Identity;User Id=sa;password=myPassw@rd;MultipleActiveResultSets=false"
+    connString: "Server=eshoponabp-sqldb,1433;Database=EShopOnAbp_Identity;User Id=sa;password=myPassw@rd;MultipleActiveResultSets=true"
   administrationService:
     domain: eshoponabp-administration
     url: https://eshoponabp-administration
@@ -104,6 +108,10 @@ global:
     url: https://eshoponabp-saas
     containerImage: "eshoponabp/service-saas"
     connString: "Server=eshoponabp-sqldb,1433;Database=EShopOnAbp_Saas;User Id=sa;password=myPassw@rd;MultipleActiveResultSets=true"
+  publicWebGateway:
+    domain:  eshoponabp-public-webgateway
+    url: https://eshoponabp-public-webgateway
+    containerImage: "eshoponabp/gateway-publicweb"
   redisConfiguration: "eshoponabp-redis"
   rabbitMqHostName: "eshoponabp-rabbitmq"
   nginxProxyBufferSize: "32k"
