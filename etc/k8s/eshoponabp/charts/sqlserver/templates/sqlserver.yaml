@@ -24,7 +24,7 @@ spec:
 {{- end }}
           ports:
             - name: sqlserver
-              containerPort: 5432
+              containerPort: 1434
           env:
           - name: SA_PASSWORD
             value: "myPassw0rd"
