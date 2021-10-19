@@ -113,6 +113,12 @@ namespace EShopOnAbp.AuthServer
         {
             var app = context.GetApplicationBuilder();
             var env = context.GetEnvironment();
+            
+            app.Use((ctx, next) =>
+            {
+                ctx.Request.Scheme = "https";
+                return next();
+            });
 
             if (env.IsDevelopment())
             {
