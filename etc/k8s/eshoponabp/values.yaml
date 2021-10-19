@@ -85,10 +85,11 @@ global:
   dotnetEnvironment: "Staging"
   imagePullPolicy: Never
   eshoponabpImageVersion: latest
-  publicWeb:
+  publicWeb: 
     domain:  eshoponabp-public-web
     url: https://eshoponabp-public-web
     containerImage: "eshoponabp/app-publicweb"
+    remoteServiceUrl: http://eshoponabp-public-webgateway
   authServer:
     domain: eshoponabp-authserver
     url: https://eshoponabp-authserver

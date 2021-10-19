@@ -1,0 +1,6 @@
+apiVersion: v2
+name: consul
+appVersion: "1.0"
+description: Runs Consul instance
+version: 1.0.0
+type: application
