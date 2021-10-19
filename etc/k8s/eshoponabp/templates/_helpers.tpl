@@ -75,5 +75,7 @@ Create the name of the service account to use
 - name: "StringEncryption__DefaultPassPhrase"
   value: "{{ .Values.global.stringEncryptionDefaultPassPhrase }}"
 - name: "RabbitMQ__Connections__Default__HostName"
-  value: "{{ .Values.global.rabbitMqHostName }}"  
+  value: "{{ .Values.global.rabbitMqHostName }}"
+- name: "Consul__Host"
+  value: "{{ .Values.global.consulHostname }}"
 {{- end }}
