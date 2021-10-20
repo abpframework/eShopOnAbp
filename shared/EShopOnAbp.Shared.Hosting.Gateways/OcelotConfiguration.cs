@@ -4,7 +4,7 @@ namespace EShopOnAbp.Shared.Hosting.Gateways
 {
     public class OcelotConfiguration
     {
-        public string ServiceName { get; set; }
+        public string ServiceKey { get; set; }
         public string DownstreamPathTemplate { get; set; }
         public string DownstreamScheme { get; set; }
         public string UpstreamPathTemplate { get; set; }

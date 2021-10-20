@@ -41,12 +41,12 @@ namespace EShopOnAbp.InternalGateway
                 var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
                 var routes = configuration.GetSection("Routes").Get<List<OcelotConfiguration>>();
                 
-                foreach (var config in routes.GroupBy(t => t.ServiceName).Select(r => r.First()).Distinct())
+                foreach (var config in routes.GroupBy(t => t.ServiceKey).Select(r => r.First()).Distinct())
                 {
                     var url =
                         $"{config.DownstreamScheme}://{config.DownstreamHostAndPorts.FirstOrDefault()?.Host}:{config.DownstreamHostAndPorts.FirstOrDefault()?.Port}";
 
-                    options.SwaggerEndpoint($"{url}/swagger/v1/swagger.json", $"{config.ServiceName} API");
+                    options.SwaggerEndpoint($"{url}/swagger/v1/swagger.json", $"{config.ServiceKey} API");
                     options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
                     options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
                 }
