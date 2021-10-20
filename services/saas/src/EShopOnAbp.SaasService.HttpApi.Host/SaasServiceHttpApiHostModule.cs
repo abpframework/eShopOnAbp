@@ -98,7 +98,6 @@ namespace EShopOnAbp.SaasService
             app.UseAbpSerilogEnrichers();
             app.UseAuditing();
             app.UseUnitOfWork();
-            app.UseConsul();
             app.UseConfiguredEndpoints(endpoints =>
             {
                 // endpoints.MapMetrics();

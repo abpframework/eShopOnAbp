@@ -7,7 +7,6 @@
   <ItemGroup>
     <PackageReference Include="Ocelot" Version="17.0.0" />
     <PackageReference Include="Ocelot.Provider.Polly" Version="17.0.0" />
-    <PackageReference Include="Ocelot.Provider.Consul" Version="17.0.0" />
   </ItemGroup>
 
   <ItemGroup>
