@@ -1,0 +1,5 @@
+  env:
+    - name: "App__SelfUrl"
+      value: "https://eshoponabp-public-webgateway"
+    - name: "Routes__DownstreamHostAndPorts__Host"
+      value: "https://localhost:44371,https://localhost:44372,https://eshoponabp-public-webgateway"

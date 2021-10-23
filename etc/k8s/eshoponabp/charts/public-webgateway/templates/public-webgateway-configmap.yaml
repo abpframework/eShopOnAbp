@@ -1,0 +1,76 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    name: {{ .Release.Name }}-{{ .Chart.Name }}
+  name: {{ .Release.Name }}-{{ .Chart.Name }}
+data:
+  appsettings.json: |-
+    {
+      "Routes": [   
+    {
+      "ServiceKey": "Identity Service",
+      "DownstreamPathTemplate": "/api/account/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "eshoponabp-identity",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/api/account/{everything}",
+      "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ]
+    },
+    {
+      "ServiceKey": "Administration Service",
+      "DownstreamPathTemplate": "/api/abp/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "eshoponabp-administration",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/api/abp/{everything}",
+      "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ]
+    },
+    {
+      "ServiceKey": "Catalog Service",
+      "DownstreamPathTemplate": "/api/catalog/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "eshoponabp-catalog",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/api/catalog/{everything}",
+      "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ]
+    },
+    {
+      "ServiceKey": "Basket Service",
+      "DownstreamPathTemplate": "/api/basket/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "eshoponabp-basket",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/api/basket/{everything}",
+      "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ]
+    },
+    {
+      "ServiceKey": "Ordering Service",
+      "DownstreamPathTemplate": "/api/ordering/{everything}",
+      "DownstreamScheme": "htt",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "eshoponabp-ordering",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/api/ordering/{everything}",
+      "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ]
+    }]
+    }
