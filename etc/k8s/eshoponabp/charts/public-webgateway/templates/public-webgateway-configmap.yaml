@@ -1,9 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  labels:
-    name: {{ .Release.Name }}-{{ .Chart.Name }}
-  name: {{ .Release.Name }}-{{ .Chart.Name }}
+  name: {{ .Release.Name }}-{{ .Chart.Name }}-configmap
 data:
   appsettings.json: |-
     {
