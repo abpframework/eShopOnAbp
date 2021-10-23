@@ -3,8 +3,6 @@
       value: "https://eshoponabp-administration"
     - name: "App__CorsOrigins"
       value: "https://localhost:44371,https://localhost:44372,https://eshoponabp-public-webgateway"
-    - name: "AuthServer__Authority"
-      value: "https://eshoponabp-authserver"
     - name: "RemoteServices__Default__BaseUrl"
       value: "https://eshoponabp-gateway-internal/"  
     - name: "IdentityClients__IdentityClients__Authority"
