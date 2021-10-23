@@ -4,7 +4,7 @@
 * Install [NGINX ingress](https://kubernetes.github.io/ingress-nginx/deploy/) for k8s
 OR
 * Install NGINX ingress using helm
-```
+```powershell
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 helm repo update
 
@@ -17,7 +17,7 @@ helm install ingress-nginx ingress-nginx/ingress-nginx
 
 * Add entries to the hosts file (in Windows: `C:\Windows\System32\drivers\etc\hosts`):
 
-````
+````powershell
 127.0.0.1 eshoponabp-public-web
 127.0.0.1 eshoponabp-authserver
 127.0.0.1 eshoponabp-identity
