@@ -25,6 +25,9 @@ spec:
           mountPath: /app/config      
         env:
 {{ include "eshoponabp.global.env" . | indent 8 }}
+        {{- if .Values.env }}
+{{ toYaml .Values.env | indent 8 }}
+          {{- end }}
       volumes:
       - name: config-volume
         configMap:

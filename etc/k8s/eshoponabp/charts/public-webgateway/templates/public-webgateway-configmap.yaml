@@ -61,7 +61,7 @@ data:
     {
       "ServiceKey": "Ordering Service",
       "DownstreamPathTemplate": "/api/ordering/{everything}",
-      "DownstreamScheme": "htt",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "eshoponabp-ordering",

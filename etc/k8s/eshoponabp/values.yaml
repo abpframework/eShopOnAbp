@@ -116,7 +116,7 @@ global:
     connString: "Server=eshoponabp-sqldb,1433;Database=EShopOnAbp_Saas;User Id=sa;password=myPassw@rd;MultipleActiveResultSets=true"
   publicWebGateway:
     domain:  eshoponabp-public-webgateway
-    url: https://eshoponabp-public-webgateway
+    url: http://eshoponabp-public-webgateway
     containerImage: "eshoponabp/gateway-publicweb"
   redisConfiguration: "eshoponabp-redis"
   rabbitMqHostName: "eshoponabp-rabbitmq"

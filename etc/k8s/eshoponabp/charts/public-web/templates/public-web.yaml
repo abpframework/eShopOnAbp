@@ -24,3 +24,6 @@ spec:
 {{ include "eshoponabp.global.env" . | indent 8 }}
         - name: "RemoteServices__Default__BaseUrl"
           value: {{ .Values.global.publicWeb.remoteServiceUrl }}
+       {{- if .Values.env }}
+{{ toYaml .Values.env | indent 8 }}
+          {{- end }}
