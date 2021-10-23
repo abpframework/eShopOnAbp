@@ -10,8 +10,8 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
-administration:
-  env:
+# administration:
+  # env:
     # - name: "ADMIN_SPECIFIC_ENV_NAME"
     #   value: "ADMIN_SPECIFIC_ENV_VALUE"
 
@@ -120,7 +120,7 @@ global:
     containerImage: "eshoponabp/gateway-publicweb"
   redisConfiguration: "eshoponabp-redis"
   rabbitMqHostName: "eshoponabp-rabbitmq"
-  consulHostname: "http://eshoponabp-consul"
+  elasticSearchUrl: ""
   nginxProxyBufferSize: "32k"
   nginxProxyBuffersNumber: "8"
   internalAuthServerAuthority: "http://eshoponabp-authserver"
