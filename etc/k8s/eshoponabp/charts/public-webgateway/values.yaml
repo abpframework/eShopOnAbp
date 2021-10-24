@@ -2,7 +2,7 @@
     - name: "App__SelfUrl"
       value: "https://eshoponabp-public-webgateway"
     - name: "GlobalConfiguration__BaseUrl"
-      value: "https://eshoponabp-public-webgateway"  
+      value: "http://eshoponabp-public-webgateway"  
     - name: "Routes__0__DownstreamScheme"
       value: "http"  
     - name: "Routes__0__DownstreamHostAndPorts__0__Host"
