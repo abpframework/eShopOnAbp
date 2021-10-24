@@ -30,4 +30,11 @@
       <ProjectReference Include="..\..\..\..\services\saas\src\EShopOnAbp.SaasService.EntityFrameworkCore\EShopOnAbp.SaasService.EntityFrameworkCore.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+        <Compile Remove="Logs\**" />
+        <Content Remove="Logs\**" />
+        <EmbeddedResource Remove="Logs\**" />
+        <None Remove="Logs\**" />
+    </ItemGroup>
+
 </Project>

@@ -1,0 +1,8 @@
+  env:
+    - name: "App__SelfUrl"
+      value: "https://eshoponabp-authserver"
+    - name: "App__CorsOrigins"
+      value: "https://localhost:44371,https://localhost:44372,https://eshoponabp-public-webgateway"
+    - name: "App__RedirectAllowedUrls"
+      value: "http://localhost:4200,https://localhost:44307"
+    

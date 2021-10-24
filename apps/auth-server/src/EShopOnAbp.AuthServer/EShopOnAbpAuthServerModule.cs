@@ -12,6 +12,8 @@ using StackExchange.Redis;
 using System;
 using System.IO;
 using System.Linq;
+using IdentityServer4.Extensions;
+using Microsoft.Extensions.Configuration;
 using Volo.Abp;
 using Volo.Abp.Account;
 using Volo.Abp.Account.Web;
@@ -47,6 +49,7 @@ namespace EShopOnAbp.AuthServer
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
+            Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
             var hostingEnvironment = context.Services.GetHostingEnvironment();
             var configuration = context.Services.GetConfiguration();
 
@@ -114,10 +117,16 @@ namespace EShopOnAbp.AuthServer
             var app = context.GetApplicationBuilder();
             var env = context.GetEnvironment();
             
-            app.Use((ctx, next) =>
+            var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
+            
+            app.Use(async (ctx, next) =>
             {
-                ctx.Request.Scheme = "https";
-                return next();
+                if (ctx.Request.Headers.ContainsKey("from-ingress"))
+                {
+                    ctx.SetIdentityServerOrigin(configuration["App:SelfUrl"]);
+                }
+                
+                await next();
             });
 
             if (env.IsDevelopment())
