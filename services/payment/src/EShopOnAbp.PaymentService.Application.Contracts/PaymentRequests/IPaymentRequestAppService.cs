@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Volo.Abp.Application.Services;
 
 namespace EShopOnAbp.PaymentService.PaymentRequests
@@ -12,5 +13,7 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
         Task<PaymentRequestDto> CompleteAsync(string token);
 
         Task<bool> HandleWebhookAsync(string payload);
+
+        Task<string> CreateMockTokenAsync(Guid paymentRequestId, bool successfulResult = true);
     }
 }

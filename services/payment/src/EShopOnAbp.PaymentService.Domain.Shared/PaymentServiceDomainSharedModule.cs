@@ -5,6 +5,7 @@ using Volo.Abp.Localization.ExceptionHandling;
 using Volo.Abp.Validation;
 using Volo.Abp.Validation.Localization;
 using Volo.Abp.VirtualFileSystem;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace EShopOnAbp.PaymentService
 {
@@ -15,6 +16,10 @@ namespace EShopOnAbp.PaymentService
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
+            var configuration = context.Services.GetConfiguration();
+
+            Configure<PaymentOptions>(configuration.GetSection("Payment"));
+
             Configure<AbpVirtualFileSystemOptions>(options =>
             {
                 options.FileSets.AddEmbedded<PaymentServiceDomainSharedModule>();

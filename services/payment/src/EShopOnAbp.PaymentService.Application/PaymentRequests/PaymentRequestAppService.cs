@@ -1,4 +1,5 @@
 ﻿using EShopOnAbp.PaymentService.PayPal;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
 using PayPalCheckoutSdk.Core;
 using PayPalCheckoutSdk.Orders;
@@ -6,20 +7,26 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Volo.Abp;
 
 namespace EShopOnAbp.PaymentService.PaymentRequests
 {
     public class PaymentRequestAppService : PaymentServiceAppService, IPaymentRequestAppService
     {
+        private const string MockFailureToken = "55F97E93";
+        private const string MockSuccessToken = "A8195146CA5A";
         protected IPaymentRequestRepository PaymentRequestRepository { get; }
         protected PayPalHttpClient PayPalHttpClient { get; }
+        public PaymentOptions Options { get; }
 
         public PaymentRequestAppService(
             IPaymentRequestRepository paymentRequestRepository,
-            PayPalHttpClient payPalHttpClient)
+            PayPalHttpClient payPalHttpClient,
+            IOptions<PaymentOptions> options)
         {
             PaymentRequestRepository = paymentRequestRepository;
             PayPalHttpClient = payPalHttpClient;
+            Options = options.Value;
         }
 
         public async Task<PaymentRequestDto> CreateAsync(PaymentRequestCreationDto input)
@@ -43,6 +50,14 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
 
         public async Task<PaymentRequestStartResultDto> StartAsync(PaymentRequestStartDto input)
         {
+            if (Options.UseMock)
+            {
+                return new PaymentRequestStartResultDto
+                {
+                    CheckoutLink = String.Empty
+                };
+            }
+
             var paymentRequest = await PaymentRequestRepository.GetAsync(input.PaymentRequestId);
 
             var totalCheckoutPrice = paymentRequest.Products.Sum(s => s.TotalPrice);
@@ -101,6 +116,11 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
 
         public async Task<PaymentRequestDto> CompleteAsync(string token)
         {
+            if (Options.UseMock)
+            {
+                return ObjectMapper.Map<PaymentRequest, PaymentRequestDto>(await HandleMockTokenAsync(token));
+            }
+
             var request = new OrdersCaptureRequest(token);
             request.RequestBody(new OrderActionRequest());
 
@@ -130,6 +150,23 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
             return true;
         }
 
+        public Task<string> CreateMockTokenAsync(Guid paymentRequestId, bool successfulResult = true)
+        {
+            if (Options.UseMock)
+            {
+                throw new InvalidOperationException("Mock token can't be genetared. UseMock has to be set as true in PaymentOptions.");
+            }
+
+            if (successfulResult)
+            {
+                return Task.FromResult(MockSuccessToken + "_" + paymentRequestId);
+            }
+            else
+            {
+                return Task.FromResult(MockFailureToken + "-" + paymentRequestId);
+            }
+        }
+
         private async Task<PaymentRequest> UpdatePaymentRequestStateAsync(Order order)
         {
             var paymentRequestId = Guid.Parse(order.PurchaseUnits.First().ReferenceId);
@@ -149,6 +186,29 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
             paymentRequest.ExtraProperties[nameof(order.Status)] = order.Status;
 
             await PaymentRequestRepository.UpdateAsync(paymentRequest);
+
+            return paymentRequest;
+        }
+
+        private async Task<PaymentRequest> HandleMockTokenAsync(string token)
+        {
+            var isPaymentSuccessful = token.Contains($"{MockSuccessToken}_") ? true : token.Contains($"{MockFailureToken}_") ? false : throw new UserFriendlyException("Token is invalid!");
+
+            PaymentRequest paymentRequest = null;
+            if (isPaymentSuccessful)
+            {
+                paymentRequest = await PaymentRequestRepository.GetAsync(
+                   Guid.Parse(token.Replace($"{MockSuccessToken}_", string.Empty)));
+
+                paymentRequest.SetAsCompleted();
+            }
+            else
+            {
+                paymentRequest = await PaymentRequestRepository.GetAsync(
+                   Guid.Parse(token.Replace($"{MockFailureToken}_", string.Empty)));
+
+                paymentRequest.SetAsFailed("This payment has been mocked to be failed");
+            }
 
             return paymentRequest;
         }

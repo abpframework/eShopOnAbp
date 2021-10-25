@@ -4,6 +4,8 @@ namespace EShopOnAbp.PaymentService.PayPal
 {
     public class PayPalOptions
     {
+        public bool IsEnabled { get; set; } = true;
+
         public string ClientId { get; set; }
 
         public string Secret { get; set; }

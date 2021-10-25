@@ -19,11 +19,15 @@ namespace EShopOnAbp.PaymentService
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
+            var configuration = context.Services.GetConfiguration();
+
             context.Services.AddAutoMapperObjectMapper<PaymentServiceApplicationModule>();
             Configure<AbpAutoMapperOptions>(options =>
             {
                 options.AddMaps<PaymentServiceApplicationModule>(validate: true);
             });
+
+            Configure<PayPalOptions>(configuration.GetSection("Payment:PayPal"));
 
             context.Services.AddTransient(provider =>
             {
