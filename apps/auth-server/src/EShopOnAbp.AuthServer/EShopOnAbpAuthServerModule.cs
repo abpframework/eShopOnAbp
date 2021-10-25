@@ -13,6 +13,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
+using IdentityServer4.Configuration;
 using IdentityServer4.Extensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -89,6 +90,11 @@ namespace EShopOnAbp.AuthServer
             Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
             var hostingEnvironment = context.Services.GetHostingEnvironment();
             var configuration = context.Services.GetConfiguration();
+            
+            Configure<IdentityServerOptions>(options =>
+            {
+                options.IssuerUri = configuration["App:SelfUrl"];
+            });
 
             Configure<AbpMultiTenancyOptions>(options =>
             {
