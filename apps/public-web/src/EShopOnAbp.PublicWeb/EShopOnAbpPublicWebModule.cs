@@ -105,7 +105,8 @@ namespace EShopOnAbp.PublicWeb
             var redis = ConnectionMultiplexer.Connect(configuration["Redis:Configuration"]);
             context.Services
                 .AddDataProtection()
-                .PersistKeysToStackExchangeRedis(redis, "EShopOnAbp-Protection-Keys");
+                .PersistKeysToStackExchangeRedis(redis, "EShopOnAbp-Protection-Keys")
+                .SetApplicationName("eShopOnAbp-PublicWeb");
 
             Configure<AbpNavigationOptions>(options =>
             {

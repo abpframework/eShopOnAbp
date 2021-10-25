@@ -120,7 +120,8 @@ namespace EShopOnAbp.AuthServer
             var redis = ConnectionMultiplexer.Connect(configuration["Redis:Configuration"]);
             context.Services
                 .AddDataProtection()
-                .PersistKeysToStackExchangeRedis(redis, "EShopOnAbp-Protection-Keys");
+                .PersistKeysToStackExchangeRedis(redis, "EShopOnAbp-Protection-Keys")
+                .SetApplicationName("eShopOnAbp-AuthServer");
 
             context.Services.AddCors(options =>
             {
