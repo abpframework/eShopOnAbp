@@ -12,7 +12,9 @@ using StackExchange.Redis;
 using System;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using IdentityServer4.Extensions;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Volo.Abp;
 using Volo.Abp.Account;
@@ -25,6 +27,7 @@ using Volo.Abp.Caching;
 using Volo.Abp.Caching.StackExchangeRedis;
 using Volo.Abp.Emailing;
 using Volo.Abp.EventBus.RabbitMq;
+using Volo.Abp.IdentityServer;
 using Volo.Abp.Modularity;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.UI.Navigation.Urls;
@@ -47,6 +50,40 @@ namespace EShopOnAbp.AuthServer
     )]
     public class EShopOnAbpAuthServerModule : AbpModule
     {
+        public override void PreConfigureServices(ServiceConfigurationContext context)
+        {
+            var hostingEnvironment = context.Services.GetHostingEnvironment();
+
+            if (!hostingEnvironment.IsDevelopment())
+            {
+                var configuration = context.Services.GetConfiguration();
+
+                PreConfigure<AbpIdentityServerBuilderOptions>(options =>
+                {
+                    options.AddDeveloperSigningCredential = false;
+                });
+
+                PreConfigure<IIdentityServerBuilder>(builder =>
+                {
+                    builder.AddSigningCredential(GetSigningCertificate(hostingEnvironment, configuration));
+                });
+            }
+        }
+        
+        private X509Certificate2 GetSigningCertificate(IWebHostEnvironment hostingEnv, IConfiguration configuration)
+        {
+            var fileName = "eshoponabp-authserver.pfx";
+            var passPhrase = "780F3C11-0A96-40DE-B335-9848BE88C77D";
+            var file = Path.Combine(hostingEnv.ContentRootPath, fileName);
+
+            if (!File.Exists(file))
+            {
+                throw new FileNotFoundException($"Signing Certificate couldn't found: {file}");
+            }
+
+            return new X509Certificate2(file, passPhrase);
+        }
+
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
             Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
