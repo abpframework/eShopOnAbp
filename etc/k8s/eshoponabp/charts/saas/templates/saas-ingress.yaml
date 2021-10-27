@@ -12,10 +12,10 @@ metadata:
 spec:
   tls:
   - hosts:
-      - {{ .Values.global.identityService.domain }}
+      - {{ .Values.global.saasService.domain }}
     secretName: {{ .Release.Name }}-{{ .Chart.Name }}-tls
   rules:
-  - host: "{{ .Values.global.identityService.domain }}"
+  - host: "{{ .Values.global.saasService.domain }}"
     http:
       paths:
       - path: /
