@@ -27,6 +27,7 @@ using Volo.Abp.Modularity;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.VirtualFileSystem;
+using Volo.Abp.Identity.Web;
 
 namespace EShopOnAbp.AuthServer
 {
@@ -37,6 +38,7 @@ namespace EShopOnAbp.AuthServer
         typeof(AbpAspNetCoreMvcUiBasicThemeModule),
         typeof(AbpAccountWebIdentityServerModule),
         typeof(AbpAccountApplicationModule),
+        typeof(AbpIdentityWebModule),
         typeof(EShopOnAbpSharedHostingAspNetCoreModule),
         typeof(EShopOnAbpSharedLocalizationModule),
         typeof(AdministrationServiceEntityFrameworkCoreModule),
