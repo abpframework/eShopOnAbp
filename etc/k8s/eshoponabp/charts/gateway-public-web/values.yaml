@@ -1,8 +1,8 @@
   env:
     - name: "App__SelfUrl"
-      value: "https://eshoponabp-public-webgateway"
+      value: "https://eshoponabp-gateway-public-web"
     - name: "GlobalConfiguration__BaseUrl"
-      value: "http://eshoponabp-public-webgateway"  
+      value: "http://eshoponabp-gateway-public-web"  
     - name: "Routes__0__DownstreamScheme"
       value: "http"  
     - name: "Routes__0__DownstreamHostAndPorts__0__Host"

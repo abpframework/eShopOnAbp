@@ -2,5 +2,5 @@
     - name: "App__SelfUrl"
       value: "https://eshoponabp-public-web"
     - name: "RemoteServices__Default__BaseUrl"
-      value: "http://eshoponabp-public-webgateway/"
+      value: "http://eshoponabp-gateway-public-web/"
     
