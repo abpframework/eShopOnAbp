@@ -1,0 +1,113 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-{{ .Chart.Name }}-configmap
+data:
+  appsettings.json: |-
+    {
+      "Routes": [
+      {
+      "ServiceKey": "Identity Service",
+      "DownstreamPathTemplate": "/api/identity/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "eshoponabp-identity",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/api/identity/{everything}",
+      "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ]
+    },
+    {
+      "ServiceKey": "Identity Service",
+      "DownstreamPathTemplate": "/api/account/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "eshoponabp-identity",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/api/account/{everything}",
+      "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ]
+    },
+    {
+      "ServiceKey": "Saas Service",
+      "DownstreamPathTemplate": "/api/saas/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "eshoponabp-saas",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/api/saas/{everything}",
+      "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ]
+    },
+    {
+      "ServiceKey": "Administration Service",
+      "DownstreamPathTemplate": "/api/abp/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "eshoponabp-administration",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/api/abp/{everything}",
+      "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ]
+    },
+    {
+      "ServiceKey": "Administration Service",
+      "DownstreamPathTemplate": "/api/feature-management/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "eshoponabp-administration",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/api/feature-management/{everything}",
+      "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ]
+    },
+    {
+      "ServiceKey": "Administration Service",
+      "DownstreamPathTemplate": "/api/permission-management/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "eshoponabp-administration",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/api/permission-management/{everything}",
+      "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ]
+    },
+    {
+      "ServiceKey": "Administration Service",
+      "DownstreamPathTemplate": "/api/setting-management/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "eshoponabp-administration",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/api/setting-management/{everything}",
+      "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ]
+    },
+    {
+      "ServiceKey": "Payment Service",
+      "DownstreamPathTemplate": "/api/payment/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "eshoponabp-payment",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/api/payment/{everything}",
+      "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ]
+    }]
+    }
