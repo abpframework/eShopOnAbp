@@ -113,10 +113,18 @@ global:
     url: https://eshoponabp-saas
     containerImage: "eshoponabp/service-saas"
     connString: "Server=eshoponabp-sqldb,1433;Database=EShopOnAbp_Saas;User Id=sa;password=myPassw@rd;MultipleActiveResultSets=true"
-  publicWebGateway:
-    domain:  eshoponabp-public-webgateway
-    url: https://eshoponabp-public-webgateway
+  gatewayWeb:
+    domain: eshoponabp-gateway-web
+    url: https://eshoponabp-gateway-web
+    containerImage: "eshoponabp/gateway-web"
+  gatewayPublicWeb:
+    domain: eshoponabp-gateway-public-web
+    url: https://eshoponabp-gateway-public-web
     containerImage: "eshoponabp/gateway-publicweb"
+  gatewayInternal:
+    domain: eshoponabp-gateway-internal
+    url: https://eshoponabp-gateway-internal
+    containerImage: "eshoponabp/gateway-internal"
   redisConfiguration: "eshoponabp-redis"
   rabbitMqHostName: "eshoponabp-rabbitmq"
   elasticSearchUrl: ""
