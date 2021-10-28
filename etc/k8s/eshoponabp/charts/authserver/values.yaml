@@ -1,8 +1,8 @@
   env:
     - name: "App__SelfUrl"
-      value: "https://eshoponabp-authserver"
+      value: "https://eshop-st-authserver"
     - name: "App__CorsOrigins"
-      value: "https://localhost:44371,https://localhost:44372,https://eshoponabp-public-webgateway"
+      value: "https://eshop-st-identity,https://eshop-st-administration,https://eshop-st-saas"
     - name: "App__RedirectAllowedUrls"
-      value: "http://localhost:4200,https://localhost:44307"
+      value: "http://localhost:4200"
     

@@ -1,10 +1,10 @@
   env:
     - name: "App__SelfUrl"
-      value: "https://eshoponabp-administration"
+      value: "https://eshop-st-administration"
     - name: "App__CorsOrigins"
-      value: "https://localhost:44371,https://localhost:44372,https://eshoponabp-public-webgateway"
+      value: "https://eshop-st-gateway-web,https://eshop-st-gateway-public-web,https://eshop-st-gateway-internal"
     - name: "RemoteServices__Default__BaseUrl"
-      value: "https://eshoponabp-gateway-internal/"  
+      value: "https://eshop-st-gateway-internal/"  
     - name: "IdentityClients__IdentityClients__Authority"
-      value: "https://eshoponabp-authserver" 
+      value: "https://eshop-st-authserver" 
     

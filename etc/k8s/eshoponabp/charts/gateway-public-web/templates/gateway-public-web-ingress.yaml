@@ -8,7 +8,7 @@ metadata:
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     nginx.ingress.kubernetes.io/proxy-buffer-size: "{{ .Values.global.nginxProxyBufferSize }}"
     nginx.ingress.kubernetes.io/proxy-buffers-number: "{{ .Values.global.nginxProxyBuffersNumber }}"
-{{- if eq .Release.Name "eh-az" }}
+{{- if eq .Release.Name "es-az" }}
     nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
 {{- end }}
     cert-manager.io/cluster-issuer: letsencrypt
@@ -16,12 +16,12 @@ spec:
   tls:
   - hosts:
       - {{ .Values.global.gatewayPublicWeb.domain }}
-{{- if eq .Release.Name "eh-az" }}
+{{- if eq .Release.Name "es-az" }}
       - {{ print "www." .Values.global.gatewayPublicWeb.domain }}
 {{- end }}
     secretName: {{ .Release.Name }}-{{ .Chart.Name }}-tls
   rules:
-{{- if eq .Release.Name "eh-az" }}
+{{- if eq .Release.Name "es-az" }}
   - host: "{{ print "www." .Values.global.gatewayPublicWeb.domain }}"
 {{- else }}
   - host: "{{ .Values.global.gatewayPublicWeb.domain }}"

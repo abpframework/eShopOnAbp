@@ -12,7 +12,7 @@ data:
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "eshoponabp-identity",
+          "Host": "eshop-st-identity",
           "Port": 80
         }
       ],
@@ -25,7 +25,7 @@ data:
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "eshoponabp-identity",
+          "Host": "eshop-st-identity",
           "Port": 80
         }
       ],
@@ -38,7 +38,7 @@ data:
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "eshoponabp-saas",
+          "Host": "eshop-st-saas",
           "Port": 80
         }
       ],
@@ -51,7 +51,7 @@ data:
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "eshoponabp-administration",
+          "Host": "eshop-st-administration",
           "Port": 80
         }
       ],
@@ -64,7 +64,7 @@ data:
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "eshoponabp-administration",
+          "Host": "eshop-st-administration",
           "Port": 80
         }
       ],
@@ -77,7 +77,7 @@ data:
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "eshoponabp-administration",
+          "Host": "eshop-st-administration",
           "Port": 80
         }
       ],
@@ -90,7 +90,7 @@ data:
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "eshoponabp-administration",
+          "Host": "eshop-st-administration",
           "Port": 80
         }
       ],
