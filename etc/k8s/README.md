@@ -18,12 +18,15 @@ helm install ingress-nginx ingress-nginx/ingress-nginx
 * Add entries to the hosts file (in Windows: `C:\Windows\System32\drivers\etc\hosts`):
 
 ````powershell
-127.0.0.1 eshoponabp-public-web
-127.0.0.1 eshoponabp-authserver
-127.0.0.1 eshoponabp-identity
-127.0.0.1 eshoponabp-administration
-127.0.0.1 eshoponabp-saas
-127.0.0.1 eshoponabp-public-webgateway
+127.0.0.1 eshop-st-web
+127.0.0.1 eshop-st-public-web
+127.0.0.1 eshop-st-authserver
+127.0.0.1 eshop-st-identity
+127.0.0.1 eshop-st-administration
+127.0.0.1 eshop-st-saas
+127.0.0.1 eshop-st-gateway-web
+127.0.0.1 eshop-st-gateway-public-web
+127.0.0.1 eshop-st-gateway-internal
 ````
 
 * Run `build-images.ps1` in the `scripts` directory.
