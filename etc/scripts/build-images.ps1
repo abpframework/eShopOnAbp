@@ -18,7 +18,8 @@ $saasServiceFolder = Join-Path $slnFolder "services/saas/src/EShopOnAbp.SaasServ
 Write-Host "*** BUILDING WEB (WWW) ****************" -ForegroundColor Green
 Set-Location $webAppFolder
 yarn
-ng build --prod
+# ng build --prod
+npm run build --configuration=prod
 docker build -t eshoponabp/app-web:$version .
 
 ### AUTH-SERVER
