@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.Http.Client.IdentityModel" Version="5.0.0-beta.1" />
+    <PackageReference Include="Volo.Abp.Http.Client.IdentityModel" Version="5.0.0-beta.2" />
     <ProjectReference Include="..\..\src\EShopOnAbp.BasketService.HttpApi.Client\EShopOnAbp.BasketService.HttpApi.Client.csproj" />
   </ItemGroup>
 
