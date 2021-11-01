@@ -90,6 +90,10 @@ global:
   dotnetEnvironment: "Staging"
   imagePullPolicy: Never
   eshoponabpImageVersion: latest
+  web: 
+    domain: eshop-st-web
+    url: https://eshop-st-web
+    containerImage: "eshoponabp/app-web"
   publicWeb: 
     domain: eshop-st-public-web
     url: https://eshop-st-public-web

@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-{{ .Chart.Name }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-{{ .Chart.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-{{ .Chart.Name }}
+    spec:
+      containers:
+      - image: {{ .Values.global.web.containerImage }}:{{ .Values.global.eshoponabpImageVersion }}
+        imagePullPolicy: {{ .Values.global.imagePullPolicy }}
+        name: {{ .Release.Name }}-{{ .Chart.Name }}
+        ports:
+        - name: http
+          containerPort: 80
+        - name: https
+          containerPort: 443
+        env:
+{{ include "eshoponabp.global.env" . | indent 8 }}
+       {{- if .Values.env }}
+{{ toYaml .Values.env | indent 8 }}
+          {{- end }}
