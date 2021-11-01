@@ -43,6 +43,7 @@ namespace EShopOnAbp.AuthServer
         typeof(AbpAspNetCoreMvcUiBasicThemeModule),
         typeof(AbpAccountWebIdentityServerModule),
         typeof(AbpAccountApplicationModule),
+        typeof(AbpIdentityHttpApiModule),
         typeof(EShopOnAbpSharedHostingAspNetCoreModule),
         typeof(EShopOnAbpSharedLocalizationModule),
         typeof(AdministrationServiceEntityFrameworkCoreModule),
