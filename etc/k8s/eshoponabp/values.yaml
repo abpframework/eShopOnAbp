@@ -102,17 +102,17 @@ global:
     domain: eshop-st-identity
     url: https://eshop-st-identity
     containerImage: "eshoponabp/service-identity"
-    connString: "Server=es-st-sqldb-sqldb,1433;Database=EShopOnAbp_Identity;User Id=sa;password=myPassw@rd;MultipleActiveResultSets=true"
+    connString: "Server=es-st-sqldb,1433;Database=EShopOnAbp_Identity;User Id=sa;password=myPassw@rd;MultipleActiveResultSets=true"
   administrationService:
     domain: eshop-st-administration
     url: https://eshop-st-administration
     containerImage: "eshoponabp/service-administration"
-    connString: "Server=es-st-sqldb-sqldb,1433;Database=EShopOnAbp_Administration;User Id=sa;password=myPassw@rd;MultipleActiveResultSets=true"
+    connString: "Server=es-st-sqldb,1433;Database=EShopOnAbp_Administration;User Id=sa;password=myPassw@rd;MultipleActiveResultSets=true"
   saasService:
     domain: eshop-st-saas
     url: https://eshop-st-saas
     containerImage: "eshoponabp/service-saas"
-    connString: "Server=es-st-sqldb-sqldb,1433;Database=EShopOnAbp_Saas;User Id=sa;password=myPassw@rd;MultipleActiveResultSets=true"
+    connString: "Server=es-st-sqldb,1433;Database=EShopOnAbp_Saas;User Id=sa;password=myPassw@rd;MultipleActiveResultSets=true"
   gatewayWeb:
     domain: eshop-st-gateway-web
     url: https://eshop-st-gateway-web
