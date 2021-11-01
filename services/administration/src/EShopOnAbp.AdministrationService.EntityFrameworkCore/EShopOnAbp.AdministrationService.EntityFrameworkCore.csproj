@@ -6,19 +6,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.0-rc.1.21452.10">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.0-rc.*">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\EShopOnAbp.AdministrationService.Domain\EShopOnAbp.AdministrationService.Domain.csproj" />
-    <PackageReference Include="Volo.Abp.EntityFrameworkCore.SqlServer" Version="5.0.0-beta.1" />
-    <PackageReference Include="Volo.Abp.PermissionManagement.EntityFrameworkCore" Version="5.0.0-beta.1" />
-    <PackageReference Include="Volo.Abp.SettingManagement.EntityFrameworkCore" Version="5.0.0-beta.1" />
-    <PackageReference Include="Volo.Abp.AuditLogging.EntityFrameworkCore" Version="5.0.0-beta.1" />
-    <PackageReference Include="Volo.Abp.FeatureManagement.EntityFrameworkCore" Version="5.0.0-beta.1" />
-    <PackageReference Include="Volo.Abp.BlobStoring.Database.EntityFrameworkCore" Version="5.0.0-beta.1" />
+    <PackageReference Include="Volo.Abp.EntityFrameworkCore.SqlServer" Version="5.0.0-beta.2" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.EntityFrameworkCore" Version="5.0.0-beta.2" />
+    <PackageReference Include="Volo.Abp.SettingManagement.EntityFrameworkCore" Version="5.0.0-beta.2" />
+    <PackageReference Include="Volo.Abp.AuditLogging.EntityFrameworkCore" Version="5.0.0-beta.2" />
+    <PackageReference Include="Volo.Abp.FeatureManagement.EntityFrameworkCore" Version="5.0.0-beta.2" />
+    <PackageReference Include="Volo.Abp.BlobStoring.Database.EntityFrameworkCore" Version="5.0.0-beta.2" />
   </ItemGroup>
 
 </Project>

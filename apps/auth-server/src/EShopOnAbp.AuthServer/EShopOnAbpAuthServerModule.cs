@@ -23,7 +23,6 @@ using Volo.Abp.Caching;
 using Volo.Abp.Caching.StackExchangeRedis;
 using Volo.Abp.Emailing;
 using Volo.Abp.EventBus.RabbitMq;
-using Volo.Abp.Identity;
 using Volo.Abp.Modularity;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.UI.Navigation.Urls;
@@ -38,7 +37,6 @@ namespace EShopOnAbp.AuthServer
         typeof(AbpAspNetCoreMvcUiBasicThemeModule),
         typeof(AbpAccountWebIdentityServerModule),
         typeof(AbpAccountApplicationModule),
-        typeof(AbpIdentityHttpApiModule),
         typeof(EShopOnAbpSharedHostingAspNetCoreModule),
         typeof(EShopOnAbpSharedLocalizationModule),
         typeof(AdministrationServiceEntityFrameworkCoreModule),
