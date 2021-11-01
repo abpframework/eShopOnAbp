@@ -5,7 +5,7 @@
     </PropertyGroup>
     
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="6.0.0-rc.1.21452.15" />
+        <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="6.0.0-rc.*" />
     </ItemGroup>
 
     <ItemGroup>
@@ -33,9 +33,12 @@
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
     </ItemGroup>
-    
+
     <ItemGroup>
-      <_ContentIncludedByDefault Remove="Pages\Products\Index.cshtml" />
+        <Compile Remove="Logs\**" />
+        <Content Remove="Logs\**" />
+        <EmbeddedResource Remove="Logs\**" />
+        <None Remove="Logs\**" />
     </ItemGroup>
 
 </Project>

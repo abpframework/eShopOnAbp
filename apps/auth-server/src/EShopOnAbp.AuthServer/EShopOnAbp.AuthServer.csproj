@@ -8,8 +8,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="6.0.0-rc.2.21480.10" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0-rc.2.21480.5" />
+        <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="6.0.0-rc.*" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0-rc.*" />
     </ItemGroup>
 
     <ItemGroup>
@@ -28,6 +28,13 @@
       <ProjectReference Include="..\..\..\..\services\administration\src\EShopOnAbp.AdministrationService.EntityFrameworkCore\EShopOnAbp.AdministrationService.EntityFrameworkCore.csproj" />
       <ProjectReference Include="..\..\..\..\services\identity\src\EShopOnAbp.IdentityService.EntityFrameworkCore\EShopOnAbp.IdentityService.EntityFrameworkCore.csproj" />
       <ProjectReference Include="..\..\..\..\services\saas\src\EShopOnAbp.SaasService.EntityFrameworkCore\EShopOnAbp.SaasService.EntityFrameworkCore.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Remove="Logs\**" />
+        <Content Remove="Logs\**" />
+        <EmbeddedResource Remove="Logs\**" />
+        <None Remove="Logs\**" />
     </ItemGroup>
 
 </Project>
