@@ -1,0 +1,6 @@
+  env:
+    - name: "App__SelfUrl"
+      value: "https://eshop-st-saas"
+    - name: "App__CorsOrigins"
+      value: "https://eshop-st-gateway-web,https://eshop-st-gateway-public-web,https://eshop-st-gateway-internal"
+      

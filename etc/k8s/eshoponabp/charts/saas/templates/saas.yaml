@@ -25,5 +25,8 @@ spec:
         - name: "ConnectionStrings__AdministrationService"
           value: {{ .Values.global.administrationService.connString }}
         - name: "ConnectionStrings__SaasService"
-          value: {{ .Values.global.saasService.connString }}  
+          value: {{ .Values.global.saasService.connString }}
+          {{- if .Values.env }}
+{{ toYaml .Values.env | indent 8 }}
+          {{- end }}
 
