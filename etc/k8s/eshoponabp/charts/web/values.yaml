@@ -1,2 +1,3 @@
-
-    
+      env:
+      - name: "BASE_URL"
+      value: "https://eshop-st-web"
