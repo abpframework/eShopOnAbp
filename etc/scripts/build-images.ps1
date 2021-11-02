@@ -19,7 +19,7 @@ Write-Host "*** BUILDING WEB (WWW) ****************" -ForegroundColor Green
 Set-Location $webAppFolder
 yarn
 # ng build --prod
-npm run build --configuration=prod
+npm run build:prod
 docker build -t eshoponabp/app-web:$version .
 
 ### AUTH-SERVER
