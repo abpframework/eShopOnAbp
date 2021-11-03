@@ -15,16 +15,16 @@ metadata:
 spec:
   tls:
   - hosts:
-      - {{ .Values.global.publicWebGateway.domain }}
+      - {{ .Values.global.web.domain }}
 {{- if eq .Release.Name "eh-az" }}
-      - {{ print "www." .Values.global.publicWebGateway.domain }}
+      - {{ print "www." .Values.global.web.domain }}
 {{- end }}
     secretName: {{ .Release.Name }}-{{ .Chart.Name }}-tls
   rules:
 {{- if eq .Release.Name "eh-az" }}
-  - host: "{{ print "www." .Values.global.publicWebGateway.domain }}"
+  - host: "{{ print "www." .Values.global.web.domain }}"
 {{- else }}
-  - host: "{{ .Values.global.publicWebGateway.domain }}"
+  - host: "{{ .Values.global.web.domain }}"
 {{- end }}
     http:
       paths:

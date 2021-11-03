@@ -215,10 +215,10 @@ namespace EShopOnAbp.IdentityService.DbMigrations
             };
 
             //Public Web Client
-            var publicWebClientRootUrl = _configuration["IdentityServerClients:EShopOnAbp_PublicWeb:RootUrl"]
+            var publicWebClientRootUrl = _configuration["IdentityServerClients:PublicWeb:RootUrl"]
                 .EnsureEndsWith('/');
             await CreateClientAsync(
-                name: "EShopOnAbp_PublicWeb",
+                name: "PublicWeb",
                 scopes: commonScopes.Union(new[]
                 {
                     "AdministrationService"
@@ -233,9 +233,9 @@ namespace EShopOnAbp.IdentityService.DbMigrations
 
             //Angular Client
             var angularClientRootUrl =
-                _configuration["IdentityServerClients:EShopOnAbp_Angular:RootUrl"].TrimEnd('/');
+                _configuration["IdentityServerClients:Web:RootUrl"].TrimEnd('/');
             await CreateClientAsync(
-                name: "EShopOnAbp_Angular",
+                name: "Web",
                 scopes: commonScopes.Union(new[]
                 {
                     "IdentityService",

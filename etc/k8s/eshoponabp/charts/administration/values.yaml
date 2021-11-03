@@ -1,0 +1,10 @@
+  env:
+    - name: "App__SelfUrl"
+      value: "https://eshop-st-administration"
+    - name: "App__CorsOrigins"
+      value: "https://eshop-st-gateway-web,https://eshop-st-gateway-public-web,https://eshop-st-gateway-internal"
+    - name: "RemoteServices__Default__BaseUrl"
+      value: "https://eshop-st-gateway-internal/"  
+    - name: "IdentityClients__IdentityClients__Authority"
+      value: "https://eshop-st-authserver" 
+    

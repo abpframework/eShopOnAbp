@@ -1,31 +1,19 @@
-{
-  "App": {
-    "SelfUrl": "https://localhost:44372",
-    "CorsOrigins": "http://localhost:4200"
-  },
-  "AuthServer": {
-    "Authority": "https://localhost:44330",
-    "RequireHttpsMetadata": "true",
-    "SwaggerClientId": "WebGateway_Swagger",
-    "SwaggerClientSecret": "1q2w3e*"
-  },
-  "Logging": {
-    "LogLevel": {
-      "Default": "Information",
-      "Microsoft": "Warning",
-      "Microsoft.Hosting.Lifetime": "Information"
-    }
-  },
-  "AllowedHosts": "*",
-  "Routes": [
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-{{ .Chart.Name }}-configmap
+data:
+  appsettings.json: |-
+    {
+      "Routes": [   
     {
       "ServiceKey": "Identity Service",
       "DownstreamPathTemplate": "/api/identity/{everything}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 44351
+          "Host": "eshop-st-identity",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/api/identity/{everything}",
@@ -34,11 +22,11 @@
     {
       "ServiceKey": "Identity Service",
       "DownstreamPathTemplate": "/api/account/{everything}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 44351
+          "Host": "eshop-st-identity",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/api/account/{everything}",
@@ -46,43 +34,38 @@
     },
     {
       "ServiceKey": "Saas Service",
-      "DownstreamPathTemplate": "/api/multi-tenancy/{everything}",
+      "DownstreamPathTemplate": "/api/saas/{everything}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 44352
+          "Host": "eshop-st-saas",
+          "Port": 80
         }
       ],
-      "UpstreamPathTemplate": "/api/multi-tenancy/{everything}",
+      "UpstreamPathTemplate": "/api/saas/{everything}",
       "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ]
     },
     {
       "ServiceKey": "Administration Service",
       "DownstreamPathTemplate": "/api/abp/{everything}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 44353
+          "Host": "eshop-st-administration",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/api/abp/{everything}",
-      "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ],
-      "QoSOptions": {
-        "ExceptionsAllowedBeforeBreaking": 3,
-        "DurationOfBreak": 5000,
-        "TimeoutValue": 2500
-      }
+      "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ]
     },
     {
       "ServiceKey": "Administration Service",
       "DownstreamPathTemplate": "/api/feature-management/{everything}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 44353
+          "Host": "eshop-st-administration",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/api/feature-management/{everything}",
@@ -91,11 +74,11 @@
     {
       "ServiceKey": "Administration Service",
       "DownstreamPathTemplate": "/api/permission-management/{everything}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 44353
+          "Host": "eshop-st-administration",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/api/permission-management/{everything}",
@@ -104,24 +87,14 @@
     {
       "ServiceKey": "Administration Service",
       "DownstreamPathTemplate": "/api/setting-management/{everything}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 44353
+          "Host": "eshop-st-administration",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/api/setting-management/{everything}",
       "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ]
+    }]
     }
-  ],
-  "GlobalConfiguration": {
-    "BaseUrl": "https://localhost:44372"
-  },
-  "Redis": {
-    "Configuration": "localhost:6379"
-  },
-  "ElasticSearch": {
-    "Url": "http://localhost:9200"
-  }
-}

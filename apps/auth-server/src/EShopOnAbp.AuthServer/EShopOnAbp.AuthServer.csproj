@@ -35,6 +35,10 @@
         <Content Remove="Logs\**" />
         <EmbeddedResource Remove="Logs\**" />
         <None Remove="Logs\**" />
+        <None Remove="eshoponabp-authserver.pfx" />
+        <Content Include="eshoponabp-authserver.pfx">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
 
 </Project>

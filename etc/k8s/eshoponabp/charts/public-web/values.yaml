@@ -1,0 +1,6 @@
+  env:
+    - name: "App__SelfUrl"
+      value: "https://eshop-st-public-web"
+    - name: "RemoteServices__Default__BaseUrl"
+      value: "http://eshop-st-gateway-public-web/"
+    

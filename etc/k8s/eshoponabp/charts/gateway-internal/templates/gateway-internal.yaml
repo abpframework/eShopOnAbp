@@ -12,7 +12,7 @@ spec:
         app: {{ .Release.Name }}-{{ .Chart.Name }}
     spec:
       containers:
-      - image: {{ .Values.global.saasService.containerImage }}:{{ .Values.global.eshoponabpImageVersion }}
+      - image: {{ .Values.global.gatewayInternal.containerImage }}:{{ .Values.global.eshoponabpImageVersion }}
         imagePullPolicy: {{ .Values.global.imagePullPolicy }}
         name: {{ .Release.Name }}-{{ .Chart.Name }}
         ports:
@@ -20,13 +20,15 @@ spec:
           containerPort: 80
         - name: https
           containerPort: 443
+        volumeMounts:
+        - name: config-volume
+          mountPath: /app/config      
         env:
 {{ include "eshoponabp.global.env" . | indent 8 }}
-        - name: "ConnectionStrings__AdministrationService"
-          value: {{ .Values.global.administrationService.connString }}
-        - name: "ConnectionStrings__SaasService"
-          value: {{ .Values.global.saasService.connString }}
-          {{- if .Values.env }}
+        {{- if .Values.env }}
 {{ toYaml .Values.env | indent 8 }}
           {{- end }}
-
+      volumes:
+      - name: config-volume
+        configMap:
+          name: {{ .Release.Name }}-{{ .Chart.Name }}-configmap

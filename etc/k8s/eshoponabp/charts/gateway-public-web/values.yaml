@@ -1,0 +1,18 @@
+  env:
+    - name: "App__SelfUrl"
+      value: "https://eshop-st-gateway-public-web"
+    - name: "GlobalConfiguration__BaseUrl"
+      value: "http://eshop-st-gateway-public-web"  
+    - name: "Routes__0__DownstreamScheme"
+      value: "http"  
+    - name: "Routes__0__DownstreamHostAndPorts__0__Host"
+      value: "eshop-st-identity"
+    - name: "Routes__0__DownstreamHostAndPorts__0__Port"
+      value: "80"
+    - name: "Routes__1__DownstreamScheme"
+      value: "http"    
+    - name: "Routes__1__DownstreamHostAndPorts__0__Host"
+      value: "eshop-st-administration"
+    - name: "Routes__1__DownstreamHostAndPorts__0__Port"
+      value: "80"
+    

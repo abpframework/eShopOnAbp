@@ -1,0 +1,8 @@
+  env:
+    - name: "App__SelfUrl"
+      value: "https://eshop-st-authserver"
+    - name: "App__CorsOrigins"
+      value: "https://eshop-st-identity,https://eshop-st-administration,https://eshop-st-saas"
+    - name: "App__RedirectAllowedUrls"
+      value: "http://localhost:4200"
+    
