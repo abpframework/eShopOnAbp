@@ -11,7 +11,7 @@ export const environment = {
   oAuthConfig: {
     issuer: 'https://localhost:44330',
     redirectUri: baseUrl,
-    clientId: 'EShopOnAbp_Angular',
+    clientId: 'Web',
     responseType: 'code',
     scope:
       'offline_access openid profile email phone IdentityService AdministrationService SaasService',
