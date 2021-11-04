@@ -1,6 +1,0 @@
-apiVersion: v2
-name: gateway-internal
-appVersion: "1.0"
-description: eShopOnAbp Internal Web Gateway Application
-version: 1.0.0
-type: application
