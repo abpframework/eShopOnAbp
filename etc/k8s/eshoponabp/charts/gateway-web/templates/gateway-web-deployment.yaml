@@ -22,10 +22,13 @@ spec:
           containerPort: 443
         volumeMounts:
         - name: config-volume
-          mountPath: /app/appsettings.json      
+          mountPath: /app/appsettings.json
+          subPath: appsettings.json
         env:
         - name: App__SelfUrl
           value: "{{ .Values.config.selfUrl }}"
+        - name: App__CorsOrigins
+          value: "{{ .Values.config.corsOrigins }}"  
         - name: GlobalConfiguration__BaseUrl
           value: "{{ .Values.config.globalConfigurationBaseUrl }}"
         - name: "DOTNET_ENVIRONMENT"

@@ -1,5 +1,6 @@
 config:
   selfUrl: # https://eshop-st-gateway-web
+  corsOrigins: # localhost:4200
   globalConfigurationBaseUrl: # http://eshop-st-gateway-web
   authServer:
     authority: http://eshop-st-authserver
