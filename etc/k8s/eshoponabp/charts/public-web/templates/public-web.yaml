@@ -21,6 +21,10 @@ spec:
         - name: https
           containerPort: 443
         env:
+        - name: App__SelfUrl
+          value: {{ .Values.config.selfUrl}} 
+        - name: RemoteServices__Default__BaseUrl
+          value: {{ .Values.config.gatewayUrl}}   
 {{ include "eshoponabp.global.env" . | indent 8 }}
        {{- if .Values.env }}
 {{ toYaml .Values.env | indent 8 }}
