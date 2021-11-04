@@ -9,11 +9,11 @@ data:
     {
       "ServiceKey": "Identity Service",
       "DownstreamPathTemplate": "/api/account/{everything}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "{{ .Values.reRoutes.identityService.schema }}",
       "DownstreamHostAndPorts": [
         {
-          "Host": "eshop-st-identity",
-          "Port": 80
+          "Host": "{{ .Values.reRoutes.identityService.host }}",
+          "Port": {{ .Values.reRoutes.identityService.port }}
         }
       ],
       "UpstreamPathTemplate": "/api/account/{everything}",
@@ -22,11 +22,11 @@ data:
     {
       "ServiceKey": "Administration Service",
       "DownstreamPathTemplate": "/api/abp/{everything}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "{{ .Values.reRoutes.administrationService.schema }}",
       "DownstreamHostAndPorts": [
         {
-          "Host": "eshop-st-administration",
-          "Port": 80
+          "Host": "{{ .Values.reRoutes.administrationService.host }}",
+          "Port": "{{ .Values.reRoutes.administrationService.port }}",
         }
       ],
       "UpstreamPathTemplate": "/api/abp/{everything}",
@@ -35,11 +35,11 @@ data:
     {
       "ServiceKey": "Catalog Service",
       "DownstreamPathTemplate": "/api/catalog/{everything}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "{{ .Values.reRoutes.catalogService.schema }}",
       "DownstreamHostAndPorts": [
         {
-          "Host": "eshop-st-catalog",
-          "Port": 80
+          "Host": "{{ .Values.reRoutes.catalogService.host }}",
+          "Port": "{{ .Values.reRoutes.catalogService.port }}",
         }
       ],
       "UpstreamPathTemplate": "/api/catalog/{everything}",
@@ -48,11 +48,11 @@ data:
     {
       "ServiceKey": "Basket Service",
       "DownstreamPathTemplate": "/api/basket/{everything}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "{{ .Values.reRoutes.basketService.schema }}",
       "DownstreamHostAndPorts": [
         {
-          "Host": "eshop-st-basket",
-          "Port": 80
+          "Host": "{{ .Values.reRoutes.basketService.host }}",
+          "Port": "{{ .Values.reRoutes.basketService.port }}",
         }
       ],
       "UpstreamPathTemplate": "/api/basket/{everything}",
@@ -61,11 +61,11 @@ data:
     {
       "ServiceKey": "Ordering Service",
       "DownstreamPathTemplate": "/api/ordering/{everything}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "{{ .Values.reRoutes.orderService.schema }}",
       "DownstreamHostAndPorts": [
         {
-          "Host": "eshop-st-ordering",
-          "Port": 80
+          "Host": "{{ .Values.reRoutes.orderService.host }}",
+          "Port": "{{ .Values.reRoutes.orderService.port }}",
         }
       ],
       "UpstreamPathTemplate": "/api/ordering/{everything}",

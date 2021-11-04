@@ -1,17 +1,39 @@
 config:
-  selfUrl: # https://eshop-st-gateway-public-web
-  globalConfigurationBaseUrl: # http://eshop-st-gateway-public-web
+  selfUrl: https://eshop-st-gateway-public-web
+  globalConfigurationBaseUrl: http://eshop-st-gateway-public-web
   authServer:
     authority: http://eshop-st-authserver
     requireHttpsMetadata: "false"  
-  dotnetEnv: # 
-  redisHost: #
-  rabbitmqHost: #
+  dotnetEnv: Staging 
+  redisHost: es-st-redis
+  rabbitmqHost: es-st-rabbitmq
   elasticsearchHost: #
   stringEncryptionDefaultPassPhrase: gsKnGZ041HLL4IM8
 
+reRoutes:
+  identityService:
+    schema: http
+    host: eshop-st-identity
+    port: 80
+  administrationService:
+    schema: http
+    host: eshop-st-administration
+    port: 80
+  catalogService:
+    schema: http
+    host: eshop-st-catalog
+    port: 80
+  basketService:
+    schema: http
+    host: eshop-st-basket
+    port: 80
+  orderService:
+    schema: http
+    host: eshop-st-order
+    port: 80     
+
 ingress:
-  host: # eshop-st-gateway-public-web
+  host: eshop-st-gateway-web-public
   tlsSecret: eshop-demo-tls
 
 image:
