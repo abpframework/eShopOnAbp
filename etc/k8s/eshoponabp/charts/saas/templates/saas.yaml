@@ -12,8 +12,8 @@ spec:
         app: {{ .Release.Name }}-{{ .Chart.Name }}
     spec:
       containers:
-      - image: {{ .Values.global.saasService.containerImage }}:{{ .Values.global.eshoponabpImageVersion }}
-        imagePullPolicy: {{ .Values.global.imagePullPolicy }}
+      - image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
         name: {{ .Release.Name }}-{{ .Chart.Name }}
         ports:
         - name: http
@@ -21,11 +21,28 @@ spec:
         - name: https
           containerPort: 443
         env:
-{{ include "eshoponabp.global.env" . | indent 8 }}
+        - name: App__SelfUrl
+          value: "{{ .Values.config.selfUrl }}"
+        - name: App__CorsOrigins
+          value: "{{ .Values.config.corsOrigins }}"
         - name: "ConnectionStrings__AdministrationService"
-          value: {{ .Values.global.administrationService.connString }}
+          value: {{ .Values.config.connectionStrings.administrationService }}  
         - name: "ConnectionStrings__SaasService"
-          value: {{ .Values.global.saasService.connString }}
+          value: {{ .Values.config.connectionStrings.saasService }}
+        - name: "DOTNET_ENVIRONMENT"
+          value: "{{ .Values.config.dotnetEnv }}"
+        - name: "Redis__Configuration"
+          value: "{{ .Values.config.redisHost }}"
+        - name: "RabbitMQ__Connections__Default__HostName"
+          value: "{{ .Values.config.rabbitmqHost }}"
+        - name: "ElasticSearch__Url"
+          value: "{{ .Values.config.elasticsearchHost }}"   
+        - name: "AuthServer__Authority"
+          value: "{{ .Values.config.authServer.authority }}"
+        - name: "AuthServer__RequireHttpsMetadata"
+          value: "{{ .Values.config.authServer.requireHttpsMetadata }}"
+        - name: "StringEncryption__DefaultPassPhrase"
+          value: "{{ .Values.config.stringEncryptionDefaultPassPhrase }}"    
           {{- if .Values.env }}
 {{ toYaml .Values.env | indent 8 }}
           {{- end }}
