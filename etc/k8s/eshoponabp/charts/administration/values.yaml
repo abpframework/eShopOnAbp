@@ -2,17 +2,24 @@ config:
   selfUrl: # https://eshop-st-administration
   gatewayUrl: # https://eshop-st-gateway-internal/
   corsOrigins: # https://eshop-st-gateway-web,https://eshop-st-gateway-public-web,https://eshop-st-gateway-internal
-  identityClientAuthority: # https://eshop-st-authserver
-  connString: # 
-  saasService:
-    connString: # 
-  dotnetEnv: # 
-  redisHost: #
-  rabbitmqHost: #
+  connectionStrings:
+    administrationService: #
+    saasService: #
+  authServer:
+    authority: http://eshop-st-authserver
+    requireHttpsMetadata: "false"
+  dotnetEnv: Staging
+  redisHost: es-st-redis
+  rabbitmqHost: es-st-rabbitmq
   elasticsearchHost: #
-  authServerAuthority: #
-  authServerRequireHttpsMetadata: #
-  stringEncryptionDefaultPassPhrase: #
+  stringEncryptionDefaultPassPhrase: gsKnGZ041HLL4IM8
+
+synchedCommunication:
+  grantType: # "client_credentials"
+  clientId: # 
+  clientSecret: #
+  authority: https://eshop-st-authserver
+  scope: # "IdentityService"
 
 ingress:
   host: # eshop-st-administration

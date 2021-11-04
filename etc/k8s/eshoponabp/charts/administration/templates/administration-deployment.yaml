@@ -27,27 +27,26 @@ spec:
           value: "{{ .Values.config.gatewayUrl }}"
         - name: App__CorsOrigins
           value: "{{ .Values.config.corsOrigins }}"
-        - name: IdentityClients__IdentityClients__Authority
-          value: "{{ .Values.config.identityClientAuthority }}"
+        - name: IdentityClients__Default__Authority
+          value: "{{ .Values.synchedCommunication.authority }}"
         - name: "ConnectionStrings__AdministrationService"
-          value: {{ .Values.config.connString }}
+          value: "{{ .Values.config.connectionStrings.administrationService }}" 
         - name: "ConnectionStrings__SaasService"
-          value: {{ .Values.config.saasService.connString }}  
+          value: "{{ .Values.config.connectionStrings.saasService }}"
         - name: "DOTNET_ENVIRONMENT"
           value: "{{ .Values.config.dotnetEnv }}"
         - name: "Redis__Configuration"
           value: "{{ .Values.config.redisHost }}"
         - name: "AuthServer__Authority"
-          value: "{{ .Values.config.authServerAuthority }}"
+          value: "{{ .Values.config.authServer.authority }}"
         - name: "AuthServer__RequireHttpsMetadata"
-          value: "{{ .Values.config.authServerRequireHttpsMetadata }}"
+          value: "{{ .Values.config.authServer.requireHttpsMetadata }}"
         - name: "StringEncryption__DefaultPassPhrase"
           value: "{{ .Values.config.stringEncryptionDefaultPassPhrase }}"
         - name: "RabbitMQ__Connections__Default__HostName"
           value: "{{ .Values.config.rabbitmqHost }}"
         - name: "ElasticSearch__Url"
           value: "{{ .Values.config.elasticsearchHost }}"
-
           {{- if .Values.env }}
 {{ toYaml .Values.env | indent 8 }}
           {{- end }}
