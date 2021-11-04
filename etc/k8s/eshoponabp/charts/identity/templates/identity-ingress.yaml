@@ -13,7 +13,7 @@ spec:
   tls:
   - hosts:
       - {{ .Values.global.identityService.domain }}
-    secretName: {{ .Release.Name }}-{{ .Chart.Name }}-tls
+    secretName: {{ .Values.global.tlsSecret }}
   rules:
   - host: "{{ .Values.global.identityService.domain }}"
     http:

@@ -22,7 +22,8 @@ spec:
           containerPort: 443
         volumeMounts:
         - name: config-volume
-          mountPath: /app/config      
+          mountPath: /app/appsettings.json
+          subPath: appsettings.json
         env:
 {{ include "eshoponabp.global.env" . | indent 8 }}
         {{- if .Values.env }}

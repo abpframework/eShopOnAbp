@@ -19,7 +19,7 @@ spec:
 {{- if eq .Release.Name "eh-az" }}
       - {{ print "www." .Values.global.publicWeb.domain }}
 {{- end }}
-    secretName: {{ .Release.Name }}-{{ .Chart.Name }}-tls
+    secretName: {{ .Values.global.tlsSecret }}
   rules:
 {{- if eq .Release.Name "eh-az" }}
   - host: "{{ print "www." .Values.global.publicWeb.domain }}"
