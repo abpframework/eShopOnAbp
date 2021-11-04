@@ -1,0 +1,23 @@
+config:
+  selfUrl: # https://eshop-st-gateway-public-web
+  globalConfigurationBaseUrl: # http://eshop-st-gateway-public-web
+  authServer:
+    authority: http://eshop-st-authserver
+    requireHttpsMetadata: "false"  
+  dotnetEnv: # 
+  redisHost: #
+  rabbitmqHost: #
+  elasticsearchHost: #
+  stringEncryptionDefaultPassPhrase: gsKnGZ041HLL4IM8
+
+ingress:
+  host: # eshop-st-gateway-public-web
+  tlsSecret: eshop-demo-tls
+
+image:
+  repository: eshoponabp/gateway-web-public
+  tag: latest
+  pullPolicy: IfNotPresent
+
+env: {}
+    
