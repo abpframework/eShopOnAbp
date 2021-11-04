@@ -108,6 +108,17 @@ authserver:
     repository: "eshoponabp/app-authserver"
     tag: latest
 
+# web sub-chart override
+web:
+  config:
+    selfUrl: https://eshop-st-web
+    gatewayUrl: "https://eshop-st-gateway-web/"
+  ingress:
+    host: eshop-st-web
+  image:
+    repository: "eshoponabp/app-web"
+    tag: latest
+
 # public-web sub-chart override
 public-web:
   config:

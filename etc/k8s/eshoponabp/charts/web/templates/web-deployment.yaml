@@ -12,8 +12,8 @@ spec:
         app: {{ .Release.Name }}-{{ .Chart.Name }}
     spec:
       containers:
-      - image: {{ .Values.global.web.containerImage }}:{{ .Values.global.eshoponabpImageVersion }}
-        imagePullPolicy: {{ .Values.global.imagePullPolicy }}
+      - image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
         name: {{ .Release.Name }}-{{ .Chart.Name }}
         ports:
         - name: http
@@ -21,7 +21,10 @@ spec:
         - name: https
           containerPort: 443
         env:
-{{ include "eshoponabp.global.env" . | indent 8 }}
-       {{- if .Values.env }}
+        - name: BASE_URL
+          value: {{ .Values.config.selfUrl}} 
+        - name: API_URL
+          value: {{ .Values.config.gatewayUrl}}        
+          {{- if .Values.env }}
 {{ toYaml .Values.env | indent 8 }}
           {{- end }}
