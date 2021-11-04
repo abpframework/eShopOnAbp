@@ -28,21 +28,15 @@ spec:
         - name: App__RedirectAllowedUrls
           value: "{{ .Values.config.allowedRedirectUrls }}"
         - name: "ConnectionStrings__IdentityService"
-          value: {{ .Values.config.identityService.connString }}
-        - name: "ConnectionStrings__SaasService"
-          value: {{ .Values.config.saasService.connString }}   
+          value: "{{ .Values.config.identityService.connString }}"
         - name: "ConnectionStrings__AdministrationService"
-          value: {{ .Values.config.administrationService.connString }}
+          value: "{{ .Values.config.administrationService.connString }}"
         - name: "ConnectionStrings__SaasService"
-          value: {{ .Values.config.saasService.connString }}  
+          value: "{{ .Values.config.saasService.connString }}"
         - name: "DOTNET_ENVIRONMENT"
           value: "{{ .Values.config.dotnetEnv }}"
         - name: "Redis__Configuration"
           value: "{{ .Values.config.redisHost }}"
-        - name: "AuthServer__Authority"
-          value: "{{ .Values.config.authServerAuthority }}"
-        - name: "AuthServer__RequireHttpsMetadata"
-          value: "{{ .Values.config.authServerRequireHttpsMetadata }}"
         - name: "StringEncryption__DefaultPassPhrase"
           value: "{{ .Values.config.stringEncryptionDefaultPassPhrase }}"
         - name: "RabbitMQ__Connections__Default__HostName"

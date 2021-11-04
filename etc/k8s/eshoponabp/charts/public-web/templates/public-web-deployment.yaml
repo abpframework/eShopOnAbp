@@ -28,7 +28,7 @@ spec:
         - name: "AuthServer__Authority"
           value: {{ .Values.config.authServer.authority }}
         - name: "AuthServer__RequireHttpsMetadata"
-          value: {{ .Values.config.authServer.requireHttpsMetadata }}
+          value: "{{ .Values.config.authServer.requireHttpsMetadata }}"
         - name: "DOTNET_ENVIRONMENT"
           value: {{ .Values.config.dotnetEnv }}
         - name: "Redis__Configuration"
