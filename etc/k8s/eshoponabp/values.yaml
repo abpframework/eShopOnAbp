@@ -108,6 +108,24 @@ authserver:
     repository: "eshoponabp/app-authserver"
     tag: latest
 
+# public-web sub-chart override
+public-web:
+  config:
+    selfUrl: https://eshop-st-public-web
+    gatewayUrl: "http://eshop-st-gateway-web-public/"
+    authServer:
+      authority: http://eshop-st-AUTHSERVER
+      requireHttpsMetadata: "false"
+    dotnetEnv: Staging
+    redisHost: es-st-redis
+    rabbitmqHost: es-st-rabbitmq
+    elasticsearchHost: es-st-elasticsearch
+  ingress:
+    host: eshop-st-public-web
+  image:
+    repository: "eshoponabp/app-publicweb"
+    tag: latest
+
 # identity-service sub-chart override
 identity:
   config:
