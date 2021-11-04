@@ -60,20 +60,3 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
-
-{{- define "eshoponabp.global.env" -}}
-- name: "DOTNET_ENVIRONMENT"
-  value: "{{ .Values.global.dotnetEnvironment }}"
-- name: "Redis__Configuration"
-  value: "{{ .Values.global.redisConfiguration }}"
-- name: "AuthServer__Authority"
-  value: "{{ .Values.global.internalAuthServerAuthority }}"
-- name: "AuthServer__RequireHttpsMetadata"
-  value: "{{ .Values.global.internalAuthServerRequireHttpsMetadata }}"
-- name: "StringEncryption__DefaultPassPhrase"
-  value: "{{ .Values.global.stringEncryptionDefaultPassPhrase }}"
-- name: "RabbitMQ__Connections__Default__HostName"
-  value: "{{ .Values.global.rabbitMqHostName }}"
-- name: "ElasticSearch__Url"
-  value: "{{ .Values.global.elasticSearchUrl }}"  
-{{- end }}
