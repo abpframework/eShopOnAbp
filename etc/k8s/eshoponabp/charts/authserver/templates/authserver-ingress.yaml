@@ -15,7 +15,7 @@ spec:
   tls:
   - hosts:
       - {{ .Values.global.authServer.domain }}
-    secretName: {{ .Release.Name }}-{{ .Chart.Name }}-tls
+    secretName: {{ .Values.global.tlsSecret }}
   rules:
   - host: "{{ .Values.global.authServer.domain }}"
     http:
