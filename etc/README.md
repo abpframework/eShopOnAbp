@@ -26,7 +26,6 @@ helm install ingress-nginx ingress-nginx/ingress-nginx
 127.0.0.1 eshop-st-saas
 127.0.0.1 eshop-st-gateway-web
 127.0.0.1 eshop-st-gateway-web-public
-127.0.0.1 eshop-st-gateway-internal
 ````
 
 * Run `build-images.ps1` in the `scripts` directory.
