@@ -9,11 +9,11 @@ data:
     {
       "ServiceKey": "Identity Service",
       "DownstreamPathTemplate": "/api/identity/{everything}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "{{ .Values.reRoutes.identityService.schema }}",
       "DownstreamHostAndPorts": [
         {
-          "Host": "eshop-st-identity",
-          "Port": 80
+          "Host": "{{ .Values.reRoutes.identityService.host }}",
+          "Port": {{ .Values.reRoutes.identityService.port }}
         }
       ],
       "UpstreamPathTemplate": "/api/identity/{everything}",
@@ -22,11 +22,11 @@ data:
     {
       "ServiceKey": "Identity Service",
       "DownstreamPathTemplate": "/api/account/{everything}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "{{ .Values.reRoutes.identityService.schema }}",
       "DownstreamHostAndPorts": [
         {
-          "Host": "eshop-st-identity",
-          "Port": 80
+          "Host": "{{ .Values.reRoutes.identityService.host }}",
+          "Port": {{ .Values.reRoutes.identityService.port }}
         }
       ],
       "UpstreamPathTemplate": "/api/account/{everything}",
@@ -35,11 +35,11 @@ data:
     {
       "ServiceKey": "Saas Service",
       "DownstreamPathTemplate": "/api/saas/{everything}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "{{ .Values.reRoutes.saasService.schema }}",
       "DownstreamHostAndPorts": [
         {
-          "Host": "eshop-st-saas",
-          "Port": 80
+          "Host": "{{ .Values.reRoutes.saasService.host }}",
+          "Port": {{ .Values.reRoutes.saasService.port }}
         }
       ],
       "UpstreamPathTemplate": "/api/saas/{everything}",
@@ -48,11 +48,11 @@ data:
     {
       "ServiceKey": "Administration Service",
       "DownstreamPathTemplate": "/api/abp/{everything}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "{{ .Values.reRoutes.administrationService.schema }}",
       "DownstreamHostAndPorts": [
         {
-          "Host": "eshop-st-administration",
-          "Port": 80
+          "Host": "{{ .Values.reRoutes.administrationService.host }}",
+          "Port": "{{ .Values.reRoutes.administrationService.port }}",
         }
       ],
       "UpstreamPathTemplate": "/api/abp/{everything}",
@@ -61,11 +61,11 @@ data:
     {
       "ServiceKey": "Administration Service",
       "DownstreamPathTemplate": "/api/feature-management/{everything}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "{{ .Values.reRoutes.administrationService.schema }}",
       "DownstreamHostAndPorts": [
         {
-          "Host": "eshop-st-administration",
-          "Port": 80
+          "Host": "{{ .Values.reRoutes.administrationService.host }}",
+          "Port": "{{ .Values.reRoutes.administrationService.port }}",
         }
       ],
       "UpstreamPathTemplate": "/api/feature-management/{everything}",
@@ -74,11 +74,11 @@ data:
     {
       "ServiceKey": "Administration Service",
       "DownstreamPathTemplate": "/api/permission-management/{everything}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "{{ .Values.reRoutes.administrationService.schema }}",
       "DownstreamHostAndPorts": [
         {
-          "Host": "eshop-st-administration",
-          "Port": 80
+          "Host": "{{ .Values.reRoutes.administrationService.host }}",
+          "Port": "{{ .Values.reRoutes.administrationService.port }}",
         }
       ],
       "UpstreamPathTemplate": "/api/permission-management/{everything}",
@@ -87,11 +87,11 @@ data:
     {
       "ServiceKey": "Administration Service",
       "DownstreamPathTemplate": "/api/setting-management/{everything}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "{{ .Values.reRoutes.administrationService.schema }}",
       "DownstreamHostAndPorts": [
         {
-          "Host": "eshop-st-administration",
-          "Port": 80
+          "Host": "{{ .Values.reRoutes.administrationService.host }}",
+          "Port": "{{ .Values.reRoutes.administrationService.port }}",
         }
       ],
       "UpstreamPathTemplate": "/api/setting-management/{everything}",

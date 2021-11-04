@@ -1,37 +1,34 @@
-  env:
-    - name: "App__SelfUrl"
-      value: "https://eshop-st-gateway-web"
-    - name: "App__CorsOrigins"
-      value: "https://eshop-st-web"  
-    - name: "GlobalConfiguration__BaseUrl"
-      value: "http://eshop-st-gateway-web"  
-    - name: "Routes__0__DownstreamScheme"
-      value: "http"
-    - name: "Routes__0__DownstreamHostAndPorts__0__Host"
-      value: "eshop-st-identity"
-    - name: "Routes__0__DownstreamHostAndPorts__0__Port"
-      value: "80"
-    - name: "Routes__1__DownstreamScheme"
-      value: "http"
-    - name: "Routes__1__DownstreamHostAndPorts__0__Host"
-      value: "eshop-st-identity"
-    - name: "Routes__1__DownstreamHostAndPorts__0__Port"
-      value: "80"
-    - name: "Routes__2__DownstreamScheme"
-      value: "http"
-    - name: "Routes__2__DownstreamHostAndPorts__0__Host"
-      value: "eshop-st-saas"
-    - name: "Routes__2__DownstreamHostAndPorts__0__Port"
-      value: "80"
-    - name: "Routes__3__DownstreamScheme"
-      value: "http"
-    - name: "Routes__3__DownstreamHostAndPorts__0__Host"
-      value: "eshop-st-administration"
-    - name: "Routes__3__DownstreamHostAndPorts__0__Port"
-      value: "80"
-    - name: "Routes__4__DownstreamScheme"
-      value: "http"
-    - name: "Routes__4__DownstreamHostAndPorts__0__Host"
-      value: "eshop-st-administration"
-    - name: "Routes__4__DownstreamHostAndPorts__0__Port"
-      value: "80"
+config:
+  selfUrl: # https://eshop-st-gateway-web
+  globalConfigurationBaseUrl: # http://eshop-st-gateway-web
+  authServer:
+    authority: http://eshop-st-authserver
+    requireHttpsMetadata: "false"  
+  dotnetEnv: # 
+  redisHost: #
+  rabbitmqHost: #
+  elasticsearchHost: #
+  stringEncryptionDefaultPassPhrase: gsKnGZ041HLL4IM8
+reRoutes:
+  identityService:
+    schema: http
+    host: eshop-st-identity
+    port: 80
+  administrationService:
+    schema: http
+    host: eshop-st-administration
+    port: 80
+  saasService:
+    schema: # http
+    host: # eshop-st-saas
+    port: # 80
+ingress:
+  host: # eshop-st-gateway-web
+  tlsSecret: eshop-demo-tls
+
+image:
+  repository: eshoponabp/gateway-web
+  tag: latest
+  pullPolicy: IfNotPresent
+
+env: {}

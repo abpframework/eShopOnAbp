@@ -162,13 +162,44 @@ administration:
     repository: "eshoponabp/service-administration"
     tag: latest
 
+# gateway-web sub-chart override
+gateway-web:
+  config:
+    selfUrl: https://eshop-st-gateway-web
+    globalConfigurationBaseUrl: http://eshop-st-gateway-public
+    authServer:
+      authority: http://eshop-st-authserver
+      requireHttpsMetadata: "false"
+    dotnetEnv: Staging
+    redisHost: es-st-redis
+    rabbitmqHost: es-st-rabbitmq
+    elasticsearchHost: es-st-elasticsearch
+    stringEncryptionDefaultPassPhrase: gsKnGZ041HLL4IM8
+  ingress:
+    host: eshop-st-gateway-web
+  image:
+    repository: "eshoponabp/gateway-web"
+    tag: latest
+  reRoutes:
+    identityService:
+      schema: http
+      host: eshop-st-identity
+      port: 80
+    administrationService:
+      schema: http
+      host: eshop-st-administration
+      port: 80
+    saasService:
+      schema: http
+      host: eshop-st-saas
+      port: 80
 # gateway-web-public sub-chart override
 gateway-web-public:
   config:
     selfUrl: https://eshop-st-gateway-web-public
     globalConfigurationBaseUrl: http://eshop-st-gateway-public-web
     authServer:
-      authority: http://eshop-st-authserver
+      authority: http://eshop-st-AUTHSERVER
       requireHttpsMetadata: "false"
     dotnetEnv: Staging
     redisHost: es-st-redis
