@@ -25,10 +25,12 @@ spec:
           value: "{{ .Values.config.selfUrl }}"
         - name: App__CorsOrigins
           value: "{{ .Values.config.corsOrigins }}"
+        - name: "ConnectionStrings__IdentityService"
+          value: {{ .Values.config.connectionStrings.identityService }}
         - name: "ConnectionStrings__AdministrationService"
           value: {{ .Values.config.connectionStrings.administrationService }}  
         - name: "ConnectionStrings__SaasService"
-          value: {{ .Values.config.connectionStrings.saasService }}
+          value: {{ .Values.config.connectionStrings.saasService }}  
         - name: "DOTNET_ENVIRONMENT"
           value: "{{ .Values.config.dotnetEnv }}"
         - name: "Redis__Configuration"
@@ -42,7 +44,23 @@ spec:
         - name: "AuthServer__RequireHttpsMetadata"
           value: "{{ .Values.config.authServer.requireHttpsMetadata }}"
         - name: "StringEncryption__DefaultPassPhrase"
-          value: "{{ .Values.config.stringEncryptionDefaultPassPhrase }}"    
+          value: "{{ .Values.config.stringEncryptionDefaultPassPhrase }}"             
+        - name: "IdentityServerClients__Web__RootUrl"
+          value: {{ .Values.identityServerClients.webRootUrl }}
+        - name: "IdentityServerClients__PublicWeb__RootUrl"
+          value: {{ .Values.identityServerClients.publicWebRootUrl }}
+        - name: "IdentityServerClients__IdentityService__RootUrl"
+          value: {{ .Values.identityServerClients.identityServiceRootUrl }}
+        - name: "IdentityServerClients__SaasService__RootUrl"
+          value: {{ .Values.identityServerClients.saasServiceRootUrl }}
+        - name: "IdentityServerClients__AdministrationService__RootUrl"
+          value: {{ .Values.identityServerClients.administrationServiceRootUrl }}
+        - name: "IdentityServerClients__InternalGateway__RootUrl"
+          value: {{ .Values.identityServerClients.webRootUrl }}
+        - name: "IdentityServerClients__PublicWebGateway__RootUrl"
+          value: {{ .Values.identityServerClients.publicWebRootUrl }}
+        - name: "IdentityServerClients__WebGateway__RootUrl"
+          value: {{ .Values.identityServerClients.webGatewayRootUrl }}
           {{- if .Values.env }}
 {{ toYaml .Values.env | indent 8 }}
           {{- end }}

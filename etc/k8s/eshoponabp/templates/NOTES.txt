@@ -1,5 +1,10 @@
-1. Get the application URL by running these commands:
-{{- if .Values.ingress.enabled }}
+1. Web (Back Office) angular application URL:{{- if .Values.web.config.selfUrl }} {{ .Values.web.config.selfUrl }} {{- end }}
+2. Public Web mvc application URL:{{- if index .Values "public-web" "config" "selfUrl" }} {{ index .Values "public-web" "config" "selfUrl" }} {{- end }}
+3. Authentication Server URL:{{- if .Values.authserver.config.selfUrl }} {{ .Values.authserver.config.selfUrl }}
+
+For RabbitMq Administration use:
+"kubectl port-forward services/{{ .Release.Name }}-rabbitmq 15672:15672 -n {{ .Release.Namespace }}"
+{{- else if .Values.ingress.enabled }}
 {{- range $host := .Values.ingress.hosts }}
   {{- range .paths }}
   http{{ if $.Values.ingress.tls }}s{{ end }}://{{ $host.host }}{{ .path }}
