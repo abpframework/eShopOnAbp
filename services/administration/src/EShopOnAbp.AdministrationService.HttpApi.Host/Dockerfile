@@ -39,7 +39,7 @@ COPY "NuGet.Config" "NuGet.Config"
 RUN dotnet restore "EShopOnAbp.sln"
 COPY . .
 
-WORKDIR "/src/services/saas/src/EShopOnAbp.SaasService.HttpApi.Host"
+WORKDIR "/src/services/administration/src/EShopOnAbp.AdministrationService.HttpApi.Host"
 RUN dotnet publish -c Release -o /app 
 # Should be used after .net6 is out of preview for better performance
 # RUN dotnet publish --no-restore -c Release -o /app 
@@ -49,4 +49,4 @@ FROM build AS publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
-ENTRYPOINT ["dotnet", "EShopOnAbp.SaasService.HttpApi.Host.dll"]
+ENTRYPOINT ["dotnet", "EShopOnAbp.AdministrationService.HttpApi.Host.dll"]
