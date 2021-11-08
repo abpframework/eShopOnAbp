@@ -8,7 +8,6 @@ $publicWebFolder = Join-Path $slnFolder "apps/public-web/src/EShopOnAbp.PublicWe
 
 $webGatewayFolder = Join-Path $slnFolder "gateways/web/src/EShopOnAbp.WebGateway"
 $webPublicGatewayFolder = Join-Path $slnFolder "gateways/web-public/src/EShopOnAbp.WebPublicGateway"
-$internalGatewayFolder = Join-Path $slnFolder "gateways/internal/src/EShopOnAbp.InternalGateway"
 
 $identityServiceFolder = Join-Path $slnFolder "services/identity/src/EShopOnAbp.IdentityService.HttpApi.Host"
 $administrationServiceFolder = Join-Path $slnFolder "services/administration/src/EShopOnAbp.AdministrationService.HttpApi.Host"
