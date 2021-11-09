@@ -10,7 +10,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="6.0.0-rc.1.21452.15" />
     <ProjectReference Include="..\..\src\EShopOnAbp.SaasService.EntityFrameworkCore\EShopOnAbp.SaasService.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\EShopOnAbp.SaasService.TestBase\EShopOnAbp.SaasService.TestBase.csproj" />
-    <PackageReference Include="Volo.Abp.EntityFrameworkCore.Sqlite" Version="5.0.0-beta.2" />
+    <PackageReference Include="Volo.Abp.EntityFrameworkCore.Sqlite" Version="5.0.0-beta.3" />
   </ItemGroup>
 
 </Project>
