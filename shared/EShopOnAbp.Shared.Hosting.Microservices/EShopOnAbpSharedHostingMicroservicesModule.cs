@@ -1,5 +1,4 @@
 ﻿using EShopOnAbp.AdministrationService.EntityFrameworkCore;
-using EShopOnAbp.SaasService.EntityFrameworkCore;
 using EShopOnAbp.Shared.Hosting.AspNetCore;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,7 +19,6 @@ namespace EShopOnAbp.Shared.Hosting.Microservices
         typeof(AbpAspNetCoreMultiTenancyModule),
         typeof(AbpEventBusRabbitMqModule),
         typeof(AbpCachingStackExchangeRedisModule),
-        typeof(SaasServiceEntityFrameworkCoreModule),
         typeof(AdministrationServiceEntityFrameworkCoreModule)
     )]
     public class EShopOnAbpSharedHostingMicroservicesModule : AbpModule

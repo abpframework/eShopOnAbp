@@ -1,14 +1,10 @@
 ﻿using EShopOnAbp.OrderingService.EntityFrameworkCore;
 using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Data;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.MultiTenancy;
-using Volo.Abp.TenantManagement;
 using Volo.Abp.Uow;
 
 namespace EShopOnAbp.OrderingService.DbMigrations
@@ -21,13 +17,11 @@ namespace EShopOnAbp.OrderingService.DbMigrations
             ICurrentTenant currentTenant,
             IUnitOfWorkManager unitOfWorkManager,
             ITenantStore tenantStore,
-            ITenantRepository tenantRepository,
             IDistributedEventBus distributedEventBus) 
             : base(
                 currentTenant,
                 unitOfWorkManager,
                 tenantStore,
-                tenantRepository,
                 distributedEventBus,
                 OrderingServiceDbProperties.ConnectionStringName)
         {

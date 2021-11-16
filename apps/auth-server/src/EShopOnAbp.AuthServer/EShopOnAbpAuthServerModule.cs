@@ -1,6 +1,5 @@
 ﻿using EShopOnAbp.AdministrationService.EntityFrameworkCore;
 using EShopOnAbp.IdentityService.EntityFrameworkCore;
-using EShopOnAbp.SaasService.EntityFrameworkCore;
 using EShopOnAbp.Shared.Hosting.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors;
@@ -46,8 +45,7 @@ namespace EShopOnAbp.AuthServer
         typeof(EShopOnAbpSharedHostingAspNetCoreModule),
         typeof(EShopOnAbpSharedLocalizationModule),
         typeof(AdministrationServiceEntityFrameworkCoreModule),
-        typeof(IdentityServiceEntityFrameworkCoreModule),
-        typeof(SaasServiceEntityFrameworkCoreModule)
+        typeof(IdentityServiceEntityFrameworkCoreModule)
     )]
     public class EShopOnAbpAuthServerModule : AbpModule
     {
@@ -191,7 +189,6 @@ namespace EShopOnAbp.AuthServer
             app.UseCors();
             // app.UseHttpMetrics();
             app.UseAuthentication();
-            app.UseMultiTenancy();
             app.UseAbpSerilogEnrichers();
             app.UseUnitOfWork();
             app.UseIdentityServer();
