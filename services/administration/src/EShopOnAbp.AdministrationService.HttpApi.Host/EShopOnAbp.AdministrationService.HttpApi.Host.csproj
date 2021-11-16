@@ -27,7 +27,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\shared\EShopOnAbp.Shared.Hosting.Microservices\EShopOnAbp.Shared.Hosting.Microservices.csproj" />
-    <ProjectReference Include="..\..\..\saas\src\EShopOnAbp.SaasService.Application.Contracts\EShopOnAbp.SaasService.Application.Contracts.csproj" />
   </ItemGroup>
 
   <ItemGroup>
