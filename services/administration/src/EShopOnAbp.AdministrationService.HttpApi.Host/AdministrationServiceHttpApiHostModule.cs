@@ -85,7 +85,6 @@ namespace EShopOnAbp.AdministrationService
             //app.UseHttpMetrics();
             app.UseAuthentication();
             app.UseAbpClaimsMap();
-            app.UseMultiTenancy();
             app.UseAuthorization();
             app.UseSwagger();
             app.UseSwaggerUI(options =>

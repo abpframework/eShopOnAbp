@@ -189,7 +189,6 @@ namespace EShopOnAbp.AuthServer
             app.UseCors();
             // app.UseHttpMetrics();
             app.UseAuthentication();
-            app.UseMultiTenancy();
             app.UseAbpSerilogEnrichers();
             app.UseUnitOfWork();
             app.UseIdentityServer();

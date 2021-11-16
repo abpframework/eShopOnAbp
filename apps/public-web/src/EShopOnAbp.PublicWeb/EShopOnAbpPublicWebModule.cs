@@ -147,7 +147,6 @@ namespace EShopOnAbp.PublicWeb
             app.UseRouting();
             // app.UseHttpMetrics();
             app.UseAuthentication();
-            app.UseMultiTenancy();
             app.UseAbpSerilogEnrichers();
             app.UseAuthorization();
             app.UseConfiguredEndpoints(endpoints =>
