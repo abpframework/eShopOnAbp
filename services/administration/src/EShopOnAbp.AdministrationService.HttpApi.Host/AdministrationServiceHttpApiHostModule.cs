@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using EShopOnAbp.AdministrationService.DbMigrations;
 using EShopOnAbp.AdministrationService.EntityFrameworkCore;
-using EShopOnAbp.SaasService;
 using EShopOnAbp.Shared.Hosting.AspNetCore;
 using EShopOnAbp.Shared.Hosting.Microservices;
 using Microsoft.AspNetCore.Builder;
@@ -12,7 +11,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Volo.Abp;
 using Volo.Abp.Account;
-using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.UI.MultiTenancy;
 using Volo.Abp.Http.Client.IdentityModel.Web;
 using Volo.Abp.Identity;
@@ -29,7 +27,6 @@ namespace EShopOnAbp.AdministrationService
         typeof(AbpAccountApplicationContractsModule),
         typeof(AbpHttpClientIdentityModelWebModule),
         typeof(AbpAspNetCoreMvcUiMultiTenancyModule),
-        typeof(SaasServiceApplicationContractsModule),
         typeof(AbpIdentityHttpApiClientModule)
     )]
     public class AdministrationServiceHttpApiHostModule : AbpModule
@@ -88,7 +85,6 @@ namespace EShopOnAbp.AdministrationService
             //app.UseHttpMetrics();
             app.UseAuthentication();
             app.UseAbpClaimsMap();
-            app.UseMultiTenancy();
             app.UseAuthorization();
             app.UseSwagger();
             app.UseSwaggerUI(options =>

@@ -14,7 +14,6 @@ using Volo.Abp.Domain.Entities.Events.Distributed;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.MultiTenancy;
-using Volo.Abp.TenantManagement;
 using Volo.Abp.Uow;
 
 namespace EShopOnAbp.Shared.Hosting.Microservices.DbMigrations
@@ -29,7 +28,6 @@ namespace EShopOnAbp.Shared.Hosting.Microservices.DbMigrations
         protected ICurrentTenant CurrentTenant { get; }
         protected IUnitOfWorkManager UnitOfWorkManager { get; }
         protected ITenantStore TenantStore { get; }
-        protected ITenantRepository TenantRepository { get; }
         protected IDistributedEventBus DistributedEventBus { get; }
         protected ILogger<DatabaseMigrationEventHandlerBase<TDbContext>> Logger { get; set; }
         protected string DatabaseName { get; }
@@ -38,7 +36,6 @@ namespace EShopOnAbp.Shared.Hosting.Microservices.DbMigrations
             ICurrentTenant currentTenant,
             IUnitOfWorkManager unitOfWorkManager,
             ITenantStore tenantStore,
-            ITenantRepository tenantRepository,
             IDistributedEventBus distributedEventBus,
             string databaseName)
         {
@@ -47,7 +44,6 @@ namespace EShopOnAbp.Shared.Hosting.Microservices.DbMigrations
             TenantStore = tenantStore;
             DatabaseName = databaseName;
             DistributedEventBus = distributedEventBus;
-            TenantRepository = tenantRepository;
     
             Logger = NullLogger<DatabaseMigrationEventHandlerBase<TDbContext>>.Instance;
         }
@@ -160,21 +156,6 @@ namespace EShopOnAbp.Shared.Hosting.Microservices.DbMigrations
             {
                 Logger.LogError($"Could not perform tenant connection string updated event. Canceling the operation. TenantId = {eventData.Id}, TenantName = {eventData.Name}.");
                 Logger.LogException(exception);
-            }
-        }
-    
-        protected virtual async Task QueueTenantMigrationsAsync()
-        {
-            var tenants = await TenantRepository.GetListAsync(); // .GetListWithSeparateConnectionStringAsync();
-            foreach (var tenant in tenants)
-            {
-                await DistributedEventBus.PublishAsync(
-                    new ApplyDatabaseMigrationsEto
-                    {
-                        DatabaseName = DatabaseName,
-                        TenantId = tenant.Id
-                    }
-                );
             }
         }
     
