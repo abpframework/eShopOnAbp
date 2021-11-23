@@ -8,7 +8,6 @@ using Volo.Abp.Data;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.PermissionManagement;
-using Volo.Abp.TenantManagement;
 using Volo.Abp.Uow;
 
 namespace EShopOnAbp.AdministrationService.DbMigrations
@@ -27,13 +26,11 @@ namespace EShopOnAbp.AdministrationService.DbMigrations
             ITenantStore tenantStore,
             IPermissionDefinitionManager permissionDefinitionManager,
             IPermissionDataSeeder permissionDataSeeder,
-            ITenantRepository tenantRepository,
             IDistributedEventBus distributedEventBus
         ) : base(
             currentTenant,
             unitOfWorkManager,
             tenantStore,
-            tenantRepository,
             distributedEventBus,
             AdministrationServiceDbProperties.ConnectionStringName)
         {
@@ -52,12 +49,6 @@ namespace EShopOnAbp.AdministrationService.DbMigrations
             {
                 var schemaMigrated = await MigrateDatabaseSchemaAsync(eventData.TenantId);
                 await SeedDataAsync(eventData.TenantId);
-
-                if (eventData.TenantId == null && schemaMigrated)
-                {
-                    /* Migrate tenant databases after host migration */
-                    await QueueTenantMigrationsAsync();
-                }
             }
             catch (Exception ex)
             {

@@ -9,21 +9,20 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="6.0.0-rc.1.21452.15" />
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.0-rc.1.21452.15" />
+        <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="6.0.0-rc.*" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.0-rc.*" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.1" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Volo.Abp.AspNetCore.MultiTenancy" Version="5.0.0-beta.1" />
-        <PackageReference Include="Volo.Abp.EventBus.RabbitMQ" Version="5.0.0-beta.1" />
-        <PackageReference Include="Volo.Abp.BackgroundJobs.RabbitMQ" Version="5.0.0-beta.1" />
-        <PackageReference Include="Volo.Abp.Caching.StackExchangeRedis" Version="5.0.0-beta.1" />
+        <PackageReference Include="Volo.Abp.AspNetCore.MultiTenancy" Version="5.0.0-beta.2" />
+        <PackageReference Include="Volo.Abp.EventBus.RabbitMQ" Version="5.0.0-beta.2" />
+        <PackageReference Include="Volo.Abp.BackgroundJobs.RabbitMQ" Version="5.0.0-beta.2" />
+        <PackageReference Include="Volo.Abp.Caching.StackExchangeRedis" Version="5.0.0-beta.2" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\services\administration\src\EShopOnAbp.AdministrationService.EntityFrameworkCore\EShopOnAbp.AdministrationService.EntityFrameworkCore.csproj" />
-        <ProjectReference Include="..\..\services\saas\src\EShopOnAbp.SaasService.EntityFrameworkCore\EShopOnAbp.SaasService.EntityFrameworkCore.csproj" />
+        <ProjectReference Include="..\..\services\administration\src\EShopOnAbp.AdministrationService.EntityFrameworkCore\EShopOnAbp.AdministrationService.EntityFrameworkCore.csproj" />        
     </ItemGroup>
 
 </Project>

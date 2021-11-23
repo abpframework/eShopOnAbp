@@ -25,6 +25,25 @@ namespace EShopOnAbp.WebGateway
             var configuration = context.Services.GetConfiguration();
             var hostingEnvironment = context.Services.GetHostingEnvironment();
             SwaggerConfigurationHelper.Configure(context, "Web Gateway");
+            
+            context.Services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder
+                        .WithOrigins(
+                            configuration["App:CorsOrigins"]
+                                .Split(",", StringSplitOptions.RemoveEmptyEntries)
+                                .Select(o => o.Trim().RemovePostFix("/"))
+                                .ToArray()
+                        )
+                        .WithAbpExposedHeaders()
+                        .SetIsOriginAllowedToAllowWildcardSubdomains()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
+                });
+            });
         }
 
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
@@ -38,6 +57,7 @@ namespace EShopOnAbp.WebGateway
             }
 
             app.UseCorrelationId();
+            app.UseCors();
             app.UseSwagger();
             app.UseSwaggerUI(options =>
             {
@@ -48,6 +68,10 @@ namespace EShopOnAbp.WebGateway
                 {
                     var url =
                         $"{config.DownstreamScheme}://{config.DownstreamHostAndPorts.FirstOrDefault()?.Host}:{config.DownstreamHostAndPorts.FirstOrDefault()?.Port}";
+                    if (!env.IsDevelopment())
+                    {
+                        url = $"https://{config.DownstreamHostAndPorts.FirstOrDefault()?.Host}";
+                    }
 
                     options.SwaggerEndpoint($"{url}/swagger/v1/swagger.json", $"{config.ServiceKey} API");
                     options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);

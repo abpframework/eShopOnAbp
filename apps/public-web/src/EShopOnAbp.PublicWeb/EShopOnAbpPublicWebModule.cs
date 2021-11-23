@@ -55,6 +55,7 @@ namespace EShopOnAbp.PublicWeb
 
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
+            Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
             var hostingEnvironment = context.Services.GetHostingEnvironment();
             var configuration = context.Services.GetConfiguration();
 
@@ -104,7 +105,8 @@ namespace EShopOnAbp.PublicWeb
             var redis = ConnectionMultiplexer.Connect(configuration["Redis:Configuration"]);
             context.Services
                 .AddDataProtection()
-                .PersistKeysToStackExchangeRedis(redis, "MyProjectName-Protection-Keys");
+                .PersistKeysToStackExchangeRedis(redis, "EShopOnAbp-Protection-Keys")
+                .SetApplicationName("eShopOnAbp-PublicWeb");
 
             Configure<AbpNavigationOptions>(options =>
             {
@@ -145,7 +147,6 @@ namespace EShopOnAbp.PublicWeb
             app.UseRouting();
             // app.UseHttpMetrics();
             app.UseAuthentication();
-            app.UseMultiTenancy();
             app.UseAbpSerilogEnrichers();
             app.UseAuthorization();
             app.UseConfiguredEndpoints(endpoints =>

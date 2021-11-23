@@ -37,7 +37,7 @@ namespace EShopOnAbp.WebPublicGateway
             Host.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration(build =>
                 {
-                    build.AddJsonFile("appsettings.secrets.json", optional: true);
+                    build.AddJsonFile("appsettings.secrets.json", optional: true, reloadOnChange:true);
                 })
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); })
                 .UseAutofac()

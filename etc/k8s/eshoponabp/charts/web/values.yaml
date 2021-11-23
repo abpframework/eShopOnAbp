@@ -1,0 +1,15 @@
+config:
+  selfUrl: https://eshop-st-web
+  gatewayUrl: "https://eshop-st-gateway-web/"
+
+ingress:
+  host: eshop-st-web
+  tlsSecret: eshop-demo-tls
+
+image:
+  repository: eshoponabp/app-web
+  tag: latest
+  pullPolicy: IfNotPresent
+
+# Extra environment variables or configurations
+env: {}

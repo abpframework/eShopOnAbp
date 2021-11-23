@@ -1,0 +1,27 @@
+config:
+  selfUrl: # https://eshop-st-authserver
+  corsOrigins: # https://eshop-st-identity,https://eshop-st-administration,https://eshop-st-saas
+  allowedRedirectUrls: https://eshop-st-web
+  identityService:
+    connString: # 
+  administrationService:
+    connString: # 
+  saasService:
+    connString: #     
+  dotnetEnv: # 
+  redisHost: #
+  rabbitmqHost: #
+  elasticsearchHost: #
+  stringEncryptionDefaultPassPhrase: gsKnGZ041HLL4IM8
+
+ingress:
+  host: # eshop-st-authserver
+  tlsSecret: eshop-demo-tls
+
+image:
+  repository: eshoponabp/app-authserver
+  tag: latest
+  pullPolicy: IfNotPresent
+
+env: {}
+    

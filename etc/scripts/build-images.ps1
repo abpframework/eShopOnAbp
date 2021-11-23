@@ -7,7 +7,7 @@ $authserverFolder = Join-Path $slnFolder "apps/auth-server/src/EShopOnAbp.AuthSe
 $publicWebFolder = Join-Path $slnFolder "apps/public-web/src/EShopOnAbp.PublicWeb"
 
 $webGatewayFolder = Join-Path $slnFolder "gateways/web/src/EShopOnAbp.WebGateway"
-$publicWebGatewayFolder = Join-Path $slnFolder "gateways/web-public/src/EShopOnAbp.WebPublicGateway"
+$webPublicGatewayFolder = Join-Path $slnFolder "gateways/web-public/src/EShopOnAbp.WebPublicGateway"
 $internalGatewayFolder = Join-Path $slnFolder "gateways/internal/src/EShopOnAbp.InternalGateway"
 
 $identityServiceFolder = Join-Path $slnFolder "services/identity/src/EShopOnAbp.IdentityService.HttpApi.Host"
@@ -18,7 +18,8 @@ $saasServiceFolder = Join-Path $slnFolder "services/saas/src/EShopOnAbp.SaasServ
 Write-Host "*** BUILDING WEB (WWW) ****************" -ForegroundColor Green
 Set-Location $webAppFolder
 yarn
-ng build --prod
+# ng build --prod
+npm run build:prod
 docker build -t eshoponabp/app-web:$version .
 
 ### AUTH-SERVER
@@ -28,7 +29,7 @@ dotnet publish -c Release
 docker build -t eshoponabp/app-authserver:$version .
 
 ### PUBLIC-WEB
-Write-Host "*** BUILDING PUBLIC-WEB ****************" -ForegroundColor Green
+Write-Host "*** BUILDING WEB-PUBLIC ****************" -ForegroundColor Green
 Set-Location $publicWebFolder
 dotnet publish -c Release
 docker build -t eshoponabp/app-publicweb:$version .
@@ -40,10 +41,10 @@ dotnet publish -c Release
 docker build -t eshoponabp/gateway-web:$version .
 
 ### PUBLICWEB-GATEWAY
-Write-Host "*** BUILDING PUBLICWEB-GATEWAY ****************" -ForegroundColor Green
-Set-Location $publicWebGatewayFolder
+Write-Host "*** BUILDING WEB-PUBLIC-GATEWAY ****************" -ForegroundColor Green
+Set-Location $webPublicGatewayFolder
 dotnet publish -c Release
-docker build -t eshoponabp/gateway-publicweb:$version .
+docker build -t eshoponabp/gateway-web-public:$version .
 
 ### INTERNAL-GATEWAY
 Write-Host "*** BUILDING INTERNAL-GATEWAY ****************" -ForegroundColor Green

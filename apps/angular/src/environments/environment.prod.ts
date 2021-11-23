@@ -12,9 +12,9 @@ export const environment = {
   oAuthConfig: {
     issuer: 'https://localhost:44394',
     redirectUri: baseUrl,
-    clientId: 'EShopOnAbp_App',
+    clientId: 'Web',
     responseType: 'code',
-    scope: 'offline_access EShopOnAbp',
+    scope: 'offline_access openid profile email phone IdentityService AdministrationService SaasService',
   },
   apis: {
     default: {
@@ -22,4 +22,8 @@ export const environment = {
       rootNamespace: 'EShopOnAbp',
     },
   },
+  remoteEnv:{
+    url: "/getEnvConfig",
+    mergeStrategy:'deepmerge'
+  }
 } as Environment;

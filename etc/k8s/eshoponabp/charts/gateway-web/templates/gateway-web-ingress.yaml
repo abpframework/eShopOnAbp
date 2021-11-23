@@ -1,0 +1,37 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Release.Name }}-{{ .Chart.Name }}-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-buffer-size: 32k
+    nginx.ingress.kubernetes.io/proxy-buffers-number: "8"
+    cert-manager.io/cluster-issuer: letsencrypt
+{{- if eq .Release.Name "es-az" }}
+    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
+{{- end }}
+spec:
+  tls:
+  - hosts:
+      - {{ .Values.ingress.host }}
+{{- if eq .Release.Name "es-az" }}
+      - {{ print "www." .Values.ingress.host }}
+{{- end }}
+    secretName: {{ .Values.ingress.tlsSecret }}
+  rules:
+{{- if eq .Release.Name "es-az" }}
+  - host: "{{ print "www." .Values.ingress.host }}"
+{{- else }}
+  - host: "{{ .Values.ingress.host }}"
+{{- end }}
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ .Release.Name }}-{{ .Chart.Name }}
+            port:
+              number: 80

@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Volo.Abp.Data;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.MultiTenancy;
-using Volo.Abp.TenantManagement;
 using Volo.Abp.Uow;
 
 namespace EShopOnAbp.PaymentService.DbMigrations
@@ -18,13 +17,11 @@ namespace EShopOnAbp.PaymentService.DbMigrations
             ICurrentTenant currentTenant,
             IUnitOfWorkManager unitOfWorkManager,
             ITenantStore tenantStore,
-            ITenantRepository tenantRepository,
             IDistributedEventBus distributedEventBus) 
             : base(
                 currentTenant,
                 unitOfWorkManager,
                 tenantStore,
-                tenantRepository,
                 distributedEventBus,
                 PaymentServiceDbProperties.ConnectionStringName)
         {

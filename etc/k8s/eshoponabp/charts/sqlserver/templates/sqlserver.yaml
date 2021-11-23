@@ -16,7 +16,7 @@ spec:
       containers:
         - image: mcr.microsoft.com/mssql/server
           name: {{ .Release.Name }}-{{ .Chart.Name }}
-{{- if eq .Release.Name "eh-az" }}
+{{- if eq .Release.Name "es-az" }}
           volumeMounts:
           - mountPath: "/var/opt/mssql"
             name: {{ .Release.Name }}-{{ .Chart.Name }}-database-volume
@@ -30,7 +30,7 @@ spec:
             value: "myPassw@rd"
           - name: ACCEPT_EULA
             value: "Y"
-{{- if eq .Release.Name "eh-az" }}
+{{- if eq .Release.Name "es-az" }}
   volumeClaimTemplates:
   - metadata:
       name: {{ .Release.Name }}-{{ .Chart.Name }}-database-volume
