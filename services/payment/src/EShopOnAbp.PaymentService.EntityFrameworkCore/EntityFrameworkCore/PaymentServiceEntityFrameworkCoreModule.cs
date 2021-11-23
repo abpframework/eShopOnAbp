@@ -21,7 +21,7 @@ namespace EShopOnAbp.PaymentService.EntityFrameworkCore
         {
             context.Services.AddAbpDbContext<PaymentServiceDbContext>(options =>
             {
-                options.AddRepository<PaymentRequest, PaymentRequestEfCoreRepository>();
+                options.AddRepository<PaymentRequest, EfCorePaymentRequestRepository>();
             });
 
             Configure<AbpDbContextOptions>(options =>

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EShopOnAbp.PaymentService.PaymentRequests;
+using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
 
@@ -6,7 +7,8 @@ namespace EShopOnAbp.PaymentService.EntityFrameworkCore
 {
     [ConnectionStringName(PaymentServiceDbProperties.ConnectionStringName)]
     public class PaymentServiceDbContext :
-        AbpDbContext<PaymentServiceDbContext>
+        AbpDbContext<PaymentServiceDbContext>,
+        IPaymentServiceDbContext
     {
         /* Add DbSet properties for your Aggregate Roots / Entities here. */
 
@@ -27,6 +29,8 @@ namespace EShopOnAbp.PaymentService.EntityFrameworkCore
 
         }
 
+        public DbSet<PaymentRequest> PaymentRequests { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -36,13 +40,6 @@ namespace EShopOnAbp.PaymentService.EntityFrameworkCore
             builder.ConfigurePaymentService();
 
             /* Configure your own tables/entities inside here */
-
-            //builder.Entity<YourEntity>(b =>
-            //{
-            //    b.ToTable(PaymentServiceConsts.DbTablePrefix + "YourEntities", PaymentServiceConsts.DbSchema);
-            //    b.ConfigureByConvention(); //auto configure for the base class props
-            //    //...
-            //});
         }
     }
 }
