@@ -16,7 +16,7 @@ namespace EShopOnAbp.CatalogService.EntityFrameworkCore
             var configuration = BuildConfiguration();
 
             var builder = new DbContextOptionsBuilder<CatalogServiceDbContext>()
-                .UseSqlServer(configuration.GetConnectionString(CatalogServiceDbProperties.ConnectionStringName));
+                .UseNpgsql(configuration.GetConnectionString(CatalogServiceDbProperties.ConnectionStringName));
 
             return new CatalogServiceDbContext(builder.Options);
         }

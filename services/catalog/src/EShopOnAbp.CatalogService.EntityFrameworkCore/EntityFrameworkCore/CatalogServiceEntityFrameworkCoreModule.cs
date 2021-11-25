@@ -1,13 +1,13 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
-using Volo.Abp.EntityFrameworkCore.SqlServer;
+using Volo.Abp.EntityFrameworkCore.PostgreSql;
 using Volo.Abp.Modularity;
 
 namespace EShopOnAbp.CatalogService.EntityFrameworkCore
 {
     [DependsOn(
         typeof(CatalogServiceDomainModule),
-        typeof(AbpEntityFrameworkCoreSqlServerModule)
+        typeof(AbpEntityFrameworkCorePostgreSqlModule)
         )]
     public class CatalogServiceEntityFrameworkCoreModule : AbpModule
     {
@@ -27,9 +27,10 @@ namespace EShopOnAbp.CatalogService.EntityFrameworkCore
 
             Configure<AbpDbContextOptions>(options =>
             {
-                /* The main point to change your DBMS.
-                 * See also CatalogServiceMigrationsDbContextFactory for EF Core tooling. */
-                options.UseSqlServer();
+                options.UseNpgsql(b =>
+                {
+                    b.MigrationsHistoryTable("__CatalogService_Migrations");
+                });
             });
         }
     }
