@@ -10,7 +10,7 @@ namespace EShopOnAbp.AdministrationService.EntityFrameworkCore
         public AdministrationServiceDbContext CreateDbContext(string[] args)
         {
             var builder = new DbContextOptionsBuilder<AdministrationServiceDbContext>()
-                .UseSqlServer(GetConnectionStringFromConfiguration(), b =>
+                .UseNpgsql(GetConnectionStringFromConfiguration(), b =>
                 {
                     b.MigrationsHistoryTable("__AdministrationService_Migrations");
                 });
