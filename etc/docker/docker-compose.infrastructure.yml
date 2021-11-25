@@ -13,11 +13,11 @@ services:
     networks: 
       - eshoponabp-network
     
-  sql-server-db:
-    container_name: sql-server-db
-    image: mcr.microsoft.com/mssql/server
+  postgres-db:
+    container_name: postgres-db
+    image: postgres:14.1
     volumes:
-      - sqldata:/var/opt/mssql
+      - sqldata:/var/opt/postgres
     networks: 
       - eshoponabp-network
       

@@ -10,9 +10,8 @@ services:
     ports:
       - "6379:6379"
       
-  sql-server-db:
+  postgres-db:
     ports:
-      - "1434:1433"
+      - "5432:5432"
     environment:
-      SA_PASSWORD: "myPassw0rd"
-      ACCEPT_EULA: "Y"
+      POSTGRES_PASSWORD: "myPassw0rd"
