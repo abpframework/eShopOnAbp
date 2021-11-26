@@ -7,16 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.0-rc.*">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.Http.Client.IdentityModel.Web" Version="5.0.0-beta.2" />
-    <PackageReference Include="Volo.Abp.Identity.HttpApi.Client" Version="5.0.0-beta.2" />
-    <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.MultiTenancy" Version="5.0.0-beta.2" />
-    <PackageReference Include="Volo.Abp.Account.Application.Contracts" Version="5.0.0-beta.2" />
+    <PackageReference Include="Volo.Abp.Http.Client.IdentityModel.Web" Version="5.0.0-rc.1" />
+    <PackageReference Include="Volo.Abp.Identity.HttpApi.Client" Version="5.0.0-rc.1" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.MultiTenancy" Version="5.0.0-rc.1" />
+    <PackageReference Include="Volo.Abp.Account.Application.Contracts" Version="5.0.0-rc.1" />
   </ItemGroup>
 
   <ItemGroup>
