@@ -81,7 +81,7 @@ namespace EShopOnAbp.PaymentService
             app.UseAbpClaimsMap();
             app.UseAuthorization();
             app.UseSwagger();
-            app.UseSwaggerUI(options => { options.SwaggerEndpoint("/swagger/v1/swagger.json", "Saas Service API"); });
+            app.UseSwaggerUI(options => { options.SwaggerEndpoint("/swagger/v1/swagger.json", "Payment Service API"); });
             app.UseAbpSerilogEnrichers();
             app.UseAuditing();
             app.UseUnitOfWork();

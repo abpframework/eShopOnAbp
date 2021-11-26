@@ -11,7 +11,6 @@ $webPublicGatewayFolder = Join-Path $slnFolder "gateways/web-public/src/EShopOnA
 
 $identityServiceFolder = Join-Path $slnFolder "services/identity/src/EShopOnAbp.IdentityService.HttpApi.Host"
 $administrationServiceFolder = Join-Path $slnFolder "services/administration/src/EShopOnAbp.AdministrationService.HttpApi.Host"
-$saasServiceFolder = Join-Path $slnFolder "services/saas/src/EShopOnAbp.SaasService.HttpApi.Host"
 
 Write-Host "===== BUILDING APPLICATIONS =====" -ForegroundColor Yellow
 
@@ -53,11 +52,6 @@ docker build -f "$identityServiceFolder/Dockerfile" -t eshoponabp/service-identi
 Write-Host "**************** BUILDING ADMINISTRATION-SERVICE ****************" -ForegroundColor Green
 Set-Location $slnFolder
 docker build -f "$administrationServiceFolder/Dockerfile" -t eshoponabp/service-administration:$version .
-
-### SAAS-SERVICE
-Write-Host "**************** BUILDING SAAS-SERVICE ****************" -ForegroundColor Green
-Set-Location $slnFolder
-docker build -f "$saasServiceFolder/Dockerfile" -t eshoponabp/service-saas:$version .
 
 ### ALL COMPLETED
 Write-Host "ALL COMPLETED" -ForegroundColor Green

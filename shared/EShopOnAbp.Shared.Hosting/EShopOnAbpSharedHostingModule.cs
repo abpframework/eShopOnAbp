@@ -18,12 +18,6 @@ namespace EShopOnAbp.Shared.Hosting
         {
             Configure<AbpDbConnectionOptions>(options =>
             {
-                options.Databases.Configure("SaasService", database =>
-                {
-                    database.MappedConnections.Add("AbpTenantManagement");
-                    database.IsUsedByTenants = false;
-                });
-
                 options.Databases.Configure("AdministrationService", database =>
                 {
                     database.MappedConnections.Add("AbpAuditLogging");

@@ -33,19 +33,6 @@ data:
       "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ]
     },
     {
-      "ServiceKey": "Saas Service",
-      "DownstreamPathTemplate": "/api/saas/{everything}",
-      "DownstreamScheme": "{{ .Values.reRoutes.saasService.schema }}",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "{{ .Values.reRoutes.saasService.host }}",
-          "Port": {{ .Values.reRoutes.saasService.port }}
-        }
-      ],
-      "UpstreamPathTemplate": "/api/saas/{everything}",
-      "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ]
-    },
-    {
       "ServiceKey": "Administration Service",
       "DownstreamPathTemplate": "/api/abp/{everything}",
       "DownstreamScheme": "{{ .Values.reRoutes.administrationService.schema }}",
