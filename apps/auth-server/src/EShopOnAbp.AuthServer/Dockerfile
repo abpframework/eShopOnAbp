@@ -24,7 +24,6 @@ COPY "shared/EShopOnAbp.Shared.Localization/EShopOnAbp.Shared.Localization.cspro
 # Microservices
 COPY "services/administration/src/EShopOnAbp.AdministrationService.HttpApi.Host/EShopOnAbp.AdministrationService.HttpApi.Host.csproj" "services/administration/src/EShopOnAbp.AdministrationService.HttpApi.Host/EShopOnAbp.AdministrationService.HttpApi.Host.csproj"
 COPY "services/identity/src/EShopOnAbp.IdentityService.HttpApi.Host/EShopOnAbp.IdentityService.HttpApi.Host.csproj" "services/identity/src/EShopOnAbp.IdentityService.HttpApi.Host/EShopOnAbp.IdentityService.HttpApi.Host.csproj"
-COPY *"services/saas/src/EShopOnAbp.SaasService.HttpApi.Host/EShopOnAbp.SaasService.HttpApi.Host.csproj" "services/saas/src/EShopOnAbp.SaasService.HttpApi.Host/EShopOnAbp.SaasService.HttpApi.Host.csproj"
 COPY *"services/basket/src/EShopOnAbp.BasketService.HttpApi.Host/EShopOnAbp.BasketService.HttpApi.Host.csproj" "services/basket/src/EShopOnAbp.BasketService.HttpApi.Host/EShopOnAbp.BasketService.HttpApi.Host.csproj"
 COPY *"services/ordering/src/EShopOnAbp.OrderingService.HttpApi.Host/EShopOnAbp.OrderingService.HttpApi.Host.csproj" "services/ordering/src/EShopOnAbp.OrderingService.HttpApi.Host/EShopOnAbp.OrderingService.HttpApi.Host.csproj"
 COPY *"services/catalog/src/EShopOnAbp.CatalogService.HttpApi.Host/EShopOnAbp.CatalogService.HttpApi.Host.csproj" "services/catalog/src/EShopOnAbp.CatalogService.HttpApi.Host/EShopOnAbp.CatalogService.HttpApi.Host.csproj"

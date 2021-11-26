@@ -14,7 +14,7 @@ export const environment = {
     clientId: 'Web',
     responseType: 'code',
     scope:
-      'offline_access openid profile email phone IdentityService AdministrationService SaasService',
+      'offline_access openid profile email phone IdentityService AdministrationService',
     requireHttps: true,
   },
   apis: {

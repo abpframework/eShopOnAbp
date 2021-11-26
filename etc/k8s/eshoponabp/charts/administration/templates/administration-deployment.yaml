@@ -30,9 +30,7 @@ spec:
         - name: IdentityClients__Default__Authority
           value: "{{ .Values.synchedCommunication.authority }}"
         - name: "ConnectionStrings__AdministrationService"
-          value: "{{ .Values.config.connectionStrings.administrationService }}" 
-        - name: "ConnectionStrings__SaasService"
-          value: "{{ .Values.config.connectionStrings.saasService }}"
+          value: "{{ .Values.config.connectionStrings.administrationService }}"
         - name: "DOTNET_ENVIRONMENT"
           value: "{{ .Values.config.dotnetEnv }}"
         - name: "Redis__Configuration"
