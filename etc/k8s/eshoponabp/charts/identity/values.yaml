@@ -4,7 +4,6 @@ config:
   connectionStrings:
     identityService: #
     administrationService: #
-    saasService: #
   authServer:
     authority: http://eshop-st-authserver
     requireHttpsMetadata: "false"
@@ -22,7 +21,6 @@ identityServerClients:
   publicWebGatewayRootUrl: #
   identityServiceRootUrl: #
   administrationServiceRootUrl: #
-  saasServiceRootUrl: #
 
 ingress:
   host: eshop-st-identity

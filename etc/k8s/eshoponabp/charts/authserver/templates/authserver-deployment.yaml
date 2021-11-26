@@ -31,8 +31,6 @@ spec:
           value: "{{ .Values.config.identityService.connString }}"
         - name: "ConnectionStrings__AdministrationService"
           value: "{{ .Values.config.administrationService.connString }}"
-        - name: "ConnectionStrings__SaasService"
-          value: "{{ .Values.config.saasService.connString }}"
         - name: "DOTNET_ENVIRONMENT"
           value: "{{ .Values.config.dotnetEnv }}"
         - name: "Redis__Configuration"

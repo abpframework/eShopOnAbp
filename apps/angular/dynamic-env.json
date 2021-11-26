@@ -10,7 +10,7 @@
     "redirectUri": "https://eshop-st-web",
     "clientId": "EShopOnAbp_App",
     "responseType": "code",
-    "scope": "offline_access openid profile email phone IdentityService AdministrationService SaasService"
+    "scope": "offline_access openid profile email phone IdentityService AdministrationService"
   },
   "apis": {
     "default": {

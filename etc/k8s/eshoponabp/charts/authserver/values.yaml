@@ -1,13 +1,11 @@
 config:
   selfUrl: # https://eshop-st-authserver
-  corsOrigins: # https://eshop-st-identity,https://eshop-st-administration,https://eshop-st-saas
+  corsOrigins: # https://eshop-st-identity,https://eshop-st-administration
   allowedRedirectUrls: https://eshop-st-web
   identityService:
     connString: # 
   administrationService:
-    connString: # 
-  saasService:
-    connString: #     
+    connString: #  
   dotnetEnv: # 
   redisHost: #
   rabbitmqHost: #

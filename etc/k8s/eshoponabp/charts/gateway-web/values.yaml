@@ -19,10 +19,6 @@ reRoutes:
     schema: http
     host: eshop-st-administration
     port: 80
-  saasService:
-    schema: # http
-    host: # eshop-st-saas
-    port: # 80
 ingress:
   host: # eshop-st-gateway-web
   tlsSecret: eshop-demo-tls
