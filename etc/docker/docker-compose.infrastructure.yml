@@ -17,12 +17,21 @@ services:
     container_name: postgres-db
     image: postgres:14.1
     volumes:
-      - sqldata:/var/opt/postgres
+      - postgres_data:/var/opt/postgres
     networks: 
       - eshoponabp-network
-      
+  
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4:6.2    
+    volumes:
+       - pgadmin_data:/var/lib/pgadmin
+    networks: 
+      - eshoponabp-network   
+
 volumes:
-  sqldata:
+  postgres_data:
+  pgadmin_data:
 
 networks:
   eshoponabp-network:
