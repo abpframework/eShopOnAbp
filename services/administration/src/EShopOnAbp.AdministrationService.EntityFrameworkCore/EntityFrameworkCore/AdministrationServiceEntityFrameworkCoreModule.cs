@@ -2,7 +2,7 @@
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BlobStoring.Database.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
-using Volo.Abp.EntityFrameworkCore.SqlServer;
+using Volo.Abp.EntityFrameworkCore.PostgreSql;
 using Volo.Abp.FeatureManagement.EntityFrameworkCore;
 using Volo.Abp.Modularity;
 using Volo.Abp.PermissionManagement.EntityFrameworkCore;
@@ -12,7 +12,7 @@ namespace EShopOnAbp.AdministrationService.EntityFrameworkCore
 {
     [DependsOn(
         typeof(AdministrationServiceDomainModule),
-        typeof(AbpEntityFrameworkCoreSqlServerModule),
+        typeof(AbpEntityFrameworkCorePostgreSqlModule),
         typeof(AbpPermissionManagementEntityFrameworkCoreModule),
         typeof(AbpSettingManagementEntityFrameworkCoreModule),
         typeof(AbpAuditLoggingEntityFrameworkCoreModule),
@@ -38,7 +38,7 @@ namespace EShopOnAbp.AdministrationService.EntityFrameworkCore
             {
                 options.Configure<AdministrationServiceDbContext>(c =>
                 {
-                    c.UseSqlServer(b =>
+                    c.UseNpgsql(b =>
                     {
                         b.MigrationsHistoryTable("__AdministrationService_Migrations");
                     });

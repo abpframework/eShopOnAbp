@@ -15,7 +15,7 @@ namespace EShopOnAbp.IdentityService.EntityFrameworkCore
             IdentityServiceEfCoreEntityExtensionMappings.Configure();
             
             var builder = new DbContextOptionsBuilder<IdentityServiceDbContext>()
-                .UseSqlServer(GetConnectionStringFromConfiguration(), b =>
+                .UseNpgsql(GetConnectionStringFromConfiguration(), b =>
                 {
                     b.MigrationsHistoryTable("__IdentityService_Migrations");
                 });

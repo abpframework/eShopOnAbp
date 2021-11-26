@@ -10,9 +10,15 @@ services:
     ports:
       - "6379:6379"
       
-  sql-server-db:
+  postgres-db:
     ports:
-      - "1434:1433"
+      - "5432:5432"
     environment:
-      SA_PASSWORD: "myPassw0rd"
-      ACCEPT_EULA: "Y"
+      POSTGRES_PASSWORD: "myPassw0rd"
+
+  pgadmin:
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}

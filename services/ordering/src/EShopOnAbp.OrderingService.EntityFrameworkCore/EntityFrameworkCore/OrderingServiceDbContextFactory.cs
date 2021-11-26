@@ -16,7 +16,12 @@ namespace EShopOnAbp.OrderingService.EntityFrameworkCore
             var configuration = BuildConfiguration();
 
             var builder = new DbContextOptionsBuilder<OrderingServiceDbContext>()
-                .UseSqlServer(configuration.GetConnectionString("Default"));
+                .UseNpgsql(
+                configuration.GetConnectionString(OrderingServiceDbProperties.ConnectionStringName),
+                b =>
+                {
+                    b.MigrationsHistoryTable("__OrderingService_Migrations");
+                });
 
             return new OrderingServiceDbContext(builder.Options);
         }

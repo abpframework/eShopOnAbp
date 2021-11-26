@@ -1,13 +1,13 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
-using Volo.Abp.EntityFrameworkCore.SqlServer;
+using Volo.Abp.EntityFrameworkCore.PostgreSql;
 using Volo.Abp.Modularity;
 
 namespace EShopOnAbp.OrderingService.EntityFrameworkCore
 {
     [DependsOn(
         typeof(OrderingServiceDomainModule),
-        typeof(AbpEntityFrameworkCoreSqlServerModule)
+        typeof(AbpEntityFrameworkCorePostgreSqlModule)
         )]
     public class OrderingServiceEntityFrameworkCoreModule : AbpModule
     {
@@ -29,7 +29,10 @@ namespace EShopOnAbp.OrderingService.EntityFrameworkCore
             {
                 /* The main point to change your DBMS.
                  * See also OrderingServiceMigrationsDbContextFactory for EF Core tooling. */
-                options.UseSqlServer();
+                options.UseNpgsql(b =>
+                {
+                    b.MigrationsHistoryTable("__OrderingService_Migrations");
+                });
             });
         }
     }

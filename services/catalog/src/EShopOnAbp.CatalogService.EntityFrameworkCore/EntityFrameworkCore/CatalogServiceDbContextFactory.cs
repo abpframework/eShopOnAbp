@@ -16,7 +16,12 @@ namespace EShopOnAbp.CatalogService.EntityFrameworkCore
             var configuration = BuildConfiguration();
 
             var builder = new DbContextOptionsBuilder<CatalogServiceDbContext>()
-                .UseSqlServer(configuration.GetConnectionString(CatalogServiceDbProperties.ConnectionStringName));
+                .UseNpgsql(
+                configuration.GetConnectionString(CatalogServiceDbProperties.ConnectionStringName),
+                b =>
+                {
+                    b.MigrationsHistoryTable("__CatalogService_Migrations");
+                });
 
             return new CatalogServiceDbContext(builder.Options);
         }

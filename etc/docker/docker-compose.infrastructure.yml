@@ -13,16 +13,25 @@ services:
     networks: 
       - eshoponabp-network
     
-  sql-server-db:
-    container_name: sql-server-db
-    image: mcr.microsoft.com/mssql/server
+  postgres-db:
+    container_name: postgres-db
+    image: postgres:14.1
     volumes:
-      - sqldata:/var/opt/mssql
+      - postgres_data:/var/opt/postgres
     networks: 
       - eshoponabp-network
-      
+  
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4:6.2    
+    volumes:
+       - pgadmin_data:/var/lib/pgadmin
+    networks: 
+      - eshoponabp-network   
+
 volumes:
-  sqldata:
+  postgres_data:
+  pgadmin_data:
 
 networks:
   eshoponabp-network:
