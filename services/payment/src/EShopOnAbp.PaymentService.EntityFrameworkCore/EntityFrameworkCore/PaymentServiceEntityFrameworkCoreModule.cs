@@ -1,14 +1,14 @@
 ﻿using EShopOnAbp.PaymentService.PaymentRequests;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
-using Volo.Abp.EntityFrameworkCore.SqlServer;
+using Volo.Abp.EntityFrameworkCore.PostgreSql;
 using Volo.Abp.Modularity;
 
 namespace EShopOnAbp.PaymentService.EntityFrameworkCore
 {
     [DependsOn(
         typeof(PaymentServiceDomainModule),
-        typeof(AbpEntityFrameworkCoreSqlServerModule)
+        typeof(AbpEntityFrameworkCorePostgreSqlModule)
         )]
     public class PaymentServiceEntityFrameworkCoreModule : AbpModule
     {
@@ -28,7 +28,10 @@ namespace EShopOnAbp.PaymentService.EntityFrameworkCore
             {
                 /* The main point to change your DBMS.
                  * See also PaymentServiceMigrationsDbContextFactory for EF Core tooling. */
-                options.UseSqlServer();
+                options.UseNpgsql(b =>
+                {
+                    b.MigrationsHistoryTable("__PaymentService_Migrations");
+                });
             });
         }
     }

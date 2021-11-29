@@ -11,7 +11,6 @@ $webPublicGatewayFolder = Join-Path $slnFolder "gateways/web-public/src/EShopOnA
 
 $identityServiceFolder = Join-Path $slnFolder "services/identity/src/EShopOnAbp.IdentityService.HttpApi.Host"
 $administrationServiceFolder = Join-Path $slnFolder "services/administration/src/EShopOnAbp.AdministrationService.HttpApi.Host"
-$saasServiceFolder = Join-Path $slnFolder "services/saas/src/EShopOnAbp.SaasService.HttpApi.Host"
 
 ### Angular WEB App(WWW)
 Write-Host "*** BUILDING WEB (WWW) ****************" -ForegroundColor Green
@@ -56,12 +55,6 @@ Write-Host "*** BUILDING ADMINISTRATION-SERVICE ****************" -ForegroundCol
 Set-Location $administrationServiceFolder
 dotnet publish -c Release
 docker build -f Dockerfile.local -t eshoponabp/service-administration:$version .
-
-### SAAS-SERVICE
-Write-Host "*** BUILDING SAAS-SERVICE ****************" -ForegroundColor Green
-Set-Location $saasServiceFolder
-dotnet publish -c Release
-docker build -f Dockerfile.local -t eshoponabp/service-saas:$version .
 
 ### ALL COMPLETED
 Write-Host "ALL COMPLETED" -ForegroundColor Green

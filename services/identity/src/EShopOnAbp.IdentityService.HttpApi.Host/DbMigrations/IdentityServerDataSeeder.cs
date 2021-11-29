@@ -85,7 +85,6 @@ namespace EShopOnAbp.IdentityService.DbMigrations
 
             await CreateApiResourceAsync("IdentityService", commonApiUserClaims);
             await CreateApiResourceAsync("AdministrationService", commonApiUserClaims);
-            await CreateApiResourceAsync("SaasService", commonApiUserClaims);
             await CreateApiResourceAsync("CatalogService", commonApiUserClaims);
             await CreateApiResourceAsync("BasketService", commonApiUserClaims);
             await CreateApiResourceAsync("OrderingService", commonApiUserClaims);
@@ -96,7 +95,6 @@ namespace EShopOnAbp.IdentityService.DbMigrations
         {
             await CreateApiScopeAsync("IdentityService");
             await CreateApiScopeAsync("AdministrationService");
-            await CreateApiScopeAsync("SaasService");
             await CreateApiScopeAsync("CatalogService");
             await CreateApiScopeAsync("BasketService");
             await CreateApiScopeAsync("OrderingService");
@@ -107,9 +105,6 @@ namespace EShopOnAbp.IdentityService.DbMigrations
         {
             await CreateSwaggerClientAsync("IdentityService",
                 new[] { "IdentityService"});
-
-            await CreateSwaggerClientAsync("SaasService",
-                new[] { "SaasService" });
 
             await CreateSwaggerClientAsync("AdministrationService",
                 new[] { "AdministrationService" });
@@ -239,8 +234,7 @@ namespace EShopOnAbp.IdentityService.DbMigrations
                 scopes: commonScopes.Union(new[]
                 {
                     "IdentityService",
-                    "AdministrationService",
-                    "SaasService"
+                    "AdministrationService"
                 }),
                 grantTypes: new[] { "authorization_code", "LinkLogin" },
                 secret: "1q2w3e*".Sha256(),

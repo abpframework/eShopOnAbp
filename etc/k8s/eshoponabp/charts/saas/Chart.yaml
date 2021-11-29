@@ -1,6 +1,0 @@
-apiVersion: v2
-name: saas
-appVersion: "1.0"
-description: eShopOnAbp Saas Microservice
-version: 1.0.0
-type: application
