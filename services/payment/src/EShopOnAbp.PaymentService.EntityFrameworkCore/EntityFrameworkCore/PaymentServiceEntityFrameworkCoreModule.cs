@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using EShopOnAbp.PaymentService.PaymentRequests;
+using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore.PostgreSql;
 using Volo.Abp.Modularity;
@@ -20,9 +21,7 @@ namespace EShopOnAbp.PaymentService.EntityFrameworkCore
         {
             context.Services.AddAbpDbContext<PaymentServiceDbContext>(options =>
             {
-                /* Remove "includeAllEntities: true" to create
-                 * default repositories only for aggregate roots */
-                options.AddDefaultRepositories(includeAllEntities: true);
+                options.AddRepository<PaymentRequest, EfCorePaymentRequestRepository>();
             });
 
             Configure<AbpDbContextOptions>(options =>
