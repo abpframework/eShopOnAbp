@@ -4,10 +4,9 @@ authserver:
     selfUrl: https://eshop-st-authserver    
     corsOrigins: https://eshop-st-gateway-web,https://eshop-st-gateway-web-public,https://eshop-st-gateway-internal
     allowedRedirectUrls: https://eshop-st-web
-    identityService:
-      connString: "Server=es-st-sqldb,1433;Database=EShopOnAbp_Identity;User Id=sa;password=myPassw@rd;MultipleActiveResultSets=true"
-    administrationService:
-      connString: "Server=es-st-sqldb,1433;Database=EShopOnAbp_Administration;User Id=sa;password=myPassw@rd;MultipleActiveResultSets=true"
+    connectionStrings:
+      administrationService: "Host=es-st-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
+      identityService: "Host=es-st-postgresdb;Port=5432;Database=EShopOnAbp_Identity;User ID=postgres;password=myPassw0rd;Pooling=false"
     dotnetEnv: Staging
     redisHost: es-st-redis
     rabbitmqHost: es-st-rabbitmq
@@ -53,8 +52,8 @@ identity:
     selfUrl: https://eshop-st-identity
     corsOrigins: https://eshop-st-gateway-web,https://eshop-st-gateway-web-public
     connectionStrings:
-      identityService: "Server=es-st-sqldb,1433;Database=EShopOnAbp_Identity;User Id=sa;password=myPassw@rd;MultipleActiveResultSets=true"
-      administrationService: "Server=es-st-sqldb,1433;Database=EShopOnAbp_Administration;User Id=sa;password=myPassw@rd;MultipleActiveResultSets=true"
+      identityService: "Host=es-st-postgresdb;Port=5432;Database=EShopOnAbp_Identity;User ID=postgres;password=myPassw0rd;Pooling=false"
+      administrationService: "Host=es-st-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
     authServer:
       authority: http://eshop-st-authserver
       requireHttpsMetadata: "false"
@@ -82,7 +81,7 @@ administration:
     gatewayUrl: https://eshop-st-gateway-internal/
     corsOrigins: https://eshop-st-gateway-web,https://eshop-st-gateway-web-public,https://eshop-st-gateway-internal
     connectionStrings:
-      administrationService: "Server=es-st-sqldb,1433;Database=EShopOnAbp_Administration;User Id=sa;password=myPassw@rd;MultipleActiveResultSets=true"
+      administrationService: "Host=es-st-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
     authServer:
       authority: http://eshop-st-authserver
       requireHttpsMetadata: "false"
