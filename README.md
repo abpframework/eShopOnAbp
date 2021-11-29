@@ -6,21 +6,21 @@ This project is a reference for who want to build microservice solutions with th
 
 See [the announcement](https://blog.abp.io/abp/Introducing-the-eShopOnAbp-Project) post for more info.
 
-### Issues
+## Issues
 
 Please open issues on the main GitHub repository: https://github.com/abpframework/abp/issues
 
-### How to Run?
+## How to Run?
 
 You can either run in Visual Studio, or using [Microsoft Tye](https://github.com/dotnet/tye). Tye is a developer tool that makes developing, testing, and deploying micro-services and distributed applications easier.
 
- #### Requirements
+ ### Requirements
 
 - .NET 6.0+
 - Docker
 - Yarn
 
-#### Instructions
+### Instructions
 
 - Clone the repository ( [eShopOnAbp](https://github.com/abpframework/eShopOnAbp) )
 
@@ -39,9 +39,22 @@ You can either run in Visual Studio, or using [Microsoft Tye](https://github.com
   yarn start
   ```
 
-### Roadmap
+## Roadmap
 
-Next milestone is Phase 1 presented below:
+- [x] New blank micro-service solution ✔️
+- [x] Creating Deployment Scenarios ✔️
+- [x] Creating empty business services ✔️
+
+- [ ] Implementing	 business logic into services
+  - [x] Payment with PayPal ✔️
+  - [ ] Basket, Catalog, Order Service
+
+- [ ] Management Side of Services
+- [ ] Administration Services & UI
+
+---
+
+Current milestone is Phase 1 structure is presented below:
 
 ![eSopOnAbp Phase 1](/docs/roadmap/Phase_1.png)
 
