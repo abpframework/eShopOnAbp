@@ -7,8 +7,8 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - name: sqlserver
-      port: 1433
+    - name: postgres
+      port: 5432
   selector:
     app: {{ .Release.Name }}-{{ .Chart.Name }}
 

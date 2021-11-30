@@ -28,9 +28,9 @@ spec:
         - name: App__RedirectAllowedUrls
           value: "{{ .Values.config.allowedRedirectUrls }}"
         - name: "ConnectionStrings__IdentityService"
-          value: "{{ .Values.config.identityService.connString }}"
+          value: "{{ .Values.config.connectionStrings.identityService }}"
         - name: "ConnectionStrings__AdministrationService"
-          value: "{{ .Values.config.administrationService.connString }}"
+          value: "{{ .Values.config.connectionStrings.administrationService }}"
         - name: "DOTNET_ENVIRONMENT"
           value: "{{ .Values.config.dotnetEnv }}"
         - name: "Redis__Configuration"
