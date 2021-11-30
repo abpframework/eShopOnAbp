@@ -20,11 +20,15 @@ spec:
           containerPort: 80
         - name: https
           containerPort: 443
+        volumeMounts:
+        - name: config-volume
+          mountPath: /app/dynamic-env.json
+          subPath: dynamic-env.json
         env:
-        - name: BASE_URL
-          value: {{ .Values.config.selfUrl}} 
-        - name: API_URL
-          value: {{ .Values.config.gatewayUrl}}        
           {{- if .Values.env }}
 {{ toYaml .Values.env | indent 8 }}
           {{- end }}
+      volumes:
+      - name: config-volume
+        configMap:
+          name: {{ .Release.Name }}-{{ .Chart.Name }}-configmap  

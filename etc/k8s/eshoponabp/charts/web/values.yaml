@@ -1,6 +1,9 @@
 config:
   selfUrl: https://eshop-st-web
   gatewayUrl: "https://eshop-st-gateway-web/"
+  authServer:
+    authority: http://eshop-st-authserver
+    requireHttpsMetadata: "false"
 
 ingress:
   host: eshop-st-web
