@@ -8,7 +8,7 @@
   "oAuthConfig": {
     "issuer": "https://eshop-st-authserver",
     "redirectUri": "https://eshop-st-web",
-    "clientId": "EShopOnAbp_App",
+    "clientId": "Web",
     "responseType": "code",
     "scope": "offline_access openid profile email phone IdentityService AdministrationService"
   },
