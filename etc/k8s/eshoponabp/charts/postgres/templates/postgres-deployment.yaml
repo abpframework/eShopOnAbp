@@ -14,22 +14,20 @@ spec:
         app: {{ .Release.Name }}-{{ .Chart.Name }}
     spec:
       containers:
-        - image: mcr.microsoft.com/mssql/server
+        - image: postgres
           name: {{ .Release.Name }}-{{ .Chart.Name }}
 {{- if eq .Release.Name "es-az" }}
           volumeMounts:
-          - mountPath: "/var/opt/mssql"
+          - mountPath: "/var/opt/postgres"
             name: {{ .Release.Name }}-{{ .Chart.Name }}-database-volume
-            subPath: sqlserver-data
+            subPath: postgres-data
 {{- end }}
           ports:
-            - name: sqlserver
-              containerPort: 1433
+            - name: postgres
+              containerPort: 5432
           env:
-          - name: SA_PASSWORD
-            value: "myPassw@rd"
-          - name: ACCEPT_EULA
-            value: "Y"
+          - name: POSTGRES_PASSWORD
+            value: "myPassw0rd"
 {{- if eq .Release.Name "es-az" }}
   volumeClaimTemplates:
   - metadata:
