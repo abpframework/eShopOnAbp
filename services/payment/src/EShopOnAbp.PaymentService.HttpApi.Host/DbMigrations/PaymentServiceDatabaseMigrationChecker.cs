@@ -1,17 +1,13 @@
 ﻿using EShopOnAbp.PaymentService.EntityFrameworkCore;
-using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations.EfCore;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.Uow;
 
 namespace EShopOnAbp.PaymentService.DbMigrations
 {
-    public class PaymentServiceDatabaseMigrationChecker : PendingMigrationsCheckerBase<PaymentServiceDbContext>
+    public class PaymentServiceDatabaseMigrationChecker : PendingEfCoreMigrationsChecker<PaymentServiceDbContext>
     {
         public PaymentServiceDatabaseMigrationChecker(
             IUnitOfWorkManager unitOfWorkManager,

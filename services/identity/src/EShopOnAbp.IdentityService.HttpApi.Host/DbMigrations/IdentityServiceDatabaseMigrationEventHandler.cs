@@ -1,9 +1,9 @@
 ﻿using EShopOnAbp.IdentityService.EntityFrameworkCore;
-using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations;
 using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations.EfCore;
 using Volo.Abp.Data;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.EventBus.Local;
@@ -14,7 +14,7 @@ using Volo.Abp.Uow;
 namespace EShopOnAbp.IdentityService.DbMigrations
 {
     public class IdentityServiceDatabaseMigrationEventHandler
-        : DatabaseMigrationEventHandlerBase<IdentityServiceDbContext>,
+        : DatabaseEfCoreMigrationEventHandler<IdentityServiceDbContext>,
             IDistributedEventHandler<TenantCreatedEto>,
             IDistributedEventHandler<ApplyDatabaseMigrationsEto>
     {

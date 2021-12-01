@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EShopOnAbp.CatalogService.Application\EShopOnAbp.CatalogService.Application.csproj" />
-    <ProjectReference Include="..\EShopOnAbp.CatalogService.EntityFrameworkCore\EShopOnAbp.CatalogService.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\EShopOnAbp.CatalogService.MongoDB\EShopOnAbp.CatalogService.MongoDB.csproj" />
     <ProjectReference Include="..\EShopOnAbp.CatalogService.HttpApi\EShopOnAbp.CatalogService.HttpApi.csproj" />
   </ItemGroup>
 

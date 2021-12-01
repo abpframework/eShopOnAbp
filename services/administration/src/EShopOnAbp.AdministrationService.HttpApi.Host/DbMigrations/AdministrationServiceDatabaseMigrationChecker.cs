@@ -1,13 +1,13 @@
 ﻿using EShopOnAbp.AdministrationService.EntityFrameworkCore;
-using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations;
 using System;
+using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations.EfCore;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.Uow;
 
 namespace EShopOnAbp.AdministrationService.DbMigrations
 {
-    public class AdministrationServiceDatabaseMigrationChecker : PendingMigrationsCheckerBase<AdministrationServiceDbContext>
+    public class AdministrationServiceDatabaseMigrationChecker : PendingEfCoreMigrationsChecker<AdministrationServiceDbContext>
     {
         public AdministrationServiceDatabaseMigrationChecker(
             IUnitOfWorkManager unitOfWorkManager,
