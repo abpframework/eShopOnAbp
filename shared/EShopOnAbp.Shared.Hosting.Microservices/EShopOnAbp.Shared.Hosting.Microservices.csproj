@@ -12,6 +12,7 @@
         <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="6.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.1" />
+        <PackageReference Include="Volo.Abp.MongoDB" Version="5.0.0-rc.1" />
     </ItemGroup>
 
     <ItemGroup>
