@@ -1,10 +1,10 @@
-﻿using EShopOnAbp.CatalogService.EntityFrameworkCore;
+﻿using EShopOnAbp.CatalogService.MongoDB;
 using Volo.Abp.Modularity;
 
 namespace EShopOnAbp.CatalogService
 {
     [DependsOn(
-        typeof(CatalogServiceEntityFrameworkCoreTestModule)
+        typeof(CatalogServiceMongoDbTestModule)
         )]
     public class CatalogServiceDomainTestModule : AbpModule
     {

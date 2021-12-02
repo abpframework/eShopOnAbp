@@ -1,5 +1,4 @@
 using EShopOnAbp.CatalogService.DbMigrations;
-using EShopOnAbp.CatalogService.EntityFrameworkCore;
 using EShopOnAbp.Shared.Hosting.AspNetCore;
 using EShopOnAbp.Shared.Hosting.Microservices;
 using Microsoft.AspNetCore.Builder;
@@ -9,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using EShopOnAbp.CatalogService.MongoDB;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.Modularity;
@@ -19,7 +19,7 @@ namespace EShopOnAbp.CatalogService
     [DependsOn(
         typeof(CatalogServiceHttpApiModule),
         typeof(CatalogServiceApplicationModule),
-        typeof(CatalogServiceEntityFrameworkCoreModule),
+        typeof(CatalogServiceMongoDbModule),
         typeof(EShopOnAbpSharedHostingMicroservicesModule)
     )]
     public class CatalogServiceHttpApiHostModule : AbpModule

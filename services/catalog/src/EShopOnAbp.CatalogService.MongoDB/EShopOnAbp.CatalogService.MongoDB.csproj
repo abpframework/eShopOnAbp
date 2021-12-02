@@ -8,11 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EShopOnAbp.CatalogService.MongoDB.Tests\EShopOnAbp.CatalogService.MongoDB.Tests.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
+    <PackageReference Include="Volo.Abp.MongoDB" Version="5.0.0-rc.1" />
+    <ProjectReference Include="..\EShopOnAbp.CatalogService.Domain\EShopOnAbp.CatalogService.Domain.csproj" />
   </ItemGroup>
 
 </Project>
