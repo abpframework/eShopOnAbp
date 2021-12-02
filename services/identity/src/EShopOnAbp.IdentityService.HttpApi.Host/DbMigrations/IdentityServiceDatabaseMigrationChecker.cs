@@ -1,7 +1,7 @@
 ﻿using EShopOnAbp.IdentityService.EntityFrameworkCore;
-using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations;
 using System;
 using System.Threading.Tasks;
+using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations.EfCore;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.EventBus.Local;
 using Volo.Abp.MultiTenancy;
@@ -9,7 +9,7 @@ using Volo.Abp.Uow;
 
 namespace EShopOnAbp.IdentityService.DbMigrations
 {
-    public class IdentityServiceDatabaseMigrationChecker : PendingMigrationsCheckerBase<IdentityServiceDbContext>
+    public class IdentityServiceDatabaseMigrationChecker : PendingEfCoreMigrationsChecker<IdentityServiceDbContext>
     {
         protected ILocalEventBus LocalEventBus { get; }
 

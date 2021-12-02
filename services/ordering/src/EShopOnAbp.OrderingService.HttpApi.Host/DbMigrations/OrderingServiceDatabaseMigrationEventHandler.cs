@@ -1,7 +1,7 @@
 ﻿using EShopOnAbp.OrderingService.EntityFrameworkCore;
-using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations;
 using System;
 using System.Threading.Tasks;
+using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations.EfCore;
 using Volo.Abp.Data;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.MultiTenancy;
@@ -10,7 +10,7 @@ using Volo.Abp.Uow;
 namespace EShopOnAbp.OrderingService.DbMigrations
 {
     public class OrderingServiceDatabaseMigrationEventHandler
-        : DatabaseMigrationEventHandlerBase<OrderingServiceDbContext>,
+        : DatabaseEfCoreMigrationEventHandler<OrderingServiceDbContext>,
         IDistributedEventHandler<ApplyDatabaseMigrationsEto>
     {
         public OrderingServiceDatabaseMigrationEventHandler(

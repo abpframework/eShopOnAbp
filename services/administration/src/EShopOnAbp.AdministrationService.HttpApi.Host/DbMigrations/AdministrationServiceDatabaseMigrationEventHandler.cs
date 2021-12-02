@@ -1,8 +1,8 @@
 ﻿using EShopOnAbp.AdministrationService.EntityFrameworkCore;
-using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations.EfCore;
 using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Data;
 using Volo.Abp.EventBus.Distributed;
@@ -13,7 +13,7 @@ using Volo.Abp.Uow;
 namespace EShopOnAbp.AdministrationService.DbMigrations
 {
     public class AdministrationServiceDatabaseMigrationEventHandler
-    : DatabaseMigrationEventHandlerBase<AdministrationServiceDbContext>,
+    : DatabaseEfCoreMigrationEventHandler<AdministrationServiceDbContext>,
             IDistributedEventHandler<TenantCreatedEto>,
             IDistributedEventHandler<ApplyDatabaseMigrationsEto>
     {

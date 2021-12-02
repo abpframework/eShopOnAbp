@@ -1,14 +1,13 @@
-﻿using EShopOnAbp.CatalogService.EntityFrameworkCore;
+﻿using System;
+using EShopOnAbp.CatalogService.MongoDB;
 using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations;
-using System;
-using System.Threading.Tasks;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.Uow;
 
 namespace EShopOnAbp.CatalogService.DbMigrations
 {
-    public class CatalogServiceDatabaseMigrationChecker : PendingMigrationsCheckerBase<CatalogServiceDbContext>
+    public class CatalogServiceDatabaseMigrationChecker : PendingMongoDbMigrationsChecker<CatalogServiceMongoDbContext>
     {
         public CatalogServiceDatabaseMigrationChecker(
             IUnitOfWorkManager unitOfWorkManager,
