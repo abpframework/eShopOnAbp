@@ -28,3 +28,36 @@
 .product-info-box {
     min-height: 80px;
 }
+
+.basket-list
+{
+    background-color: #fff;
+    padding: 1em;
+    border: 1px solid #666;
+    border-radius: 3px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .05);
+    margin-bottom: 0.5em;
+    transition: all .2s;
+}
+
+.basket-list:hover {
+    box-shadow: 0 0 20px rgba(0, 0, 0, .1);
+    cursor: pointer;
+}
+
+.basket-list-item {
+    margin-top: 1em;
+}
+
+.basket-list-item:first-child{
+    margin-top: 0;
+}
+
+.basket-list-item img {
+    width: 20px;
+}
+
+.basket-total-area
+{
+    margin-bottom: 1em;
+}

@@ -1,3 +1,38 @@
+@model EShopOnAbp.PublicWeb.Components.Basket.BasketViewModel
 <div>
-    <p>Basket content will come here!</p>
+    @if (!Model.Items.Any())
+    {
+        <p>Your basket is empty. You can add products!</p>
+    }
+    else
+    {
+        <div class="basket-list">
+            @foreach (var item in Model.Items)
+            {
+                <div class="basket-list-item">
+                    @if (!item.ImageName.IsNullOrEmpty())
+                    {
+                        <img src="/product-images/@item.ImageName"/>
+                    }
+                    else
+                    {
+                        <img src="/product-images/noimage.jpg"/>
+                    }
+                    @item.ProductName
+                    @if (item.Count > 1)
+                    {
+                        <text> (@("x" + item.Count))</text>
+                    }
+                    - $@item.TotalPrice
+                </div>
+            }
+            <hr/>
+            <div class="basket-total-area">
+                Total: $@Model.TotalPrice
+            </div>
+            <div>
+                <abp-button class="basket-purchase-button" text="Purchase" button-type="Primary" />
+            </div>
+        </div>
+    }
 </div>
