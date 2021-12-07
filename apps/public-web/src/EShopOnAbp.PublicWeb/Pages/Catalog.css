@@ -54,10 +54,11 @@
 }
 
 .basket-list-item img {
-    width: 20px;
+    height: 1em;
 }
 
 .basket-total-area
 {
     margin-bottom: 1em;
+    font-weight: bold;
 }

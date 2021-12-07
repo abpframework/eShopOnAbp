@@ -23,12 +23,12 @@
                     {
                         <text> (@("x" + item.Count))</text>
                     }
-                    - $@item.TotalPrice
+                    - $@item.TotalPrice.ToString("0.00")
                 </div>
             }
             <hr/>
             <div class="basket-total-area">
-                Total: $@Model.TotalPrice
+                Total: $@Model.TotalPrice.ToString("0.00")
             </div>
             <div>
                 <abp-button class="basket-purchase-button" text="Purchase" button-type="Primary" />
