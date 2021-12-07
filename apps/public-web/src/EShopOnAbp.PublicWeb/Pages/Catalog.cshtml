@@ -1,46 +1,59 @@
 ﻿@page
+@using EShopOnAbp.PublicWeb.Components.Basket
 @model EShopOnAbp.PublicWeb.Pages.Catalog
 @{
-    const int columnSize = 3;
+    const int productsColumnSize = 2;
 }
+
 @section styles{
-    <abp-style src="/Pages/Catalog.css" />
+    <abp-style src="/Pages/Catalog.css"/>
 }
-<h3 class="pt-5 pb-4 text-center">Our Products</h3>
-<div class="product-list">
-    @for (int i = 0; i < Math.Ceiling(Model.Products.Count / (double)columnSize); i++)
-    {
-        <abp-row>
-            @for (int j = 0; j < columnSize; j++)
+
+<div class="row">
+    <div class="col-lg-9">
+        <h3 class="pt-5 pb-4 text-center">Our Products</h3>
+        <div class="product-list">
+            @for (int i = 0; i < Math.Ceiling(Model.Products.Count / (double)productsColumnSize); i++)
             {
-                <abp-column size-lg="_4" size-md="_6" size-sm="_12">
-                    @if ((i * columnSize) + j < Model.Products.Count)
+                <abp-row>
+                    @for (int j = 0; j < productsColumnSize; j++)
                     {
-                        var product = Model.Products[(i * columnSize) + j];
-                        <div class="product-list-item">
-                            @if (!product.ImageName.IsNullOrEmpty())
+                        <abp-column size-lg="_6" size-sm="_12">
+                            @if ((i * productsColumnSize) + j < Model.Products.Count)
                             {
-                                <img src="/product-images/@product.ImageName" />
-                            }
-                            else
-                            {
-                                <img src="/product-images/noimage.jpg" />
-                            }
-                            <div class="row mt-5">
-                                <div class="col">
-                                    <div class="product-info-box">
-                                        <h6>@product.Name</h6>
-                                        <em class="d-block text-muted">@product.Code - Stock count: @product.StockCount</em>
+                                var product = Model.Products[(i * productsColumnSize) + j];
+                                <div class="product-list-item">
+                                    @if (!product.ImageName.IsNullOrEmpty())
+                                    {
+                                        <img src="/product-images/@product.ImageName"/>
+                                    }
+                                    else
+                                    {
+                                        <img src="/product-images/noimage.jpg"/>
+                                    }
+                                    <div class="row mt-5">
+                                        <div class="col">
+                                            <div class="product-info-box">
+                                                <h6>@product.Name</h6>
+                                                <em class="d-block text-muted">@product.Code - Stock count: @product.StockCount</em>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto text-right text-danger">
+                                            <strong class="product-price">$@product.Price</strong>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-auto text-right text-danger">
-                                    <strong class="product-price">$@product.Price</strong>
-                                </div>
-                            </div>
-                        </div>
+                            }
+                        </abp-column>
                     }
-                </abp-column>
+                </abp-row>
             }
-        </abp-row>
-    }
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <h3 class="pt-5 pb-4 text-center">Your Basket</h3>
+        <div class="basket-area">
+            @await Component.InvokeAsync(typeof(BasketWidgetViewComponent))
+        </div>
+    </div>
 </div>
