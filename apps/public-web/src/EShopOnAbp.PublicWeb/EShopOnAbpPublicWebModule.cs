@@ -1,4 +1,5 @@
 ﻿using System;
+using EShopOnAbp.CatalogService;
 using EShopOnAbp.Localization;
 using EShopOnAbp.PublicWeb.Menus;
 using EShopOnAbp.Shared.Hosting.AspNetCore;
@@ -37,8 +38,8 @@ namespace EShopOnAbp.PublicWeb
         typeof(AbpAccountHttpApiModule),
         typeof(AbpAccountHttpApiClientModule),
         typeof(EShopOnAbpSharedHostingAspNetCoreModule),
-        typeof(EShopOnAbpSharedLocalizationModule)
-        // typeof(ProductServiceHttpApiClientModule)
+        typeof(EShopOnAbpSharedLocalizationModule),
+        typeof(CatalogServiceHttpApiClientModule)
         )]
     public class EShopOnAbpPublicWebModule : AbpModule
     {

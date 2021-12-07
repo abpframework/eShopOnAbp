@@ -22,6 +22,7 @@
     <ItemGroup>
         <ProjectReference Include="..\..\..\..\shared\EShopOnAbp.Shared.Hosting.AspNetCore\EShopOnAbp.Shared.Hosting.AspNetCore.csproj" />
         <ProjectReference Include="..\..\..\..\shared\EShopOnAbp.Shared.Localization\EShopOnAbp.Shared.Localization.csproj" />
+        <ProjectReference Include="..\..\..\..\services\catalog\src\EShopOnAbp.CatalogService.HttpApi.Client\EShopOnAbp.CatalogService.HttpApi.Client.csproj" />
         <!--        <ProjectReference Include="..\..\..\..\services\product\src\MyCompanyName.MyProjectName.ProductService.HttpApi.Client\MyCompanyName.MyProjectName.ProductService.HttpApi.Client.csproj" />-->
     </ItemGroup>
     

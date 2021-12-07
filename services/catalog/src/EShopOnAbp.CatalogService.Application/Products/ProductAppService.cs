@@ -23,6 +23,7 @@ namespace EShopOnAbp.CatalogService.Products
             _productRepository = productRepository;
         }
 
+        //TODO: Is this method used?
         public async Task<PagedResultDto<ProductDto>> GetListPagedAsync(PagedAndSortedResultRequestDto input)
         {
             var queryable = await _productRepository.GetQueryableAsync();

@@ -2,6 +2,7 @@
   "culture": "en",
   "texts": {
     "Menu:Home": "Home",
-    "Login": "Login"
+    "Login": "Login",
+    "Catalog": "Catalog"
   }
 }

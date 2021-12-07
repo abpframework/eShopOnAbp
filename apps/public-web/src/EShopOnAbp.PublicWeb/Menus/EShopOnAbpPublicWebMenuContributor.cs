@@ -45,15 +45,15 @@ namespace EShopOnAbp.PublicWeb.Menus
                 )
             );
             // Products
-            // context.Menu.AddItem(
-            //     new ApplicationMenuItem(
-            //         EShopOnAbpPublicWebMenus.ProductPage,
-            //         "Products",
-            //         "/Products",
-            //         icon: "fa fa-product-hunt",
-            //         order: 1
-            //     )
-            // );
+            context.Menu.AddItem(
+                new ApplicationMenuItem(
+                    EShopOnAbpPublicWebMenus.Catalog,
+                    l["Catalog"],
+                    "/Catalog",
+                    icon: "fa fa-product-hunt",
+                    order: 1
+                )
+            );
 
             return Task.CompletedTask;
         }

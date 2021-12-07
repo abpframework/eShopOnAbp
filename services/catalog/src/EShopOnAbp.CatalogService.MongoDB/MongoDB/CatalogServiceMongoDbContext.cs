@@ -1,4 +1,6 @@
-﻿using Volo.Abp.Data;
+﻿using EShopOnAbp.CatalogService.Products;
+using MongoDB.Driver;
+using Volo.Abp.Data;
 using Volo.Abp.MongoDB;
 
 namespace EShopOnAbp.CatalogService.MongoDB
@@ -6,9 +8,7 @@ namespace EShopOnAbp.CatalogService.MongoDB
     [ConnectionStringName(CatalogServiceDbProperties.ConnectionStringName)]
     public class CatalogServiceMongoDbContext : AbpMongoDbContext, ICatalogServiceMongoDbContext
     {
-        /* Add mongo collections here. Example:
-         * public IMongoCollection<Question> Questions => Collection<Question>();
-         */
+        public IMongoCollection<Product> Questions => Collection<Product>();
 
         protected override void CreateModel(IMongoModelBuilder modelBuilder)
         {
