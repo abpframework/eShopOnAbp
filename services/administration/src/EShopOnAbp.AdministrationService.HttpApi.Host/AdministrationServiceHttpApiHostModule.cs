@@ -85,10 +85,6 @@ namespace EShopOnAbp.AdministrationService
             //app.UseHttpMetrics();
             app.UseAuthentication();
             app.UseAbpClaimsMap();
-            app.Use(async (httpContext, func) =>
-            {
-                await func();
-            });
             app.UseAuthorization();
             app.UseSwagger();
             app.UseSwaggerUI(options =>
