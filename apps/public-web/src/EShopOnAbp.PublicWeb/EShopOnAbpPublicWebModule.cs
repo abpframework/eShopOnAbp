@@ -102,7 +102,8 @@ namespace EShopOnAbp.PublicWeb
                     options.Scope.Add("email");
                     options.Scope.Add("phone");
                     options.Scope.Add("AdministrationService");
-                    // options.Scope.Add("ProductService");
+                    options.Scope.Add("BasketService");
+                    options.Scope.Add("CatalogService");
                 });
 
             var redis = ConnectionMultiplexer.Connect(configuration["Redis:Configuration"]);
@@ -120,6 +121,10 @@ namespace EShopOnAbp.PublicWeb
             {
                 options.Contributors.Add(new EShopOnAbpPublicWebToolbarContributor());
             });
+            
+            context.Services
+                .AddReverseProxy()
+                .LoadFromConfig(configuration.GetSection("ReverseProxy"));
         }
 
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
@@ -154,6 +159,7 @@ namespace EShopOnAbp.PublicWeb
             app.UseAuthorization();
             app.UseConfiguredEndpoints(endpoints =>
             {
+                endpoints.MapReverseProxy();
                 // endpoints.MapMetrics();
             });
         }

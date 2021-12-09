@@ -1,4 +1,5 @@
-﻿using Volo.Abp.Application;
+﻿using EShopOnAbp.CatalogService;
+using Volo.Abp.Application;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Modularity;
 
@@ -8,7 +9,8 @@ namespace EShopOnAbp.BasketService
         typeof(BasketServiceDomainModule),
         typeof(BasketServiceApplicationContractsModule),
         typeof(AbpDddApplicationModule),
-        typeof(AbpAutoMapperModule)
+        typeof(AbpAutoMapperModule),
+        typeof(CatalogServiceHttpApiClientModule)
         )]
     public class BasketServiceApplicationModule : AbpModule
     {

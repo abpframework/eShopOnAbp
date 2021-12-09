@@ -216,7 +216,9 @@ namespace EShopOnAbp.IdentityService.DbMigrations
                 name: "PublicWeb",
                 scopes: commonScopes.Union(new[]
                 {
-                    "AdministrationService"
+                    "AdministrationService",
+                    "CatalogService",
+                    "BasketService"
                 }),
                 grantTypes: new[] { "hybrid" },
                 secret: "1q2w3e*".Sha256(),
