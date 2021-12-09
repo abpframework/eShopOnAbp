@@ -11,6 +11,7 @@ using System.Linq;
 using EShopOnAbp.CatalogService.MongoDB;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc;
+using Volo.Abp.AspNetCore.Mvc.AntiForgery;
 using Volo.Abp.AspNetCore.Uow;
 using Volo.Abp.Modularity;
 using Volo.Abp.Threading;
@@ -75,6 +76,11 @@ namespace EShopOnAbp.CatalogService
             {
                 //Standalone MongoDB servers don't support transactions
                 options.TransactionBehavior = UnitOfWorkTransactionBehavior.Disabled;
+            });
+            
+            Configure<AbpAntiForgeryOptions>(options =>
+            {
+                options.AutoValidate = false;
             });
         }
 

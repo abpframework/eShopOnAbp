@@ -2,7 +2,9 @@
 <div>
     @if (!Model.Items.Any())
     {
-        <p>Your basket is empty. You can add products!</p>
+        <div class="basket-list">
+            <p class="text-center"><strong><em>Your basket is empty. Click to a product to add it!</em></strong></p>
+        </div>
     }
     else
     {
