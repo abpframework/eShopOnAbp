@@ -24,5 +24,11 @@ namespace EShopOnAbp.CatalogService.Products
                 )
             );
         }
+        
+        public async Task<ProductDto> GetAsync(Guid id)
+        {
+            var product = await _productRepository.GetAsync(id);
+            return ObjectMapper.Map<Product, ProductDto>(product);
+        }
     }
 }

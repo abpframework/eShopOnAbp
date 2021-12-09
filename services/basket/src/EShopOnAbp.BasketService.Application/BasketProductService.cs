@@ -9,11 +9,11 @@ namespace EShopOnAbp.BasketService;
 
 public class BasketProductService : IBasketProductService, ITransientDependency
 {
-    private readonly IProductAppService _productAppService;
+    private readonly IPublicProductAppService _productAppService;
     private readonly IDistributedCache<ProductDto, Guid> _cache;
 
     public BasketProductService(
-        IProductAppService productAppService,
+        IPublicProductAppService productAppService,
         IDistributedCache<ProductDto, Guid> cache)
     {
         _productAppService = productAppService;

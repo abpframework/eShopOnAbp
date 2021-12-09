@@ -19,5 +19,13 @@ namespace EShopOnAbp.CatalogService.Products.ClientProxies
         {
             return await RequestAsync<ListResultDto<ProductDto>>(nameof(GetListAsync));
         }
+
+        public virtual async Task<ProductDto> GetAsync(Guid id)
+        {
+            return await RequestAsync<ProductDto>(nameof(GetAsync), new ClientProxyRequestTypeValue
+            {
+                { typeof(Guid), id }
+            });
+        }
     }
 }

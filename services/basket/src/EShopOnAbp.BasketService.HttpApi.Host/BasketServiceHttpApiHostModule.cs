@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc;
+using Volo.Abp.AspNetCore.Mvc.AntiForgery;
 using Volo.Abp.Modularity;
 
 namespace EShopOnAbp.BasketService
@@ -27,7 +28,7 @@ namespace EShopOnAbp.BasketService
             var configuration = context.Services.GetConfiguration();
             var hostingEnvironment = context.Services.GetHostingEnvironment();
 
-            JwtBearerConfigurationHelper.Configure(context, "AdministrationService");
+            JwtBearerConfigurationHelper.Configure(context, "AdministrationService"); //TODO: Should be "BasketService", but didn't work :(
             // SwaggerConfigurationHelper.Configure(context, "Basket Service API");
 
             SwaggerWithAuthConfigurationHelper.Configure(
@@ -68,6 +69,11 @@ namespace EShopOnAbp.BasketService
                         opts.RemoteServiceName = "Basket";
                     });
             });
+            
+            Configure<AbpAntiForgeryOptions>(options =>
+            {
+                options.AutoValidate = false;
+            });
         }
 
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
@@ -88,6 +94,10 @@ namespace EShopOnAbp.BasketService
             // app.UseHttpMetrics();
             app.UseAuthentication();
             app.UseAbpClaimsMap();
+            app.Use(async (httpContext, func) =>
+            {
+                await func();
+            });
             app.UseAuthorization();
             app.UseSwagger();
             app.UseSwaggerUI(options => { options.SwaggerEndpoint("/swagger/v1/swagger.json", "Basket Service API"); });

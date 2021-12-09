@@ -30,7 +30,7 @@ namespace EShopOnAbp.CatalogService
         {
             var configuration = context.Services.GetConfiguration();
 
-            JwtBearerConfigurationHelper.Configure(context, "CatalogService");
+            JwtBearerConfigurationHelper.Configure(context, "AdministrationService"); //TODO: Should be "CatalogService", but didn't work :(
             // SwaggerConfigurationHelper.Configure(context, "Catalog Service API");
 
             SwaggerWithAuthConfigurationHelper.Configure(

@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Net.Http.Headers;
 using EShopOnAbp.BasketService;
 using EShopOnAbp.CatalogService;
 using EShopOnAbp.Localization;
 using EShopOnAbp.PublicWeb.Menus;
 using EShopOnAbp.Shared.Hosting.AspNetCore;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
@@ -26,6 +29,7 @@ using Volo.Abp.Modularity;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.UI.Navigation.Urls;
+using Yarp.ReverseProxy.Transforms;
 
 namespace EShopOnAbp.PublicWeb
 {
@@ -124,7 +128,18 @@ namespace EShopOnAbp.PublicWeb
             
             context.Services
                 .AddReverseProxy()
-                .LoadFromConfig(configuration.GetSection("ReverseProxy"));
+                .LoadFromConfig(configuration.GetSection("ReverseProxy"))
+                .AddTransforms(builderContext =>
+                {
+                    builderContext.AddRequestTransform(async (transformContext) =>
+                    {
+                        transformContext.ProxyRequest.Headers
+                            .Authorization = new AuthenticationHeaderValue(
+                                "Bearer",
+                                await transformContext.HttpContext.GetTokenAsync("access_token")
+                            );
+                    });
+                });
         }
 
         public override void OnApplicationInitialization(ApplicationInitializationContext context)

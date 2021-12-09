@@ -34,6 +34,10 @@ public class BasketAppService : BasketServiceAppService, IBasketAppService
         var product = await _basketProductService.GetAsync(input.ProductId);
         
         basket.AddProduct(product.Id);
+
+        await _basketRepository.UpdateAsync(basket);
+        
+        var basket2 = await _basketRepository.GetAsync(CurrentUser.GetId());
         
         return await GetBasketDtoAsync(basket);
     }
@@ -44,6 +48,8 @@ public class BasketAppService : BasketServiceAppService, IBasketAppService
         var product = await _basketProductService.GetAsync(input.ProductId);
         
         basket.RemoveProduct(product.Id, input.Count);
+        
+        await _basketRepository.UpdateAsync(basket);
         
         return await GetBasketDtoAsync(basket);
     }
@@ -73,6 +79,8 @@ public class BasketAppService : BasketServiceAppService, IBasketAppService
             basketItemDto.ImageName = productDto.ImageName;
             basketItemDto.ProductName = productDto.Name;
             basketItemDto.TotalPrice = productDto.Price * basketItemDto.Count;
+            
+            basketDto.Items.Add(basketItemDto);
         }
 
         basketDto.TotalPrice = basketDto.Items.Sum(x => x.TotalPrice);
