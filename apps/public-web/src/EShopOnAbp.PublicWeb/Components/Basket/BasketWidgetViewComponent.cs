@@ -10,7 +10,7 @@ namespace EShopOnAbp.PublicWeb.Components.Basket;
     AutoInitialize = true,
     RefreshUrl = "/Widgets/Basket",
     StyleFiles = new[] { "/components/basket-widget.css" },
-    ScriptFiles = new[] { "/components/basket-widget.js" }
+    ScriptTypes = new[] { typeof(BasketWidgetScriptContributor) }
 )]
 public class BasketWidgetViewComponent : AbpViewComponent
 {

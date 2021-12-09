@@ -13,13 +13,16 @@ public class BasketProductEventHandler : IDistributedEventHandler<EntityUpdatedE
 {
     private readonly IDistributedCache<ProductDto, Guid> _cache;
     private readonly IObjectMapper _objectMapper;
+    private readonly IDistributedEventBus _distributedEventBus;
 
     public BasketProductEventHandler(
         IDistributedCache<ProductDto, Guid> cache,
-        IObjectMapper objectMapper)
+        IObjectMapper objectMapper, 
+        IDistributedEventBus distributedEventBus)
     {
         _cache = cache;
         _objectMapper = objectMapper;
+        _distributedEventBus = distributedEventBus;
     }
 
     public async Task HandleEventAsync(EntityUpdatedEto<ProductEto> eventData)
@@ -31,6 +34,14 @@ public class BasketProductEventHandler : IDistributedEventHandler<EntityUpdatedE
         }
 
         _objectMapper.Map(eventData.Entity, cachedProductDto);
+        
         await _cache.SetAsync(eventData.Entity.Id, cachedProductDto);
+        
+        await _distributedEventBus.PublishAsync(
+            new BasketProductUpdatedEto
+            {
+                ProductId = eventData.Entity.Id,
+                ProductName = eventData.Entity.Name
+            });
     }
 }

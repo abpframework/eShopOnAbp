@@ -21,6 +21,7 @@ using Volo.Abp.AspNetCore.Mvc.Localization;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared.Toolbars;
+using Volo.Abp.AspNetCore.SignalR;
 using Volo.Abp.Caching;
 using Volo.Abp.Caching.StackExchangeRedis;
 using Volo.Abp.EventBus.RabbitMq;
@@ -45,7 +46,8 @@ namespace EShopOnAbp.PublicWeb
         typeof(EShopOnAbpSharedHostingAspNetCoreModule),
         typeof(EShopOnAbpSharedLocalizationModule),
         typeof(CatalogServiceHttpApiClientModule),
-        typeof(BasketServiceHttpApiClientModule)
+        typeof(BasketServiceHttpApiClientModule),
+        typeof(AbpAspNetCoreSignalRModule)
         )]
     public class EShopOnAbpPublicWebModule : AbpModule
     {
