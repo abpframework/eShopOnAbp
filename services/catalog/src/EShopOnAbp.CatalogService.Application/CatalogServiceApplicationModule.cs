@@ -7,9 +7,8 @@ namespace EShopOnAbp.CatalogService
     [DependsOn(
         typeof(CatalogServiceDomainModule),
         typeof(CatalogServiceApplicationContractsModule),
-        typeof(AbpDddApplicationModule),
-        typeof(AbpAutoMapperModule)
-        )]
+        typeof(AbpDddApplicationModule)
+    )]
     public class CatalogServiceApplicationModule : AbpModule
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
