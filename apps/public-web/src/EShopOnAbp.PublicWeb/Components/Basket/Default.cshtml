@@ -9,7 +9,7 @@
         <div class="basket-list">
             @foreach (var item in Model.Items)
             {
-                <div class="basket-list-item">
+                <div class="basket-list-item" data-product-id="@item.ProductId">
                     @if (!item.ImageName.IsNullOrEmpty())
                     {
                         <img src="/product-images/@item.ImageName"/>
@@ -24,6 +24,7 @@
                         <text> (@("x" + item.Count))</text>
                     }
                     - $@item.TotalPrice.ToString("0.00")
+                    <i class="fa fa-remove basket-item-remove" title="Remove from basket"></i>
                 </div>
             }
             <hr/>

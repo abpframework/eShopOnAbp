@@ -6,7 +6,12 @@ using EShopOnAbp.BasketService;
 
 namespace EShopOnAbp.PublicWeb.Components.Basket;
 
-[Widget]
+[Widget(
+    AutoInitialize = true,
+    RefreshUrl = "/Widgets/Basket",
+    StyleFiles = new[] { "/components/basket-widget.css" },
+    ScriptFiles = new[] { "/components/basket-widget.js" }
+)]
 public class BasketWidgetViewComponent : AbpViewComponent
 {
     private readonly IBasketAppService _basketAppService;
@@ -15,7 +20,7 @@ public class BasketWidgetViewComponent : AbpViewComponent
     {
         _basketAppService = basketAppService;
     }
-    
+
     public async Task<IViewComponentResult> InvokeAsync()
     {
         var basketDto = await _basketAppService.GetAsync();
