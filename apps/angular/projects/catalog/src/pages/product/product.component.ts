@@ -1,7 +1,7 @@
 import { ListService } from '@abp/ng.core';
 import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { eCatalogPolicyNames } from '@catalog/config';
 import { ProductDto, ProductService } from '@catalog/proxy/products';
 import { finalize } from 'rxjs/operators';
@@ -49,10 +49,10 @@ export class ProductComponent implements OnInit {
 
   buildForm() {
     this.form = this.fb.group({
-      name: [this.selected.name],
-      code: [this.selected.code],
-      price: [this.selected.price],
-      stockCount: [this.selected.stockCount],
+      name: [this.selected.name, { validators: [Validators.required] }],
+      code: [this.selected.code, { validators: [Validators.required] }],
+      price: [this.selected.price, { validators: [Validators.required] }],
+      stockCount: [this.selected.stockCount, { validators: [Validators.required] }],
     });
   }
 

@@ -13,7 +13,6 @@
   </div>
   <div class="card-body">
     <ngx-datatable [rows]="items" [count]="count" [list]="list" default>
-      <!-- TODO: localize column headers -->
       <ngx-datatable-column
         [name]="'AbpUi::Actions' | abpLocalization"
         [sortable]="false"
@@ -83,53 +82,54 @@
     <form *ngIf="form; else loaderRef" [formGroup]="form" (ngSubmit)="save()">
       <div class="mb-3">
         <label class="form-label" for="code">
-          {{ 'CatalogService::DisplayName:Code' | abpLocalization }}
+          {{ 'CatalogService::DisplayName:Code' | abpLocalization }} *
         </label>
         <input
           type="text"
           class="form-control"
           id="code"
           formControlName="code"
-          placeholder="{{ 'CatalogService::DisplayName:Code' | abpLocalization }}"
+          [readonly]="selected?.id"
+          [placeholder]="'CatalogService::DisplayName:Code' | abpLocalization"
         />
       </div>
 
       <div class="mb-3">
         <label class="form-label" for="name">
-          {{ 'CatalogService::DisplayName:Name' | abpLocalization }}
+          {{ 'CatalogService::DisplayName:Name' | abpLocalization }} *
         </label>
         <input
           type="text"
           class="form-control"
           id="name"
           formControlName="name"
-          placeholder="{{ 'CatalogService::DisplayName:Name' | abpLocalization }}"
+          [placeholder]="'CatalogService::DisplayName:Name' | abpLocalization"
         />
       </div>
 
       <div class="mb-3">
         <label class="form-label" for="price">
-          {{ 'CatalogService::DisplayName:Price' | abpLocalization }}
+          {{ 'CatalogService::DisplayName:Price' | abpLocalization }} *
         </label>
         <input
           type="number"
           class="form-control"
           id="price"
           formControlName="price"
-          placeholder="{{ 'CatalogService::DisplayName:Price' | abpLocalization }}"
+          [placeholder]="'CatalogService::DisplayName:Price' | abpLocalization"
         />
       </div>
 
       <div class="mb-3">
         <label class="form-label" for="stockCount">
-          {{ 'CatalogService::DisplayName:StockCount' | abpLocalization }}
+          {{ 'CatalogService::DisplayName:StockCount' | abpLocalization }} *
         </label>
         <input
           type="number"
           class="form-control"
           id="stockCount"
           formControlName="stockCount"
-          placeholder="{{ 'CatalogService::DisplayName:StockCount' | abpLocalization }}"
+          [placeholder]="'CatalogService::DisplayName:StockCount' | abpLocalization"
         />
       </div>
     </form>
