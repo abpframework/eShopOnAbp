@@ -1,14 +1,27 @@
+import { ListService } from '@abp/ng.core';
 import { Component, OnInit } from '@angular/core';
-import { ProductService } from '@catalog/proxy/products';
-import { map } from 'rxjs/operators';
+import { ProductDto, ProductService } from '@catalog/proxy/products';
+
 @Component({
   selector: 'lib-product',
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.css'],
+  providers: [ListService],
 })
 export class ProductComponent implements OnInit {
-  list$ = this.productService.getList().pipe(map(res => res.items));
-  constructor(public readonly productService: ProductService) {}
+  items: ProductDto[] = [];
+  count = 0;
+  constructor(public readonly productService: ProductService, public readonly list: ListService) {
+    // TODO: this is an example of paging
+    this.list.maxResultCount = 2;
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const productStreamCreator = query => this.productService.getListPaged(query);
+
+    this.list.hookToQuery(productStreamCreator).subscribe(response => {
+      this.items = response.items;
+      this.count = response.totalCount;
+    });
+  }
 }

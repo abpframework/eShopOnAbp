@@ -1,5 +1,21 @@
-<ul *ngIf="list$ | async; let list">
-  <li *ngFor="let item of list">
-    {{ item | json }}
-  </li>
-</ul>
+<div class="card">
+  <div class="card-header">
+    <div class="row">
+      <div class="col col-md-6">
+        <h5 class="card-title">{{ 'AbpCatalog::Products' | abpLocalization }}</h5>
+      </div>
+      <div class="text-end col col-md-6">
+        <button class="btn btn-primary">{{ 'AbpCatalog::NewProduct' | abpLocalization }}</button>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <ngx-datatable [rows]="items" [count]="count" [list]="list" default>
+      <!-- TODO: localize column headers -->
+      <ngx-datatable-column name="Code" prop="code"></ngx-datatable-column>
+      <ngx-datatable-column name="Name" prop="name"></ngx-datatable-column>
+      <ngx-datatable-column name="Price" prop="price"></ngx-datatable-column>
+      <ngx-datatable-column name="Stock Count" prop="stockCount"></ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+</div>
