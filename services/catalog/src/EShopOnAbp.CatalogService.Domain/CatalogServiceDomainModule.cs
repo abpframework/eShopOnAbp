@@ -22,8 +22,8 @@ namespace EShopOnAbp.CatalogService
             
             Configure<AbpDistributedEntityEventOptions>(options =>
             {
-                options.EtoMappings.Add<Product, ProductEto>();
                 options.AutoEventSelectors.Add<Product>();
+                options.EtoMappings.Add<Product, ProductEto>();
             });
         }
     }
