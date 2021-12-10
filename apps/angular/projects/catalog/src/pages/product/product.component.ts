@@ -1,4 +1,5 @@
 import { ListService } from '@abp/ng.core';
+import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
 import { Component, OnInit } from '@angular/core';
 import { ProductDto, ProductService } from '@catalog/proxy/products';
 
@@ -11,7 +12,17 @@ import { ProductDto, ProductService } from '@catalog/proxy/products';
 export class ProductComponent implements OnInit {
   items: ProductDto[] = [];
   count = 0;
-  constructor(public readonly productService: ProductService, public readonly list: ListService) {
+
+  selected: ProductDto;
+
+  isModalVisible: boolean;
+
+  modalBusy = false;
+  constructor(
+    public readonly productService: ProductService,
+    public readonly list: ListService,
+    private confirmationService: ConfirmationService
+  ) {
     // TODO: this is an example of paging
     this.list.maxResultCount = 2;
   }
@@ -25,9 +36,29 @@ export class ProductComponent implements OnInit {
     });
   }
 
-  onEdit(row: ProductDto) {
-    // this.productService.edit(row);
+  onEdit(product: ProductDto) {
+    this.selected = product;
+    this.openModal();
   }
 
-  onDelete(row: ProductDto) {}
+  onCreate() {
+    this.selected = {} as ProductDto;
+    this.openModal();
+  }
+
+  openModal() {
+    this.isModalVisible = true;
+  }
+
+  onDelete(product: ProductDto) {
+    this.confirmationService
+      .warn('AbpCatalog::ProductDeletionConfirmationMessage', 'AbpCatalog::AreYouSure', {
+        messageLocalizationParams: [product.name],
+      })
+      .subscribe((status: Confirmation.Status) => {
+        if (status === Confirmation.Status.confirm) {
+          this.productService.delete(product.id).subscribe(() => this.list.get());
+        }
+      });
+  }
 }
