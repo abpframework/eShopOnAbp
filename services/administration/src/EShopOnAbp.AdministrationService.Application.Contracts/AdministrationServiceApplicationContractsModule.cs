@@ -7,11 +7,11 @@ using EShopOnAbp.CatalogService;
 namespace EShopOnAbp.AdministrationService
 {
     [DependsOn(
+        typeof(CatalogServiceApplicationContractsModule),
         typeof(AdministrationServiceDomainSharedModule),
         typeof(AbpPermissionManagementApplicationContractsModule),
         typeof(AbpFeatureManagementApplicationContractsModule),
-        typeof(AbpSettingManagementApplicationContractsModule),
-        typeof(CatalogServiceApplicationContractsModule)
+        typeof(AbpSettingManagementApplicationContractsModule)
     )]
     public class AdministrationServiceApplicationContractsModule : AbpModule
     {
