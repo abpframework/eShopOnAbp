@@ -5,7 +5,7 @@
         <h5 class="card-title">{{ 'AbpCatalog::Products' | abpLocalization }}</h5>
       </div>
       <div class="text-end col col-md-6">
-        <button class="btn btn-primary" (click)="onCreate()">
+        <button class="btn btn-primary" (click)="onCreate()" *abpPermission="permissions.create">
           {{ 'AbpCatalog::NewProduct' | abpLocalization }}
         </button>
       </div>
@@ -14,7 +14,11 @@
   <div class="card-body">
     <ngx-datatable [rows]="items" [count]="count" [list]="list" default>
       <!-- TODO: localize column headers -->
-      <ngx-datatable-column [name]="'AbpUi::Actions' | abpLocalization" [sortable]="false">
+      <ngx-datatable-column
+        [name]="'AbpUi::Actions' | abpLocalization"
+        [sortable]="false"
+        *abpPermission="permissions.update + ' || ' + permissions.delete"
+      >
         <ng-template let-row="row" ngx-datatable-cell-template>
           <div ngbDropdown container="body" class="d-inline-block">
             <button
@@ -26,10 +30,18 @@
               <i class="me-1 fa fa-cog"></i>{{ 'AbpUi::Actions' | abpLocalization }}
             </button>
             <div ngbDropdownMenu>
-              <button class="dropdown-item" (click)="onEdit(row)">
+              <button
+                class="dropdown-item"
+                (click)="onEdit(row)"
+                *abpPermission="permissions.update"
+              >
                 {{ 'AbpUi::Edit' | abpLocalization }}
               </button>
-              <button class="dropdown-item" (click)="onDelete(row)">
+              <button
+                class="dropdown-item"
+                (click)="onDelete(row)"
+                *abpPermission="permissions.delete"
+              >
                 {{ 'AbpUi::Delete' | abpLocalization }}
               </button>
             </div>

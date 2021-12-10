@@ -1,6 +1,7 @@
 import { ListService } from '@abp/ng.core';
 import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
 import { Component, OnInit } from '@angular/core';
+import { eCatalogPolicyNames } from '@catalog/config';
 import { ProductDto, ProductService } from '@catalog/proxy/products';
 
 @Component({
@@ -10,6 +11,12 @@ import { ProductDto, ProductService } from '@catalog/proxy/products';
   providers: [ListService],
 })
 export class ProductComponent implements OnInit {
+  permissions = {
+    create: eCatalogPolicyNames.ProductManagementCreate,
+    update: eCatalogPolicyNames.ProductManagementUpdate,
+    delete: eCatalogPolicyNames.ProductManagementDelete,
+  };
+
   items: ProductDto[] = [];
   count = 0;
 

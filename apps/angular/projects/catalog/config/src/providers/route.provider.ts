@@ -1,5 +1,6 @@
 import { eLayoutType, RoutesService } from '@abp/ng.core';
 import { APP_INITIALIZER } from '@angular/core';
+import { eCatalogPolicyNames } from '../enums/policy-names';
 import { eCatalogRouteNames } from '../enums/route-names';
 
 export const CATALOG_ROUTE_PROVIDERS = [
@@ -15,16 +16,14 @@ export function configureRoutes(routesService: RoutesService) {
         layout: eLayoutType.application,
         // TODO: find icon
         iconClass: 'fa fa-users',
-        // TODO: add this policy
-        // requiredPolicy: eCatalogPolicyNames.Catalog,
+        requiredPolicy: eCatalogPolicyNames.Catalog,
       },
       {
         path: '/catalog/products',
         name: eCatalogRouteNames.ProductManagement,
         parentName: eCatalogRouteNames.Catalog,
         order: 1,
-        // TODO: add this policy
-        //  requiredPolicy: eCatalogPolicyNames.ProductManagement,
+        requiredPolicy: eCatalogPolicyNames.ProductManagement,
       },
     ]);
   };

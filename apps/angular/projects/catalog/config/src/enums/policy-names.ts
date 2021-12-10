@@ -1,4 +1,8 @@
 export const enum eCatalogPolicyNames {
-  Catalog = 'AbpCatalog.ProductManagement',
-  ProductManagement = 'AbpCatalog.ProductManagement',
+  Catalog = 'CatalogService.Products',
+  ProductManagement = 'CatalogService.Products',
+
+  ProductManagementCreate = 'CatalogService.Products.Create',
+  ProductManagementUpdate = 'CatalogService.Products.Update',
+  ProductManagementDelete = 'CatalogService.Products.Delete',
 }
