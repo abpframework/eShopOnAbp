@@ -37,8 +37,6 @@ public class BasketAppService : BasketServiceAppService, IBasketAppService
 
         await _basketRepository.UpdateAsync(basket);
         
-        var basket2 = await _basketRepository.GetAsync(CurrentUser.GetId());
-        
         return await GetBasketDtoAsync(basket);
     }
 
