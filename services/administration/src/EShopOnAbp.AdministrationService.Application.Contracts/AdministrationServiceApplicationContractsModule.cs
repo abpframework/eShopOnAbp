@@ -2,6 +2,7 @@
 using Volo.Abp.Modularity;
 using Volo.Abp.PermissionManagement;
 using Volo.Abp.SettingManagement;
+using EShopOnAbp.CatalogService;
 
 namespace EShopOnAbp.AdministrationService
 {
@@ -9,7 +10,8 @@ namespace EShopOnAbp.AdministrationService
         typeof(AdministrationServiceDomainSharedModule),
         typeof(AbpPermissionManagementApplicationContractsModule),
         typeof(AbpFeatureManagementApplicationContractsModule),
-        typeof(AbpSettingManagementApplicationContractsModule)
+        typeof(AbpSettingManagementApplicationContractsModule),
+        typeof(CatalogServiceApplicationContractsModule)
     )]
     public class AdministrationServiceApplicationContractsModule : AbpModule
     {
