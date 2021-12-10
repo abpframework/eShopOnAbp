@@ -73,7 +73,7 @@ export class ProductComponent implements OnInit {
 
   onDelete(product: ProductDto) {
     this.confirmationService
-      .warn('AbpCatalog::ProductDeletionConfirmationMessage', 'AbpCatalog::AreYouSure', {
+      .warn('CatalogService::ProductDeletionConfirmationMessage', 'AbpUi::AreYouSure', {
         messageLocalizationParams: [product.name],
       })
       .subscribe((status: Confirmation.Status) => {

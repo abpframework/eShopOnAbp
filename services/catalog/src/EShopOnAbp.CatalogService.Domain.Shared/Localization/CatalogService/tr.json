@@ -14,6 +14,7 @@
     "DisplayName:Name": "İsim",
     "DisplayName:Code": "Kod",
     "DisplayName:Price": "Fiyat",
-    "DisplayName:StockCount": "Stok Adedi"
+    "DisplayName:StockCount": "Stok Adedi",
+    "ProductDeletionConfirmationMessage": "{0} ürününü silmek istediğinizden emin misiniz?"
   }
 }
