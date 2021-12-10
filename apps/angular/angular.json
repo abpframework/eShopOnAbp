@@ -55,11 +55,9 @@
                 "inject": false,
                 "bundleName": "bootstrap-rtl.min"
               },
-              {
-                "input": "node_modules/bootstrap/dist/css/bootstrap.min.css",
-                "inject": true,
-                "bundleName": "bootstrap-ltr.min"
-              },
+              "node_modules/@volo/ngx-lepton-x.lite/styles/sidemenu-layout.min.css",
+              "node_modules/bootstrap-icons/font/bootstrap-icons.css",
+
               "src/styles.scss"
             ],
             "scripts": [],

@@ -19,6 +19,7 @@
     "@abp/ng.setting-management": "4.4.4",
     "@abp/ng.tenant-management": "4.4.4",
     "@abp/ng.theme.basic": "4.4.4",
+    "@abp/ng.theme.lepton-x": "^1.0.0-alpha.2",
     "@abp/ng.theme.shared": "4.4.4",
     "@angular/animations": "~12.2.8",
     "@angular/common": "~12.2.8",

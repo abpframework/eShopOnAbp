@@ -15,6 +15,7 @@ export function configureRoutes(routesService: RoutesService) {
         name: eCatalogRouteNames.Catalog,
         layout: eLayoutType.application,
         parentName: null,
+        iconClass: 'bi bi-collection-fill',
         requiredPolicy: eCatalogPolicyNames.Catalog,
       },
       {
@@ -23,6 +24,7 @@ export function configureRoutes(routesService: RoutesService) {
         parentName: eCatalogRouteNames.Catalog,
         order: 1,
         requiredPolicy: eCatalogPolicyNames.ProductManagement,
+        iconClass: 'bi bi-tag-fill',
       },
     ]);
   };
