@@ -24,4 +24,10 @@ export class ProductComponent implements OnInit {
       this.count = response.totalCount;
     });
   }
+
+  onEdit(row: ProductDto) {
+    // this.productService.edit(row);
+  }
+
+  onDelete(row: ProductDto) {}
 }
