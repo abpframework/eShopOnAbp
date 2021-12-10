@@ -65,4 +65,9 @@ public class Basket : AggregateRoot<Guid>
         var item = Items.FirstOrDefault(x => x.ProductId == productId);
         return item?.Count ?? 0;
     }
+
+    public void Clear()
+    {
+        Items.Clear();
+    }
 }
