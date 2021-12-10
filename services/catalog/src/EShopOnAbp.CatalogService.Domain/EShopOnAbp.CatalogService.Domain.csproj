@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EShopOnAbp.CatalogService.Domain.Shared\EShopOnAbp.CatalogService.Domain.Shared.csproj" />
+    <ProjectReference Include="..\..\..\basket\src\EShopOnAbp.BasketService.Domain.Shared\EShopOnAbp.BasketService.Domain.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

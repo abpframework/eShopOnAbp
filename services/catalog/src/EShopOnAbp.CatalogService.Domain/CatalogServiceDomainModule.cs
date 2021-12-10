@@ -1,4 +1,5 @@
-﻿using EShopOnAbp.CatalogService.Products;
+﻿using EShopOnAbp.BasketService;
+using EShopOnAbp.CatalogService.Products;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Domain;
 using Volo.Abp.Domain.Entities.Events.Distributed;
@@ -9,7 +10,8 @@ namespace EShopOnAbp.CatalogService
     [DependsOn(
         typeof(CatalogServiceDomainSharedModule),
         typeof(AbpDddDomainModule),
-        typeof(AbpAutoMapperModule)
+        typeof(AbpAutoMapperModule),
+        typeof(BasketServiceDomainSharedModule)
     )]
     public class CatalogServiceDomainModule : AbpModule
     {
