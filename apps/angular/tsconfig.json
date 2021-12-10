@@ -17,6 +17,9 @@
       "@catalog/config": [
         "projects/catalog/config/src/public-api.ts"
       ],
+      "@catalog/proxy/products": [
+        "projects/catalog/src/lib/proxy/products/index.ts"
+      ],
       "@catalog/*": [
         "projects/catalog/src/*",
       ],
