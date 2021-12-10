@@ -238,7 +238,7 @@ namespace EShopOnAbp.IdentityService.DbMigrations
                     "IdentityService",
                     "AdministrationService"
                 }),
-                grantTypes: new[] { "authorization_code", "LinkLogin" },
+                grantTypes: new[] { "authorization_code", "LinkLogin", "password" },
                 secret: "1q2w3e*".Sha256(),
                 requirePkce: true,
                 requireClientSecret: false,

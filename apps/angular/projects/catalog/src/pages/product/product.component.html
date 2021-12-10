@@ -4,7 +4,7 @@
       <div class="col col-md-6">
         <h5 class="card-title">{{ 'CatalogService::Products' | abpLocalization }}</h5>
       </div>
-      <div class="text-end col col-md-6">
+      <div class="text-right col col-md-6">
         <button class="btn btn-primary" (click)="onCreate()" *abpPermission="permissions.create">
           {{ 'CatalogService::NewProduct' | abpLocalization }}
         </button>
@@ -26,7 +26,7 @@
               aria-haspopup="true"
               ngbDropdownToggle
             >
-              <i class="me-1 fa fa-cog"></i>{{ 'AbpUi::Actions' | abpLocalization }}
+              <i class="mr-1 fa fa-cog"></i>{{ 'AbpUi::Actions' | abpLocalization }}
             </button>
             <div ngbDropdownMenu>
               <button
