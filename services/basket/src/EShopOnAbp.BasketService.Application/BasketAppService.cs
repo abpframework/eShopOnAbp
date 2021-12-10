@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Volo.Abp.Users;
 using EShopOnAbp.CatalogService.Products;
+using Volo.Abp;
 
 namespace EShopOnAbp.BasketService;
 
@@ -32,6 +33,11 @@ public class BasketAppService : BasketServiceAppService, IBasketAppService
     {
         var basket = await _basketRepository.GetAsync(CurrentUser.GetId());
         var product = await _basketProductService.GetAsync(input.ProductId);
+
+        if (basket.GetProductCount(product.Id) >= product.StockCount)
+        {
+            throw new UserFriendlyException("There is not enough product in stock, sorry :(");
+        }
         
         basket.AddProduct(product.Id);
 
@@ -55,34 +61,43 @@ public class BasketAppService : BasketServiceAppService, IBasketAppService
     private async Task<BasketDto> GetBasketDtoAsync(Basket basket)
     {
         var products = new Dictionary<Guid, ProductDto>();
-
         var basketDto = new BasketDto();
+        var basketChanged = false;
 
         foreach (var basketItem in basket.Items)
         {
-            var basketItemDto = new BasketItemDto
-            {
-                ProductId = basketItem.ProductId,
-                Count = basketItem.Count
-            };
-
             var productDto = products.GetOrDefault(basketItem.ProductId);
             if (productDto == null)
             {
                 productDto = await _basketProductService.GetAsync(basketItem.ProductId);
                 products[productDto.Id] = productDto;
             }
-
-            basketItemDto.ProductCode = productDto.Code;
-            basketItemDto.ImageName = productDto.ImageName;
-            basketItemDto.ProductName = productDto.Name;
-            basketItemDto.TotalPrice = productDto.Price * basketItemDto.Count;
             
-            basketDto.Items.Add(basketItemDto);
+            //Removing the products if not available in the stock
+            if (basketItem.Count > productDto.StockCount)
+            {
+                basket.RemoveProduct(basketItem.ProductId, basketItem.Count - productDto.StockCount);
+                basketChanged = true;
+            }
+
+            basketDto.Items.Add(new BasketItemDto
+            {
+                ProductId = basketItem.ProductId,
+                Count = basketItem.Count,
+                ProductCode = productDto.Code,
+                ImageName = productDto.ImageName,
+                ProductName = productDto.Name,
+                TotalPrice = productDto.Price * basketItem.Count
+            });
         }
 
         basketDto.TotalPrice = basketDto.Items.Sum(x => x.TotalPrice);
 
+        if (basketChanged)
+        {
+            await _basketRepository.UpdateAsync(basket);
+        }
+        
         return basketDto;
     }
 }

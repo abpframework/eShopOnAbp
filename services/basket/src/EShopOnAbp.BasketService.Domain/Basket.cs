@@ -59,4 +59,10 @@ public class Basket : AggregateRoot<Guid>
 
         item.Count -= count.Value;
     }
+
+    public int GetProductCount(Guid productId)
+    {
+        var item = Items.FirstOrDefault(x => x.ProductId == productId);
+        return item?.Count ?? 0;
+    }
 }
