@@ -1,1 +1,5 @@
-<p>product works!</p>
+<ul *ngIf="list$ | async; let list">
+  <li *ngFor="let item of list">
+    {{ item | json }}
+  </li>
+</ul>
