@@ -16,6 +16,15 @@
                         abp.notify.info("Removed the product from your basket.", "Removed basket item");
                     });
                 });
+            
+            $wrapper
+                .find('.basket-purchase-button')
+                .click(function(){
+                    eShopOnAbp.basketService.basket.purchase().then(function(){
+                        widgetManager.refresh();
+                        abp.notify.info("Thank you for the payment!", "Purchase completed!");
+                    });                    
+                });
         };
 
         return {

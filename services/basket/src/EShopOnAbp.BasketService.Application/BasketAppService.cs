@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Volo.Abp.Users;
 using EShopOnAbp.CatalogService.Products;
 using Volo.Abp;
+using Volo.Abp.EventBus.Distributed;
 
 namespace EShopOnAbp.BasketService;
 
@@ -14,13 +15,16 @@ public class BasketAppService : BasketServiceAppService, IBasketAppService
 {
     private readonly IBasketRepository _basketRepository;
     private readonly IBasketProductService _basketProductService;
+    private readonly IDistributedEventBus _distributedEventBus;
 
     public BasketAppService(
         IBasketRepository basketRepository,
-        IBasketProductService basketProductService)
+        IBasketProductService basketProductService,
+        IDistributedEventBus distributedEventBus)
     {
         _basketRepository = basketRepository;
         _basketProductService = basketProductService;
+        _distributedEventBus = distributedEventBus;
     }
     
     public async Task<BasketDto> GetAsync()
@@ -57,7 +61,16 @@ public class BasketAppService : BasketServiceAppService, IBasketAppService
         
         return await GetBasketDtoAsync(basket);
     }
-    
+
+    public async Task PurchaseAsync()
+    {
+        var basket = await _basketRepository.GetAsync(CurrentUser.GetId());
+        var orderAcceptedEto = ObjectMapper.Map<Basket, OrderAcceptedEto>(basket);
+        await _distributedEventBus.PublishAsync(orderAcceptedEto);
+        basket.Clear();
+        await _basketRepository.UpdateAsync(basket);
+    }
+
     private async Task<BasketDto> GetBasketDtoAsync(Basket basket)
     {
         var products = new Dictionary<Guid, ProductDto>();
