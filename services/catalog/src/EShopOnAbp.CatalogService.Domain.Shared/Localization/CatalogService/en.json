@@ -6,6 +6,14 @@
     "Permission:Products": "Products",
     "Permission:Products.Edit": "Edit",
     "Permission:Products.Delete": "Delete",
-    "Permission:Products.Create": "Create"
+    "Permission:Products.Create": "Create",
+    "Menu:CatalogManagement": "Catalog Management",
+    "Menu:Products": "Products",
+    "NewProduct": "New Product",
+    "Products": "Products",
+    "DisplayName:Name": "Name",
+    "DisplayName:Code": "Code",
+    "DisplayName:Price": "Price",
+    "DisplayName:StockCount": "StockCount"
   }
 }

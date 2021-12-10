@@ -2,11 +2,11 @@
   <div class="card-header">
     <div class="row">
       <div class="col col-md-6">
-        <h5 class="card-title">{{ 'AbpCatalog::Products' | abpLocalization }}</h5>
+        <h5 class="card-title">{{ 'CatalogService::Products' | abpLocalization }}</h5>
       </div>
       <div class="text-end col col-md-6">
         <button class="btn btn-primary" (click)="onCreate()" *abpPermission="permissions.create">
-          {{ 'AbpCatalog::NewProduct' | abpLocalization }}
+          {{ 'CatalogService::NewProduct' | abpLocalization }}
         </button>
       </div>
     </div>
@@ -48,17 +48,31 @@
           </div>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="Code" prop="code"></ngx-datatable-column>
-      <ngx-datatable-column name="Name" prop="name"></ngx-datatable-column>
-      <ngx-datatable-column name="Price" prop="price"></ngx-datatable-column>
-      <ngx-datatable-column name="Stock Count" prop="stockCount"></ngx-datatable-column>
+      <ngx-datatable-column
+        [name]="'CatalogService::DisplayName:Code' | abpLocalization"
+        prop="code"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
+        [name]="'CatalogService::DisplayName:Name' | abpLocalization"
+        prop="name"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
+        [name]="'CatalogService::DisplayName:Price' | abpLocalization"
+        prop="price"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
+        [name]="'CatalogService::DisplayName:StockCount' | abpLocalization"
+        prop="stockCount"
+      ></ngx-datatable-column>
     </ngx-datatable>
   </div>
 </div>
 
 <abp-modal [(visible)]="isModalVisible" [busy]="modalBusy">
   <ng-template #abpHeader>
-    <h3>{{ (selected?.id ? 'AbpCatalog::Edit' : 'AbpCatalog::NewProduct') | abpLocalization }}</h3>
+    <h3>
+      {{ (selected?.id ? 'AbpUi::Edit' : 'CatalogService::NewProduct') | abpLocalization }}
+    </h3>
   </ng-template>
 
   <ng-template #abpBody>
@@ -100,8 +114,8 @@
 
   <ng-template #abpFooter>
     <button type="button" class="btn btn-secondary" abpClose>
-      {{ 'AbpIdentity::Cancel' | abpLocalization }}
+      {{ 'AbpUi::Cancel' | abpLocalization }}
     </button>
-    <abp-button iconClass="fa fa-check">{{ 'AbpIdentity::Save' | abpLocalization }}</abp-button>
+    <abp-button iconClass="fa fa-check">{{ 'AbpUi::Save' | abpLocalization }}</abp-button>
   </ng-template>
 </abp-modal>
