@@ -36,7 +36,6 @@ export class ProductComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private fb: FormBuilder
   ) {
-    // TODO: this is an example of paging
     this.list.maxResultCount = 10;
   }
 

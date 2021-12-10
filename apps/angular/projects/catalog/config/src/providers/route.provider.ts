@@ -15,8 +15,6 @@ export function configureRoutes(routesService: RoutesService) {
         name: eCatalogRouteNames.Catalog,
         layout: eLayoutType.application,
         parentName: null,
-        // TODO: find icon
-        iconClass: 'fa fa-users',
         requiredPolicy: eCatalogPolicyNames.Catalog,
       },
       {
