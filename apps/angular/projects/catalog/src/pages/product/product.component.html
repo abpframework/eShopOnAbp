@@ -143,6 +143,8 @@
     <button type="button" class="btn btn-secondary" abpClose>
       {{ 'AbpUi::Cancel' | abpLocalization }}
     </button>
-    <abp-button iconClass="fa fa-check">{{ 'AbpUi::Save' | abpLocalization }}</abp-button>
+    <abp-button iconClass="fa fa-check" [disabled]="form?.invalid" (click)="save()">{{
+      'AbpUi::Save' | abpLocalization
+    }}</abp-button>
   </ng-template>
 </abp-modal>
