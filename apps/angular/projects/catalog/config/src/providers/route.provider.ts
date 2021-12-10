@@ -19,7 +19,7 @@ export function configureRoutes(routesService: RoutesService) {
         // requiredPolicy: eCatalogPolicyNames.Catalog,
       },
       {
-        path: '/catalog',
+        path: '/catalog/products',
         name: eCatalogRouteNames.ProductManagement,
         parentName: eCatalogRouteNames.Catalog,
         order: 1,
