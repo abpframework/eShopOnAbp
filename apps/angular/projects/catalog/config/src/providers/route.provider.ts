@@ -14,13 +14,14 @@ export function configureRoutes(routesService: RoutesService) {
         path: '/catalog',
         name: eCatalogRouteNames.Catalog,
         layout: eLayoutType.application,
+        parentName: null,
         // TODO: find icon
         iconClass: 'fa fa-users',
         requiredPolicy: eCatalogPolicyNames.Catalog,
       },
       {
         path: '/catalog/products',
-        name: eCatalogRouteNames.ProductManagement,
+        name: eCatalogRouteNames.Products,
         parentName: eCatalogRouteNames.Catalog,
         order: 1,
         requiredPolicy: eCatalogPolicyNames.ProductManagement,
