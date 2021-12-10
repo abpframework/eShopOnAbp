@@ -12,15 +12,18 @@ export const environment = {
     issuer: 'https://localhost:44330',
     redirectUri: baseUrl,
     clientId: 'Web',
-    responseType: 'code',
-    scope:
-      'offline_access openid profile email phone IdentityService AdministrationService',
-    requireHttps: true,
+    //responseType: 'code',
+    scope: 'offline_access openid profile email phone IdentityService AdministrationService',
+    //requireHttps: true,
   },
   apis: {
     default: {
       url: 'https://localhost:44372',
       rootNamespace: 'EShopOnAbp',
-    }
+    },
+    Catalog: {
+      url: 'https://localhost:44354',
+      rootNamespace: 'EShopOnAbp.CatalogService',
+    },
   },
 } as Environment;

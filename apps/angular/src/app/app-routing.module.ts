@@ -25,6 +25,10 @@ const routes: Routes = [
     loadChildren: () =>
       import('@abp/ng.setting-management').then(m => m.SettingManagementModule.forLazy()),
   },
+  {
+    path: 'catalog',
+    loadChildren: () => import('@eshoponabp/catalog').then(m => m.CatalogModule),
+  },
 ];
 
 @NgModule({
