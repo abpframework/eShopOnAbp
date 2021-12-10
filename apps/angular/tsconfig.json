@@ -18,10 +18,12 @@
       "@proxy/*": [
         "src/app/proxy/*"
       ],
-      "catalog": [
-        "dist/catalog/catalog",
-        "dist/catalog"
-      ]
+      "@catalog/config": [
+        "projects/catalog/config/src/public-api.ts"
+      ],
+      "@catalog": [
+        "projects/catalog/src/public-api.ts",
+      ],
     }
   },
   "angularCompilerOptions": {
