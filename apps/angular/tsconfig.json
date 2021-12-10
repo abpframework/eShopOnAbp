@@ -14,14 +14,13 @@
     "typeRoots": ["node_modules/@types"],
     "lib": ["es2018", "dom"],
     "paths": {
-      "@catalog/config": [
+      "@eshoponabp/catalog/config": [
+        "node_modules/@eshoponabp/catalog/config",
         "projects/catalog/config/src/public-api.ts"
       ],
-      "@catalog/proxy/products": [
-        "projects/catalog/src/lib/proxy/products/index.ts"
-      ],
-      "@catalog/*": [
-        "projects/catalog/src/*",
+      "@eshoponabp/catalog": [
+        "node_modules/@eshoponabp/catalog",
+        "projects/catalog/src/public-api.ts",
       ],
     }
   },

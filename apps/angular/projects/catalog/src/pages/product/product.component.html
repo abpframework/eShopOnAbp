@@ -56,6 +56,10 @@
         prop="name"
       ></ngx-datatable-column>
       <ngx-datatable-column
+        [name]="'CatalogService::DisplayName:ImageName' | abpLocalization"
+        prop="imageName"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
         [name]="'CatalogService::DisplayName:Price' | abpLocalization"
         prop="price"
       ></ngx-datatable-column>
@@ -104,6 +108,19 @@
           id="name"
           formControlName="name"
           [placeholder]="'CatalogService::DisplayName:Name' | abpLocalization"
+        />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="imageName">
+          {{ 'CatalogService::DisplayName:ImageName' | abpLocalization }} *
+        </label>
+        <input
+          type="text"
+          class="form-control"
+          id="imageName"
+          formControlName="imageName"
+          [placeholder]="'CatalogService::DisplayName:ImageName' | abpLocalization"
         />
       </div>
 

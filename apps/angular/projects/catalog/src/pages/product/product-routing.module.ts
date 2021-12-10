@@ -1,7 +1,7 @@
 import { AuthGuard, PermissionGuard } from '@abp/ng.core';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { eCatalogPolicyNames } from '@catalog/config';
+import { eCatalogPolicyNames } from '@eshoponabp/catalog/config';
 import { ProductComponent } from './product.component';
 
 const routes: Routes = [

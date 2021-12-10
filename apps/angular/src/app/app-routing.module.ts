@@ -27,7 +27,7 @@ const routes: Routes = [
   },
   {
     path: 'catalog',
-    loadChildren: () => import('@catalog/catalog.module').then(m => m.CatalogModule),
+    loadChildren: () => import('@eshoponabp/catalog').then(m => m.CatalogModule),
   },
 ];
 

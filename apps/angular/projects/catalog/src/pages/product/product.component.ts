@@ -2,9 +2,11 @@ import { ListService } from '@abp/ng.core';
 import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { eCatalogPolicyNames } from '@catalog/config';
-import { ProductDto, ProductService } from '@catalog/proxy/products';
+import { eCatalogPolicyNames } from '@eshoponabp/catalog/config';
 import { finalize } from 'rxjs/operators';
+import { ProductDto } from '../../lib/proxy/products/models';
+import { ProductService } from '../../lib/proxy/products/product.service';
+
 @Component({
   selector: 'lib-product',
   templateUrl: './product.component.html',
@@ -35,7 +37,7 @@ export class ProductComponent implements OnInit {
     private fb: FormBuilder
   ) {
     // TODO: this is an example of paging
-    this.list.maxResultCount = 20;
+    this.list.maxResultCount = 10;
   }
 
   ngOnInit(): void {
@@ -51,6 +53,7 @@ export class ProductComponent implements OnInit {
     this.form = this.fb.group({
       name: [this.selected.name, { validators: [Validators.required] }],
       code: [this.selected.code, { validators: [Validators.required] }],
+      imageName: [this.selected.imageName, { validators: [Validators.required] }],
       price: [this.selected.price, { validators: [Validators.required] }],
       stockCount: [this.selected.stockCount, { validators: [Validators.required] }],
     });
