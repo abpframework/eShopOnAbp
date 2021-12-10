@@ -1,6 +1,7 @@
 import { ListService } from '@abp/ng.core';
 import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { eCatalogPolicyNames } from '@catalog/config';
 import { ProductDto, ProductService } from '@catalog/proxy/products';
 
@@ -25,10 +26,13 @@ export class ProductComponent implements OnInit {
   isModalVisible: boolean;
 
   modalBusy = false;
+
+  form: FormGroup;
   constructor(
     public readonly productService: ProductService,
     public readonly list: ListService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private fb: FormBuilder
   ) {
     // TODO: this is an example of paging
     this.list.maxResultCount = 2;
@@ -40,6 +44,15 @@ export class ProductComponent implements OnInit {
     this.list.hookToQuery(productStreamCreator).subscribe(response => {
       this.items = response.items;
       this.count = response.totalCount;
+    });
+  }
+
+  buildForm() {
+    this.form = this.fb.group({
+      name: [this.selected.name],
+      code: [this.selected.code],
+      price: [this.selected.price],
+      stockCount: [this.selected.stockCount],
     });
   }
 
@@ -55,6 +68,7 @@ export class ProductComponent implements OnInit {
 
   openModal() {
     this.isModalVisible = true;
+    this.buildForm();
   }
 
   onDelete(product: ProductDto) {
@@ -68,4 +82,6 @@ export class ProductComponent implements OnInit {
         }
       });
   }
+
+  save() {}
 }
