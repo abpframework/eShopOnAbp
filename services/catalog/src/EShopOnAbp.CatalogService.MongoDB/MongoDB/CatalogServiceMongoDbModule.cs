@@ -14,6 +14,7 @@ namespace EShopOnAbp.CatalogService.MongoDB
         {
             context.Services.AddMongoDbContext<CatalogServiceMongoDbContext>(options =>
             {
+                options.AddDefaultRepositories();
                 /* Add custom repositories here. Example:
                  * options.AddRepository<Question, MongoQuestionRepository>();
                  */

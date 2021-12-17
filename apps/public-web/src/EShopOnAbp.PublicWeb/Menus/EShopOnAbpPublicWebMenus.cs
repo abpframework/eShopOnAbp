@@ -5,6 +5,6 @@
         private const string Prefix = "EShopOnAbp.Public";
 
         public const string HomePage = Prefix + ".HomePage";
-        // public const string ProductPage = Prefix + ".ProductPage";
+        public const string Catalog = Prefix + ".Catalog";
     }
 }

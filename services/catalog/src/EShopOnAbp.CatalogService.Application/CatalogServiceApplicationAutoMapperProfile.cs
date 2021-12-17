@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EShopOnAbp.CatalogService.Products;
 
 namespace EShopOnAbp.CatalogService
 {
@@ -6,9 +7,7 @@ namespace EShopOnAbp.CatalogService
     {
         public CatalogServiceApplicationAutoMapperProfile()
         {
-            /* You can configure your AutoMapper mapping configuration here.
-             * Alternatively, you can split your mapping configurations
-             * into multiple profile classes for a better organization. */
+            CreateMap<Product, ProductDto>();
         }
     }
 }

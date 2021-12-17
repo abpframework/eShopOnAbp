@@ -8,9 +8,11 @@ namespace EShopOnAbp.CatalogService.Permissions
     {
         public override void Define(IPermissionDefinitionContext context)
         {
-            var myGroup = context.AddGroup(CatalogServicePermissions.GroupName);
-            //Define your own permissions here. Example:
-            //myGroup.AddPermission(CatalogServicePermissions.MyPermission1, L("Permission:MyPermission1"));
+            var productManagementGroup = context.AddGroup(CatalogServicePermissions.GroupName, L("Permission:GroupName"));
+            var products = productManagementGroup.AddPermission(CatalogServicePermissions.Products.Default, L("Permission:Products"));
+            products.AddChild(CatalogServicePermissions.Products.Update, L("Permission:Products.Edit"));
+            products.AddChild(CatalogServicePermissions.Products.Delete, L("Permission:Products.Delete"));
+            products.AddChild(CatalogServicePermissions.Products.Create, L("Permission:Products.Create"));
         }
 
         private static LocalizableString L(string name)

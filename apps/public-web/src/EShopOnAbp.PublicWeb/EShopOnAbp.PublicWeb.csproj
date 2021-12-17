@@ -6,6 +6,7 @@
     
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="6.0.0" />
+        <PackageReference Include="Yarp.ReverseProxy" Version="1.0.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -17,11 +18,14 @@
         <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic" Version="5.0.0-rc.1" />
         <PackageReference Include="Volo.Abp.Account.HttpApi" Version="5.0.0-rc.1" />
         <PackageReference Include="Volo.Abp.Account.HttpApi.Client" Version="5.0.0-rc.1" />
+        <PackageReference Include="Volo.Abp.AspNetCore.SignalR" Version="5.0.0-rc.1" />
     </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\..\..\..\shared\EShopOnAbp.Shared.Hosting.AspNetCore\EShopOnAbp.Shared.Hosting.AspNetCore.csproj" />
         <ProjectReference Include="..\..\..\..\shared\EShopOnAbp.Shared.Localization\EShopOnAbp.Shared.Localization.csproj" />
+        <ProjectReference Include="..\..\..\..\services\catalog\src\EShopOnAbp.CatalogService.HttpApi.Client\EShopOnAbp.CatalogService.HttpApi.Client.csproj" />
+        <ProjectReference Include="..\..\..\..\services\basket\src\EShopOnAbp.BasketService.HttpApi.Client\EShopOnAbp.BasketService.HttpApi.Client.csproj" />
         <!--        <ProjectReference Include="..\..\..\..\services\product\src\MyCompanyName.MyProjectName.ProductService.HttpApi.Client\MyCompanyName.MyProjectName.ProductService.HttpApi.Client.csproj" />-->
     </ItemGroup>
     

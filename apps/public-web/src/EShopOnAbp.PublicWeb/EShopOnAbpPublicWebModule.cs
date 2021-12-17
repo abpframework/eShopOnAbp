@@ -1,9 +1,14 @@
 ﻿using System;
+using System.Net.Http.Headers;
+using EShopOnAbp.BasketService;
+using EShopOnAbp.CatalogService;
 using EShopOnAbp.Localization;
 using EShopOnAbp.PublicWeb.Menus;
 using EShopOnAbp.Shared.Hosting.AspNetCore;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
@@ -16,6 +21,7 @@ using Volo.Abp.AspNetCore.Mvc.Localization;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared.Toolbars;
+using Volo.Abp.AspNetCore.SignalR;
 using Volo.Abp.Caching;
 using Volo.Abp.Caching.StackExchangeRedis;
 using Volo.Abp.EventBus.RabbitMq;
@@ -24,6 +30,7 @@ using Volo.Abp.Modularity;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.UI.Navigation.Urls;
+using Yarp.ReverseProxy.Transforms;
 
 namespace EShopOnAbp.PublicWeb
 {
@@ -37,8 +44,10 @@ namespace EShopOnAbp.PublicWeb
         typeof(AbpAccountHttpApiModule),
         typeof(AbpAccountHttpApiClientModule),
         typeof(EShopOnAbpSharedHostingAspNetCoreModule),
-        typeof(EShopOnAbpSharedLocalizationModule)
-        // typeof(ProductServiceHttpApiClientModule)
+        typeof(EShopOnAbpSharedLocalizationModule),
+        typeof(CatalogServiceHttpApiClientModule),
+        typeof(BasketServiceHttpApiClientModule),
+        typeof(AbpAspNetCoreSignalRModule)
         )]
     public class EShopOnAbpPublicWebModule : AbpModule
     {
@@ -99,7 +108,8 @@ namespace EShopOnAbp.PublicWeb
                     options.Scope.Add("email");
                     options.Scope.Add("phone");
                     options.Scope.Add("AdministrationService");
-                    // options.Scope.Add("ProductService");
+                    options.Scope.Add("BasketService");
+                    options.Scope.Add("CatalogService");
                 });
 
             var redis = ConnectionMultiplexer.Connect(configuration["Redis:Configuration"]);
@@ -117,6 +127,21 @@ namespace EShopOnAbp.PublicWeb
             {
                 options.Contributors.Add(new EShopOnAbpPublicWebToolbarContributor());
             });
+            
+            context.Services
+                .AddReverseProxy()
+                .LoadFromConfig(configuration.GetSection("ReverseProxy"))
+                .AddTransforms(builderContext =>
+                {
+                    builderContext.AddRequestTransform(async (transformContext) =>
+                    {
+                        transformContext.ProxyRequest.Headers
+                            .Authorization = new AuthenticationHeaderValue(
+                                "Bearer",
+                                await transformContext.HttpContext.GetTokenAsync("access_token")
+                            );
+                    });
+                });
         }
 
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
@@ -151,6 +176,7 @@ namespace EShopOnAbp.PublicWeb
             app.UseAuthorization();
             app.UseConfiguredEndpoints(endpoints =>
             {
+                endpoints.MapReverseProxy();
                 // endpoints.MapMetrics();
             });
         }

@@ -216,7 +216,9 @@ namespace EShopOnAbp.IdentityService.DbMigrations
                 name: "PublicWeb",
                 scopes: commonScopes.Union(new[]
                 {
-                    "AdministrationService"
+                    "AdministrationService",
+                    "CatalogService",
+                    "BasketService"
                 }),
                 grantTypes: new[] { "hybrid" },
                 secret: "1q2w3e*".Sha256(),
@@ -236,7 +238,7 @@ namespace EShopOnAbp.IdentityService.DbMigrations
                     "IdentityService",
                     "AdministrationService"
                 }),
-                grantTypes: new[] { "authorization_code", "LinkLogin" },
+                grantTypes: new[] { "authorization_code", "LinkLogin", "password" },
                 secret: "1q2w3e*".Sha256(),
                 requirePkce: true,
                 requireClientSecret: false,

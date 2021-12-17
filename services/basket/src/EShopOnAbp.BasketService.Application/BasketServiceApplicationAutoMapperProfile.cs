@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EShopOnAbp.CatalogService.Products;
 
 namespace EShopOnAbp.BasketService
 {
@@ -6,9 +7,9 @@ namespace EShopOnAbp.BasketService
     {
         public BasketServiceApplicationAutoMapperProfile()
         {
-            /* You can configure your AutoMapper mapping configuration here.
-             * Alternatively, you can split your mapping configurations
-             * into multiple profile classes for a better organization. */
+            CreateMap<ProductEto, ProductDto>();
+            CreateMap<Basket, OrderAcceptedEto>();
+            CreateMap<BasketItem, OrderItemEto>();
         }
     }
 }

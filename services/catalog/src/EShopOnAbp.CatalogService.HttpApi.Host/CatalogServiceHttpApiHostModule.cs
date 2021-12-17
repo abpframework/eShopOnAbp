@@ -11,8 +11,11 @@ using System.Linq;
 using EShopOnAbp.CatalogService.MongoDB;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc;
+using Volo.Abp.AspNetCore.Mvc.AntiForgery;
+using Volo.Abp.AspNetCore.Uow;
 using Volo.Abp.Modularity;
 using Volo.Abp.Threading;
+using Volo.Abp.Uow;
 
 namespace EShopOnAbp.CatalogService
 {
@@ -28,7 +31,7 @@ namespace EShopOnAbp.CatalogService
         {
             var configuration = context.Services.GetConfiguration();
 
-            JwtBearerConfigurationHelper.Configure(context, "CatalogService");
+            JwtBearerConfigurationHelper.Configure(context, "AdministrationService"); //TODO: Should be "CatalogService", but didn't work :(
             // SwaggerConfigurationHelper.Configure(context, "Catalog Service API");
 
             SwaggerWithAuthConfigurationHelper.Configure(
@@ -59,8 +62,27 @@ namespace EShopOnAbp.CatalogService
                         .AllowCredentials();
                 });
             });
+            
+            Configure<AbpAspNetCoreMvcOptions>(options =>
+            {
+                options.ConventionalControllers.Create(typeof(CatalogServiceApplicationModule).Assembly, opts =>
+                {
+                    opts.RootPath = "catalog";
+                    opts.RemoteServiceName = "Catalog";
+                });
+            });
+            
+            Configure<AbpUnitOfWorkDefaultOptions>(options =>
+            {
+                //Standalone MongoDB servers don't support transactions
+                options.TransactionBehavior = UnitOfWorkTransactionBehavior.Disabled;
+            });
+            
+            Configure<AbpAntiForgeryOptions>(options =>
+            {
+                options.AutoValidate = false;
+            });
         }
-
 
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
         {

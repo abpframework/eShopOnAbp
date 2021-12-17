@@ -8,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Volo.Abp;
+using Volo.Abp.AspNetCore.Mvc;
+using Volo.Abp.AspNetCore.Mvc.AntiForgery;
 using Volo.Abp.Modularity;
 
 namespace EShopOnAbp.BasketService
@@ -21,10 +23,12 @@ namespace EShopOnAbp.BasketService
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
+            Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
+                
             var configuration = context.Services.GetConfiguration();
             var hostingEnvironment = context.Services.GetHostingEnvironment();
 
-            JwtBearerConfigurationHelper.Configure(context, "BasketService");
+            JwtBearerConfigurationHelper.Configure(context, "AdministrationService"); //TODO: Should be "BasketService", but didn't work :(
             // SwaggerConfigurationHelper.Configure(context, "Basket Service API");
 
             SwaggerWithAuthConfigurationHelper.Configure(
@@ -54,6 +58,21 @@ namespace EShopOnAbp.BasketService
                         .AllowAnyMethod()
                         .AllowCredentials();
                 });
+            });
+            
+            Configure<AbpAspNetCoreMvcOptions>(options =>
+            {
+                options.ConventionalControllers.Create(
+                    typeof(BasketServiceApplicationModule).Assembly, opts =>
+                    {
+                        opts.RootPath = "basket";
+                        opts.RemoteServiceName = "Basket";
+                    });
+            });
+            
+            Configure<AbpAntiForgeryOptions>(options =>
+            {
+                options.AutoValidate = false;
             });
         }
 

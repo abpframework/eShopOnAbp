@@ -11,11 +11,11 @@ namespace EShopOnAbp.BasketService
     )]
     public class BasketServiceHttpApiClientModule : AbpModule
     {
-        public const string RemoteServiceName = "Default";
+        public const string RemoteServiceName = "Basket";
 
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
-            context.Services.AddHttpClientProxies(
+            context.Services.AddStaticHttpClientProxies(
                 typeof(BasketServiceApplicationContractsModule).Assembly,
                 RemoteServiceName
             );

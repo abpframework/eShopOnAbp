@@ -9,9 +9,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EShopOnAbp.CatalogService.Domain.Shared\EShopOnAbp.CatalogService.Domain.Shared.csproj" />
+    <ProjectReference Include="..\..\..\basket\src\EShopOnAbp.BasketService.Domain.Shared\EShopOnAbp.BasketService.Domain.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Volo.Abp.AutoMapper" Version="5.0.0-rc.1" />
     <PackageReference Include="Volo.Abp.Ddd.Domain" Version="5.0.0-rc.1" />
   </ItemGroup>
 

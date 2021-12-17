@@ -1,5 +1,4 @@
-﻿using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using EShopOnAbp.CatalogService.MongoDB;
 using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations.MongoDb;

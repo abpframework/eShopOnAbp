@@ -51,15 +51,13 @@
                 "bundleName": "ngx-datatable-material"
               },
               {
-                "input": "node_modules/bootstrap/dist/css/bootstrap.rtl.min.css",
+                "input": "node_modules/@abp/ng.theme.shared/styles/bootstrap-rtl.min.css",
                 "inject": false,
                 "bundleName": "bootstrap-rtl.min"
               },
-              {
-                "input": "node_modules/bootstrap/dist/css/bootstrap.min.css",
-                "inject": true,
-                "bundleName": "bootstrap-ltr.min"
-              },
+              "node_modules/@volo/ngx-lepton-x.lite/styles/sidemenu-layout.min.css",
+              "node_modules/bootstrap-icons/font/bootstrap-icons.css",
+
               "src/styles.scss"
             ],
             "scripts": [],
@@ -155,6 +153,37 @@
             "production": {
               "devServerTarget": "EShopOnAbp:serve:production"
             }
+          }
+        }
+      }
+    },
+    "catalog": {
+      "projectType": "library",
+      "root": "projects/catalog",
+      "sourceRoot": "projects/catalog/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/catalog/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/catalog/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/catalog/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/catalog/src/test.ts",
+            "tsConfig": "projects/catalog/tsconfig.spec.json",
+            "karmaConfig": "projects/catalog/karma.conf.js"
           }
         }
       }
