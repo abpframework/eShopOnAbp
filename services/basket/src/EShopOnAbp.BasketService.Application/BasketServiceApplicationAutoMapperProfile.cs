@@ -8,6 +8,8 @@ namespace EShopOnAbp.BasketService
         public BasketServiceApplicationAutoMapperProfile()
         {
             CreateMap<ProductEto, ProductDto>();
+            CreateMap<Basket, OrderAcceptedEto>();
+            CreateMap<BasketItem, OrderItemEto>();
         }
     }
 }

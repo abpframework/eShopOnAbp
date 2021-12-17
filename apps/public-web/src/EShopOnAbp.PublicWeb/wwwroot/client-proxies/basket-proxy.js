@@ -33,6 +33,14 @@
       }, ajaxParams));
     };
 
+    eShopOnAbp.basketService.basket.purchase = function(ajaxParams) {
+      return abp.ajax($.extend(true, {
+        url: abp.appPath + 'api/basket/basket/purchase',
+        type: 'POST',
+        dataType: null
+      }, ajaxParams));
+    };
+
   })();
 
 })();

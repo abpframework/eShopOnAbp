@@ -123,6 +123,21 @@
               },
               "allowAnonymous": false,
               "implementFrom": "EShopOnAbp.BasketService.IBasketAppService"
+            },
+            "PurchaseAsync": {
+              "uniqueName": "PurchaseAsync",
+              "name": "PurchaseAsync",
+              "httpMethod": "POST",
+              "url": "api/basket/basket/purchase",
+              "supportedVersions": [],
+              "parametersOnMethod": [],
+              "parameters": [],
+              "returnValue": {
+                "type": "System.Void",
+                "typeSimple": "System.Void"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "EShopOnAbp.BasketService.IBasketAppService"
             }
           }
         }
