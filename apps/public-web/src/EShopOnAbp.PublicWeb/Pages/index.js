@@ -5,8 +5,11 @@
         console.info("Anonymous user set:" + anonymousId);
     }
 
+    var widgetManager = new abp.WidgetManager({
+        wrapper: $($('.abp-widget-wrapper[data-widget-name="CartWidget"]')[0])
+    });
+
     $(function () {
-        var cartWidget = new abp.WidgetManager('#shopping-cart');
 
         $('.product-list-item').click(function () {
             var $this = $(this);
@@ -14,7 +17,7 @@
             eShopOnAbp.basketService.basket.addProduct({
                 productId: productId
             }).then(function () {
-                cartWidget.refresh();
+                widgetManager.refresh();
                 abp.notify.success("Added product to your basket.", "Successfully added");
             });
         });

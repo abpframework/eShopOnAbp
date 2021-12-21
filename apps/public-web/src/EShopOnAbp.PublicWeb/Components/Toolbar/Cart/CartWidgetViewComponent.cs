@@ -14,7 +14,7 @@ namespace EShopOnAbp.PublicWeb.Components.Toolbar.Cart;
 
 [Widget(
     AutoInitialize = true,
-    RefreshUrl = "/Widgets/Cart",
+    RefreshUrl = "/Widgets/Basket",
     StyleTypes = new[] {typeof(CartWidgetStyleContributor)},
     ScriptTypes = new[] {typeof(CartWidgetScriptContributor)}
 )]
@@ -23,20 +23,16 @@ public class CartWidgetViewComponent : AbpViewComponent
     private readonly IBasketAppService _basketAppService;
     private readonly IGuidGenerator _guidGenerator;
     private readonly ICurrentUser _currentUser;
-    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    protected HttpContext HttpContext => _httpContextAccessor.HttpContext;
     protected const string AnonymousUserCookieName = "eshop_anonymousId";
 
     public CartWidgetViewComponent(
         IBasketAppService basketAppService,
         ICurrentUser currentUser,
-        IGuidGenerator guidGenerator,
-        IHttpContextAccessor httpContextAccessor)
+        IGuidGenerator guidGenerator)
     {
         _basketAppService = basketAppService;
         _currentUser = currentUser;
-        _httpContextAccessor = httpContextAccessor;
         _guidGenerator = guidGenerator;
     }
 
