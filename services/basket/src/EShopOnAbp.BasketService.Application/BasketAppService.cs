@@ -10,7 +10,6 @@ using Volo.Abp.EventBus.Distributed;
 
 namespace EShopOnAbp.BasketService;
 
-[Authorize]
 public class BasketAppService : BasketServiceAppService, IBasketAppService
 {
     private readonly IBasketRepository _basketRepository;
@@ -26,10 +25,16 @@ public class BasketAppService : BasketServiceAppService, IBasketAppService
         _basketProductService = basketProductService;
         _distributedEventBus = distributedEventBus;
     }
-    
+
     public async Task<BasketDto> GetAsync()
     {
         var basket = await _basketRepository.GetAsync(CurrentUser.GetId());
+        return await GetBasketDtoAsync(basket);
+    }
+
+    public async Task<BasketDto> GetByAnonymousUserIdAsync(Guid id)
+    {
+        var basket = await _basketRepository.GetAsync(id);
         return await GetBasketDtoAsync(basket);
     }
 
@@ -42,11 +47,11 @@ public class BasketAppService : BasketServiceAppService, IBasketAppService
         {
             throw new UserFriendlyException("There is not enough product in stock, sorry :(");
         }
-        
+
         basket.AddProduct(product.Id);
 
         await _basketRepository.UpdateAsync(basket);
-        
+
         return await GetBasketDtoAsync(basket);
     }
 
@@ -54,11 +59,11 @@ public class BasketAppService : BasketServiceAppService, IBasketAppService
     {
         var basket = await _basketRepository.GetAsync(CurrentUser.GetId());
         var product = await _basketProductService.GetAsync(input.ProductId);
-        
+
         basket.RemoveProduct(product.Id, input.Count);
-        
+
         await _basketRepository.UpdateAsync(basket);
-        
+
         return await GetBasketDtoAsync(basket);
     }
 
@@ -85,7 +90,7 @@ public class BasketAppService : BasketServiceAppService, IBasketAppService
                 productDto = await _basketProductService.GetAsync(basketItem.ProductId);
                 products[productDto.Id] = productDto;
             }
-            
+
             //Removing the products if not available in the stock
             if (basketItem.Count > productDto.StockCount)
             {
@@ -110,7 +115,7 @@ public class BasketAppService : BasketServiceAppService, IBasketAppService
         {
             await _basketRepository.UpdateAsync(basket);
         }
-        
+
         return basketDto;
     }
 }

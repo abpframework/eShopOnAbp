@@ -18,6 +18,13 @@
       }, ajaxParams));
     };
 
+    eShopOnAbp.basketService.basket.getByAnonymousUserId = function(id, ajaxParams) {
+      return abp.ajax($.extend(true, {
+        url: abp.appPath + 'api/basket/basket/' + id + '/by-anonymous-user-id',
+        type: 'GET'
+      }, ajaxParams));
+    };
+
     eShopOnAbp.basketService.basket.addProduct = function(input, ajaxParams) {
       return abp.ajax($.extend(true, {
         url: abp.appPath + 'api/basket/basket/product',
