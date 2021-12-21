@@ -14,7 +14,7 @@ public class Catalog : PageModel
     {
         _productAppService = productAppService;
     }
-    
+
     public async Task OnGetAsync()
     {
         Products = (await _productAppService.GetListAsync()).Items;
