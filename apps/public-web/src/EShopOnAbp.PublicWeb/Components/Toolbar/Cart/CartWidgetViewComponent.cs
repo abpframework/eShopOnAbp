@@ -14,7 +14,7 @@ namespace EShopOnAbp.PublicWeb.Components.Toolbar.Cart;
 
 [Widget(
     AutoInitialize = true,
-    RefreshUrl = "/Widgets/Cart",
+    RefreshUrl = "/Widgets/Basket",
     StyleTypes = new[] {typeof(CartWidgetStyleContributor)},
     ScriptTypes = new[] {typeof(CartWidgetScriptContributor)}
 )]
