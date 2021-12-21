@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using EShopOnAbp.PublicWeb.Components.Toolbar.Cart;
 using EShopOnAbp.PublicWeb.Components.Toolbar.LoginLink;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared.Toolbars;
@@ -19,6 +20,8 @@ namespace EShopOnAbp.PublicWeb.Menus
             {
                 context.Toolbar.Items.Add(new ToolbarItem(typeof(LoginLinkViewComponent)));
             }
+            
+            context.Toolbar.Items.Add(new ToolbarItem(typeof(CartWidgetViewComponent)));
 
             return Task.CompletedTask;
         }

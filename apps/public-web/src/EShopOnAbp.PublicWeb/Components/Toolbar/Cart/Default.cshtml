@@ -1,0 +1,10 @@
+﻿@using EShopOnAbp.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IHtmlLocalizer<EShopOnAbpResource> L
+@model EShopOnAbp.BasketService.BasketDto
+
+<div>
+    <abp-button button-type="Primary">
+            @L["Toolbar:Basket"] <span abp-badge="Light" data-cart-count-id>@Model.Items.Count</span>
+        </abp-button>
+</div>
