@@ -29,7 +29,7 @@ public class CartWidgetViewComponent : AbpViewComponent
     public CartWidgetViewComponent(
         IBasketAppService basketAppService,
         ICurrentUser currentUser,
-        IGuidGenerator guidGenerator,)
+        IGuidGenerator guidGenerator)
     {
         _basketAppService = basketAppService;
         _currentUser = currentUser;
