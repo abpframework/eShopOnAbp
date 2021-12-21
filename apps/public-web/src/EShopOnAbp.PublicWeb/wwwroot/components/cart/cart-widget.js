@@ -1,15 +1,16 @@
-(function (){
+(function () {
+    alert("working")
     var connection = new signalR.HubConnectionBuilder()
-        .withUrl("/signalr-hubs/cart")
+        .withUrl("/signalr-hubs/basket")
         .build();
-    
+
     connection.on("BasketProductUpdated", function (data) {
-        var widgetManager = $wrapper.data('abp-widget-manager');
         debugger;
+        var widgetManager = $wrapper.data('abp-widget-manager');
         $('#data-cart-count-id').text(data);
         widgetManager.refresh();
         abp.notify.info('The product "' + data.productName + '" has been changed!', 'Your basket has been updated!');
-        
+
         // $('.basket-list')
         //     .closest('.abp-widget-wrapper')
         //     .each(function(){

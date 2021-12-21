@@ -6,7 +6,7 @@
     }
 
     $(function () {
-        var basketWidget = new abp.WidgetManager('#BasketArea');
+        var cartWidget = new abp.WidgetManager('#shopping-cart');
 
         $('.product-list-item').click(function () {
             var $this = $(this);
@@ -14,7 +14,7 @@
             eShopOnAbp.basketService.basket.addProduct({
                 productId: productId
             }).then(function () {
-                basketWidget.refresh();
+                cartWidget.refresh();
                 abp.notify.success("Added product to your basket.", "Successfully added");
             });
         });
