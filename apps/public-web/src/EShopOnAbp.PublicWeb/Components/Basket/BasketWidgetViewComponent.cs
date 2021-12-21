@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.UI.Widgets;
 using EShopOnAbp.BasketService;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Volo.Abp.Guids;
 using Volo.Abp.Users;
