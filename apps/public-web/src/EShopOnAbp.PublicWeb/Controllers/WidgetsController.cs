@@ -1,4 +1,5 @@
 ﻿using EShopOnAbp.PublicWeb.Components.Basket;
+using EShopOnAbp.PublicWeb.Components.Toolbar.Cart;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc;
 
@@ -12,5 +13,12 @@ public class WidgetsController : AbpController
     public IActionResult Counters()
     {
         return ViewComponent(typeof(BasketWidgetViewComponent));
+    }
+
+    [HttpGet]
+    [Route("Cart")]
+    public IActionResult GetCartWidget()
+    {
+        return ViewComponent(typeof(CartWidgetViewComponent));
     }
 }
