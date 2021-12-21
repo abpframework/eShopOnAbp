@@ -15,6 +15,7 @@ public class BasketAppService : BasketServiceAppService, IBasketAppService
     private readonly IBasketRepository _basketRepository;
     private readonly IBasketProductService _basketProductService;
     private readonly IDistributedEventBus _distributedEventBus;
+    private Guid _anonymousUserId { get; set; }
 
     public BasketAppService(
         IBasketRepository basketRepository,
@@ -35,12 +36,15 @@ public class BasketAppService : BasketServiceAppService, IBasketAppService
     public async Task<BasketDto> GetByAnonymousUserIdAsync(Guid id)
     {
         var basket = await _basketRepository.GetAsync(id);
+        _anonymousUserId = id;
         return await GetBasketDtoAsync(basket);
     }
 
     public async Task<BasketDto> AddProductAsync(AddProductDto input)
     {
-        var basket = await _basketRepository.GetAsync(CurrentUser.GetId());
+        Guid userId = CurrentUser.IsAuthenticated ? CurrentUser.GetId() : _anonymousUserId;
+
+        var basket = await _basketRepository.GetAsync(userId);
         var product = await _basketProductService.GetAsync(input.ProductId);
 
         if (basket.GetProductCount(product.Id) >= product.StockCount)
