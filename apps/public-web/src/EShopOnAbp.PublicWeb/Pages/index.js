@@ -1,8 +1,7 @@
-(function(){
+﻿(function(){
     $(function(){
+        var basketWidget = new abp.WidgetManager('#BasketArea');
 
-        var basketWidget = new abp.WidgetManager('#BasketArea');        
-        
         $('.product-list-item').click(function(){
             var $this = $(this);
             var productId = $this.attr('data-product-id');
