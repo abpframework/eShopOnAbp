@@ -42,7 +42,9 @@ public class BasketAppService : BasketServiceAppService, IBasketAppService
 
     public async Task<BasketDto> AddProductAsync(AddProductDto input)
     {
-        Guid userId = CurrentUser.IsAuthenticated ? CurrentUser.GetId() : _anonymousUserId;
+        Console.WriteLine("========================= AnonymousId: "+input.AnonymousId);
+
+        Guid userId = CurrentUser.IsAuthenticated ? CurrentUser.GetId() : input.AnonymousId.GetValueOrDefault();
 
         var basket = await _basketRepository.GetAsync(userId);
         var product = await _basketProductService.GetAsync(input.ProductId);
@@ -61,7 +63,9 @@ public class BasketAppService : BasketServiceAppService, IBasketAppService
 
     public async Task<BasketDto> RemoveProductAsync(RemoveProductDto input)
     {
-        var basket = await _basketRepository.GetAsync(CurrentUser.GetId());
+        Guid userId = CurrentUser.IsAuthenticated ? CurrentUser.GetId() : input.AnonymousId.GetValueOrDefault();
+
+        var basket = await _basketRepository.GetAsync(userId);
         var product = await _basketProductService.GetAsync(input.ProductId);
 
         basket.RemoveProduct(product.Id, input.Count);
