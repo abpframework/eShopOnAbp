@@ -15,7 +15,8 @@
             var $this = $(this);
             var productId = $this.attr('data-product-id');
             eShopOnAbp.basketService.basket.addProduct({
-                productId: productId
+                productId: productId,
+                anonymousId: anonymousId,
             }).then(function () {
                 widgetManager.refresh();
                 abp.notify.success("Added product to your basket.", "Successfully added");

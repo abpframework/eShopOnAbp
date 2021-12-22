@@ -152,6 +152,18 @@
                   "constraintTypes": null,
                   "bindingSourceId": "ModelBinding",
                   "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "AnonymousId",
+                  "jsonName": null,
+                  "type": "System.Guid?",
+                  "typeSimple": "string?",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
                 }
               ],
               "returnValue": {
