@@ -1,4 +1,11 @@
+
+@using EShopOnAbp.Localization
+@using Microsoft.Extensions.Localization
+
 @model EShopOnAbp.BasketService.BasketDto
+
+@inject IStringLocalizer<EShopOnAbpResource> L
+
 <div>
     @if (!Model.Items.Any())
     {
@@ -26,15 +33,15 @@
                         <text> (@("x" + item.Count))</text>
                     }
                     - $@item.TotalPrice.ToString("0.00")
-                    <i class="fa fa-remove basket-item-remove" title="Remove from basket"></i>
+                    <i class="fa fa-remove basket-item-remove" title="@L["RemoveFromBasket"]"></i>
                 </div>
             }
             <hr/>
             <div class="basket-total-area">
-                Total: $@Model.TotalPrice.ToString("0.00")
+                @L["Total"]: $@Model.TotalPrice.ToString("0.00")
             </div>
             <div>
-                <abp-button class="basket-purchase-button" text="Purchase" button-type="Primary" />
+                <abp-button class="basket-purchase-button" text="@L["Purchase"]" button-type="Primary" />
             </div>
         </div>
     }
