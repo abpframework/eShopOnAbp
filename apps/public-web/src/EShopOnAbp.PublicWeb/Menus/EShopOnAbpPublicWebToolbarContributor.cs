@@ -16,12 +16,12 @@ namespace EShopOnAbp.PublicWeb.Menus
                 return Task.CompletedTask;
             }
 
+            context.Toolbar.Items.Add(new ToolbarItem(typeof(CartWidgetViewComponent)));
+
             if (!context.ServiceProvider.GetRequiredService<ICurrentUser>().IsAuthenticated)
             {
                 context.Toolbar.Items.Add(new ToolbarItem(typeof(LoginLinkViewComponent)));
             }
-            
-            context.Toolbar.Items.Add(new ToolbarItem(typeof(CartWidgetViewComponent)));
 
             return Task.CompletedTask;
         }
