@@ -1,7 +1,7 @@
 ﻿@page
 @model EShopOnAbp.PublicWeb.Pages.IndexModel
 @{
-    const int productsColumnSize = 4;
+    const int productsColumnSize = 4; // TODO: update abp-column helper to plain html for proper row and columns css
 }
 
 @section styles{
@@ -13,7 +13,7 @@
 }
 
 <div class="row">
-    <div class="col-lg-9">
+    <div class="col-lg-12">
         <h3 class="pt-5 pb-4 text-center">Our Products</h3>
         <div class="product-list">
             @for (int i = 0; i < Math.Ceiling(Model.Products.Count / (double)productsColumnSize); i++)
@@ -21,7 +21,7 @@
                 <abp-row>
                     @for (int j = 0; j < productsColumnSize; j++)
                     {
-                        <abp-column size-lg="_6" size-sm="_12">
+                        <abp-column size-lg="_3" size-md="_4" size-sm="_6">
                             @if ((i * productsColumnSize) + j < Model.Products.Count)
                             {
                                 var product = Model.Products[(i * productsColumnSize) + j];
@@ -53,10 +53,4 @@
             }
         </div>
     </div>
-    @* <div class="col-lg-3"> *@
-    @*     <h3 class="pt-5 pb-4 text-center">Your Basket</h3> *@
-    @*     <div id="BasketArea"> *@
-    @*         @await Component.InvokeAsync(typeof(BasketWidgetViewComponent)) *@
-    @*     </div> *@
-    @* </div> *@
 </div>
