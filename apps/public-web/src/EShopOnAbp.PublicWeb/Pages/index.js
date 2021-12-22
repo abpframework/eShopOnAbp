@@ -5,10 +5,6 @@
         console.info("Anonymous user set:" + anonymousId);
     }
 
-    var widgetManager = new abp.WidgetManager({
-        wrapper: $($('.abp-widget-wrapper[data-widget-name="CartWidget"]')[0])
-    });
-
     $(function () {
 
         $('.product-list-item').click(function () {
@@ -18,6 +14,10 @@
                 productId: productId,
                 anonymousId: anonymousId,
             }).then(function () {
+
+                let widgetManager = new abp.WidgetManager({
+                    wrapper: $($('.abp-widget-wrapper[data-widget-name="CartWidget"]')[0])
+                });
                 widgetManager.refresh();
                 abp.notify.success("Added product to your basket.", "Successfully added");
             });
