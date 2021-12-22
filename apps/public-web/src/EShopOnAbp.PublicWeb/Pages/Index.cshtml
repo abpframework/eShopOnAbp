@@ -1,5 +1,9 @@
 ﻿@page
+@using EShopOnAbp.Localization
+@using Microsoft.Extensions.Localization
 @model EShopOnAbp.PublicWeb.Pages.IndexModel
+@inject IStringLocalizer<EShopOnAbpResource> L
+
 @{
     const int productsColumnSize = 4; // TODO: update abp-column helper to plain html for proper row and columns css
 }
@@ -38,7 +42,7 @@
                                         <div class="col">
                                             <div class="product-info-box">
                                                 <h6>@product.Name</h6>
-                                                <em class="d-block text-muted">@product.Code - Stock count: @product.StockCount</em>
+                                                <em class="d-block text-muted">@product.Code - @L["StockCount"]: @product.StockCount</em>
                                             </div>
                                         </div>
                                         <div class="col-auto text-right text-danger">

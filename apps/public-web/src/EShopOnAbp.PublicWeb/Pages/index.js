@@ -15,10 +15,10 @@
                 anonymousId: anonymousId,
             }).then(function () {
 
-                let widgetManager = new abp.WidgetManager({
-                    wrapper: $($('.abp-widget-wrapper[data-widget-name="CartWidget"]')[0])
-                });
-                widgetManager.refresh();
+                $('.abp-widget-wrapper[data-widget-name="CartWidget"]')
+                    .data('abp-widget-manager')
+                    .refresh();
+
                 abp.notify.success("Added product to your basket.", "Successfully added");
             });
         });

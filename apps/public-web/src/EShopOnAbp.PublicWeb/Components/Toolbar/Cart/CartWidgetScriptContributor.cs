@@ -10,6 +10,5 @@ public class CartWidgetScriptContributor: BundleContributor
 {
     public override void ConfigureBundle(BundleConfigurationContext context)
     {
-        context.Files.AddIfNotContains("/components/cart/cart-widget.js");
     }
 }

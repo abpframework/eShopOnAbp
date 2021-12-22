@@ -1,13 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using EShopOnAbp.PublicWeb.Basket;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.UI.Widgets;
-using EShopOnAbp.BasketService;
-using Microsoft.Extensions.Logging;
-using Volo.Abp.Guids;
-using Volo.Abp.Users;
-using EShopOnAbp.PublicWeb.Basket;
 
 namespace EShopOnAbp.PublicWeb.Components.Basket;
 

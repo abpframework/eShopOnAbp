@@ -1,13 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using EShopOnAbp.BasketService;
-using EShopOnAbp.PublicWeb.Basket;
+﻿using EShopOnAbp.PublicWeb.Basket;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.UI.Widgets;
-using Volo.Abp.Guids;
-using Volo.Abp.Users;
 
 namespace EShopOnAbp.PublicWeb.Components.Toolbar.Cart;
 
