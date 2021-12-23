@@ -2,6 +2,13 @@
   "culture": "tr",
   "texts": {
     "Menu:Home": "Ana Sayfa",
-    "Login": "Giriş"
+    "Login": "Giriş",
+    "Catalog": "Katalog",
+    "YourBasket": "Sepetiniz",
+    "Purchase": "Alışverişi tamamla",
+    "Total": "Toplam",
+    "OurProducts": "Ürünlerimiz",
+    "StockCount": "Stokta",
+    "RemoveFromBasket": "Sepetten kaldır"
   }
 }

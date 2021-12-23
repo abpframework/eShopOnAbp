@@ -4,28 +4,27 @@ using System.Threading.Tasks;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.UI.Widgets;
 
-namespace EShopOnAbp.PublicWeb.Components.Basket;
+namespace EShopOnAbp.PublicWeb.Components.Toolbar.Cart;
 
 [Widget(
     AutoInitialize = true,
-    RefreshUrl = "/Widgets/Basket",
-    StyleFiles = new[] {"/components/basket-widget.css"},
-    ScriptTypes = new[] {typeof(BasketWidgetScriptContributor)}
+    RefreshUrl = "/Widgets/Cart",
+    StyleTypes = new[] {typeof(CartWidgetStyleContributor)},
+    ScriptTypes = new[] {typeof(CartWidgetScriptContributor)}
 )]
-public class BasketWidgetViewComponent : AbpViewComponent
+public class CartWidgetViewComponent : AbpViewComponent
 {
     private readonly UserBasketProvider userBasketProvider;
 
-    public BasketWidgetViewComponent(UserBasketProvider userBasketProvider)
+    public CartWidgetViewComponent(UserBasketProvider userBasketProvider)
     {
         this.userBasketProvider = userBasketProvider;
     }
 
     public async Task<IViewComponentResult> InvokeAsync()
     {
-        
         return View(
-            "~/Components/Basket/Default.cshtml",
+            "~/Components/Toolbar/Cart/Default.cshtml",
             await userBasketProvider.GetBasketAsync());
     }
 }

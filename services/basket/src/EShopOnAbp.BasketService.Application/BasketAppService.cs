@@ -10,12 +10,12 @@ using Volo.Abp.EventBus.Distributed;
 
 namespace EShopOnAbp.BasketService;
 
-[Authorize]
 public class BasketAppService : BasketServiceAppService, IBasketAppService
 {
     private readonly IBasketRepository _basketRepository;
     private readonly IBasketProductService _basketProductService;
     private readonly IDistributedEventBus _distributedEventBus;
+    private Guid _anonymousUserId { get; set; }
 
     public BasketAppService(
         IBasketRepository basketRepository,
@@ -26,39 +26,52 @@ public class BasketAppService : BasketServiceAppService, IBasketAppService
         _basketProductService = basketProductService;
         _distributedEventBus = distributedEventBus;
     }
-    
+
     public async Task<BasketDto> GetAsync()
     {
         var basket = await _basketRepository.GetAsync(CurrentUser.GetId());
         return await GetBasketDtoAsync(basket);
     }
 
+    public async Task<BasketDto> GetByAnonymousUserIdAsync(Guid id)
+    {
+        var basket = await _basketRepository.GetAsync(id);
+        _anonymousUserId = id;
+        return await GetBasketDtoAsync(basket);
+    }
+
     public async Task<BasketDto> AddProductAsync(AddProductDto input)
     {
-        var basket = await _basketRepository.GetAsync(CurrentUser.GetId());
+        Console.WriteLine("========================= AnonymousId: "+input.AnonymousId);
+
+        Guid userId = CurrentUser.IsAuthenticated ? CurrentUser.GetId() : input.AnonymousId.GetValueOrDefault();
+
+        var basket = await _basketRepository.GetAsync(userId);
         var product = await _basketProductService.GetAsync(input.ProductId);
 
         if (basket.GetProductCount(product.Id) >= product.StockCount)
         {
             throw new UserFriendlyException("There is not enough product in stock, sorry :(");
         }
-        
+
         basket.AddProduct(product.Id);
 
         await _basketRepository.UpdateAsync(basket);
-        
+
         return await GetBasketDtoAsync(basket);
     }
 
     public async Task<BasketDto> RemoveProductAsync(RemoveProductDto input)
     {
-        var basket = await _basketRepository.GetAsync(CurrentUser.GetId());
+        Guid userId = CurrentUser.IsAuthenticated ? CurrentUser.GetId() : input.AnonymousId.GetValueOrDefault();
+
+        var basket = await _basketRepository.GetAsync(userId);
         var product = await _basketProductService.GetAsync(input.ProductId);
-        
+
         basket.RemoveProduct(product.Id, input.Count);
-        
+
         await _basketRepository.UpdateAsync(basket);
-        
+
         return await GetBasketDtoAsync(basket);
     }
 
@@ -85,7 +98,7 @@ public class BasketAppService : BasketServiceAppService, IBasketAppService
                 productDto = await _basketProductService.GetAsync(basketItem.ProductId);
                 products[productDto.Id] = productDto;
             }
-            
+
             //Removing the products if not available in the stock
             if (basketItem.Count > productDto.StockCount)
             {
@@ -110,7 +123,7 @@ public class BasketAppService : BasketServiceAppService, IBasketAppService
         {
             await _basketRepository.UpdateAsync(basket);
         }
-        
+
         return basketDto;
     }
 }

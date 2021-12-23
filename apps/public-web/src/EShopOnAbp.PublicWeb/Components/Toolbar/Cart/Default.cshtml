@@ -1,0 +1,16 @@
+﻿@using EShopOnAbp.BasketService.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IHtmlLocalizer<BasketServiceResource> L
+@model EShopOnAbp.BasketService.BasketDto
+<div id="shopping-cart" class="nav-link">
+    @if (Model == null)
+    {
+        <span class="cart-error" style="vertical-align: -webkit-baseline-middle;color: white">@L["Toolbar:BasketNotLoaded"] </span>
+    }
+    else
+    {
+        <a class="btn nav-link" style="padding:0px" role="button" href="~/Basket">
+            <span abp-badge="Info" data-cart-count>@Model.Items.Count</span> @L["Toolbar:Cart"] 
+        </a>
+    }
+</div>

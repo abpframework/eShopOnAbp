@@ -11,7 +11,7 @@ namespace EShopOnAbp.BasketService
         typeof(AbpDddDomainModule),
         typeof(AbpCachingModule)
     )]
-    public class BasketServiceDomainModule : AbpModule
+    public class BasketServiceDomainModule : AbpModule 
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {

@@ -35,7 +35,44 @@
                 "type": "EShopOnAbp.BasketService.BasketDto",
                 "typeSimple": "EShopOnAbp.BasketService.BasketDto"
               },
-              "allowAnonymous": false,
+              "allowAnonymous": null,
+              "implementFrom": "EShopOnAbp.BasketService.IBasketAppService"
+            },
+            "GetByAnonymousUserIdAsyncById": {
+              "uniqueName": "GetByAnonymousUserIdAsyncById",
+              "name": "GetByAnonymousUserIdAsync",
+              "httpMethod": "GET",
+              "url": "api/basket/basket/{id}/by-anonymous-user-id",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "EShopOnAbp.BasketService.BasketDto",
+                "typeSimple": "EShopOnAbp.BasketService.BasketDto"
+              },
+              "allowAnonymous": null,
               "implementFrom": "EShopOnAbp.BasketService.IBasketAppService"
             },
             "AddProductAsyncByInput": {
@@ -72,7 +109,7 @@
                 "type": "EShopOnAbp.BasketService.BasketDto",
                 "typeSimple": "EShopOnAbp.BasketService.BasketDto"
               },
-              "allowAnonymous": false,
+              "allowAnonymous": null,
               "implementFrom": "EShopOnAbp.BasketService.IBasketAppService"
             },
             "RemoveProductAsyncByInput": {
@@ -115,13 +152,25 @@
                   "constraintTypes": null,
                   "bindingSourceId": "ModelBinding",
                   "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "AnonymousId",
+                  "jsonName": null,
+                  "type": "System.Guid?",
+                  "typeSimple": "string?",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
                 }
               ],
               "returnValue": {
                 "type": "EShopOnAbp.BasketService.BasketDto",
                 "typeSimple": "EShopOnAbp.BasketService.BasketDto"
               },
-              "allowAnonymous": false,
+              "allowAnonymous": null,
               "implementFrom": "EShopOnAbp.BasketService.IBasketAppService"
             },
             "PurchaseAsync": {
@@ -136,7 +185,7 @@
                 "type": "System.Void",
                 "typeSimple": "System.Void"
               },
-              "allowAnonymous": false,
+              "allowAnonymous": null,
               "implementFrom": "EShopOnAbp.BasketService.IBasketAppService"
             }
           }

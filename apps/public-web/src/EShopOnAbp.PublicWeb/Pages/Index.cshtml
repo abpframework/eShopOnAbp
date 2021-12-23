@@ -1,72 +1,60 @@
 ﻿@page
+@using EShopOnAbp.Localization
+@using Microsoft.Extensions.Localization
 @model EShopOnAbp.PublicWeb.Pages.IndexModel
+@inject IStringLocalizer<EShopOnAbpResource> L
 
-<abp-card Class=" overflow-hidden">
-    <abp-card-body Class="p-0">
-        <abp-carousel style="width: 100%;" indicators="true" controls="true">
-            <abp-carousel-item src="https://i.picsum.photos/id/1002/1200/600.jpg?hmac=vEtEOHyKsKb7OglkR2kK2kT3SNT5KHJ4wtetm49EDIY" style="height: 600px;" class="bg-primary" caption-title="Maecenas a enim purus" caption="Sed sed tristique diam. Sed malesuada eu ex eu facilisis. Donec commodo placerat enim, vel mollis sem consequat eget. Pellentesque eget cursus sapien."></abp-carousel-item>
-            <abp-carousel-item src="https://i.picsum.photos/id/1070/1200/600.jpg?hmac=MvQe1lH2C5sz8TXGRo0pMg2Pcbvri9rpG_rvoBFpqxw" style="height: 600px;" class="bg-primary" caption-title="Sed sed tristique diam. " caption="Sed malesuada eu ex eu facilisis. Donec commodo placerat enim, vel mollis sem consequat eget. Pellentesque eget cursus sapien."></abp-carousel-item>
-            <abp-carousel-item src="https://i.picsum.photos/id/841/1200/600.jpg?hmac=1dnXZo7goR6mFJqBs-5o3jUdMke1v-JCGCl0on-cng8" style="height: 600px;" class="bg-primary" caption-title="Donec commodo placerat" caption="Sed sed tristique diam. Sed malesuada eu ex eu facilisis. Vel mollis sem consequat eget. Pellentesque eget cursus sapien."></abp-carousel-item>
-        </abp-carousel>
-    </abp-card-body>
-</abp-card>
+@{
+    const int productsColumnSize = 4; // TODO: update abp-column helper to plain html for proper row and columns css
+}
 
-<div class="container">
-    <div class="row text-center py-5">
-        <div class="col-lg-4 py-4">
-            <i class="fas fa-chess-rook fa-4x text-primary d-block my-3"></i>
-            <h2>Heading</h2>
-            <p class="lead">Vestibulum id ligula porta.</p>
-            <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
-            <p><a class="btn btn-outline-primary" href="#" role="button">View details »</a></p>
-        </div><!-- /.col-lg-4 -->
-        <div class="col-lg-4 py-4">
-            <i class="fas fa-bullhorn fa-4x text-info d-block my-3"></i>
-            <h2>Heading</h2>
-            <p class="lead">Nulla non metus auctor.</p>
-            <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
-            <p><a class="btn btn-outline-info" href="#" role="button">View details »</a></p>
-        </div><!-- /.col-lg-4 -->
-        <div class="col-lg-4 py-4">
-            <i class="fas fa-balance-scale fa-4x text-success d-block my-3"></i>
-            <h2>Heading</h2>
-            <p class="lead">Metus auctor fringilla.</p>
-            <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, sit amet risus.</p>
-            <p><a class="btn btn-outline-success" href="#" role="button">View details »</a></p>
-        </div><!-- /.col-lg-4 -->
-    </div><!-- /.row -->
+@section styles{
+    <abp-style src="/Pages/index.css"/>
+}
+@section scripts {
+    <abp-script src="/client-proxies/basket-proxy.js" />
+    <abp-script src="/Pages/index.js" />
+}
 
-    <div class="row my-5 py-md-5">
-        <div class="col-md-6 pr-lg-5">
-            <h2 class="mt-5">First featurette heading. <span class="text-primary d-block">It'll blow your mind.</span></h2>
-            <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. </p>
-            <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo.</p>
-        </div>
-        <div class="col-md-6">
-            <img src="https://i.picsum.photos/id/59/600/400.jpg?hmac=hCS_vJsQfuK1hUlwEUlGbUAnb_pFljGkD-2jdYxB1y8" class="rounded shadow-sm my-4 my-md-0" style="max-width: 100%;"/>
-        </div>
-    </div>
-
-    <div class="row my-5 py-md-5">
-        <div class="col-md-6 order-md-2 pl-lg-5">
-            <h2 class="mt-5">Oh yeah, it's that good. <span class="text-primary d-block">See for yourself.</span></h2>
-            <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. </p>
-            <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo.</p>
-        </div>
-        <div class="col-md-6 order-md-1">
-            <img src="https://i.picsum.photos/id/437/600/400.jpg?hmac=JNv4AQJrQn53c1Xh1C7q0NBNoJgRXpdKtzIDJ1w2lqA" class="rounded shadow-sm my-4 my-md-0" style="max-width: 100%;"/>
+<div class="row">
+    <div class="col-lg-12">
+        <h3 class="pt-5 pb-4 text-center">@L["OurProducts"]</h3>
+        <div class="product-list">
+            @for (int i = 0; i < Math.Ceiling(Model.Products.Count / (double)productsColumnSize); i++)
+            {
+                <abp-row>
+                    @for (int j = 0; j < productsColumnSize; j++)
+                    {
+                        <abp-column size-lg="_3" size-md="_4" size-sm="_6">
+                            @if ((i * productsColumnSize) + j < Model.Products.Count)
+                            {
+                                var product = Model.Products[(i * productsColumnSize) + j];
+                                <div class="product-list-item" data-product-id="@product.Id.ToString()">
+                                    @if (!product.ImageName.IsNullOrEmpty())
+                                    {
+                                        <img src="/product-images/@product.ImageName"/>
+                                    }
+                                    else
+                                    {
+                                        <img src="/product-images/noimage.jpg"/>
+                                    }
+                                    <div class="row mt-5">
+                                        <div class="col">
+                                            <div class="product-info-box">
+                                                <h6>@product.Name</h6>
+                                                <em class="d-block text-muted">@product.Code - @L["StockCount"]: @product.StockCount</em>
+                                            </div>
+                                        </div>
+                                        <div class="col-auto text-right text-danger">
+                                            <strong class="product-price">$@product.Price</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </abp-column>
+                    }
+                </abp-row>
+            }
         </div>
     </div>
-
-    <div class="row my-5 py-md-5">
-        <div class="col-md-6 pr-lg-5">
-            <h2 class="mt-5">And lastly, this one. <span class="text-primary d-block">Checkmate.</span></h2>
-            <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. </p>
-            <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo.</p>
-        </div>
-        <div class="col-md-6">
-            <img src="https://i.picsum.photos/id/835/600/400.jpg?hmac=HR6Bi8aji8auDURA6j9xiZC6QgcFwwBTMJ8X4Cf6bPg" class="rounded shadow-sm my-4 my-md-0" style="max-width: 100%;"/>
-        </div>
-    </div>
-
 </div>

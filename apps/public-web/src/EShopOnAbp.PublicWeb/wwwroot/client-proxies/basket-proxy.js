@@ -18,6 +18,13 @@
       }, ajaxParams));
     };
 
+    eShopOnAbp.basketService.basket.getByAnonymousUserId = function(id, ajaxParams) {
+      return abp.ajax($.extend(true, {
+        url: abp.appPath + 'api/basket/basket/' + id + '/by-anonymous-user-id',
+        type: 'GET'
+      }, ajaxParams));
+    };
+
     eShopOnAbp.basketService.basket.addProduct = function(input, ajaxParams) {
       return abp.ajax($.extend(true, {
         url: abp.appPath + 'api/basket/basket/product',
@@ -28,7 +35,7 @@
 
     eShopOnAbp.basketService.basket.removeProduct = function(input, ajaxParams) {
       return abp.ajax($.extend(true, {
-        url: abp.appPath + 'api/basket/basket/product' + abp.utils.buildQueryString([{ name: 'productId', value: input.productId }, { name: 'count', value: input.count }]) + '',
+        url: abp.appPath + 'api/basket/basket/product' + abp.utils.buildQueryString([{ name: 'productId', value: input.productId }, { name: 'count', value: input.count }, { name: 'anonymousId', value: input.anonymousId }]) + '',
         type: 'DELETE'
       }, ajaxParams));
     };

@@ -20,6 +20,14 @@ namespace EShopOnAbp.BasketService.ClientProxies
             return await RequestAsync<BasketDto>(nameof(GetAsync));
         }
 
+        public virtual async Task<BasketDto> GetByAnonymousUserIdAsync(Guid id)
+        {
+            return await RequestAsync<BasketDto>(nameof(GetByAnonymousUserIdAsync), new ClientProxyRequestTypeValue
+            {
+                { typeof(Guid), id }
+            });
+        }
+
         public virtual async Task<BasketDto> AddProductAsync(AddProductDto input)
         {
             return await RequestAsync<BasketDto>(nameof(AddProductAsync), new ClientProxyRequestTypeValue
