@@ -20,6 +20,7 @@ public class EShopUserClaimsPrincipalFactory : AbpUserClaimsPrincipalFactory
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly ILogger<EShopUserClaimsPrincipalFactory> _logger;
+    private readonly AnonymousUserProvider _anonymousUserProvider;
     protected HttpContext HttpContext => _httpContextAccessor.HttpContext;
 
     public EShopUserClaimsPrincipalFactory(
@@ -28,7 +29,9 @@ public class EShopUserClaimsPrincipalFactory : AbpUserClaimsPrincipalFactory
         IOptions<IdentityOptions> options,
         ICurrentPrincipalAccessor currentPrincipalAccessor,
         IAbpClaimsPrincipalFactory abpClaimsPrincipalFactory,
-        IHttpContextAccessor httpContextAccessor, ILogger<EShopUserClaimsPrincipalFactory> logger) : base(userManager,
+        IHttpContextAccessor httpContextAccessor, 
+        ILogger<EShopUserClaimsPrincipalFactory> logger, 
+        AnonymousUserProvider anonymousUserProvider) : base(userManager,
         roleManager,
         options,
         currentPrincipalAccessor,
@@ -36,31 +39,22 @@ public class EShopUserClaimsPrincipalFactory : AbpUserClaimsPrincipalFactory
     {
         _httpContextAccessor = httpContextAccessor;
         _logger = logger;
+        _anonymousUserProvider = anonymousUserProvider;
     }
 
     public override async Task<ClaimsPrincipal> CreateAsync(IdentityUser user)
     {
         var principal = await base.CreateAsync(user);
-        // if (HttpContext.Request.Cookies.ContainsKey(EShopConstants.AnonymousUserClaimName))
-        // {
+        if (HttpContext.Request.Cookies.ContainsKey(EShopConstants.AnonymousUserClaimName))
+        {
             HttpContext.Request.Cookies.TryGetValue(EShopConstants.AnonymousUserClaimName, out var anonymousUserId);
-
-            principal.Identities.First()
-                .AddClaim(new Claim(EShopConstants.AnonymousUserClaimName, anonymousUserId));
-            _logger.LogInformation(
-                $"Added {EShopConstants.AnonymousUserClaimName} claim of AnonymousUserId from cookies:{anonymousUserId}");
-        // }
-
-        // You can notice that cookie contains anonymous_id
-        foreach (var cookie in HttpContext.Request.Cookies.ToList())
-        {
-            _logger.LogInformation($"key:{cookie.Key} - value:{cookie.Value}");
+            _anonymousUserProvider.AnonymousUserId = anonymousUserId;
         }
-        _logger.LogInformation($"====================");
-        foreach (var claim in principal.Claims.ToList())
-        {
-            _logger.LogInformation($"key:{claim.Type} - value:{claim.Value}");
-        }
+        
+        principal.Identities.First()
+            .AddClaim(new Claim(EShopConstants.AnonymousUserClaimName, _anonymousUserProvider.AnonymousUserId));
+        _logger.LogInformation(
+            $"Added {EShopConstants.AnonymousUserClaimName} claim of AnonymousUserId from cookies:{_anonymousUserProvider.AnonymousUserId}");
 
         return principal;
     }
