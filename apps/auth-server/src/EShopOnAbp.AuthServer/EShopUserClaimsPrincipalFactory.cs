@@ -41,14 +41,25 @@ public class EShopUserClaimsPrincipalFactory : AbpUserClaimsPrincipalFactory
     public override async Task<ClaimsPrincipal> CreateAsync(IdentityUser user)
     {
         var principal = await base.CreateAsync(user);
-        if (HttpContext.Request.Cookies.ContainsKey(EShopConstants.AnonymousUserCookieName))
-        {
-            HttpContext.Request.Cookies.TryGetValue(EShopConstants.AnonymousUserCookieName, out var anonymousUserId);
+        // if (HttpContext.Request.Cookies.ContainsKey(EShopConstants.AnonymousUserClaimName))
+        // {
+            HttpContext.Request.Cookies.TryGetValue(EShopConstants.AnonymousUserClaimName, out var anonymousUserId);
 
             principal.Identities.First()
                 .AddClaim(new Claim(EShopConstants.AnonymousUserClaimName, anonymousUserId));
             _logger.LogInformation(
                 $"Added {EShopConstants.AnonymousUserClaimName} claim of AnonymousUserId from cookies:{anonymousUserId}");
+        // }
+
+        // You can notice that cookie contains anonymous_id
+        foreach (var cookie in HttpContext.Request.Cookies.ToList())
+        {
+            _logger.LogInformation($"key:{cookie.Key} - value:{cookie.Value}");
+        }
+        _logger.LogInformation($"====================");
+        foreach (var claim in principal.Claims.ToList())
+        {
+            _logger.LogInformation($"key:{claim.Type} - value:{claim.Value}");
         }
 
         return principal;
