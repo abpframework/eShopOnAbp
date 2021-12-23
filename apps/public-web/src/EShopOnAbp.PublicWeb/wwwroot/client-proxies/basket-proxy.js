@@ -25,6 +25,13 @@
       }, ajaxParams));
     };
 
+    eShopOnAbp.basketService.basket.mergeBaskets = function(ajaxParams) {
+      return abp.ajax($.extend(true, {
+        url: abp.appPath + 'api/basket/basket/merge-baskets',
+        type: 'POST'
+      }, ajaxParams));
+    };
+
     eShopOnAbp.basketService.basket.addProduct = function(input, ajaxParams) {
       return abp.ajax($.extend(true, {
         url: abp.appPath + 'api/basket/basket/product',

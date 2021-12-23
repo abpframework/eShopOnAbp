@@ -75,6 +75,21 @@
               "allowAnonymous": null,
               "implementFrom": "EShopOnAbp.BasketService.IBasketAppService"
             },
+            "MergeBasketsAsync": {
+              "uniqueName": "MergeBasketsAsync",
+              "name": "MergeBasketsAsync",
+              "httpMethod": "POST",
+              "url": "api/basket/basket/merge-baskets",
+              "supportedVersions": [],
+              "parametersOnMethod": [],
+              "parameters": [],
+              "returnValue": {
+                "type": "EShopOnAbp.BasketService.BasketDto",
+                "typeSimple": "EShopOnAbp.BasketService.BasketDto"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "EShopOnAbp.BasketService.IBasketAppService"
+            },
             "AddProductAsyncByInput": {
               "uniqueName": "AddProductAsyncByInput",
               "name": "AddProductAsync",

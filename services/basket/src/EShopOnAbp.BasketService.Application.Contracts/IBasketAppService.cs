@@ -8,6 +8,7 @@ public interface IBasketAppService : IApplicationService
 {
     Task<BasketDto> GetAsync();
     Task<BasketDto> GetByAnonymousUserIdAsync(Guid id);
+    Task<BasketDto> MergeBasketsAsync();
     Task<BasketDto> AddProductAsync(AddProductDto input);
     Task<BasketDto> RemoveProductAsync(RemoveProductDto input);
     Task PurchaseAsync();
