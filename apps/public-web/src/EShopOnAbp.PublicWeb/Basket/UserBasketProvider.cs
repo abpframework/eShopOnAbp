@@ -42,6 +42,9 @@ namespace EShopOnAbp.PublicWeb.Basket
             {
                 var access_token = await HttpContext.GetTokenAsync("access_token");
                 logger.LogInformation($"ACCESS_TOKEN:{access_token}");
+                logger.LogInformation($"*********************");
+                var id_token = await HttpContext.GetTokenAsync("id_token");
+                logger.LogInformation($"ID_TOKEN:{id_token}");
                 // Get anonymous user id from cookie
                 HttpContext.Request.Cookies.TryGetValue(EShopConstants.AnonymousUserClaimName,
                     out string anonymousUserId);
@@ -51,11 +54,12 @@ namespace EShopOnAbp.PublicWeb.Basket
                 if (string.IsNullOrEmpty(anonymousUserId))
                 {
                     anonymousUserId = guidGenerator.Create().ToString();
-                    HttpContext.Response.Cookies.Append(EShopConstants.AnonymousUserClaimName, anonymousUserId,
-                        new CookieOptions
-                        {
-                            SameSite = SameSiteMode.Lax
-                        });
+                    HttpContext.Response.Cookies.Append(EShopConstants.AnonymousUserClaimName, anonymousUserId
+                        // , new CookieOptions
+                        // {
+                        //     SameSite = SameSiteMode.Lax
+                        // }
+                        );
                     logger.LogInformation(
                         $"========= Generated new User Id:{anonymousUserId} ========= APPENDED TO COOKIE ====== ");
                 }

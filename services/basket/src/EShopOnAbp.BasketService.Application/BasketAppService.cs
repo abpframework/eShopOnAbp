@@ -45,10 +45,6 @@ public class BasketAppService : BasketServiceAppService, IBasketAppService
         //TODO: move to custom shared project
         var anonymousUserIdString = CurrentUser.FindClaimValue("anonymous_id");
         
-        foreach (var claim in CurrentUser.GetAllClaims())
-        {
-            Logger.LogInformation($"claim type:{ claim.Type} - value:{claim.Value}");
-        }
         if (!Guid.TryParse(anonymousUserIdString, out Guid anonymousUserId))
         {
             Logger.LogError($"Couldn't parse anonymous Id from claim!{anonymousUserIdString}");
