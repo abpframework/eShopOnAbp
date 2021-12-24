@@ -1,4 +1,3 @@
-
 @using EShopOnAbp.Localization
 @using Microsoft.Extensions.Localization
 
@@ -10,38 +9,50 @@
     @if (!Model.Items.Any())
     {
         <div class="basket-list">
-            <p class="text-center"><strong><em>Your basket is empty. Click to a product to add it!</em></strong></p>
+            <p class="text-center">
+                <strong>
+                    <em>Your basket is empty. Click to a product to add it!</em>
+                </strong>
+            </p>
         </div>
     }
     else
     {
-        <div class="basket-list">
-            @foreach (var item in Model.Items)
-            {
-                <div class="basket-list-item" data-product-id="@item.ProductId">
-                    @if (!item.ImageName.IsNullOrEmpty())
+        <div class="row">
+            <div class="col-lg-10">
+                <div class="basket-list">
+                    @foreach (var item in Model.Items)
                     {
-                        <img src="/product-images/@item.ImageName"/>
+                        <div class="basket-list-item" data-product-id="@item.ProductId">
+                            @if (!item.ImageName.IsNullOrEmpty())
+                            {
+                                <img src="/product-images/@item.ImageName"/>
+                            }
+                            else
+                            {
+                                <img src="/product-images/noimage.jpg"/>
+                            }
+                            @item.ProductName
+                            @if (item.Count > 1)
+                            {
+                                <text> (@("x" + item.Count))</text>
+                            }
+                            - $@item.TotalPrice.ToString("0.00")
+                            <i class="fa fa-remove basket-item-remove" title="@L["RemoveFromBasket"]"></i>
+                        </div>
                     }
-                    else
-                    {
-                        <img src="/product-images/noimage.jpg"/>
-                    }
-                    @item.ProductName
-                    @if (item.Count > 1)
-                    {
-                        <text> (@("x" + item.Count))</text>
-                    }
-                    - $@item.TotalPrice.ToString("0.00")
-                    <i class="fa fa-remove basket-item-remove" title="@L["RemoveFromBasket"]"></i>
+                    <hr/>
+                    <div class="basket-total-area">
+                        @L["Total"]: $@Model.TotalPrice.ToString("0.00")
+                    </div>
                 </div>
-            }
-            <hr/>
-            <div class="basket-total-area">
-                @L["Total"]: $@Model.TotalPrice.ToString("0.00")
             </div>
-            <div>
-                <abp-button class="basket-purchase-button" text="@L["Purchase"]" button-type="Primary" />
+            <div class="col-lg-2">
+                <div class="row"><h4>Total Selected (@Model.Items.Count)</h4></div>
+                <div class="row"><h3>$@Model.TotalPrice.ToString("0.00")</h3></div>
+                <div class="row">
+                    <abp-button size="Large" class="basket-purchase-button" text="@L["Purchase"]" button-type="Primary"/>
+                </div>
             </div>
         </div>
     }
