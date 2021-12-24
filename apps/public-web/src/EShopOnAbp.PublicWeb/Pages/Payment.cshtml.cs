@@ -6,6 +6,5 @@ public class PaymentModel : AbpPageModel
 {
     public void OnGet()
     {
-        
     }
 }
