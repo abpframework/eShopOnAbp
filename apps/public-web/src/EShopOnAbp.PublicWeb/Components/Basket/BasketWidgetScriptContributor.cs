@@ -10,6 +10,6 @@ public class BasketWidgetScriptContributor : BundleContributor
 {
     public override void ConfigureBundle(BundleConfigurationContext context)
     {
-        context.Files.AddIfNotContains("/components/basket-widget.js");
+        context.Files.AddIfNotContains("/components/basket/basket-widget.js");
     }
 }

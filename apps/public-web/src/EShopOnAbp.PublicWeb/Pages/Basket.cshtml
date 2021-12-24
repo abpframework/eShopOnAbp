@@ -6,7 +6,6 @@
 
 @section scripts {
     <abp-script src="/client-proxies/basket-proxy.js"/>
-    <abp-script src="/Pages/index.js"/>
 }
 
 @inject IStringLocalizer<EShopOnAbpResource> L
@@ -16,5 +15,4 @@
     <div id="BasketArea">
         @await Component.InvokeAsync(typeof(BasketWidgetViewComponent))
     </div>
-
 </div>
