@@ -1,6 +1,19 @@
 @using EShopOnAbp.Localization
+@using EShopOnAbp.PublicWeb.Components.Purchase
 @using Microsoft.Extensions.Localization
 @inject IStringLocalizer<EShopOnAbpResource> L
 
-<div>
+<div class="row">
+    <div class="col-lg-9">
+        <div class="address-list">
+            <h3>Select Address</h3>
+        </div>
+        <div class="payment-list">
+            <h3>Select Payment Method</h3>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        @await Component.InvokeAsync(typeof(PurchaseWidgetViewComponent),
+            new {Basket = Model, ButtonDescription = "CompleteOrder"})
+    </div>
 </div>

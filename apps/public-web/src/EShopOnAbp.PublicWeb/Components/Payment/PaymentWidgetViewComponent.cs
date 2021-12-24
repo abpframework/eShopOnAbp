@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using EShopOnAbp.PublicWeb.Basket;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.UI.Widgets;
@@ -13,8 +14,15 @@ namespace EShopOnAbp.PublicWeb.Components.Payment;
 )]
 public class PaymentWidgetViewComponent: AbpViewComponent
 {
+    private readonly UserBasketProvider _userBasketProvider;
+
+    public PaymentWidgetViewComponent(UserBasketProvider userBasketProvider)
+    {
+        _userBasketProvider = userBasketProvider;
+    }
+
     public async Task<IViewComponentResult> InvokeAsync()
     {
-        return await Task.FromResult(View("~/Components/Payment/Default.cshtml"));
+        return View("~/Components/Payment/Default.cshtml", await _userBasketProvider.GetBasketAsync());
     }
 }

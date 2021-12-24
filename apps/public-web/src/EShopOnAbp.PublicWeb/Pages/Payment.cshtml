@@ -7,8 +7,8 @@
 @inject IStringLocalizer<EShopOnAbpResource> L
 
 <div class="row">
-    <h3 class="pt-5 pb-4 text-center">@L["Payment"]</h3>
-    <div id="PaymentArea">
+    @* <h3 class="pt-5 pb-4 text-center">@L["Payment"]</h3> *@
+    <div id="PaymentArea" class="pt-5">
         @await Component.InvokeAsync(typeof(PaymentWidgetViewComponent))
     </div>
 </div>
