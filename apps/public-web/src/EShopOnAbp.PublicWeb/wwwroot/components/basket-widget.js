@@ -1,6 +1,6 @@
 (function () {
 
-    let anonymousId = abp.utils.getCookieValue("eshop_anonymousId");
+    let anonymousId = abp.utils.getCookieValue("anonymous_id");
 
 
     abp.widgets.BasketWidget = function ($wrapper) {
