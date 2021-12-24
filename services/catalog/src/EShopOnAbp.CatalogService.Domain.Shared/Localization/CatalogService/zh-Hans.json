@@ -1,8 +1,21 @@
 {
-    "culture": "zh-Hans",
-    "texts": {
-      "Menu:Home": "首页",
-      "Welcome": "欢迎",
-      "LongWelcomeMessage": "欢迎来到该应用程序. 这是一个基于ABP框架的启动项目. 有关更多信息, 请访问 abp.io."
-    }
+  "culture": "zh-Hans",
+  "texts": {
+    "CatalogService:000001": "已存在编码为 {productCode} 的产品！",
+    "Permission:GroupName": "分类",
+    "Permission:Products": "产品",
+    "Permission:Products.Edit": "编辑",
+    "Permission:Products.Delete": "删除",
+    "Permission:Products.Create": "创建",
+    "Menu:CatalogManagement": "分类管理",
+    "Menu:Products": "产品",
+    "NewProduct": "新增产品",
+    "Products": "产品",
+    "DisplayName:Name": "名称",
+    "DisplayName:Code": "编码",
+    "DisplayName:ImageName": "图片名称",
+    "DisplayName:Price": "价格",
+    "DisplayName:StockCount": "库存数量",
+    "ProductDeletionConfirmationMessage": "您确定要删除 {0} 这个产品吗？"
   }
+}
