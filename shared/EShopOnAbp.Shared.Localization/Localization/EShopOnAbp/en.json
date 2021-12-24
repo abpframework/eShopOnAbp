@@ -3,12 +3,12 @@
   "texts": {
     "Menu:Home": "Home",
     "Login": "Login",
-    "Catalog": "Catalog",
     "YourBasket": "Your Basket",
-    "Purchase": "Purchase",
     "Total": "Total",
     "OurProducts": "Our Products",
     "StockCount": "Stock Count",
-    "RemoveFromBasket": "Remove from basket"
+    "RemoveFromBasket": "Remove from basket",
+    "CompletePurchase": "Complete purchase",
+    "CompleteOrder": "Complete order"
   }
 }

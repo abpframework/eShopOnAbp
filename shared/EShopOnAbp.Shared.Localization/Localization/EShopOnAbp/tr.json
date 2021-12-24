@@ -3,12 +3,12 @@
   "texts": {
     "Menu:Home": "Ana Sayfa",
     "Login": "Giriş",
-    "Catalog": "Katalog",
     "YourBasket": "Sepetiniz",
-    "Purchase": "Alışverişi tamamla",
     "Total": "Toplam",
     "OurProducts": "Ürünlerimiz",
     "StockCount": "Stokta",
-    "RemoveFromBasket": "Sepetten kaldır"
+    "RemoveFromBasket": "Sepetten kaldır",
+    "CompletePurchase": "Alışverişi tamamla",
+    "CompleteOrder": "Siparişi onayla"
   }
 }

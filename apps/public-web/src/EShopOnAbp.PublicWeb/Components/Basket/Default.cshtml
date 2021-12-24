@@ -1,4 +1,5 @@
 @using EShopOnAbp.Localization
+@using EShopOnAbp.PublicWeb.Components.Purchase
 @using Microsoft.Extensions.Localization
 @model EShopOnAbp.BasketService.BasketDto
 @inject IStringLocalizer<EShopOnAbpResource> L
@@ -17,7 +18,7 @@
     else
     {
         <div class="row">
-            <div class="col-lg-10">
+            <div class="col-lg-9">
                 <div class="basket-list">
                     @foreach (var item in Model.Items)
                     {
@@ -45,20 +46,12 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-2">
-                <div class="row">
-                    <h4>Total Selected (@Model.Items.Count)</h4>
-                </div>
-                <div class="row">
-                    <h3>$@Model.TotalPrice.ToString("0.00")</h3>
-                </div>
-                <div class="row">
-                    <form method="post">
-                        @Html.AntiForgeryToken()
-                        <abp-button type="submit" size="Large" class="basket-purchase-button" text="@L["Purchase"]" button-type="Primary"/>
-                    </form>
-
-                </div>
+            <div class="col-lg-3">
+                @await Component.InvokeAsync(typeof(PurchaseWidgetViewComponent), 
+                    new { Basket = Model, ButtonDescription = "CompletePurchase"})
+                
+                
+                
             </div>
         </div>
     }

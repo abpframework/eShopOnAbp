@@ -1,0 +1,21 @@
+@using EShopOnAbp.Localization
+@using EShopOnAbp.PublicWeb.Components.Purchase
+@using Microsoft.Extensions.Localization
+@model PurchaseWidgetViewComponent.PurchaseViewModel
+@inject IStringLocalizer<EShopOnAbpResource> L
+
+<div>
+    <div class="row">
+        <h4>Total Selected (@Model.Basket.Items.Count)</h4>
+    </div>
+    <div class="row">
+        <h3>$@Model.Basket.TotalPrice.ToString("0.00")</h3>
+    </div>
+    <div class="row">
+        <form method="post">
+            @Html.AntiForgeryToken()
+            <abp-button type="submit" size="Large" class="basket-purchase-button" text="@L[Model.ButtonDescription]" button-type="Primary"/>
+        </form>
+
+    </div>
+</div>
