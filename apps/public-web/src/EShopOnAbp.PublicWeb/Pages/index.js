@@ -1,6 +1,6 @@
 ﻿(function () {
     //set anonymous user
-    let anonymousId = abp.utils.getCookieValue("eshop_anonymousId");
+    let anonymousId = abp.utils.getCookieValue("anonymous_id");
     if (anonymousId != null) {
         console.info("Anonymous user set:" + anonymousId);
     }

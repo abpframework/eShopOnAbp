@@ -99,6 +99,16 @@ namespace EShopOnAbp.AuthServer
                 options.IsEnabled = true;
             });
 
+            // context.Services.Replace(ServiceDescriptor.Transient<AbpClaimsService, EshopUserClaimService>());
+
+            
+            Configure<AbpClaimsServiceOptions>(options =>
+            {
+                options.RequestedClaims.AddRange(new[]{
+                    EShopConstants.AnonymousUserClaimName
+                });
+            });
+            
             Configure<AbpAuditingOptions>(options =>
             {
                 options.ApplicationName = "AuthServer";

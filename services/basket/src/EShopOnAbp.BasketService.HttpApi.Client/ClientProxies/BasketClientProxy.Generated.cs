@@ -28,6 +28,11 @@ namespace EShopOnAbp.BasketService.ClientProxies
             });
         }
 
+        public virtual async Task<BasketDto> MergeBasketsAsync()
+        {
+            return await RequestAsync<BasketDto>(nameof(MergeBasketsAsync));
+        }
+
         public virtual async Task<BasketDto> AddProductAsync(AddProductDto input)
         {
             return await RequestAsync<BasketDto>(nameof(AddProductAsync), new ClientProxyRequestTypeValue

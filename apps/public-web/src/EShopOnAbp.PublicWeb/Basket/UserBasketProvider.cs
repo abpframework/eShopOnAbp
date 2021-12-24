@@ -1,12 +1,11 @@
-﻿using Castle.Core.Logging;
-using EShopOnAbp.BasketService;
+﻿using EShopOnAbp.BasketService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using EShopOnAbp.Shared.Hosting.AspNetCore;
+using Microsoft.AspNetCore.Authentication;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Guids;
 using Volo.Abp.Users;
@@ -41,8 +40,13 @@ namespace EShopOnAbp.PublicWeb.Basket
         {
             try
             {
+                var access_token = await HttpContext.GetTokenAsync("access_token");
+                logger.LogInformation($"ACCESS_TOKEN:{access_token}");
+                logger.LogInformation($"*********************");
+                var id_token = await HttpContext.GetTokenAsync("id_token");
+                logger.LogInformation($"ID_TOKEN:{id_token}");
                 // Get anonymous user id from cookie
-                HttpContext.Request.Cookies.TryGetValue(CookieConstants.AnonymousUserCookieName,
+                HttpContext.Request.Cookies.TryGetValue(EShopConstants.AnonymousUserClaimName,
                     out string anonymousUserId);
                 logger.LogInformation($"========= Anonymous User Id from Cookie:{anonymousUserId} ========= ");
 
@@ -50,8 +54,14 @@ namespace EShopOnAbp.PublicWeb.Basket
                 if (string.IsNullOrEmpty(anonymousUserId))
                 {
                     anonymousUserId = guidGenerator.Create().ToString();
-                    HttpContext.Response.Cookies.Append(CookieConstants.AnonymousUserCookieName, anonymousUserId);
-                    logger.LogInformation($"========= Generated new User Id:{anonymousUserId} ========= APPENDED TO COOKIE ====== ");
+                    HttpContext.Response.Cookies.Append(EShopConstants.AnonymousUserClaimName, anonymousUserId
+                        // , new CookieOptions
+                        // {
+                        //     SameSite = SameSiteMode.Lax
+                        // }
+                        );
+                    logger.LogInformation(
+                        $"========= Generated new User Id:{anonymousUserId} ========= APPENDED TO COOKIE ====== ");
                 }
 
                 if (!currentUser.IsAuthenticated)
@@ -60,11 +70,20 @@ namespace EShopOnAbp.PublicWeb.Basket
                         $"========= Get Basket for Anonymous UserId:{anonymousUserId} ========= APPENDED TO COOKIE ====== ");
                     return await basketAppService.GetByAnonymousUserIdAsync(Guid.Parse(anonymousUserId));
                 }
-                else
+
+                //TODO: Merge with anonymously stored cart if exist
+                var userClaimValue = currentUser.FindClaimValue(EShopConstants.AnonymousUserClaimName);
+                foreach (var claim in currentUser.GetAllClaims())
                 {
-                    //TODO: Merge with anonymously stored cart if exist 
+                    logger.LogInformation($"Claim Type:{claim.Type}-Value:{claim.Value}");
+                }
+
+                if (string.IsNullOrEmpty(userClaimValue))
+                {
                     return await basketAppService.GetAsync();
                 }
+
+                return await basketAppService.MergeBasketsAsync();
             }
             catch (Exception ex)
             {

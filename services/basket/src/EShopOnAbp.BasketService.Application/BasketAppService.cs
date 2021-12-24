@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Volo.Abp.Users;
 using EShopOnAbp.CatalogService.Products;
+using Microsoft.Extensions.Logging;
 using Volo.Abp;
 using Volo.Abp.EventBus.Distributed;
 
@@ -15,7 +16,6 @@ public class BasketAppService : BasketServiceAppService, IBasketAppService
     private readonly IBasketRepository _basketRepository;
     private readonly IBasketProductService _basketProductService;
     private readonly IDistributedEventBus _distributedEventBus;
-    private Guid _anonymousUserId { get; set; }
 
     public BasketAppService(
         IBasketRepository basketRepository,
@@ -36,14 +36,43 @@ public class BasketAppService : BasketServiceAppService, IBasketAppService
     public async Task<BasketDto> GetByAnonymousUserIdAsync(Guid id)
     {
         var basket = await _basketRepository.GetAsync(id);
-        _anonymousUserId = id;
+        ;
         return await GetBasketDtoAsync(basket);
+    }
+
+    public async Task<BasketDto> MergeBasketsAsync()
+    {
+        //TODO: move to custom shared project
+        var anonymousUserIdString = CurrentUser.FindClaimValue("anonymous_id");
+        
+        if (!Guid.TryParse(anonymousUserIdString, out Guid anonymousUserId))
+        {
+            Logger.LogError($"Couldn't parse anonymous Id from claim!{anonymousUserIdString}");
+        }
+
+        Basket anonymousUserBasket = await _basketRepository.GetAsync(anonymousUserId);
+        if (!CurrentUser.IsAuthenticated)
+        {
+            Logger.LogWarning($"User is not authenticated! Merging baskets failed!");
+            return await GetBasketDtoAsync(anonymousUserBasket);
+        }
+
+        var userBasket = await _basketRepository.GetAsync(CurrentUser.GetId());
+
+        foreach (var item in anonymousUserBasket.Items)
+        {
+            userBasket.AddProduct(item.ProductId, item.Count);
+        }
+
+        await _basketRepository.UpdateAsync(userBasket);
+        anonymousUserBasket.Clear();
+        await _basketRepository.UpdateAsync(anonymousUserBasket);
+
+        return await GetBasketDtoAsync(userBasket);
     }
 
     public async Task<BasketDto> AddProductAsync(AddProductDto input)
     {
-        Console.WriteLine("========================= AnonymousId: "+input.AnonymousId);
-
         Guid userId = CurrentUser.IsAuthenticated ? CurrentUser.GetId() : input.AnonymousId.GetValueOrDefault();
 
         var basket = await _basketRepository.GetAsync(userId);
