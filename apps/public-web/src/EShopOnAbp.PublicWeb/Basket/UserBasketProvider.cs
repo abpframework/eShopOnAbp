@@ -41,19 +41,6 @@ namespace EShopOnAbp.PublicWeb.Basket
                 // Get anonymous user id from cookie
                 HttpContext.Request.Cookies.TryGetValue(EShopConstants.AnonymousUserClaimName,
                     out string anonymousUserId);
-                logger.LogInformation($"========= Anonymous User Id from Cookie:{anonymousUserId} ========= ");
-
-                // Generate new id for anonymous user
-                if (string.IsNullOrEmpty(anonymousUserId))
-                {
-                    anonymousUserId = guidGenerator.Create().ToString();
-                    HttpContext.Response.Cookies.Append(EShopConstants.AnonymousUserClaimName, anonymousUserId, new CookieOptions
-                        {
-                            SameSite = SameSiteMode.Lax
-                        });
-                    logger.LogInformation(
-                        $"========= Generated new User Id:{anonymousUserId} ========= APPENDED TO COOKIE ====== ");
-                }
 
                 if (!currentUser.IsAuthenticated)
                 {
