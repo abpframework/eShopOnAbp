@@ -53,7 +53,11 @@
                     <h3>$@Model.TotalPrice.ToString("0.00")</h3>
                 </div>
                 <div class="row">
-                    <abp-button size="Large" class="basket-purchase-button" text="@L["Purchase"]" button-type="Primary"/>
+                    <form method="post">
+                        @Html.AntiForgeryToken()
+                        <abp-button type="submit" size="Large" class="basket-purchase-button" text="@L["Purchase"]" button-type="Primary"/>
+                    </form>
+
                 </div>
             </div>
         </div>
