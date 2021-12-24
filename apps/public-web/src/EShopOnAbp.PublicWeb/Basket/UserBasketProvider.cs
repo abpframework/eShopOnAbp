@@ -2,10 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using EShopOnAbp.Shared.Hosting.AspNetCore;
-using Microsoft.AspNetCore.Authentication;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Guids;
 using Volo.Abp.Users;
@@ -40,11 +38,6 @@ namespace EShopOnAbp.PublicWeb.Basket
         {
             try
             {
-                var access_token = await HttpContext.GetTokenAsync("access_token");
-                logger.LogInformation($"ACCESS_TOKEN:{access_token}");
-                logger.LogInformation($"*********************");
-                var id_token = await HttpContext.GetTokenAsync("id_token");
-                logger.LogInformation($"ID_TOKEN:{id_token}");
                 // Get anonymous user id from cookie
                 HttpContext.Request.Cookies.TryGetValue(EShopConstants.AnonymousUserClaimName,
                     out string anonymousUserId);
@@ -54,12 +47,10 @@ namespace EShopOnAbp.PublicWeb.Basket
                 if (string.IsNullOrEmpty(anonymousUserId))
                 {
                     anonymousUserId = guidGenerator.Create().ToString();
-                    HttpContext.Response.Cookies.Append(EShopConstants.AnonymousUserClaimName, anonymousUserId
-                        // , new CookieOptions
-                        // {
-                        //     SameSite = SameSiteMode.Lax
-                        // }
-                        );
+                    HttpContext.Response.Cookies.Append(EShopConstants.AnonymousUserClaimName, anonymousUserId, new CookieOptions
+                        {
+                            SameSite = SameSiteMode.Lax
+                        });
                     logger.LogInformation(
                         $"========= Generated new User Id:{anonymousUserId} ========= APPENDED TO COOKIE ====== ");
                 }
@@ -67,16 +58,12 @@ namespace EShopOnAbp.PublicWeb.Basket
                 if (!currentUser.IsAuthenticated)
                 {
                     logger.LogInformation(
-                        $"========= Get Basket for Anonymous UserId:{anonymousUserId} ========= APPENDED TO COOKIE ====== ");
+                        $"========= Get Basket for Anonymous UserId:{anonymousUserId} =========  ====== ");
                     return await basketAppService.GetByAnonymousUserIdAsync(Guid.Parse(anonymousUserId));
                 }
 
                 //TODO: Merge with anonymously stored cart if exist
                 var userClaimValue = currentUser.FindClaimValue(EShopConstants.AnonymousUserClaimName);
-                foreach (var claim in currentUser.GetAllClaims())
-                {
-                    logger.LogInformation($"Claim Type:{claim.Type}-Value:{claim.Value}");
-                }
 
                 if (string.IsNullOrEmpty(userClaimValue))
                 {

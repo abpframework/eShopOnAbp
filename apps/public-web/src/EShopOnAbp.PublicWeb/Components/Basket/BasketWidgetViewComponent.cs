@@ -23,7 +23,6 @@ public class BasketWidgetViewComponent : AbpViewComponent
 
     public async Task<IViewComponentResult> InvokeAsync()
     {
-        
         return View(
             "~/Components/Basket/Default.cshtml",
             await userBasketProvider.GetBasketAsync());

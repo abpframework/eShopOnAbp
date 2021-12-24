@@ -1,8 +1,6 @@
 @using EShopOnAbp.Localization
 @using Microsoft.Extensions.Localization
-
 @model EShopOnAbp.BasketService.BasketDto
-
 @inject IStringLocalizer<EShopOnAbpResource> L
 
 <div>
@@ -48,10 +46,18 @@
                 </div>
             </div>
             <div class="col-lg-2">
-                <div class="row"><h4>Total Selected (@Model.Items.Count)</h4></div>
-                <div class="row"><h3>$@Model.TotalPrice.ToString("0.00")</h3></div>
                 <div class="row">
-                    <abp-button size="Large" class="basket-purchase-button" text="@L["Purchase"]" button-type="Primary"/>
+                    <h4>Total Selected (@Model.Items.Count)</h4>
+                </div>
+                <div class="row">
+                    <h3>$@Model.TotalPrice.ToString("0.00")</h3>
+                </div>
+                <div class="row">
+                    <form method="post">
+                        @Html.AntiForgeryToken()
+                        <abp-button type="submit" size="Large" class="basket-purchase-button" text="@L["Purchase"]" button-type="Primary"/>
+                    </form>
+
                 </div>
             </div>
         </div>

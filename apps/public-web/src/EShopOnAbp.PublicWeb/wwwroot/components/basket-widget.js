@@ -27,15 +27,6 @@
                     });
                 });
 
-            $wrapper
-                .find('.basket-purchase-button')
-                .click(function () {
-                    eShopOnAbp.basketService.basket.purchase().then(function () {
-                        widgetManager.refresh();
-
-                        abp.notify.info("Thank you for the payment!", "Purchase completed!");
-                    });
-                });
         };
 
         return {
