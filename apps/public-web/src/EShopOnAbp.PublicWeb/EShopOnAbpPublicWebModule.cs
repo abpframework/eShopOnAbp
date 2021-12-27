@@ -22,6 +22,7 @@ using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared.Toolbars;
 using Volo.Abp.AspNetCore.SignalR;
+using Volo.Abp.AutoMapper;
 using Volo.Abp.Caching;
 using Volo.Abp.Caching.StackExchangeRedis;
 using Volo.Abp.EventBus.RabbitMq;
@@ -68,6 +69,12 @@ namespace EShopOnAbp.PublicWeb
             var hostingEnvironment = context.Services.GetHostingEnvironment();
             var configuration = context.Services.GetConfiguration();
 
+            context.Services.AddAutoMapperObjectMapper<EShopOnAbpPublicWebModule>();
+            Configure<AbpAutoMapperOptions>(options =>
+            {
+                options.AddMaps<EShopOnAbpPublicWebModule>(validate: true);
+            });
+
             Configure<AbpMultiTenancyOptions>(options =>
             {
                 options.IsEnabled = true;
@@ -81,6 +88,11 @@ namespace EShopOnAbp.PublicWeb
             Configure<AppUrlOptions>(options =>
             {
                 options.Applications["MVC"].RootUrl = configuration["App:SelfUrl"];
+            });
+
+            Configure<EShopOnAbpPublicWebPaymentOptions>(options =>
+            {
+                options.PaymentSuccessfulCallbackUrl = configuration["App:SelfUrl"].EnsureEndsWith('/') + "PaymentCompleted";
             });
 
             context.Services.AddAuthentication(options =>
