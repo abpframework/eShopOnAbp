@@ -49,8 +49,8 @@ public class PaymentModel : AbpPageModel
 
         var response = await _paymentRequestAppService.StartAsync(new PaymentRequestStartDto
         {
-            ReturnUrl = _publicWebPaymentOptions.PaymentSuccessfulCallbackUrl,
             PaymentRequestId = paymentRequest.Id,
+            ReturnUrl = _publicWebPaymentOptions.PaymentSuccessfulCallbackUrl,
             CancelUrl = _publicWebPaymentOptions.PaymentFailureCallbackUrl,
         });
 

@@ -25,6 +25,8 @@ namespace EShopOnAbp.PaymentService
                 options.AddMaps<PaymentServiceApplicationModule>(validate: true);
             });
 
+            Configure<PayPalOptions>(context.Services.GetConfiguration().GetSection("Payment:PayPal"));
+
             context.Services.AddTransient(provider =>
             {
                 var options = provider.GetService<IOptions<PayPalOptions>>().Value;

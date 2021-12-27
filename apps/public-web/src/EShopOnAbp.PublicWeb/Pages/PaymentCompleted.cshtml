@@ -2,9 +2,15 @@
 @model EShopOnAbp.PublicWeb.Pages.PaymentCompletedModel
 
 <div>
-    <h1>Thank you for the payment!</h1>
-    <hr/>
-    <h1>Purchase completed!</h1>
-    <hr/>
-    <h3>click <a href="/">here</a> to return to home page</h3>
+
+	@if (Model.IsSuccessful)
+	{
+		<h1>Thank you for the payment!</h1>
+		<hr />
+		<h1>Purchase completed!</h1>
+		<hr />
+		<h3>click <a href="/">here</a> to return to home page</h3>
+
+	}
+
 </div>
