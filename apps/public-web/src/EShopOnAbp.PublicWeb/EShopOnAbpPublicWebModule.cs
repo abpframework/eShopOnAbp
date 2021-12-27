@@ -49,7 +49,8 @@ namespace EShopOnAbp.PublicWeb
         typeof(CatalogServiceHttpApiClientModule),
         typeof(BasketServiceHttpApiClientModule),
         typeof(AbpAspNetCoreSignalRModule),
-        typeof(PaymentServiceHttpApiClientModule)
+        typeof(PaymentServiceHttpApiClientModule),
+        typeof(AbpAutoMapperModule)
         )]
     public class EShopOnAbpPublicWebModule : AbpModule
     {
