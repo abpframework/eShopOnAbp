@@ -1,18 +1,18 @@
-﻿using System;
-using System.Net.Http.Headers;
-using EShopOnAbp.BasketService;
+﻿using EShopOnAbp.BasketService;
 using EShopOnAbp.CatalogService;
 using EShopOnAbp.Localization;
+using EShopOnAbp.PaymentService;
 using EShopOnAbp.PublicWeb.Menus;
 using EShopOnAbp.Shared.Hosting.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using StackExchange.Redis;
+using System;
+using System.Net.Http.Headers;
 using Volo.Abp;
 using Volo.Abp.Account;
 using Volo.Abp.AspNetCore.Authentication.OpenIdConnect;
@@ -48,7 +48,8 @@ namespace EShopOnAbp.PublicWeb
         typeof(EShopOnAbpSharedLocalizationModule),
         typeof(CatalogServiceHttpApiClientModule),
         typeof(BasketServiceHttpApiClientModule),
-        typeof(AbpAspNetCoreSignalRModule)
+        typeof(AbpAspNetCoreSignalRModule),
+        typeof(PaymentServiceHttpApiClientModule)
         )]
     public class EShopOnAbpPublicWebModule : AbpModule
     {
@@ -188,7 +189,7 @@ namespace EShopOnAbp.PublicWeb
             app.UseAuthorization();
             app.UseConfiguredEndpoints(endpoints =>
             {
-                endpoints.MapReverseProxy();
+                //endpoints.MapReverseProxy();
                 // endpoints.MapMetrics();
             });
         }
