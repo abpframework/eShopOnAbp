@@ -6,7 +6,7 @@ using Volo.Abp.EventBus;
 namespace EShopOnAbp.PaymentService
 {
     [Serializable]
-    [EventName("Payment.Completed")]
+    [EventName("EShopOnAbp.Payment.Completed")]
     public class PaymentRequestFailedEto : EtoBase, IHasExtraProperties
     {
         public Guid PaymentRequestId { get; set; }

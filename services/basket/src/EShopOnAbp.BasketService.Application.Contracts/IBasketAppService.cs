@@ -11,5 +11,4 @@ public interface IBasketAppService : IApplicationService
     Task<BasketDto> MergeBasketsAsync();
     Task<BasketDto> AddProductAsync(AddProductDto input);
     Task<BasketDto> RemoveProductAsync(RemoveProductDto input);
-    Task PurchaseAsync();
 }

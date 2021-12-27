@@ -1,6 +1,7 @@
 ﻿using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities.Auditing;
 
@@ -48,6 +49,10 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
             AddDistributedEvent(new PaymentRequestCompletedEto
             {
                 PaymentRequestId = Id,
+                BuyerId = BuyerId,
+                Currency = Currency,
+                State = State,
+                Products = Products.Select(MapProductToEto).ToList(),
                 ExtraProperties = ExtraProperties
             });
         }
@@ -68,6 +73,18 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
                 FailReason = failReason,
                 ExtraProperties = ExtraProperties
             });
+        }
+
+        private static PaymentRequestProductEto MapProductToEto(PaymentRequestProduct product)
+        {
+            return new PaymentRequestProductEto
+            {
+                Name = product.Name,
+                Quantity = product.Quantity,
+                ReferenceId = product.ReferenceId,
+                TotalPrice = product.TotalPrice,
+                UnitPrice = product.UnitPrice,
+            };
         }
     }
 }

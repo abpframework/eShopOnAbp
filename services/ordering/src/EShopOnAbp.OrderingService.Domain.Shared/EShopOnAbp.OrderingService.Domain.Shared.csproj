@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <Import Project="..\..\..\..\common.props" />
 
@@ -14,6 +14,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\payment\src\EShopOnAbp.PaymentService.Domain.Shared\EShopOnAbp.PaymentService.Domain.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
