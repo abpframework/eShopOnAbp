@@ -4,6 +4,7 @@ using PayPalCheckoutSdk.Core;
 using PayPalCheckoutSdk.Orders;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -69,11 +70,11 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
                                 ItemTotal = new Money
                                 {
                                     CurrencyCode = paymentRequest.Currency,
-                                    Value = totalCheckoutPrice.ToString(".00")
+                                    Value = totalCheckoutPrice.ToString($"{CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator}00")
                                 }
                             },
                             CurrencyCode = paymentRequest.Currency,
-                            Value = totalCheckoutPrice.ToString(".00"),
+                            Value = totalCheckoutPrice.ToString($"{CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator}00"),
                         },
                         Items = paymentRequest.Products.Select(p => new Item
                         {
@@ -82,7 +83,7 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
                             UnitAmount = new Money
                             {
                                 CurrencyCode = paymentRequest.Currency,
-                                Value = p.UnitPrice.ToString(".00")
+                                Value = p.UnitPrice.ToString($"{CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator}00")
                             }
                         }).ToList(),
                         ReferenceId = paymentRequest.Id.ToString()
