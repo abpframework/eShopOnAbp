@@ -17,6 +17,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\basket\src\EShopOnAbp.BasketService.Domain.Shared\EShopOnAbp.BasketService.Domain.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Include="Localization\CatalogService\*.json" />
     <Content Remove="Localization\CatalogService\*.json" />
   </ItemGroup>

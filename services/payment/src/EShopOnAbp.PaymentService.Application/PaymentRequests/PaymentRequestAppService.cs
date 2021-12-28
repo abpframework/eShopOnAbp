@@ -28,6 +28,7 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
 
             foreach (var paymentRequestProduct in input.Products
                 .Select(s => new PaymentRequestProduct(
+                    GuidGenerator.Create(),
                     paymentRequest.Id,
                     s.Name,
                     s.UnitPrice,
@@ -38,12 +39,14 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
                 paymentRequest.Products.Add(paymentRequestProduct);
             }
 
+            await PaymentRequestRepository.InsertAsync(paymentRequest);
+
             return ObjectMapper.Map<PaymentRequest, PaymentRequestDto>(paymentRequest);
         }
 
         public async Task<PaymentRequestStartResultDto> StartAsync(PaymentRequestStartDto input)
         {
-            var paymentRequest = await PaymentRequestRepository.GetAsync(input.PaymentRequestId);
+            var paymentRequest = await PaymentRequestRepository.GetAsync(input.PaymentRequestId, includeDetails: true);
 
             var totalCheckoutPrice = paymentRequest.Products.Sum(s => s.TotalPrice);
 

@@ -104,15 +104,6 @@ public class BasketAppService : BasketServiceAppService, IBasketAppService
         return await GetBasketDtoAsync(basket);
     }
 
-    public async Task PurchaseAsync()
-    {
-        var basket = await _basketRepository.GetAsync(CurrentUser.GetId());
-        var orderAcceptedEto = ObjectMapper.Map<Basket, OrderAcceptedEto>(basket);
-        await _distributedEventBus.PublishAsync(orderAcceptedEto);
-        basket.Clear();
-        await _basketRepository.UpdateAsync(basket);
-    }
-
     private async Task<BasketDto> GetBasketDtoAsync(Basket basket)
     {
         var products = new Dictionary<Guid, ProductDto>();

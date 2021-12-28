@@ -48,10 +48,5 @@ namespace EShopOnAbp.BasketService.ClientProxies
                 { typeof(RemoveProductDto), input }
             });
         }
-
-        public virtual async Task PurchaseAsync()
-        {
-            await RequestAsync(nameof(PurchaseAsync));
-        }
     }
 }
