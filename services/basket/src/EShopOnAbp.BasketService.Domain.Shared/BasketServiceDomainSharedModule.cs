@@ -1,4 +1,5 @@
 ﻿using EShopOnAbp.BasketService.Localization;
+using EShopOnAbp.OrderingService;
 using Volo.Abp.Localization;
 using Volo.Abp.Localization.ExceptionHandling;
 using Volo.Abp.Modularity;
@@ -9,7 +10,8 @@ using Volo.Abp.VirtualFileSystem;
 namespace EShopOnAbp.BasketService
 {
     [DependsOn(
-        typeof(AbpValidationModule)
+        typeof(AbpValidationModule),
+        typeof(OrderingServiceDomainSharedModule)
         )]
     public class BasketServiceDomainSharedModule : AbpModule
     {
