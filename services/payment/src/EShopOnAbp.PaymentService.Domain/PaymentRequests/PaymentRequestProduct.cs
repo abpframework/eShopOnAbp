@@ -19,6 +19,7 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
         public decimal TotalPrice { get; set; }
 
         public PaymentRequestProduct(
+            Guid id,
             Guid paymentRequestId,
             [NotNull] string name,
             decimal unitPrice,
@@ -26,6 +27,7 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
             decimal totalPrice,
             [CanBeNull] string referenceId = null)
         {
+            Id = id;
             PaymentRequestId = paymentRequestId;
             Name = name;
             UnitPrice = unitPrice;

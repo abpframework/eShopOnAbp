@@ -28,6 +28,7 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
 
             foreach (var paymentRequestProduct in input.Products
                 .Select(s => new PaymentRequestProduct(
+                    GuidGenerator.Create(),
                     paymentRequest.Id,
                     s.Name,
                     s.UnitPrice,
