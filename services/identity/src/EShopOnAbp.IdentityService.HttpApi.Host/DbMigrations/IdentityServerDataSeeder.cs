@@ -217,8 +217,9 @@ namespace EShopOnAbp.IdentityService.DbMigrations
                 scopes: commonScopes.Union(new[]
                 {
                     "AdministrationService",
-                    "CatalogService",
-                    "BasketService"
+                    "CatalogService", // Consider removing this service
+                    "BasketService",
+                    "PaymentService"
                 }),
                 grantTypes: new[] { "hybrid" },
                 secret: "1q2w3e*".Sha256(),
