@@ -191,7 +191,7 @@ namespace EShopOnAbp.PublicWeb
             app.UseAuthorization();
             app.UseConfiguredEndpoints(endpoints =>
             {
-                //endpoints.MapReverseProxy();
+                endpoints.MapReverseProxy();
                 // endpoints.MapMetrics();
             });
         }
