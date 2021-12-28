@@ -1,0 +1,54 @@
+@using EShopOnAbp.Localization
+@using EShopOnAbp.PublicWeb.Components.Purchase
+@using Microsoft.Extensions.Localization
+@model EShopOnAbp.PublicWeb.Components.Payment.PaymentViewModel
+
+@inject IStringLocalizer<EShopOnAbpResource> L
+
+@{
+    const int defaultColumnSize = 4;
+}
+
+<div class="row">
+    <div class="col-lg-9">
+        <div class="address-list p-5">
+            <h3>Select Address</h3>
+            @for (int i = 0; i < Math.Ceiling(Model.Address.Count / (double) defaultColumnSize); i++)
+            {
+                <abp-row>
+                    @for (int j = 0; j < defaultColumnSize; j++)
+                    {
+                        <abp-column size-lg="_3" size-md="_4" size-sm="_6">
+                            @if (i * defaultColumnSize + j < Model.Address.Count)
+                            {
+                                var address = Model.Address[(i * defaultColumnSize) + j];
+                                string isSelected = address.IsDefault ? "is-selected" : string.Empty;
+                                <div class="card @isSelected" data-address-id="@address.Id">
+                                    <div class="card-body">
+                                        <h4 class="card-title">@address.Name</h4>
+                                        <p class="card-text">@address.Description</p>
+                                    </div>
+                                </div>
+                            }
+                        </abp-column>
+                    }
+                </abp-row>
+            }
+        </div>
+
+        <div class="payment-list p-5">
+            <h3>Select Payment Method</h3>
+            <abp-row>
+                <abp-column size-lg="_3" size-md="_4" size-sm="_6">
+                    <abp-card>
+                    <img class="" src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="paypal logo">
+                    </abp-card>
+                </abp-column>
+            </abp-row>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        @await Component.InvokeAsync(typeof(PurchaseWidgetViewComponent),
+            new {Basket = Model.Basket, ButtonDescription = "CompleteOrder"})
+    </div>
+</div>

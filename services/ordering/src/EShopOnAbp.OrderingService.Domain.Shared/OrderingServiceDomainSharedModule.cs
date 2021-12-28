@@ -5,11 +5,13 @@ using Volo.Abp.Localization.ExceptionHandling;
 using Volo.Abp.Validation;
 using Volo.Abp.Validation.Localization;
 using Volo.Abp.VirtualFileSystem;
+using EShopOnAbp.PaymentService;
 
 namespace EShopOnAbp.OrderingService
 {
     [DependsOn(
-        typeof(AbpValidationModule)
+        typeof(AbpValidationModule),
+        typeof(PaymentServiceDomainSharedModule)
     )]
     public class OrderingServiceDomainSharedModule : AbpModule
     {

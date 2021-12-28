@@ -6,11 +6,8 @@ namespace EShopOnAbp.PublicWeb.Pages;
 
 public class BasketModel : AbpPageModel
 {
-    private readonly ILogger<BasketModel> _logger;
-
-    public BasketModel(ILogger<BasketModel> logger)
+    public BasketModel()
     {
-        _logger = logger;
     }
 
     public void OnGet()
@@ -21,7 +18,7 @@ public class BasketModel : AbpPageModel
     {
         if (!CurrentUser.IsAuthenticated)
         {
-            _logger.LogInformation("Redirecting to Login");
+            Logger.LogInformation("Redirecting to Login..");
             return Challenge();
         }
 

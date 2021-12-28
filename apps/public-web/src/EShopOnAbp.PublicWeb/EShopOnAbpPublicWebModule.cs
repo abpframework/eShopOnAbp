@@ -1,18 +1,18 @@
-﻿using System;
-using System.Net.Http.Headers;
-using EShopOnAbp.BasketService;
+﻿using EShopOnAbp.BasketService;
 using EShopOnAbp.CatalogService;
 using EShopOnAbp.Localization;
+using EShopOnAbp.PaymentService;
 using EShopOnAbp.PublicWeb.Menus;
 using EShopOnAbp.Shared.Hosting.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using StackExchange.Redis;
+using System;
+using System.Net.Http.Headers;
 using Volo.Abp;
 using Volo.Abp.Account;
 using Volo.Abp.AspNetCore.Authentication.OpenIdConnect;
@@ -22,6 +22,7 @@ using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared.Toolbars;
 using Volo.Abp.AspNetCore.SignalR;
+using Volo.Abp.AutoMapper;
 using Volo.Abp.Caching;
 using Volo.Abp.Caching.StackExchangeRedis;
 using Volo.Abp.EventBus.RabbitMq;
@@ -47,7 +48,9 @@ namespace EShopOnAbp.PublicWeb
         typeof(EShopOnAbpSharedLocalizationModule),
         typeof(CatalogServiceHttpApiClientModule),
         typeof(BasketServiceHttpApiClientModule),
-        typeof(AbpAspNetCoreSignalRModule)
+        typeof(AbpAspNetCoreSignalRModule),
+        typeof(PaymentServiceHttpApiClientModule),
+        typeof(AbpAutoMapperModule)
         )]
     public class EShopOnAbpPublicWebModule : AbpModule
     {
@@ -68,6 +71,12 @@ namespace EShopOnAbp.PublicWeb
             var hostingEnvironment = context.Services.GetHostingEnvironment();
             var configuration = context.Services.GetConfiguration();
 
+            context.Services.AddAutoMapperObjectMapper<EShopOnAbpPublicWebModule>();
+            Configure<AbpAutoMapperOptions>(options =>
+            {
+                options.AddMaps<EShopOnAbpPublicWebModule>(validate: true);
+            });
+
             Configure<AbpMultiTenancyOptions>(options =>
             {
                 options.IsEnabled = true;
@@ -81,6 +90,11 @@ namespace EShopOnAbp.PublicWeb
             Configure<AppUrlOptions>(options =>
             {
                 options.Applications["MVC"].RootUrl = configuration["App:SelfUrl"];
+            });
+
+            Configure<EShopOnAbpPublicWebPaymentOptions>(options =>
+            {
+                options.PaymentSuccessfulCallbackUrl = configuration["App:SelfUrl"].EnsureEndsWith('/') + "PaymentCompleted";
             });
 
             context.Services.AddAuthentication(options =>
@@ -110,6 +124,7 @@ namespace EShopOnAbp.PublicWeb
                     options.Scope.Add("AdministrationService");
                     options.Scope.Add("BasketService");
                     options.Scope.Add("CatalogService");
+                    options.Scope.Add("PaymentService");
                 });
 
             var redis = ConnectionMultiplexer.Connect(configuration["Redis:Configuration"]);

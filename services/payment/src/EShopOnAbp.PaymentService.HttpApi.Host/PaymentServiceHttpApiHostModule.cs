@@ -1,5 +1,6 @@
 using EShopOnAbp.PaymentService.DbMigrations;
 using EShopOnAbp.PaymentService.EntityFrameworkCore;
+using EShopOnAbp.PaymentService.PayPal;
 using EShopOnAbp.Shared.Hosting.AspNetCore;
 using EShopOnAbp.Shared.Hosting.Microservices;
 using Microsoft.AspNetCore.Builder;
@@ -25,6 +26,8 @@ namespace EShopOnAbp.PaymentService
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
+            Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
+            
             var hostingEnvironment = context.Services.GetHostingEnvironment();
             var configuration = context.Services.GetConfiguration();
 

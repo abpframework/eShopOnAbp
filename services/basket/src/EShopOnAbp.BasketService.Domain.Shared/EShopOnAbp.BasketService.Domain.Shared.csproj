@@ -16,6 +16,9 @@
     <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="6.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\ordering\src\EShopOnAbp.OrderingService.Domain.Shared\EShopOnAbp.OrderingService.Domain.Shared.csproj" />
+  </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Localization\BasketService\*.json" />

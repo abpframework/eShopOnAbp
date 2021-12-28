@@ -52,14 +52,21 @@ public class EShopUserClaimsPrincipalFactory : AbpUserClaimsPrincipalFactory
         {
             HttpContext.Request.Cookies.TryGetValue(EShopConstants.AnonymousUserClaimName, out var anonymousUserId);
 
-            await _cache.SetAsync(user.Id, new AnonymousUserItem {AnonymousUserId = anonymousUserId}, options: new DistributedCacheEntryOptions()
-            {
-                AbsoluteExpiration = DateTimeOffset.UtcNow.AddSeconds(60)
-            });
+            await _cache.SetAsync(user.Id, new AnonymousUserItem {AnonymousUserId = anonymousUserId},
+                options: new DistributedCacheEntryOptions()
+                {
+                    AbsoluteExpiration = DateTimeOffset.UtcNow.AddSeconds(60)
+                });
             _logger.LogInformation($"Cached anonymousUserId:{anonymousUserId}.");
         }
 
         var cachedItem = await _cache.GetAsync(user.Id);
+        if (cachedItem == null)
+        {
+            _logger.LogWarning($"Could not retrieve anonymousUserId from cache.");
+            return principal;
+        }
+
         _logger.LogInformation($"Retrieved anonymousUserId:{cachedItem.AnonymousUserId} from cache.");
         principal.Identities.First()
             .AddClaim(new Claim(EShopConstants.AnonymousUserClaimName, cachedItem.AnonymousUserId));
