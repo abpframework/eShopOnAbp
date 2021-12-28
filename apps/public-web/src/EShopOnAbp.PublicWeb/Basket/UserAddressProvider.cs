@@ -12,7 +12,7 @@ public class UserAddressProvider : ITransientDependency
             new()
             {
                 Id = 1,
-                Name = EShopOnAbpPaymentConsts.DemoAddressTypes.Work,
+                Name = EShopOnAbpPaymentConsts.DemoAddressTypes.Home,
                 Description = "Cecilia Chapman Senior 711-2880 Nulla St. Mankato Mississippi 96522/USA",
                 IsDefault = true
             },
