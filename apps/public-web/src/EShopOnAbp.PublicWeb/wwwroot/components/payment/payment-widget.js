@@ -9,7 +9,6 @@
                     var $this = $(this);
                     var addressId = $this.attr('data-address-id');
                     abp.utils.setCookieValue("selected-address", addressId);
-                    debugger;
                     $this.parents(".address-list").find('.card').removeClass("is-selected");
                     $this.addClass("is-selected");
                 });
