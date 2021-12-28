@@ -46,7 +46,7 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
 
         public async Task<PaymentRequestStartResultDto> StartAsync(PaymentRequestStartDto input)
         {
-            var paymentRequest = await PaymentRequestRepository.GetAsync(input.PaymentRequestId);
+            var paymentRequest = await PaymentRequestRepository.GetAsync(input.PaymentRequestId, includeDetails: true);
 
             var totalCheckoutPrice = paymentRequest.Products.Sum(s => s.TotalPrice);
 
