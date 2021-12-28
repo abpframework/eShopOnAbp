@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Volo.Abp.Domain.Entities.Events.Distributed;
 using Volo.Abp.EventBus;
 
-namespace EShopOnAbp.OrderingService.Orders
+namespace EShopOnAbp.OrderingService.Orders.Events
 {
     [Serializable]
     [EventName("EShopOnAbp.Order.Accepted")]

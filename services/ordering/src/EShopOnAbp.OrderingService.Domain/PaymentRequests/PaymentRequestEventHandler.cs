@@ -3,6 +3,7 @@ using EShopOnAbp.PaymentService.PaymentRequests;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using EShopOnAbp.OrderingService.Orders.Events;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.EventBus.Distributed;

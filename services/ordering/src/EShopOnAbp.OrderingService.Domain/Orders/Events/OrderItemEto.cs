@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace EShopOnAbp.OrderingService.Orders
+namespace EShopOnAbp.OrderingService.Orders.Events
 {
     public class OrderItemEto
     {
