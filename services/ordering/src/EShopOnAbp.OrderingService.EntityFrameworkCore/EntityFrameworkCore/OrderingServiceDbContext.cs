@@ -45,10 +45,6 @@ namespace EShopOnAbp.OrderingService.EntityFrameworkCore
                 b.ConfigureByConvention(); //auto configure for the base class props
                 b.OwnsOne(o => o.Address, a =>
                 {
-                    // Explicit configuration of the shadow key property in the owned type 
-                    // as a workaround for a documented issue in EF Core 5: https://github.com/dotnet/efcore/issues/20740
-                    a.Property<Guid>("OrderId")
-                        .UseHiLo("orderseq", OrderingServiceDbProperties.DbSchema);
                     a.WithOwner();
                 });
                 b.Property<int>("_orderStatusId").UsePropertyAccessMode(PropertyAccessMode.Field)
