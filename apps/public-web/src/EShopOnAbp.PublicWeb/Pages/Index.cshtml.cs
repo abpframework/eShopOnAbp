@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using EShopOnAbp.CatalogService.Products;
 using Microsoft.AspNetCore.Authentication;
@@ -9,6 +11,7 @@ namespace EShopOnAbp.PublicWeb.Pages
     public class IndexModel : AbpPageModel
     {
         public IReadOnlyList<ProductDto> Products { get; private set; }
+        public bool HasRemoteServiceError { get; set; } = false; 
         private readonly IPublicProductAppService _productAppService;
 
         public IndexModel(IPublicProductAppService productAppService)
@@ -18,7 +21,17 @@ namespace EShopOnAbp.PublicWeb.Pages
 
         public async Task OnGet()
         {
-            Products = (await _productAppService.GetListAsync()).Items;
+            try
+            {
+                Products = (await _productAppService.GetListAsync()).Items;
+            }
+            catch (Exception e)
+            {
+                Products = new ReadOnlyCollection<ProductDto>(new List<ProductDto>());
+                HasRemoteServiceError = true;
+                Console.WriteLine(e);
+            }
+            
         }
 
         public async Task OnPostLoginAsync()
