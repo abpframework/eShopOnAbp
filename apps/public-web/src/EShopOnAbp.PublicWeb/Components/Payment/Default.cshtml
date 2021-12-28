@@ -19,11 +19,11 @@
                     @for (int j = 0; j < defaultColumnSize; j++)
                     {
                         <abp-column size-lg="_3" size-md="_4" size-sm="_6">
-                            @if ((i * defaultColumnSize) + j < Model.Address.Count)
+                            @if (i * defaultColumnSize + j < Model.Address.Count)
                             {
                                 var address = Model.Address[(i * defaultColumnSize) + j];
                                 string isSelected = address.IsDefault ? "is-selected" : string.Empty;
-                                <div class="card @isSelected">
+                                <div class="card @isSelected" data-address-id="@address.Id">
                                     <div class="card-body">
                                         <h4 class="card-title">@address.Name</h4>
                                         <p class="card-text">@address.Description</p>
