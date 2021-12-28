@@ -38,6 +38,8 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
                 paymentRequest.Products.Add(paymentRequestProduct);
             }
 
+            await PaymentRequestRepository.InsertAsync(paymentRequest);
+
             return ObjectMapper.Map<PaymentRequest, PaymentRequestDto>(paymentRequest);
         }
 
