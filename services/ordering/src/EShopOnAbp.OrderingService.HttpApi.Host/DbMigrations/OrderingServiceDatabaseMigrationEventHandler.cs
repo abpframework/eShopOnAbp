@@ -2,6 +2,7 @@
 using System;
 using System.Threading.Tasks;
 using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations.EfCore;
+using Microsoft.Extensions.Logging;
 using Volo.Abp.Data;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.MultiTenancy;
@@ -13,11 +14,13 @@ namespace EShopOnAbp.OrderingService.DbMigrations
         : DatabaseEfCoreMigrationEventHandler<OrderingServiceDbContext>,
         IDistributedEventHandler<ApplyDatabaseMigrationsEto>
     {
+        private readonly IDataSeeder _dataSeeder;
         public OrderingServiceDatabaseMigrationEventHandler(
             ICurrentTenant currentTenant,
             IUnitOfWorkManager unitOfWorkManager,
             ITenantStore tenantStore,
-            IDistributedEventBus distributedEventBus) 
+            IDistributedEventBus distributedEventBus, 
+            IDataSeeder dataSeeder) 
             : base(
                 currentTenant,
                 unitOfWorkManager,
@@ -25,6 +28,7 @@ namespace EShopOnAbp.OrderingService.DbMigrations
                 distributedEventBus,
                 OrderingServiceDbProperties.ConnectionStringName)
         {
+            _dataSeeder = dataSeeder;
         }
 
         public async Task HandleEventAsync(ApplyDatabaseMigrationsEto eventData)
@@ -42,6 +46,8 @@ namespace EShopOnAbp.OrderingService.DbMigrations
             try
             {
                 await MigrateDatabaseSchemaAsync(null);
+                Logger.LogInformation("Starting OrderingService DataSeeder...");
+                await _dataSeeder.SeedAsync();
             }
             catch (Exception ex)
             {
