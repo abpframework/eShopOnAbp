@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EShopOnAbp.OrderingService.Orders.Events
+namespace EShopOnAbp.OrderingService.Orders
 {
     public class OrderItemEto
     {

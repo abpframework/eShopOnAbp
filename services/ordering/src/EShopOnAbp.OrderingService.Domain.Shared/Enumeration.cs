@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace EShopOnAbp.OrderingService.Orders;
+namespace EShopOnAbp.OrderingService;
 
 // https://github.com/dotnet-architecture/eShopOnContainers/blob/dev/src/Services/Ordering/Ordering.Domain/SeedWork/Enumeration.cs
 public abstract class Enumeration : IComparable

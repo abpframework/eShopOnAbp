@@ -60,7 +60,7 @@ namespace EShopOnAbp.OrderingService.EntityFrameworkCore
                 b.HasIndex(q => q.Id);
                 b.HasIndex(q => q.BuyerId);
             });
-
+            // Consider removing persistancy to db or seeding
             builder.Entity<OrderStatus>(b =>
             {
                 b.ToTable(OrderingServiceDbProperties.DbTablePrefix + "OrderStatus",
