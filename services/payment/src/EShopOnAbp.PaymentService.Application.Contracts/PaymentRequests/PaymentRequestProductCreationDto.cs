@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EShopOnAbp.PaymentService
+namespace EShopOnAbp.PaymentService.PaymentRequests
 {
     [Serializable]
     public class PaymentRequestProductCreationDto
