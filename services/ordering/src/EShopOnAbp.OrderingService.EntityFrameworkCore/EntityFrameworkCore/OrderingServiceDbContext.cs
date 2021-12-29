@@ -9,8 +9,7 @@ using Volo.Abp.EntityFrameworkCore.Modeling;
 namespace EShopOnAbp.OrderingService.EntityFrameworkCore
 {
     [ConnectionStringName(OrderingServiceDbProperties.ConnectionStringName)]
-    public class OrderingServiceDbContext :
-        AbpDbContext<OrderingServiceDbContext>
+    public class OrderingServiceDbContext : AbpDbContext<OrderingServiceDbContext>, IOrderingServiceDbContext
     {
         public virtual DbSet<Buyer> Buyers { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
@@ -43,10 +42,7 @@ namespace EShopOnAbp.OrderingService.EntityFrameworkCore
             {
                 b.ToTable(OrderingServiceDbProperties.DbTablePrefix + "Orders", OrderingServiceDbProperties.DbSchema);
                 b.ConfigureByConvention(); //auto configure for the base class props
-                b.OwnsOne(o => o.Address, a =>
-                {
-                    a.WithOwner();
-                });
+                b.OwnsOne(o => o.Address, a => { a.WithOwner(); });
                 b.Property<int>("_orderStatusId").UsePropertyAccessMode(PropertyAccessMode.Field)
                     .HasColumnName("OrderStatusId")
                     .IsRequired();
@@ -84,12 +80,12 @@ namespace EShopOnAbp.OrderingService.EntityFrameworkCore
                 b.ConfigureByConvention(); //auto configure for the base class props
 
                 b.Property<Guid>("OrderId").IsRequired();
-                b.Property(q=>q.ProductId).IsRequired();
-                b.Property(q=>q.ProductName).IsRequired();
-                b.Property(q=>q.Discount).IsRequired();
-                b.Property(q=>q.UnitPrice).IsRequired();
-                b.Property(q=>q.Units).IsRequired();
-                b.Property(q=>q.PictureUrl).IsRequired(false);
+                b.Property(q => q.ProductId).IsRequired();
+                b.Property(q => q.ProductName).IsRequired();
+                b.Property(q => q.Discount).IsRequired();
+                b.Property(q => q.UnitPrice).IsRequired();
+                b.Property(q => q.Units).IsRequired();
+                b.Property(q => q.PictureUrl).IsRequired(false);
             });
         }
     }
