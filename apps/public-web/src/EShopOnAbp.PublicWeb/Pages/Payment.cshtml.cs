@@ -1,5 +1,4 @@
 ﻿using EShopOnAbp.BasketService;
-using EShopOnAbp.PaymentService;
 using EShopOnAbp.PaymentService.PaymentRequests;
 using EShopOnAbp.PublicWeb.Basket;
 using Microsoft.AspNetCore.Authorization;
@@ -34,9 +33,11 @@ public class PaymentModel : AbpPageModel
     {
     }
 
-    public async Task<IActionResult> OnPostAsync()
+    public async Task<IActionResult> OnPostAsync(PaymentPageViewModel model)
     {
         Logger.LogInformation("Payment Proceeded...");
+        Logger.LogInformation($"AddressId: {model.SelectedAddressId}");
+        Logger.LogInformation($"PaymentId: {model.SelectedPaymentId}");
 
         var basket = await _userBasketProvider.GetBasketAsync();
 
@@ -55,5 +56,11 @@ public class PaymentModel : AbpPageModel
         });
 
         return Redirect(response.CheckoutLink);
+    }
+
+    public class PaymentPageViewModel
+    {
+        public int SelectedAddressId { get; set; }
+        public int SelectedPaymentId { get; set; }
     }
 }
