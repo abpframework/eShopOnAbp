@@ -12,7 +12,7 @@ namespace EShopOnAbp.OrderingService
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
-            context.Services.AddStaticHttpClientProxies(
+            context.Services.AddHttpClientProxies(
                 typeof(OrderingServiceApplicationContractsModule).Assembly,
                 OrderingServiceRemoteServiceConsts.RemoteServiceName
             );
@@ -21,7 +21,6 @@ namespace EShopOnAbp.OrderingService
             {
                 options.FileSets.AddEmbedded<OrderingServiceHttpApiClientModule>();
             });
-
         }
     }
 }
