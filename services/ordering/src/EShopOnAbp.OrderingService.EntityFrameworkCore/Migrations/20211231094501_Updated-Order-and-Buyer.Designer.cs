@@ -3,6 +3,7 @@ using System;
 using EShopOnAbp.OrderingService.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Volo.Abp.EntityFrameworkCore;
@@ -12,9 +13,10 @@ using Volo.Abp.EntityFrameworkCore;
 namespace EShopOnAbp.OrderingService.Migrations
 {
     [DbContext(typeof(OrderingServiceDbContext))]
-    partial class OrderingServiceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211231094501_Updated-Order-and-Buyer")]
+    partial class UpdatedOrderandBuyer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

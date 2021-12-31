@@ -33,9 +33,29 @@ namespace EShopOnAbp.OrderingService.EntityFrameworkCore
                 b.ToTable(OrderingServiceDbProperties.DbTablePrefix + "Buyers", OrderingServiceDbProperties.DbSchema);
                 b.ConfigureByConvention(); //auto configure for the base class props
 
-                b.Property(q => q.UserName).IsRequired();
+                b.Property(q => q.Email).IsRequired();
                 b.Property(q => q.Name).IsRequired();
-                b.Property(q => q.PaymentId).IsRequired();
+
+                b.Property<int>("_paymentTypeId").UsePropertyAccessMode(PropertyAccessMode.Field)
+                    .HasColumnName("PaymentTypeId")
+                    .IsRequired();
+
+                b.HasOne(q => q.PaymentType).WithMany().HasForeignKey("_paymentTypeId");
+            });
+            builder.Entity<PaymentType>(b =>
+            {
+                b.ToTable(OrderingServiceDbProperties.DbTablePrefix + "PaymentTypes",
+                    OrderingServiceDbProperties.DbSchema);
+                b.ConfigureByConvention(); //auto configure for the base class props
+
+                b.HasKey(q => q.Id);
+                b.Property(q => q.Id)
+                    .HasDefaultValue(1)
+                    .ValueGeneratedNever()
+                    .IsRequired();
+                b.Property(o => o.Name)
+                    .HasMaxLength(OrderConstants.OrderPaymentTypeNameMaxLength)
+                    .IsRequired();
             });
 
             builder.Entity<Order>(b =>
@@ -46,7 +66,6 @@ namespace EShopOnAbp.OrderingService.EntityFrameworkCore
                 b.Property<int>("_orderStatusId").UsePropertyAccessMode(PropertyAccessMode.Field)
                     .HasColumnName("OrderStatusId")
                     .IsRequired();
-                b.Property(q => q.Description).HasMaxLength(OrderConstants.OrderDescriptionMaxLength).IsRequired(false);
 
                 b.HasOne<Buyer>().WithMany().HasForeignKey(q => q.BuyerId).IsRequired(false);
                 b.HasOne(q => q.OrderStatus).WithMany().HasForeignKey("_orderStatusId");
@@ -56,7 +75,7 @@ namespace EShopOnAbp.OrderingService.EntityFrameworkCore
                 b.HasIndex(q => q.Id);
                 b.HasIndex(q => q.BuyerId);
             });
-            // Consider removing persistancy to db or seeding
+
             builder.Entity<OrderStatus>(b =>
             {
                 b.ToTable(OrderingServiceDbProperties.DbTablePrefix + "OrderStatus",
