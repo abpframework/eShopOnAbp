@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EShopOnAbp.OrderingService.Buyers;
 using EShopOnAbp.OrderingService.Orders;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Data;
@@ -24,27 +25,24 @@ public class OrderServiceDataSeedContributor : IDataSeedContributor, ITransientD
     public async Task SeedAsync(DataSeedContext context)
     {
         await SeedOrderStatusAsync();
+        await SeedPaymentTypesAsync();
+    }
+
+    private async Task SeedPaymentTypesAsync()
+    {
+        if (!await _dbContext.Set<PaymentType>().AnyAsync())
+        {
+            await _dbContext.Set<PaymentType>().AddRangeAsync(PaymentType.List());
+            await _dbContext.SaveChangesAsync();
+        }
     }
 
     private async Task SeedOrderStatusAsync()
     {
         if (!await _dbContext.Set<OrderStatus>().AnyAsync())
         {
-            _dbContext.Set<OrderStatus>().AddRange(GetOrderStatusList());
+            await _dbContext.Set<OrderStatus>().AddRangeAsync(OrderStatus.List());
             await _dbContext.SaveChangesAsync();
         }
-    }
-
-    private List<OrderStatus> GetOrderStatusList()
-    {
-        return new List<OrderStatus>
-        {
-            OrderStatus.Submitted,
-            OrderStatus.AwaitingValidation,
-            OrderStatus.StockConfirmed,
-            OrderStatus.Paid,
-            OrderStatus.Shipped,
-            OrderStatus.Cancelled
-        };
     }
 }
