@@ -19,7 +19,7 @@ public class Order : AggregateRoot<Guid>
     {
     }
 
-    internal Order(Guid id, Address address, Guid? buyerId = null, string paymentMethodToken = null) : base()
+    internal Order(Guid id, Address address, Guid? buyerId = null, string paymentMethodToken = null) : base(id)
     {
         _orderStatusId = OrderStatus.Placed.Id;
         OrderDate = DateTime.UtcNow;
