@@ -10,8 +10,7 @@ public class Order : AggregateRoot<Guid>
     private int _orderStatusId;
     public DateTime OrderDate { get; private set; }
     public Guid? BuyerId { get; private set; }
-    public string Description { get; private set; }
-    public string PaymentMethodToken { get; private set; } // PaymentId or token for validation 
+    public string PaymentMethodToken { get; private set; } // Payment token for validation 
     public Address Address { get; private set; }
     public OrderStatus OrderStatus { get; private set; }
     public List<OrderItem> OrderItems { get; private set; }
@@ -20,9 +19,9 @@ public class Order : AggregateRoot<Guid>
     {
     }
 
-    public Order(Guid id, Address address, Guid? buyerId = null, string paymentMethodToken = null) : base()
+    internal Order(Guid id, Address address, Guid? buyerId = null, string paymentMethodToken = null) : base()
     {
-        _orderStatusId = OrderStatus.Submitted.Id;
+        _orderStatusId = OrderStatus.Placed.Id;
         OrderDate = DateTime.UtcNow;
         Address = address;
         BuyerId = buyerId;
