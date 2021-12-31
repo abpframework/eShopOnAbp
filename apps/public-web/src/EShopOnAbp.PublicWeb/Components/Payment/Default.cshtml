@@ -24,10 +24,11 @@
                                 var address = Model.Address[(i * defaultColumnSize) + j];
                                 string isSelected = address.IsDefault ? "is-selected" : string.Empty;
                                 <div class="card @isSelected" data-address-id="@address.Id">
+                                    <div class="card-header"><h4>@address.Type</h4></div>
                                     <div class="card-body">
-                                        <h4 class="card-title">@address.Name</h4>
-                                        <p class="card-text">@address.Description</p>
+                                        <p class="card-text">@address.ToString()</p>
                                     </div>
+                                    <div class="card-footer">@address.Description</div>
                                 </div>
                             }
                         </abp-column>
@@ -40,7 +41,7 @@
             <h3>Select Payment Method</h3>
             <abp-row>
                 <abp-column size-lg="_3" size-md="_4" size-sm="_6">
-                    <abp-card>
+                    <abp-card class="is-selected" data-payment-id="1">
                     <img class="" src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="paypal logo">
                     </abp-card>
                 </abp-column>

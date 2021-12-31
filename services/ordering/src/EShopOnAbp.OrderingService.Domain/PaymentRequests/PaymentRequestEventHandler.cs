@@ -37,7 +37,7 @@ namespace EShopOnAbp.OrderingService.PaymentRequests
         {
             return new OrderItemEto
             {
-                Count = arg.Quantity,
+                Units = arg.Quantity,
                 ProductId = Guid.Parse(arg.ReferenceId)
             };
         }

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using EShopOnAbp.BasketService;
-using EShopOnAbp.PaymentService;
+using EShopOnAbp.PaymentService.PaymentRequests;
 
 namespace EShopOnAbp.PublicWeb
 {

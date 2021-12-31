@@ -6,6 +6,10 @@
 
 @inject IStringLocalizer<EShopOnAbpResource> L
 
+@section scripts {
+    <abp-script src="/Pages/payment.js"/>
+}
+
 <div class="row">
     @* <h3 class="pt-5 pb-4 text-center">@L["Payment"]</h3> *@
     <div id="PaymentArea" class="pt-5">
