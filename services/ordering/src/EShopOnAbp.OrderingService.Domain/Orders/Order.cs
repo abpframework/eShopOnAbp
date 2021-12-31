@@ -29,8 +29,8 @@ public class Order : AggregateRoot<Guid>
         OrderItems = new List<OrderItem>();
     }
 
-    public void AddOrderItem(Guid productId, string productName, decimal unitPrice, decimal discount, string pictureUrl,
-        int units = 1)
+    public void AddOrderItem(Guid productId, string productName, string productCode, decimal unitPrice,
+        decimal discount, string pictureUrl, int units = 1)
     {
         var existingOrderForProduct = OrderItems.SingleOrDefault(o => o.ProductId == productId);
 
@@ -45,7 +45,7 @@ public class Order : AggregateRoot<Guid>
         }
         else
         {
-            var orderItem = new OrderItem(productId, productName, unitPrice, discount, pictureUrl, units);
+            var orderItem = new OrderItem(productId, productName, productCode, unitPrice, discount, pictureUrl, units);
             OrderItems.Add(orderItem);
         }
     }

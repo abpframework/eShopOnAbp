@@ -100,6 +100,7 @@ namespace EShopOnAbp.OrderingService.EntityFrameworkCore
 
                 b.Property<Guid>("OrderId").IsRequired();
                 b.Property(q => q.ProductId).IsRequired();
+                b.Property(q => q.ProductCode).IsRequired();
                 b.Property(q => q.ProductName).IsRequired();
                 b.Property(q => q.Discount).IsRequired();
                 b.Property(q => q.UnitPrice).IsRequired();

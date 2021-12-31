@@ -7,6 +7,7 @@ namespace EShopOnAbp.OrderingService.Orders;
 
 public class OrderItem : Entity<Guid>
 {
+    public string ProductCode { get; private set; }
     public string ProductName { get; private set; }
     public string PictureUrl { get; private set; }
     public decimal UnitPrice { get; private set; }
@@ -16,7 +17,7 @@ public class OrderItem : Entity<Guid>
 
     protected OrderItem() { }
 
-    public OrderItem(Guid productId, [NotNull]string productName, decimal unitPrice, decimal discount, [CanBeNull]string pictureUrl, int units = 1)
+    public OrderItem(Guid productId, [NotNull]string productName, [NotNull]string productCode, decimal unitPrice, decimal discount, [CanBeNull]string pictureUrl, int units = 1)
     {
         if (units <= 0)
         {
@@ -30,6 +31,7 @@ public class OrderItem : Entity<Guid>
 
         ProductId = productId;
         ProductName = Check.NotNullOrEmpty(productName, nameof(productName));
+        ProductCode = Check.NotNullOrEmpty(productCode, nameof(productCode));
         UnitPrice = unitPrice;
         Discount = discount;
         Units = units;

@@ -21,7 +21,8 @@ public class OrderManager : DomainService
         int paymentTypeId,
         string buyerName,
         string buyerEmail,
-        List<(Guid productId, string productName, decimal unitPrice, decimal discount, string pictureUrl, int units)>
+        List<(Guid productId, string productName, string productCode, decimal unitPrice, decimal discount, string
+                pictureUrl, int units)>
             orderItems,
         string addressStreet,
         string addressCity,
@@ -53,6 +54,7 @@ public class OrderManager : DomainService
             order.AddOrderItem(
                 productId: orderItem.productId,
                 productName: orderItem.productName,
+                productCode: orderItem.productCode,
                 unitPrice: orderItem.unitPrice,
                 discount: orderItem.discount,
                 pictureUrl: orderItem.pictureUrl,
