@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using EShopOnAbp.BasketService;
+using EShopOnAbp.OrderingService.Orders;
 using EShopOnAbp.PaymentService.PaymentRequests;
+using Volo.Abp.AutoMapper;
 
 namespace EShopOnAbp.PublicWeb
 {
@@ -13,6 +15,11 @@ namespace EShopOnAbp.PublicWeb
                 .ForMember(p => p.Name, opts => opts.MapFrom(p => p.ProductName))
                 .ForMember(p => p.UnitPrice, opts => opts.MapFrom(p => p.TotalPrice / p.Count))
                 .ForMember(p => p.Quantity, opts => opts.MapFrom(p => p.Count));
+
+            CreateMap<BasketItemDto, OrderItemCreateDto>()
+                .ForMember(p => p.Units, opts => opts.MapFrom(q => q.Count))
+                .ForMember(p => p.PictureUrl, opts => opts.MapFrom(q => q.ImageName))
+                .Ignore(q => q.Discount);
         }
     }
 }

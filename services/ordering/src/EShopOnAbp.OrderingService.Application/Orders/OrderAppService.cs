@@ -50,16 +50,18 @@ public class OrderAppService : ApplicationService, IOrderAppService
         return await CreateOrderDtoMappingAsync(placedOrder);
     }
 
-    private List<(Guid productId, string productName, decimal unitPrice, decimal discount, string pictureUrl, int units
+    private List<(Guid productId, string productName, string productCode, decimal unitPrice, decimal discount, string
+        pictureUrl, int units
         )> GetProductListTuple(List<OrderItemCreateDto> products)
     {
         var orderItems =
-            new List<(Guid productId, string productName, decimal unitPrice, decimal discount, string pictureUrl, int
+            new List<(Guid productId, string productName, string productCode, decimal unitPrice, decimal discount,
+                string pictureUrl, int
                 units)>();
         foreach (var product in products)
         {
-            orderItems.Add((product.ProductId, product.ProductName, product.UnitPrice, product.Discount,
-                product.PictureUrl, product.Units));
+            orderItems.Add((product.ProductId, product.ProductName, product.ProductCode, product.UnitPrice,
+                product.Discount, product.PictureUrl, product.Units));
         }
 
         return orderItems;
