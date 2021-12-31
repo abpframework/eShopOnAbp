@@ -16,8 +16,7 @@ public class Buyer : AggregateRoot<Guid>
     {
     }
 
-    public Buyer(Guid id,
-        [NotNull] string userName,
+    internal Buyer(Guid id,
         [NotNull] string name,
         [NotNull] string email,
         PaymentType paymentType) : base(id)
