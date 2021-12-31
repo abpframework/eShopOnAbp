@@ -4,6 +4,7 @@
     "MyAccount":  "Hesabım",
     "SamplePageMessage": "OrderingService modulünden örnek bir sayfa",
     "Ordering:00001": "Muhtemel Sipariş durum değerleri: {0}",
+    "Ordering:00011": "Muhtemel Ödeme türleri: {0}",
     "Ordering:00002": "Ürün adedi negatif olamaz",
     "Ordering:00003": "Geçersiz indirim",
     "Ordering:00004": "Ürünlerin toplam bedeli, uygulanan indirimden daha az olamaz"

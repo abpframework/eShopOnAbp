@@ -7,18 +7,23 @@ namespace EShopOnAbp.OrderingService.Buyers;
 
 public class Buyer : AggregateRoot<Guid>
 {
-    public string UserName { get; private set; }
+    private int _paymentTypeId;
     public string Name { get; private set; }
-    public string PaymentId { get; private set; }
+    public string Email { get; private set; }
+    public PaymentType PaymentType { get; private set; }
 
     private Buyer()
     {
     }
 
-    public Buyer(Guid id, [NotNull] string userName, [NotNull] string name, [NotNull] string paymentId) : base(id)
+    public Buyer(Guid id,
+        [NotNull] string userName,
+        [NotNull] string name,
+        [NotNull] string email,
+        PaymentType paymentType) : base(id)
     {
-        UserName = Check.NotNullOrEmpty(userName, nameof(userName));
+        _paymentTypeId = PaymentType.FromName(paymentType.Name).Id;
         Name = Check.NotNullOrEmpty(name, nameof(name));
-        PaymentId = Check.NotNullOrEmpty(paymentId, nameof(paymentId));
+        Email = Check.NotNullOrEmpty(email, nameof(email));
     }
 }
