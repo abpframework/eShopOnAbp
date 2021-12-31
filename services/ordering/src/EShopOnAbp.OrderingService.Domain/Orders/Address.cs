@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Volo.Abp;
 using Volo.Abp.Domain.Values;
 
 namespace EShopOnAbp.OrderingService.Orders;
@@ -15,21 +16,21 @@ public class Address : ValueObject
     {
     }
 
-    public Address(string street, string city, string description, string country, string zipcode)
+    public Address(string street, string city, string country, string zipcode, string description)
     {
-        Street = street;
-        City = city;
+        Street = Check.NotNullOrEmpty(street, nameof(street));
+        City = Check.NotNullOrEmpty(city, nameof(city));
+        Country = Check.NotNullOrEmpty(country, nameof(country));
+        ZipCode = Check.NotNullOrEmpty(zipcode, nameof(zipcode));
         Description = description;
-        Country = country;
-        ZipCode = zipcode;
     }
 
     protected override IEnumerable<object> GetAtomicValues()
     {
         yield return Street;
         yield return City;
-        yield return Description;
         yield return Country;
         yield return ZipCode;
+        yield return Description;
     }
 }

@@ -2,6 +2,6 @@
 
 public static class OrderConstants
 {
-    public const int OrderDescriptionMaxLength = 1024;
+    public const int OrderPaymentTypeNameMaxLength = 128;
     public const int OrderStatusNameMaxLength = 256;
 }
