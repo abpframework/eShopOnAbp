@@ -29,7 +29,7 @@ public class OrderHandler : IDistributedEventHandler<OrderAcceptedEto>, ITransie
                 continue;
             }
 
-            var remainingStockCount = product.StockCount - orderItemEto.Count;
+            var remainingStockCount = product.StockCount - orderItemEto.Units;
             product.SetStockCount(remainingStockCount);
             await _productRepository.UpdateAsync(product);
         }
