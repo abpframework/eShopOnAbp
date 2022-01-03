@@ -73,7 +73,7 @@ public class OrderAppService : ApplicationService, IOrderAppService
         return new OrderDto()
         {
             Address = ObjectMapper.Map<Address, OrderAddressDto>(placedOrder.Address),
-            Products = ObjectMapper.Map<List<OrderItem>, List<OrderItemDto>>(placedOrder.OrderItems),
+            Items = ObjectMapper.Map<List<OrderItem>, List<OrderItemDto>>(placedOrder.OrderItems),
             Buyer = ObjectMapper.Map<Buyer, BuyerDto>(buyer),
             Id = placedOrder.Id,
             OrderDate = placedOrder.OrderDate,

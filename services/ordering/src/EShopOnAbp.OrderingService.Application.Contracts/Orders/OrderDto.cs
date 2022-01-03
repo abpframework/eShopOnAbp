@@ -12,5 +12,5 @@ public class OrderDto : EntityDto<Guid>
     public string OrderStatus { get; set; }
     public BuyerDto Buyer { get; set; }
     public OrderAddressDto Address { get; set; } = new();
-    public List<OrderItemDto> Products { get; set; } = new();
+    public List<OrderItemDto> Items { get; set; } = new();
 }

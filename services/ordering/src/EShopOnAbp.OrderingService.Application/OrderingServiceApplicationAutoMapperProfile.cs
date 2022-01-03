@@ -18,7 +18,7 @@ namespace EShopOnAbp.OrderingService
 
             CreateMap<Order, OrderDto>()
                 .Ignore(q => q.Address)
-                .Ignore(q => q.Products)
+                .Ignore(q => q.Items)
                 .Ignore(q => q.Buyer);
         }
     }
