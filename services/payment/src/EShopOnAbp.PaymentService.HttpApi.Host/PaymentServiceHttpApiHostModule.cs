@@ -32,7 +32,7 @@ namespace EShopOnAbp.PaymentService
             var configuration = context.Services.GetConfiguration();
 
             /// Enable bypassing payment provider via uncommenting code line below.
-            /// If bypassing is enabled, all payment will be completed immediately.            
+            /// If bypassing is enabled, all payments will be completed immediately.            
             // PaymentServiceConsts.ByPassPaymentProvider = true;
 
             JwtBearerConfigurationHelper.Configure(context, "PaymentService");
