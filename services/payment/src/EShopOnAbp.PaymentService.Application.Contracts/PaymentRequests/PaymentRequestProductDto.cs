@@ -5,7 +5,7 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
 {
     public class PaymentRequestProductDto : EntityDto<Guid>
     {
-        public Guid PaymentRequestId { get; private set; }
+        public Guid PaymentRequestId { get; set; }
 
         public string ReferenceId { get; set; }
         
