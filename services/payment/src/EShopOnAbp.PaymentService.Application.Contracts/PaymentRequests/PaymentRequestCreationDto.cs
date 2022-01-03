@@ -11,8 +11,12 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
         [MaxLength(PaymentRequestConsts.MaxCurrencyLength)]
         public string Currency { get; set; }
 
-        public string BuyerId { get; set; }
+        [Required]
+        [MinLength(PaymentRequestConsts.MinOrderIdLength)]
+        [MaxLength(PaymentRequestConsts.MaxOrderIdLength)]
+        public string OrderId { get; set; }
 
+        public string BuyerId { get; set; }
         public List<PaymentRequestProductCreationDto> Products { get; set; }
     }
 }

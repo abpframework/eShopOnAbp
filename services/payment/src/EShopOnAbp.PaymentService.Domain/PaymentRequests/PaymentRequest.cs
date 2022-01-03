@@ -9,29 +9,23 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
 {
     public class PaymentRequest : CreationAuditedAggregateRoot<Guid>, ISoftDelete
     {
-        [NotNull]
-        public string Currency { get; protected set; }
-
-        [CanBeNull]
-        public string BuyerId { get; protected set; }
-
+        [NotNull] public string Currency { get; protected set; }
+        [NotNull] public string OrderId { get; protected set; }
+        [CanBeNull] public string BuyerId { get; protected set; }
         public PaymentRequestState State { get; protected set; }
-
-        [CanBeNull]
-        public string FailReason { get; protected set; }
-
+        [CanBeNull] public string FailReason { get; protected set; }
         public bool IsDeleted { get; set; }
-
         public ICollection<PaymentRequestProduct> Products { get; } = new List<PaymentRequestProduct>();
-
         private PaymentRequest()
         {
-
         }
 
-        public PaymentRequest(Guid id, [NotNull] string currency, [CanBeNull] string buyerId = null)
+        public PaymentRequest(Guid id,
+            [NotNull] string orderId,
+            [NotNull] string currency,
+            [CanBeNull] string buyerId = null) : base(id)
         {
-            Id = id;
+            OrderId = Check.NotNullOrWhiteSpace(orderId, nameof(orderId), minLength: PaymentRequestConsts.MinOrderIdLength, maxLength: PaymentRequestConsts.MaxOrderIdLength);
             Currency = Check.NotNullOrWhiteSpace(currency, nameof(currency), maxLength: PaymentRequestConsts.MaxCurrencyLength);
             BuyerId = buyerId;
         }
@@ -49,6 +43,7 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
             AddDistributedEvent(new PaymentRequestCompletedEto
             {
                 PaymentRequestId = Id,
+                OrderId = OrderId,
                 BuyerId = BuyerId,
                 Currency = Currency,
                 State = State,
@@ -70,6 +65,7 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
             AddDistributedEvent(new PaymentRequestFailedEto
             {
                 PaymentRequestId = Id,
+                OrderId = OrderId,
                 FailReason = failReason,
                 ExtraProperties = ExtraProperties
             });
@@ -79,6 +75,7 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
         {
             return new PaymentRequestProductEto
             {
+                Code = product.Code,
                 Name = product.Name,
                 Quantity = product.Quantity,
                 ReferenceId = product.ReferenceId,

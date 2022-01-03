@@ -6,20 +6,15 @@ using Volo.Abp.EventBus;
 
 namespace EShopOnAbp.PaymentService.PaymentRequests
 {
-    [Serializable]
     [EventName("EShopOnAbp.Payment.Completed")]
     public class PaymentRequestCompletedEto : EtoBase, IHasExtraProperties
     {
         public Guid PaymentRequestId { get; set; }
-
+        public string OrderId { get; set; }
         public string Currency { get; set; }
-
         public string BuyerId { get; set; }
-
         public PaymentRequestState State { get; set; }
-
         public ICollection<PaymentRequestProductEto> Products { get; set; } = new List<PaymentRequestProductEto>();
-
         public ExtraPropertyDictionary ExtraProperties { get; set; }
     }
 }
