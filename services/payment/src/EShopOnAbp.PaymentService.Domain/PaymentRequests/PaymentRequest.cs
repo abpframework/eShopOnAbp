@@ -43,6 +43,7 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
             AddDistributedEvent(new PaymentRequestCompletedEto
             {
                 PaymentRequestId = Id,
+                OrderId = OrderId,
                 BuyerId = BuyerId,
                 Currency = Currency,
                 State = State,
@@ -64,6 +65,7 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
             AddDistributedEvent(new PaymentRequestFailedEto
             {
                 PaymentRequestId = Id,
+                OrderId = OrderId,
                 FailReason = failReason,
                 ExtraProperties = ExtraProperties
             });
@@ -73,7 +75,7 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
         {
             return new PaymentRequestProductEto
             {
-                Code= product.Code,
+                Code = product.Code,
                 Name = product.Name,
                 Quantity = product.Quantity,
                 ReferenceId = product.ReferenceId,
