@@ -7,9 +7,11 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Volo.Abp.DependencyInjection;
 
 namespace EShopOnAbp.PaymentService.PaymentRequests
 {
+    [ExposeServices(typeof(PaymentRequestAppService))]
     public class PaymentRequestAppService : PaymentServiceAppService, IPaymentRequestAppService
     {
         protected IPaymentRequestRepository PaymentRequestRepository { get; }
@@ -23,7 +25,7 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
             PayPalHttpClient = payPalHttpClient;
         }
 
-        public async Task<PaymentRequestDto> CreateAsync(PaymentRequestCreationDto input)
+        public virtual async Task<PaymentRequestDto> CreateAsync(PaymentRequestCreationDto input)
         {
             var paymentRequest = new PaymentRequest(GuidGenerator.Create(), input.Currency, input.BuyerId);
 
@@ -45,7 +47,7 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
             return ObjectMapper.Map<PaymentRequest, PaymentRequestDto>(paymentRequest);
         }
 
-        public async Task<PaymentRequestStartResultDto> StartAsync(PaymentRequestStartDto input)
+        public virtual async Task<PaymentRequestStartResultDto> StartAsync(PaymentRequestStartDto input)
         {
             var paymentRequest = await PaymentRequestRepository.GetAsync(input.PaymentRequestId, includeDetails: true);
 
@@ -103,7 +105,7 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
             };
         }
 
-        public async Task<PaymentRequestDto> CompleteAsync(string token)
+        public virtual async Task<PaymentRequestDto> CompleteAsync(string token)
         {
             var request = new OrdersCaptureRequest(token);
             request.RequestBody(new OrderActionRequest());
@@ -115,7 +117,7 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
             return ObjectMapper.Map<PaymentRequest, PaymentRequestDto>(paymentRequest);
         }
 
-        public async Task<bool> HandleWebhookAsync(string payload)
+        public virtual async Task<bool> HandleWebhookAsync(string payload)
         {
             var jObject = JObject.Parse(payload);
 
@@ -134,7 +136,7 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
             return true;
         }
 
-        private async Task<PaymentRequest> UpdatePaymentRequestStateAsync(Order order)
+        protected async Task<PaymentRequest> UpdatePaymentRequestStateAsync(Order order)
         {
             var paymentRequestId = Guid.Parse(order.PurchaseUnits.First().ReferenceId);
 

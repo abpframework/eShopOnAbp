@@ -31,6 +31,10 @@ namespace EShopOnAbp.PaymentService
             var hostingEnvironment = context.Services.GetHostingEnvironment();
             var configuration = context.Services.GetConfiguration();
 
+            /// Enable bypassing payment provider via uncommenting code line below.
+            /// If bypassing is enabled, all payment will be completed immediately.            
+            // PaymentServiceConsts.ByPassPaymentProvider = true;
+
             JwtBearerConfigurationHelper.Configure(context, "PaymentService");
             // SwaggerConfigurationHelper.Configure(context, "Payment Service API");
 

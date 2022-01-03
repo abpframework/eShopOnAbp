@@ -6,6 +6,7 @@ using Microsoft.Extensions.Options;
 using EShopOnAbp.PaymentService.PayPal;
 using PayPalCheckoutSdk.Core;
 using System;
+using EShopOnAbp.PaymentService.PaymentRequests;
 
 namespace EShopOnAbp.PaymentService
 {
@@ -37,6 +38,18 @@ namespace EShopOnAbp.PaymentService
                 }
 
                 return new PayPalHttpClient(new LiveEnvironment(options.ClientId, options.Secret));
+            });
+
+            context.Services.AddTransient<IPaymentRequestAppService>(provider =>
+            {
+                if (PaymentServiceConsts.ByPassPaymentProvider)
+                {
+                    return provider.GetRequiredService<PaymentRequestByPassAppService>();
+                }
+                else
+                {
+                    return provider.GetRequiredService<PaymentRequestAppService>();
+                }
             });
         }
     }
