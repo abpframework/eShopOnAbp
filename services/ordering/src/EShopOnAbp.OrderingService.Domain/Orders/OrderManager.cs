@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using EShopOnAbp.OrderingService.Buyers;
+using Volo.Abp;
 using Volo.Abp.Domain.Services;
 using Volo.Abp.EventBus.Distributed;
 
@@ -69,7 +70,7 @@ public class OrderManager : DomainService
         }
 
         var placedOrder = await _orderRepository.InsertAsync(order, true);
-        
+
         // Publish Order placed event
         await _distributedEventBus.PublishAsync(new OrderPlacedEto
         {
@@ -80,6 +81,21 @@ public class OrderManager : DomainService
         });
 
         return placedOrder;
+    }
+
+    public async Task<Order> AcceptOrderAsync(Guid orderId)
+    {
+        var order = await _orderRepository.GetAsync(orderId);
+        if (order == null)
+        {
+            throw new BusinessException(OrderingServiceErrorCodes.OrderWithIdNotFound)
+                .WithData("OrderId", orderId);
+        }
+
+        //Update order.PaymentMethodToken
+        order.SetOrderPaid();
+
+        return await _orderRepository.UpdateAsync(order);
     }
 
     private BuyerEto GetBuyerEto(Buyer buyer)

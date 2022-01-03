@@ -7,6 +7,7 @@
     "Ordering:00011": "Possible values for Payment types: {0}",
     "Ordering:00002": "Invalid number of units",
     "Ordering:00003": "Invalid discount",
-    "Ordering:00004": "The total of order item is lower than applied discount"
+    "Ordering:00004": "The total of order item is lower than applied discount",
+    "Ordering:01001": "Order with {0} id could not be found!"
   }
 }

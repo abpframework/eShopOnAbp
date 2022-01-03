@@ -9,8 +9,7 @@ using Volo.Abp.EventBus.Distributed;
 
 namespace EShopOnAbp.OrderingService.PaymentRequests
 {
-    public class PaymentRequestEventHandler :
-        IDistributedEventHandler<PaymentRequestCompletedEto>,
+    public class PaymentRequestEventHandler : IDistributedEventHandler<PaymentRequestCompletedEto>,
         ITransientDependency
     {
         private readonly IDistributedEventBus _eventBus;

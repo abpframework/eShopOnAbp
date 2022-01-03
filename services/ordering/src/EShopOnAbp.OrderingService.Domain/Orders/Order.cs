@@ -22,6 +22,7 @@ public class Order : AggregateRoot<Guid>
     internal Order(Guid id, Address address, Guid? buyerId = null, string paymentMethodToken = null) : base(id)
     {
         _orderStatusId = OrderStatus.Placed.Id;
+        OrderStatus = OrderStatus.Placed;
         OrderDate = DateTime.UtcNow;
         Address = address;
         BuyerId = buyerId;
@@ -29,7 +30,14 @@ public class Order : AggregateRoot<Guid>
         OrderItems = new List<OrderItem>();
     }
 
-    public void AddOrderItem(Guid productId, string productName, string productCode, decimal unitPrice,
+    internal Order SetOrderPaid()
+    {
+        OrderStatus = OrderStatus.Paid;
+
+        return this;
+    }
+
+    public Order AddOrderItem(Guid productId, string productName, string productCode, decimal unitPrice,
         decimal discount, string pictureUrl, int units = 1)
     {
         var existingOrderForProduct = OrderItems.SingleOrDefault(o => o.ProductId == productId);
@@ -48,6 +56,8 @@ public class Order : AggregateRoot<Guid>
             var orderItem = new OrderItem(productId, productName, productCode, unitPrice, discount, pictureUrl, units);
             OrderItems.Add(orderItem);
         }
+
+        return this;
     }
 
     public decimal GetTotal()
