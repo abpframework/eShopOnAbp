@@ -27,17 +27,18 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
 
         public virtual async Task<PaymentRequestDto> CreateAsync(PaymentRequestCreationDto input)
         {
-            var paymentRequest = new PaymentRequest(GuidGenerator.Create(), input.Currency, input.BuyerId);
+            var paymentRequest = new PaymentRequest(id: GuidGenerator.Create(), orderId: input.OrderId, currency: input.Currency, buyerId: input.BuyerId);
 
             foreach (var paymentRequestProduct in input.Products
                 .Select(s => new PaymentRequestProduct(
                     GuidGenerator.Create(),
-                    paymentRequest.Id,
-                    s.Name,
-                    s.UnitPrice,
-                    s.Quantity,
-                    s.TotalPrice,
-                    s.ReferenceId)))
+                    paymentRequestId: paymentRequest.Id,
+                    code: s.Code,
+                    name: s.Name,
+                    unitPrice: s.UnitPrice,
+                    quantity: s.Quantity,
+                    totalPrice: s.TotalPrice,
+                    referenceId: s.ReferenceId)))
             {
                 paymentRequest.Products.Add(paymentRequestProduct);
             }

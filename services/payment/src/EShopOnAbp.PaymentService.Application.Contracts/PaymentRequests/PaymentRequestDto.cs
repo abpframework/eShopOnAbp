@@ -12,6 +12,8 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
         [MaxLength(PaymentRequestConsts.MaxCurrencyLength)] 
         public string Currency { get; set; }
 
+        public string OrderId { get; set; }
+        
         public string BuyerId { get; set; }
 
         public bool IsDeleted { get; set; }
