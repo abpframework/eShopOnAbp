@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using EShopOnAbp.OrderingService.Buyers;
 using Volo.Abp.Domain.Services;
+using Volo.Abp.EventBus.Distributed;
 
 namespace EShopOnAbp.OrderingService.Orders;
 
@@ -10,11 +11,16 @@ public class OrderManager : DomainService
 {
     private readonly IOrderRepository _orderRepository;
     private readonly IBuyerRepository _buyerRepository;
+    private readonly IDistributedEventBus _distributedEventBus;
 
-    public OrderManager(IOrderRepository orderRepository, IBuyerRepository buyerRepository)
+    public OrderManager(
+        IOrderRepository orderRepository,
+        IBuyerRepository buyerRepository,
+        IDistributedEventBus distributedEventBus)
     {
         _orderRepository = orderRepository;
         _buyerRepository = buyerRepository;
+        _distributedEventBus = distributedEventBus;
     }
 
     public async Task<Order> CreateOrderAsync(
@@ -62,6 +68,48 @@ public class OrderManager : DomainService
             );
         }
 
-        return await _orderRepository.InsertAsync(order);
+        var placedOrder = await _orderRepository.InsertAsync(order, true);
+        
+        // Publish Order placed event
+        await _distributedEventBus.PublishAsync(new OrderPlacedEto
+        {
+            OrderId = placedOrder.Id,
+            OrderDate = placedOrder.OrderDate,
+            Buyer = GetBuyerEto(buyer),
+            Items = GetProductItemEtoList(order.OrderItems)
+        });
+
+        return placedOrder;
+    }
+
+    private BuyerEto GetBuyerEto(Buyer buyer)
+    {
+        return new BuyerEto()
+        {
+            BuyerEmail = buyer.Email,
+            BuyerId = buyer.Id,
+            PaymentType = buyer.PaymentType.Name,
+            PaymentTypeId = buyer.PaymentType.Id
+        };
+    }
+
+    private List<OrderItemEto> GetProductItemEtoList(List<OrderItem> orderItems)
+    {
+        List<OrderItemEto> etoList = new List<OrderItemEto>();
+        foreach (var oItem in orderItems)
+        {
+            etoList.Add(new OrderItemEto()
+            {
+                Discount = oItem.Discount,
+                PictureUrl = oItem.PictureUrl,
+                ProductCode = oItem.ProductCode,
+                ProductId = oItem.ProductId,
+                ProductName = oItem.ProductName,
+                UnitPrice = oItem.UnitPrice,
+                Units = oItem.Units
+            });
+        }
+
+        return etoList;
     }
 }
