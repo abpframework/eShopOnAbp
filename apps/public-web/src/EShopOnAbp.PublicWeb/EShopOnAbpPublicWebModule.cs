@@ -127,6 +127,7 @@ namespace EShopOnAbp.PublicWeb
                     options.Scope.Add("BasketService");
                     options.Scope.Add("CatalogService");
                     options.Scope.Add("PaymentService");
+                    options.Scope.Add("OrderingService");
                 });
 
             var redis = ConnectionMultiplexer.Connect(configuration["Redis:Configuration"]);
