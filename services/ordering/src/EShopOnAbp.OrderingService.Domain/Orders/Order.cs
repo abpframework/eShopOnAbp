@@ -10,7 +10,8 @@ public class Order : AggregateRoot<Guid>
     private int _orderStatusId;
     public DateTime OrderDate { get; private set; }
     public Guid? BuyerId { get; private set; }
-    public string PaymentMethodToken { get; private set; } // Payment token for validation 
+    public Guid? PaymentRequestId { get; private set; }  
+    public string PaymentStatus { get; private set; }  
     public Address Address { get; private set; }
     public OrderStatus OrderStatus { get; private set; }
     public List<OrderItem> OrderItems { get; private set; }
@@ -19,14 +20,14 @@ public class Order : AggregateRoot<Guid>
     {
     }
 
-    internal Order(Guid id, Address address, Guid? buyerId = null, string paymentMethodToken = null) : base(id)
+    internal Order(Guid id, Address address, Guid? buyerId = null, Guid? paymentRequestId = null) : base(id)
     {
         _orderStatusId = OrderStatus.Placed.Id;
-        OrderStatus = OrderStatus.Placed;
         OrderDate = DateTime.UtcNow;
         Address = address;
         BuyerId = buyerId;
-        PaymentMethodToken = paymentMethodToken;
+        PaymentRequestId = paymentRequestId;
+        PaymentStatus = "Waiting"; // TODO: magic string
         OrderItems = new List<OrderItem>();
     }
 
@@ -37,7 +38,7 @@ public class Order : AggregateRoot<Guid>
         return this;
     }
 
-    public Order AddOrderItem(Guid productId, string productName, string productCode, decimal unitPrice,
+    public Order AddOrderItem(Guid id, Guid productId, string productName, string productCode, decimal unitPrice,
         decimal discount, string pictureUrl, int units = 1)
     {
         var existingOrderForProduct = OrderItems.SingleOrDefault(o => o.ProductId == productId);
@@ -53,7 +54,7 @@ public class Order : AggregateRoot<Guid>
         }
         else
         {
-            var orderItem = new OrderItem(productId, productName, productCode, unitPrice, discount, pictureUrl, units);
+            var orderItem = new OrderItem(id, productId, productName, productCode, unitPrice, discount, pictureUrl, units);
             OrderItems.Add(orderItem);
         }
 

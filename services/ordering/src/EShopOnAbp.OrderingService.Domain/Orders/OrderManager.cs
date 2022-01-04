@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using EShopOnAbp.OrderingService.Buyers;
 using Volo.Abp;
+using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Domain.Services;
 using Volo.Abp.EventBus.Distributed;
+using Volo.Abp.Uow;
 
 namespace EShopOnAbp.OrderingService.Orders;
 
@@ -13,15 +15,17 @@ public class OrderManager : DomainService
     private readonly IOrderRepository _orderRepository;
     private readonly IBuyerRepository _buyerRepository;
     private readonly IDistributedEventBus _distributedEventBus;
+    private readonly UnitOfWorkManager _unitOfWorkManager;
 
     public OrderManager(
         IOrderRepository orderRepository,
         IBuyerRepository buyerRepository,
-        IDistributedEventBus distributedEventBus)
+        IDistributedEventBus distributedEventBus, UnitOfWorkManager unitOfWorkManager)
     {
         _orderRepository = orderRepository;
         _buyerRepository = buyerRepository;
         _distributedEventBus = distributedEventBus;
+        _unitOfWorkManager = unitOfWorkManager;
     }
 
     public async Task<Order> CreateOrderAsync(
@@ -44,6 +48,8 @@ public class OrderManager : DomainService
             autoSave: true
         );
 
+        var insertedBuyer = await _buyerRepository.GetAsync(buyer.Id, includeDetails: true);
+
         // Create new order
         Order order = new Order(
             id: GuidGenerator.Create(),
@@ -59,6 +65,7 @@ public class OrderManager : DomainService
         foreach (var orderItem in orderItems)
         {
             order.AddOrderItem(
+                id: GuidGenerator.Create(),
                 productId: orderItem.productId,
                 productName: orderItem.productName,
                 productCode: orderItem.productCode,
@@ -92,7 +99,8 @@ public class OrderManager : DomainService
                 .WithData("OrderId", orderId);
         }
 
-        //Update order.PaymentMethodToken
+        //Update order.PaymentId
+        //Update order.PaymentStatus
         order.SetOrderPaid();
 
         return await _orderRepository.UpdateAsync(order);

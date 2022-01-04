@@ -66,6 +66,7 @@ namespace EShopOnAbp.OrderingService.EntityFrameworkCore
                 b.Property<int>("_orderStatusId").UsePropertyAccessMode(PropertyAccessMode.Field)
                     .HasColumnName("OrderStatusId")
                     .IsRequired();
+                b.Property(q => q.PaymentStatus).HasMaxLength(OrderConstants.PaymentStatusMaxLength);
 
                 b.HasOne<Buyer>().WithMany().HasForeignKey(q => q.BuyerId).IsRequired(false);
                 b.HasOne(q => q.OrderStatus).WithMany().HasForeignKey("_orderStatusId");

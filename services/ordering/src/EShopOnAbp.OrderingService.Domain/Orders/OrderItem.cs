@@ -17,7 +17,8 @@ public class OrderItem : Entity<Guid>
 
     protected OrderItem() { }
 
-    public OrderItem(Guid productId, [NotNull]string productName, [NotNull]string productCode, decimal unitPrice, decimal discount, [CanBeNull]string pictureUrl, int units = 1)
+    public OrderItem(Guid id, Guid productId, [NotNull]string productName, [NotNull]string productCode, decimal unitPrice, decimal discount, [CanBeNull]string pictureUrl, int units = 1)
+    : base(id)
     {
         if (units <= 0)
         {
