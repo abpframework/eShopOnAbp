@@ -8,11 +8,18 @@
     @if (!Model.Items.Any())
     {
         <div class="basket-list">
-            <p class="text-center">
-                <strong>
-                    <em>Your basket is empty. Click to a product to add it!</em>
-                </strong>
-            </p>
+            <abp-row>
+                <abp-card>
+                    <abp-card-body>
+                        <h3 style="text-align: center">@L["EmptyBasket"]</h3>
+                        <br/>
+                        <div style="text-align: center">
+                            <span>@L["CheckOtherProducts"] <a href="/">@L["ContinueShopping"]</a></span>
+                        </div>
+
+                    </abp-card-body>
+                </abp-card>
+            </abp-row>
         </div>
     }
     else
@@ -47,8 +54,8 @@
                 </div>
             </div>
             <div class="col-lg-3">
-                @await Component.InvokeAsync(typeof(PurchaseWidgetViewComponent), 
-                    new { Basket = Model, ButtonDescription = "CompletePurchase"})
+                @await Component.InvokeAsync(typeof(PurchaseWidgetViewComponent),
+                    new {Basket = Model, ButtonDescription = "CompletePurchase"})
             </div>
         </div>
     }
