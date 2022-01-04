@@ -3,6 +3,7 @@ using System;
 using EShopOnAbp.OrderingService.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Volo.Abp.EntityFrameworkCore;
@@ -12,9 +13,10 @@ using Volo.Abp.EntityFrameworkCore;
 namespace EShopOnAbp.OrderingService.Migrations
 {
     [DbContext(typeof(OrderingServiceDbContext))]
-    partial class OrderingServiceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220104093641_Added_Order_PaymentRequest_Info")]
+    partial class Added_Order_PaymentRequest_Info
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -23,6 +25,40 @@ namespace EShopOnAbp.OrderingService.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("EShopOnAbp.OrderingService.Buyers.Buyer", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasMaxLength(40)
+                        .HasColumnType("character varying(40)")
+                        .HasColumnName("ConcurrencyStamp");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ExtraProperties")
+                        .HasColumnType("text")
+                        .HasColumnName("ExtraProperties");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("_paymentTypeId")
+                        .HasColumnType("integer")
+                        .HasColumnName("PaymentTypeId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("_paymentTypeId");
+
+                    b.ToTable("Buyers", (string)null);
+                });
 
             modelBuilder.Entity("EShopOnAbp.OrderingService.Buyers.PaymentType", b =>
                 {
@@ -43,6 +79,9 @@ namespace EShopOnAbp.OrderingService.Migrations
             modelBuilder.Entity("EShopOnAbp.OrderingService.Orders.Order", b =>
                 {
                     b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("BuyerId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -69,15 +108,13 @@ namespace EShopOnAbp.OrderingService.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("OrderStatusId");
 
-                    b.Property<int>("_paymentTypeId")
-                        .HasColumnType("integer")
-                        .HasColumnName("PaymentTypeId");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("_orderStatusId");
+                    b.HasIndex("BuyerId");
 
-                    b.HasIndex("_paymentTypeId");
+                    b.HasIndex("Id");
+
+                    b.HasIndex("_orderStatusId");
 
                     b.ToTable("Orders", (string)null);
                 });
@@ -136,17 +173,26 @@ namespace EShopOnAbp.OrderingService.Migrations
                     b.ToTable("OrderStatus", (string)null);
                 });
 
-            modelBuilder.Entity("EShopOnAbp.OrderingService.Orders.Order", b =>
+            modelBuilder.Entity("EShopOnAbp.OrderingService.Buyers.Buyer", b =>
                 {
-                    b.HasOne("EShopOnAbp.OrderingService.Orders.OrderStatus", "OrderStatus")
-                        .WithMany()
-                        .HasForeignKey("_orderStatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("EShopOnAbp.OrderingService.Buyers.PaymentType", "PaymentType")
                         .WithMany()
                         .HasForeignKey("_paymentTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PaymentType");
+                });
+
+            modelBuilder.Entity("EShopOnAbp.OrderingService.Orders.Order", b =>
+                {
+                    b.HasOne("EShopOnAbp.OrderingService.Buyers.Buyer", null)
+                        .WithMany()
+                        .HasForeignKey("BuyerId");
+
+                    b.HasOne("EShopOnAbp.OrderingService.Orders.OrderStatus", "OrderStatus")
+                        .WithMany()
+                        .HasForeignKey("_orderStatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -178,35 +224,9 @@ namespace EShopOnAbp.OrderingService.Migrations
                                 .HasForeignKey("OrderId");
                         });
 
-                    b.OwnsOne("EShopOnAbp.OrderingService.Orders.Buyer", "Buyer", b1 =>
-                        {
-                            b1.Property<Guid>("OrderId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<string>("Email")
-                                .HasColumnType("text");
-
-                            b1.Property<Guid?>("Id")
-                                .HasColumnType("uuid");
-
-                            b1.Property<string>("Name")
-                                .HasColumnType("text");
-
-                            b1.HasKey("OrderId");
-
-                            b1.ToTable("Orders");
-
-                            b1.WithOwner()
-                                .HasForeignKey("OrderId");
-                        });
-
                     b.Navigation("Address");
 
-                    b.Navigation("Buyer");
-
                     b.Navigation("OrderStatus");
-
-                    b.Navigation("PaymentType");
                 });
 
             modelBuilder.Entity("EShopOnAbp.OrderingService.Orders.OrderItem", b =>

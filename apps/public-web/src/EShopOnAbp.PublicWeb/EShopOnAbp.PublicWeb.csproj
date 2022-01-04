@@ -28,6 +28,7 @@
         <ProjectReference Include="..\..\..\..\services\catalog\src\EShopOnAbp.CatalogService.HttpApi.Client\EShopOnAbp.CatalogService.HttpApi.Client.csproj" />
         <ProjectReference Include="..\..\..\..\services\basket\src\EShopOnAbp.BasketService.HttpApi.Client\EShopOnAbp.BasketService.HttpApi.Client.csproj" />
         <ProjectReference Include="..\..\..\..\services\payment\src\EShopOnAbp.PaymentService.HttpApi.Client\EShopOnAbp.PaymentService.HttpApi.Client.csproj" />
+        <ProjectReference Include="..\..\..\..\services\ordering\src\EShopOnAbp.OrderingService.HttpApi.Client\EShopOnAbp.OrderingService.HttpApi.Client.csproj" />
 
         <!--        <ProjectReference Include="..\..\..\..\services\product\src\MyCompanyName.MyProjectName.ProductService.HttpApi.Client\MyCompanyName.MyProjectName.ProductService.HttpApi.Client.csproj" />-->
     </ItemGroup>

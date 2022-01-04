@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using StackExchange.Redis;
 using System;
 using System.Net.Http.Headers;
+using EShopOnAbp.OrderingService;
 using Volo.Abp;
 using Volo.Abp.Account;
 using Volo.Abp.AspNetCore.Authentication.OpenIdConnect;
@@ -48,6 +49,7 @@ namespace EShopOnAbp.PublicWeb
         typeof(EShopOnAbpSharedLocalizationModule),
         typeof(CatalogServiceHttpApiClientModule),
         typeof(BasketServiceHttpApiClientModule),
+        typeof(OrderingServiceHttpApiClientModule),
         typeof(AbpAspNetCoreSignalRModule),
         typeof(PaymentServiceHttpApiClientModule),
         typeof(AbpAutoMapperModule)
@@ -125,6 +127,7 @@ namespace EShopOnAbp.PublicWeb
                     options.Scope.Add("BasketService");
                     options.Scope.Add("CatalogService");
                     options.Scope.Add("PaymentService");
+                    options.Scope.Add("OrderingService");
                 });
 
             var redis = ConnectionMultiplexer.Connect(configuration["Redis:Configuration"]);

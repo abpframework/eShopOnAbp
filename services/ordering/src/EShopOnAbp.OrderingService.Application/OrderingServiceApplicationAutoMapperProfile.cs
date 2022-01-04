@@ -1,4 +1,7 @@
 ﻿using AutoMapper;
+using EShopOnAbp.OrderingService.Buyers;
+using EShopOnAbp.OrderingService.Orders;
+using Volo.Abp.AutoMapper;
 
 namespace EShopOnAbp.OrderingService
 {
@@ -6,9 +9,15 @@ namespace EShopOnAbp.OrderingService
     {
         public OrderingServiceApplicationAutoMapperProfile()
         {
-            /* You can configure your AutoMapper mapping configuration here.
-             * Alternatively, you can split your mapping configurations
-             * into multiple profile classes for a better organization. */
+            CreateMap<Address, OrderAddressDto>();
+            CreateMap<Buyer, BuyerDto>();
+            
+            CreateMap<OrderItem, OrderItemDto>();
+            
+            CreateMap<Order, OrderDto>()
+                .Ignore(q => q.Address)
+                .Ignore(q => q.Items)
+                .Ignore(q => q.Buyer);
         }
     }
 }

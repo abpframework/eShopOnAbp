@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using EShopOnAbp.OrderingService.Orders;
 using Volo.Abp.AspNetCore.Mvc.UI.RazorPages;
 using Volo.Abp.Users;
 
@@ -16,16 +18,22 @@ namespace EShopOnAbp.PublicWeb.Pages;
 public class PaymentModel : AbpPageModel
 {
     private readonly IPaymentRequestAppService _paymentRequestAppService;
+    private readonly IOrderAppService _orderAppService;
     private readonly UserBasketProvider _userBasketProvider;
+    private readonly UserAddressProvider _userAddressProvider;
     private readonly EShopOnAbpPublicWebPaymentOptions _publicWebPaymentOptions;
 
     public PaymentModel(
         IPaymentRequestAppService paymentRequestAppService,
+        IOrderAppService orderAppService,
         UserBasketProvider userBasketProvider,
+        UserAddressProvider userAddressProvider,
         IOptions<EShopOnAbpPublicWebPaymentOptions> publicWebPaymentOptions)
     {
         _paymentRequestAppService = paymentRequestAppService;
         _userBasketProvider = userBasketProvider;
+        _userAddressProvider = userAddressProvider;
+        _orderAppService = orderAppService;
         _publicWebPaymentOptions = publicWebPaymentOptions.Value;
     }
 
@@ -40,9 +48,16 @@ public class PaymentModel : AbpPageModel
         Logger.LogInformation($"PaymentId: {model.SelectedPaymentId}");
 
         var basket = await _userBasketProvider.GetBasketAsync();
+        var placedOrder = await _orderAppService.CreateAsync(new OrderCreateDto()
+        {
+            PaymentTypeId = 1, // Paypal
+            Address = GetUserAddress(model.SelectedAddressId),
+            Products = ObjectMapper.Map<List<BasketItemDto>, List<OrderItemCreateDto>>(basket.Items)
+        });
 
         var paymentRequest = await _paymentRequestAppService.CreateAsync(new PaymentRequestCreationDto
         {
+            OrderId = placedOrder.Id.ToString(),
             BuyerId = CurrentUser.GetId().ToString(),
             Currency = EShopOnAbpPaymentConsts.Currency,
             Products = ObjectMapper.Map<List<BasketItemDto>, List<PaymentRequestProductCreationDto>>(basket.Items)
@@ -56,6 +71,19 @@ public class PaymentModel : AbpPageModel
         });
 
         return Redirect(response.CheckoutLink);
+    }
+
+    private OrderAddressDto GetUserAddress(int selectedAddressId)
+    {
+        var address = _userAddressProvider.GetDemoAddresses().First(q => q.Id == selectedAddressId);
+        return new OrderAddressDto
+        {
+            City = address.City,
+            Country = address.Country,
+            Description = address.Description,
+            Street = address.Street,
+            ZipCode = address.ZipCode
+        };
     }
 
     public class PaymentPageViewModel

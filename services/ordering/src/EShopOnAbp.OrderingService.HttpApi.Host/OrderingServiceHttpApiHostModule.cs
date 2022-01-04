@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Volo.Abp;
+using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.Modularity;
 using Volo.Abp.Threading;
 
@@ -30,7 +31,6 @@ namespace EShopOnAbp.OrderingService
             var configuration = context.Services.GetConfiguration();
 
             JwtBearerConfigurationHelper.Configure(context, "OrderingService");
-            // SwaggerConfigurationHelper.Configure(context, "Catalog Service API");
 
             SwaggerWithAuthConfigurationHelper.Configure(
                 context: context,
@@ -58,6 +58,16 @@ namespace EShopOnAbp.OrderingService
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials();
+                });
+            });
+            
+            // TODO: Crate controller instead of auto-controller configuration
+            Configure<AbpAspNetCoreMvcOptions>(options =>
+            {
+                options.ConventionalControllers.Create(typeof(OrderingServiceApplicationModule).Assembly, opts =>
+                {
+                    opts.RootPath = "ordering";
+                    opts.RemoteServiceName = "Ordering";
                 });
             });
         }

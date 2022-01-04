@@ -3,33 +3,46 @@ using EShopOnAbp.PaymentService.PaymentRequests;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Volo.Abp;
 using Volo.Abp.DependencyInjection;
-using Volo.Abp.Domain.Repositories;
 using Volo.Abp.EventBus.Distributed;
 
 namespace EShopOnAbp.OrderingService.PaymentRequests
 {
-    public class PaymentRequestEventHandler :
-        IDistributedEventHandler<PaymentRequestCompletedEto>,
+    public class PaymentRequestEventHandler : IDistributedEventHandler<PaymentRequestCompletedEto>,
         ITransientDependency
     {
         private readonly IDistributedEventBus _eventBus;
+        private readonly OrderManager _orderManager;
 
-        public PaymentRequestEventHandler(IDistributedEventBus eventBus)
+        public PaymentRequestEventHandler(IDistributedEventBus eventBus, OrderManager orderManager)
         {
             _eventBus = eventBus;
+            _orderManager = orderManager;
         }
 
         public async Task HandleEventAsync(PaymentRequestCompletedEto eventData)
         {
-            // TODO: Insert Order here.
-            //throw new NotImplementedException();
+            if (!Guid.TryParse(eventData.OrderId, out var orderId))
+            {
+                throw new BusinessException(OrderingServiceErrorCodes.OrderIdIdNotGuid);
+            }
+
+            var acceptedOrder = await _orderManager.AcceptOrderAsync(
+                orderId, eventData.PaymentRequestId, eventData.State.ToString()
+            );
 
             await _eventBus.PublishAsync(new OrderAcceptedEto
             {
                 Items = eventData.Products.Select(MapProductToOrderItem).ToList(),
-                BuyerId = Guid.Parse(eventData.BuyerId),
-                OrderId = Guid.Empty, // TODO: Inserted OrderId,
+                PaymentStatus = acceptedOrder.PaymentStatus,
+                Buyer = new BuyerEto
+                {
+                    BuyerId = acceptedOrder.Buyer.Id,
+                    BuyerEmail = acceptedOrder.Buyer.Email,
+                    BuyerName = acceptedOrder.Buyer.Name
+                },
+                OrderId = acceptedOrder.Id
             });
         }
 

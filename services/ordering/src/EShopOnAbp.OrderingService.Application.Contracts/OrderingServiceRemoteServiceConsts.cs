@@ -2,6 +2,6 @@
 {
     public class OrderingServiceRemoteServiceConsts
     {
-        public const string RemoteServiceName = "OrderingService";
+        public const string RemoteServiceName = "Ordering";
     }
 }
