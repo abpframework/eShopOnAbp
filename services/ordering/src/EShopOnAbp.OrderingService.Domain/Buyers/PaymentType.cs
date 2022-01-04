@@ -8,15 +8,14 @@ namespace EShopOnAbp.OrderingService.Buyers;
 public class PaymentType : Enumeration
 {
     public static PaymentType Paypal = new PaymentType(1, nameof(Paypal).ToLowerInvariant());
-    public static PaymentType Visa = new PaymentType(1, nameof(Visa).ToLowerInvariant());
-    public static PaymentType MasterCard = new PaymentType(1, nameof(MasterCard).ToLowerInvariant());
+    public static PaymentType Demo = new PaymentType(2, nameof(Paypal).ToLowerInvariant());
 
     public PaymentType(int id, string name) : base(id, name)
     {
     }
 
     public static IEnumerable<PaymentType> List() =>
-        new[] {Paypal, Visa, Visa, MasterCard};
+        new[] {Paypal, Demo};
     
     public static PaymentType FromName(string name)
     {

@@ -21,7 +21,7 @@ public class Buyer : AggregateRoot<Guid>
         [NotNull] string email,
         PaymentType paymentType) : base(id)
     {
-        _paymentTypeId = PaymentType.FromName(paymentType.Name).Id;
+        _paymentTypeId = paymentType.Id;
         Name = Check.NotNullOrEmpty(name, nameof(name));
         Email = Check.NotNullOrEmpty(email, nameof(email));
     }
