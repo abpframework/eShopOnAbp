@@ -10,12 +10,10 @@ namespace EShopOnAbp.OrderingService
         public OrderingServiceApplicationAutoMapperProfile()
         {
             CreateMap<Address, OrderAddressDto>();
+            CreateMap<Buyer, BuyerDto>();
             
             CreateMap<OrderItem, OrderItemDto>();
-            CreateMap<Buyer, BuyerDto>()
-                .ForMember(q => q.PaymentType, opt => opt.MapFrom(q => q.PaymentType.Name))
-                .ForMember(q => q.PaymentTypeId, opt => opt.MapFrom(q => q.PaymentType.Id));
-
+            
             CreateMap<Order, OrderDto>()
                 .Ignore(q => q.Address)
                 .Ignore(q => q.Items)

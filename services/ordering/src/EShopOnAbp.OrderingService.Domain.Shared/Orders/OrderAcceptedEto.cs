@@ -10,7 +10,8 @@ namespace EShopOnAbp.OrderingService.Orders
     public class OrderAcceptedEto : EtoBase
     {
         public Guid OrderId { get; set; }
-        public Guid BuyerId { get; set; }
+        public string PaymentStatus { get; set; }
+        public BuyerEto Buyer { get; set; }
         public List<OrderItemEto> Items { get; set; }
     }
 }

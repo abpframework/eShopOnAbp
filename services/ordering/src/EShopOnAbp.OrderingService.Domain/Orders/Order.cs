@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using EShopOnAbp.OrderingService.Buyers;
 using Volo.Abp.Domain.Entities;
 
 namespace EShopOnAbp.OrderingService.Orders;
@@ -8,10 +9,13 @@ namespace EShopOnAbp.OrderingService.Orders;
 public class Order : AggregateRoot<Guid>
 {
     private int _orderStatusId;
+    private int _paymentTypeId;
     public DateTime OrderDate { get; private set; }
-    public Guid? BuyerId { get; private set; }
-    public Guid? PaymentRequestId { get; private set; }  
-    public string PaymentStatus { get; private set; }  
+    
+    public PaymentType PaymentType { get; private set; }
+    public Guid? PaymentRequestId { get; private set; }
+    public string PaymentStatus { get; private set; }
+    public Buyer Buyer { get; private set; }
     public Address Address { get; private set; }
     public OrderStatus OrderStatus { get; private set; }
     public List<OrderItem> OrderItems { get; private set; }
@@ -20,19 +24,22 @@ public class Order : AggregateRoot<Guid>
     {
     }
 
-    internal Order(Guid id, Address address, Guid? buyerId = null, Guid? paymentRequestId = null) : base(id)
+    internal Order(Guid id, Buyer buyer, Address address,PaymentType paymentType, Guid? paymentRequestId = null) : base(id)
     {
         _orderStatusId = OrderStatus.Placed.Id;
+        _paymentTypeId = paymentType.Id;
         OrderDate = DateTime.UtcNow;
+        Buyer = buyer;
         Address = address;
-        BuyerId = buyerId;
         PaymentRequestId = paymentRequestId;
         PaymentStatus = "Waiting"; // TODO: magic string
         OrderItems = new List<OrderItem>();
     }
 
-    internal Order SetOrderPaid()
+    internal Order SetOrderAccepted(Guid paymentRequestId, string paymentRequestStatus)
     {
+        PaymentRequestId = paymentRequestId;
+        PaymentStatus = paymentRequestStatus;
         OrderStatus = OrderStatus.Paid;
 
         return this;
@@ -54,7 +61,8 @@ public class Order : AggregateRoot<Guid>
         }
         else
         {
-            var orderItem = new OrderItem(id, productId, productName, productCode, unitPrice, discount, pictureUrl, units);
+            var orderItem = new OrderItem(id, productId, productName, productCode, unitPrice, discount, pictureUrl,
+                units);
             OrderItems.Add(orderItem);
         }
 

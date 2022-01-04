@@ -3,33 +3,27 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using EShopOnAbp.OrderingService.Buyers;
 using Volo.Abp;
-using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Domain.Services;
 using Volo.Abp.EventBus.Distributed;
-using Volo.Abp.Uow;
 
 namespace EShopOnAbp.OrderingService.Orders;
 
 public class OrderManager : DomainService
 {
     private readonly IOrderRepository _orderRepository;
-    private readonly IBuyerRepository _buyerRepository;
     private readonly IDistributedEventBus _distributedEventBus;
-    private readonly UnitOfWorkManager _unitOfWorkManager;
 
     public OrderManager(
         IOrderRepository orderRepository,
-        IBuyerRepository buyerRepository,
-        IDistributedEventBus distributedEventBus, UnitOfWorkManager unitOfWorkManager)
+        IDistributedEventBus distributedEventBus)
     {
         _orderRepository = orderRepository;
-        _buyerRepository = buyerRepository;
         _distributedEventBus = distributedEventBus;
-        _unitOfWorkManager = unitOfWorkManager;
     }
 
     public async Task<Order> CreateOrderAsync(
         int paymentTypeId,
+        Guid buyerId,
         string buyerName,
         string buyerEmail,
         List<(Guid productId, string productName, string productCode, decimal unitPrice, decimal discount, string
@@ -42,23 +36,16 @@ public class OrderManager : DomainService
         string addressDescription = null
     )
     {
-        // Create buyer 
-        Buyer buyer = await _buyerRepository.InsertAsync(
-            new Buyer(GuidGenerator.Create(), buyerName, buyerEmail, PaymentType.From(paymentTypeId)),
-            autoSave: true
-        );
-
-        var insertedBuyer = await _buyerRepository.GetAsync(buyer.Id, includeDetails: true);
-
         // Create new order
         Order order = new Order(
             id: GuidGenerator.Create(),
+            buyer: new Buyer(buyerEmail, buyerName, buyerId),
             address: new Address(street: addressStreet,
                 city: addressCity,
                 country: addressCountry,
                 zipcode: addressZipCode,
                 description: addressDescription),
-            buyerId: buyer.Id
+            paymentType: PaymentType.From(paymentTypeId)
         );
 
         // Add new order items
@@ -78,19 +65,20 @@ public class OrderManager : DomainService
 
         var placedOrder = await _orderRepository.InsertAsync(order, true);
 
+
         // Publish Order placed event
         await _distributedEventBus.PublishAsync(new OrderPlacedEto
         {
             OrderId = placedOrder.Id,
             OrderDate = placedOrder.OrderDate,
-            Buyer = GetBuyerEto(buyer),
+            Buyer = GetBuyerEto(order.Buyer),
             Items = GetProductItemEtoList(order.OrderItems)
         });
 
         return placedOrder;
     }
 
-    public async Task<Order> AcceptOrderAsync(Guid orderId)
+    public async Task<Order> AcceptOrderAsync(Guid orderId, Guid paymentRequestId, string paymentRequestStatus)
     {
         var order = await _orderRepository.GetAsync(orderId);
         if (order == null)
@@ -99,21 +87,17 @@ public class OrderManager : DomainService
                 .WithData("OrderId", orderId);
         }
 
-        //Update order.PaymentId
-        //Update order.PaymentStatus
-        order.SetOrderPaid();
-
-        return await _orderRepository.UpdateAsync(order);
+        order.SetOrderAccepted(paymentRequestId, paymentRequestStatus);
+        return await _orderRepository.UpdateAsync(order, autoSave: true);
     }
 
     private BuyerEto GetBuyerEto(Buyer buyer)
     {
-        return new BuyerEto()
+        return new BuyerEto
         {
             BuyerEmail = buyer.Email,
-            BuyerId = buyer.Id,
-            PaymentType = buyer.PaymentType.Name,
-            PaymentTypeId = buyer.PaymentType.Id
+            BuyerName = buyer.Name,
+            BuyerId = buyer.Id
         };
     }
 

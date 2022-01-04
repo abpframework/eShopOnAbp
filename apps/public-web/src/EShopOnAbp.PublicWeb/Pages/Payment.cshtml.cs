@@ -54,11 +54,10 @@ public class PaymentModel : AbpPageModel
             Address = GetUserAddress(model.SelectedAddressId),
             Products = ObjectMapper.Map<List<BasketItemDto>, List<OrderItemCreateDto>>(basket.Items)
         });
-        
-        
 
         var paymentRequest = await _paymentRequestAppService.CreateAsync(new PaymentRequestCreationDto
         {
+            OrderId = placedOrder.Id.ToString(),
             BuyerId = CurrentUser.GetId().ToString(),
             Currency = EShopOnAbpPaymentConsts.Currency,
             Products = ObjectMapper.Map<List<BasketItemDto>, List<PaymentRequestProductCreationDto>>(basket.Items)

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using EShopOnAbp.OrderingService.Buyers;
 using EShopOnAbp.OrderingService.Localization;
 using Volo.Abp.Application.Services;
+using Volo.Abp.Users;
 
 namespace EShopOnAbp.OrderingService.Orders;
 
@@ -11,15 +12,13 @@ public class OrderAppService : ApplicationService, IOrderAppService
 {
     private readonly OrderManager _orderManager;
     private readonly IOrderRepository _orderRepository;
-    private readonly IBuyerRepository _buyerRepository;
 
     public OrderAppService(OrderManager orderManager,
-        IOrderRepository orderRepository,
-        IBuyerRepository buyerRepository)
+        IOrderRepository orderRepository
+        )
     {
         _orderManager = orderManager;
         _orderRepository = orderRepository;
-        _buyerRepository = buyerRepository;
         LocalizationResource = typeof(OrderingServiceResource);
         ObjectMapperContext = typeof(OrderingServiceApplicationModule);
     }
@@ -37,6 +36,7 @@ public class OrderAppService : ApplicationService, IOrderAppService
         var placedOrder = await _orderManager.CreateOrderAsync
         (
             paymentTypeId: input.PaymentTypeId,
+            buyerId: CurrentUser.GetId(),
             buyerName: CurrentUser.Name,
             buyerEmail: CurrentUser.Email,
             orderItems: orderItems,
@@ -69,16 +69,17 @@ public class OrderAppService : ApplicationService, IOrderAppService
 
     private async Task<OrderDto> CreateOrderDtoMappingAsync(Order placedOrder)
     {
-        var buyer = await _buyerRepository.GetAsync(placedOrder.BuyerId.GetValueOrDefault());
         return new OrderDto()
         {
             Address = ObjectMapper.Map<Address, OrderAddressDto>(placedOrder.Address),
             Items = ObjectMapper.Map<List<OrderItem>, List<OrderItemDto>>(placedOrder.OrderItems),
-            Buyer = ObjectMapper.Map<Buyer, BuyerDto>(buyer),
+            Buyer = ObjectMapper.Map<Buyer, BuyerDto>(placedOrder.Buyer),
             Id = placedOrder.Id,
             OrderDate = placedOrder.OrderDate,
             OrderStatus = placedOrder.OrderStatus.Name,
-            OrderStatusId = placedOrder.OrderStatus.Id
+            OrderStatusId = placedOrder.OrderStatus.Id,
+            PaymentType = placedOrder.PaymentType.Name,
+            PaymentTypeId = placedOrder.PaymentType.Id
         };
     }
 }

@@ -17,16 +17,18 @@ public class EfCoreOrderRepository : EfCoreRepository<OrderingServiceDbContext, 
     }
 
     public override async Task<Order> InsertAsync(Order entity, bool autoSave = false,
-        CancellationToken cancellationToken = new CancellationToken())
+        CancellationToken cancellationToken = default)
     {
-        var newEntity = await base.InsertAsync(entity, autoSave, cancellationToken);
-        await EnsurePropertyLoadedAsync(newEntity, o => o.OrderStatus, cancellationToken);
+        var newEntity = await base.InsertAsync(entity, autoSave, GetCancellationToken(cancellationToken));
+        await EnsurePropertyLoadedAsync(newEntity, o => o.OrderStatus, GetCancellationToken(cancellationToken));
+        await EnsurePropertyLoadedAsync(newEntity, o => o.PaymentType, GetCancellationToken(cancellationToken));
         return newEntity;
     }
 
     public override async Task<IQueryable<Order>> WithDetailsAsync()
     {
         return (await GetQueryableAsync())
-            .Include(q => q.OrderStatus);
+            .Include(q => q.OrderStatus)
+            .Include(q => q.PaymentType);
     }
 }
