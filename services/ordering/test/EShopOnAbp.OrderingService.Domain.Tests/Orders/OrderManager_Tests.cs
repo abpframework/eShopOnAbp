@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using EShopOnAbp.OrderingService.Buyers;
 using Shouldly;
 using Xunit;
 
@@ -25,6 +26,7 @@ public class OrderManagerUnitTests : OrderingServiceDomainTestBase
         orderItems.Add((Guid.NewGuid(), "Test product", "Code:001", 15, 0, "", 1));
         var createdOrder = await _orderManager.CreateOrderAsync(
             1,
+            Guid.Parse("11CA0F6D-208E-441A-9F9B-3611C96E4383"),
             "gterdem",
             "gterdem@volosoft.com",
             orderItems,
@@ -32,6 +34,9 @@ public class OrderManagerUnitTests : OrderingServiceDomainTestBase
             "Test City",
             "Test Country",
             "Test zipCode");
+        
         createdOrder.ShouldNotBeNull();
+        createdOrder.OrderStatus.ShouldBe(OrderStatus.Placed);
+        createdOrder.PaymentType.ShouldBe(PaymentType.Paypal);
     }
 }
