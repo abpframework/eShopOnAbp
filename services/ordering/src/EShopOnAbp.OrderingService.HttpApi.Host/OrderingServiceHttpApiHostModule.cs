@@ -66,8 +66,8 @@ namespace EShopOnAbp.OrderingService
             {
                 options.ConventionalControllers.Create(typeof(OrderingServiceApplicationModule).Assembly, opts =>
                 {
-                    opts.RootPath = OrderingServiceRemoteServiceConsts.RemoteServiceName.ToLowerInvariant();
-                    opts.RemoteServiceName = OrderingServiceRemoteServiceConsts.RemoteServiceName;
+                    opts.RootPath = "ordering";
+                    opts.RemoteServiceName = "Ordering";
                 });
             });
         }

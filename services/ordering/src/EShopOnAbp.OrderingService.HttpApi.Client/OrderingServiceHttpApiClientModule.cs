@@ -10,11 +10,12 @@ namespace EShopOnAbp.OrderingService
         typeof(AbpHttpClientModule))]
     public class OrderingServiceHttpApiClientModule : AbpModule
     {
+        public const string RemoteServiceName = "Ordering";
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
-            context.Services.AddHttpClientProxies(
+            context.Services.AddStaticHttpClientProxies(
                 typeof(OrderingServiceApplicationContractsModule).Assembly,
-                OrderingServiceRemoteServiceConsts.RemoteServiceName
+                RemoteServiceName
             );
 
             Configure<AbpVirtualFileSystemOptions>(options =>
