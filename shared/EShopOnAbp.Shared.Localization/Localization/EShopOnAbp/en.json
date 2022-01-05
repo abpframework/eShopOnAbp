@@ -8,6 +8,7 @@
     "CheckOtherProducts": "You can check the recommended products below or",
     "ContinueShopping": "continue shopping.",
     "Total": "Total",
+    "TotalSelected": "Total Selected ({0})",
     "OurProducts": "Our Products",
     "CatalogServiceNotAvailable": "Catalog Service is unavailable right now! Try again later...",
     "StockCount": "Stock Count",
