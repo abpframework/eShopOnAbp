@@ -14,7 +14,9 @@
                         <h3 style="text-align: center">@L["EmptyBasket"]</h3>
                         <br/>
                         <div style="text-align: center">
-                            <span>@L["CheckOtherProducts"] <a href="/">@L["ContinueShopping"]</a></span>
+                            <span>
+                                @L["CheckOtherProducts"] <a href="/">@L["ContinueShopping"]</a>
+                            </span>
                         </div>
 
                     </abp-card-body>
@@ -26,31 +28,47 @@
     {
         <div class="row">
             <div class="col-lg-9">
-                <div class="basket-list">
+                <div class="basket-list flex-container vertical">
                     @foreach (var item in Model.Items)
                     {
-                        <div class="basket-list-item" data-product-id="@item.ProductId">
-                            @if (!item.ImageName.IsNullOrEmpty())
-                            {
-                                <img src="/product-images/@item.ImageName"/>
-                            }
-                            else
-                            {
-                                <img src="/product-images/noimage.jpg"/>
-                            }
-                            @item.ProductName
-                            @if (item.Count > 1)
-                            {
-                                <text> (@("x" + item.Count))</text>
-                            }
-                            - $@item.TotalPrice.ToString("0.00")
-                            <i class="fa fa-remove basket-item-remove" title="@L["RemoveFromBasket"]"></i>
+                        string imageName = item.ImageName.IsNullOrEmpty() ? "/product-images/noimage.jpg" : $"/product-images/{item.ImageName}";
+                        var price = (item.TotalPrice * item.Count).ToString("0.00");
+                        <div class="card basket-list-item" data-product-id="@item.ProductId">
+                            <div class="card-body">
+                                <div class="flex-container horizontal" >
+                                    <div class="image-container flex-item">
+                                        <img class="basket-item-image" src="@imageName"/>
+                                    </div>
+                                    <div class="flex-item">
+                                        <div class="flex-container vertical description-container">
+                                            <div class="flex-item description-header">
+                                                <span>@item.ProductName</span>
+                                            </div>
+                                            <div class="flex-item description-price">
+                                                <span>$@price</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="remove-container hide flex-item">
+                                        <i class="fa fa-trash basket-item-remove" title="@L["RemoveFromBasket"]"></i>
+                                    </div>
+                                    <div class="actions-container flex-item">
+                                        <a href="" class="basket-item-increase">
+                                            <i class="fa fa-plus-circle"></i>
+                                        </a>
+                                        <span class="basket-item-count">@item.Count</span>
+                                        <a href="" class="basket-item-decrease">
+                                            @{
+                                                string removeIcon = item.Count <= 1 ? "fa-trash" : "fa-minus-circle";
+                                            }
+                                            <i class="fa @removeIcon"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                        <hr/>
                     }
-                    <hr/>
-                    <div class="basket-total-area">
-                        @L["Total"]: $@Model.TotalPrice.ToString("0.00")
-                    </div>
                 </div>
             </div>
             <div class="col-lg-3">
