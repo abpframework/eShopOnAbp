@@ -87,6 +87,15 @@
     line-height: 20px;
     vertical-align: top;
 }
+.description-cargo{
+    color: #189c38;
+    text-align: center;
+    font-size: 1rem;
+}
+.description-cargo> span {
+     line-height: 20px;
+     vertical-align: top;
+ }
 
 .remove-container {
     color: #bb2d3b;
@@ -114,4 +123,10 @@
 
 .basket-list-item:hover .hide {
     opacity: 1.0;
+}
+.sticky {
+    position: -webkit-sticky; /* for Safari */
+    position: sticky;
+    top: 1rem;
+    align-self: flex-start; /* <-- this is the fix */
 }
