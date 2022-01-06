@@ -30,7 +30,7 @@ public class OrderAppService : ApplicationService, IOrderAppService
         return CreateOrderDtoMapping(order);
     }
 
-    public async Task<List<OrderDto>> GetMyOrders(GetMyOrdersInput input)
+    public async Task<List<OrderDto>> GetMyOrdersAsync(GetMyOrdersInput input)
     {
         ISpecification<Order> specification = null;
         if (!input.Filter.IsNullOrEmpty())

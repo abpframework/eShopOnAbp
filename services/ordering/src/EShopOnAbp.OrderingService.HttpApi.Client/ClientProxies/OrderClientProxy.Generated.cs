@@ -7,6 +7,7 @@ using Volo.Abp.Http.Modeling;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Http.Client.ClientProxying;
 using EShopOnAbp.OrderingService.Orders;
+using System.Collections.Generic;
 
 // ReSharper disable once CheckNamespace
 namespace EShopOnAbp.OrderingService.Orders.ClientProxies
@@ -20,6 +21,14 @@ namespace EShopOnAbp.OrderingService.Orders.ClientProxies
             return await RequestAsync<OrderDto>(nameof(GetAsync), new ClientProxyRequestTypeValue
             {
                 { typeof(Guid), id }
+            });
+        }
+
+        public virtual async Task<List<OrderDto>> GetMyOrdersAsync(GetMyOrdersInput input)
+        {
+            return await RequestAsync<List<OrderDto>>(nameof(GetMyOrdersAsync), new ClientProxyRequestTypeValue
+            {
+                { typeof(GetMyOrdersInput), input }
             });
         }
 

@@ -9,5 +9,5 @@ public interface IOrderAppService : IApplicationService
 {
     Task<OrderDto> CreateAsync(OrderCreateDto input);
     Task<OrderDto> GetAsync(Guid id);
-    Task<List<OrderDto>> GetMyOrders(GetMyOrdersInput input);
+    Task<List<OrderDto>> GetMyOrdersAsync(GetMyOrdersInput input);
 }
