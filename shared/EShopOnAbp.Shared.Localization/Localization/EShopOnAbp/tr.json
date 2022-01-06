@@ -2,6 +2,7 @@
   "culture": "tr",
   "texts": {
     "Menu:Home": "Ana Sayfa",
+    "Menu:MyOrders": "Siparişlerim",
     "Login": "Giriş",
     "YourBasket": "Sepetiniz",
     "EmptyBasket": "Sepetiniz boş",

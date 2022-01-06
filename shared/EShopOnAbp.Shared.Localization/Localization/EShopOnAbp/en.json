@@ -2,6 +2,7 @@
   "culture": "en",
   "texts": {
     "Menu:Home": "Home",
+    "Menu:MyOrders": "My Orders",
     "Login": "Login",
     "YourBasket": "Your Basket",
     "EmptyBasket": "Empyt basket",

@@ -53,8 +53,10 @@ namespace EShopOnAbp.PublicWeb.Menus
             var identityServerUrl = _configuration["AuthServer:Authority"] ?? "~";
             var uiResource = context.GetLocalizer<AbpUiResource>();
             var accountResource = context.GetLocalizer<AccountResource>();
+            var eShopResource = context.GetLocalizer<EShopOnAbpResource>();
 
             context.Menu.AddItem(new ApplicationMenuItem("Account.Manage", accountResource["MyAccount"], $"{identityServerUrl.EnsureEndsWith('/')}Account/Manage", icon: "fa fa-cog", order: 1000, null, "_blank").RequireAuthenticated());
+            context.Menu.AddItem(new ApplicationMenuItem("MyOrders", eShopResource["Menu:MyOrders"], $"/MyOrders", icon: "fa fa-shopping-cart", order: 2, null).RequireAuthenticated());
             context.Menu.AddItem(new ApplicationMenuItem("Account.Logout", uiResource["Logout"], url: "~/Account/Logout", icon: "fa fa-power-off", order: int.MaxValue - 1000).RequireAuthenticated());
 
             return Task.CompletedTask;
