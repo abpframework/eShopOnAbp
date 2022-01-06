@@ -38,6 +38,7 @@ public class EfCoreOrderRepository : EfCoreRepository<OrderingServiceDbContext, 
         .IncludeDetails(includeDetails)
         .Where(q=>q.Buyer.Id == userId)
         .Where(spec.ToExpression())
+        .OrderByDescending(o=>o.OrderDate)
         .ToListAsync(GetCancellationToken(cancellationToken));
     }
 

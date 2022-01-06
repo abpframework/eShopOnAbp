@@ -15,7 +15,7 @@ public class MonthsAgoSpecification : Specification<Order>
 
     public override Expression<Func<Order, bool>> ToExpression()
     {
-        var monthsAgo = DateTime.Now.AddMonths(NumberOfMonths);
-        return query => query.OrderDate >= monthsAgo && query.OrderDate <= DateTime.Now;
+        var monthsAgo = DateTime.UtcNow.AddMonths(-NumberOfMonths);
+        return query => query.OrderDate >= monthsAgo;
     }
 }

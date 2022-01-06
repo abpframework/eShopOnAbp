@@ -32,13 +32,10 @@ public class OrderAppService : ApplicationService, IOrderAppService
 
     public async Task<List<OrderDto>> GetMyOrdersAsync(GetMyOrdersInput input)
     {
-        ISpecification<Order> specification = null;
-        if (!input.Filter.IsNullOrEmpty())
-        {
-            specification = SpecificationFactory.Create(input.Filter);
-        }
-
+        ISpecification<Order> specification = SpecificationFactory.Create(input.Filter);
+        
         var orders = await _orderRepository.GetOrdersByUserId(CurrentUser.GetId(), specification, true);
+        
         return CreateOrderDtoMapping(orders);
     }
 

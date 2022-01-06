@@ -8,7 +8,9 @@ public class Last30DaysSpecification : Specification<Order>
 {
     public override Expression<Func<Order, bool>> ToExpression()
     {
-        var daysAgo30 = DateTime.Now.AddDays(-30);
-        return query => query.OrderDate >= daysAgo30 && query.OrderDate <= DateTime.Now;
+        var daysAgo30 = DateTime.UtcNow.Subtract(TimeSpan.FromDays(30));
+        return query => query.OrderDate >= daysAgo30
+            ;
+        // && query.OrderDate <= DateTime.UtcNow;
     }
 }
