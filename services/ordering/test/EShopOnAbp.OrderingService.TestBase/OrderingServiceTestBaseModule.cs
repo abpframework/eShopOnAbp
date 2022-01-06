@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.Collections.Generic;
+using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp;
 using Volo.Abp.Authorization;
 using Volo.Abp.Autofac;
@@ -13,12 +14,20 @@ namespace EShopOnAbp.OrderingService
         typeof(AbpTestBaseModule),
         typeof(AbpAuthorizationModule),
         typeof(OrderingServiceDomainModule)
-        )]
+    )]
     public class OrderingServiceTestBaseModule : AbpModule
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
             context.Services.AddAlwaysAllowAuthorization();
+            
+            // Add TestDataSeedContributor to the end of the list so that Domain DataSeedContributor
+            // (which is located under EfCore layer because of dbContext seeding) can run first
+            Configure<AbpDataSeedOptions>(options =>
+            {
+                options.Contributors.Remove<OrderingServiceTestDataSeedContributor>();
+                options.Contributors.AddLast(typeof(OrderingServiceTestDataSeedContributor));
+            });
         }
 
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
