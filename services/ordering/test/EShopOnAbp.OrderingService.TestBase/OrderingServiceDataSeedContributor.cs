@@ -1,33 +1,53 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using EShopOnAbp.OrderingService.Orders;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Guids;
-using Volo.Abp.MultiTenancy;
 
 namespace EShopOnAbp.OrderingService
 {
     public class OrderingServiceDataSeedContributor : IDataSeedContributor, ITransientDependency
     {
-        private readonly IGuidGenerator _guidGenerator;
-        private readonly ICurrentTenant _currentTenant;
+        private readonly OrderManager _orderManager;
+        private readonly TestData _testData;
+        private readonly TestProducts _testProducts;
 
         public OrderingServiceDataSeedContributor(
-            IGuidGenerator guidGenerator, ICurrentTenant currentTenant)
+            OrderManager orderManager,
+            TestData testData,
+            TestProducts testProducts)
         {
-            _guidGenerator = guidGenerator;
-            _currentTenant = currentTenant;
+            _orderManager = orderManager;
+            _testData = testData;
+            _testProducts = testProducts;
         }
 
-        public Task SeedAsync(DataSeedContext context)
+        public async Task SeedAsync(DataSeedContext context)
         {
-            /* Instead of returning the Task.CompletedTask, you can insert your test data
-             * at this point!
-             */
+            await SeedTestOrdersAsync();
+        }
 
-            using (_currentTenant.Change(context?.TenantId))
-            {
-                return Task.CompletedTask;
-            }
+        private async Task SeedTestOrdersAsync()
+        {
+            var order1 = await _orderManager.CreateOrderAsync(
+                1, _testData.CurrentUserId, _testData.CurrentUserName, _testData.CurrentUserEmail,
+                _testProducts.GetRandomProducts(0),
+                _testData.Address.Street,
+                _testData.Address.City,
+                _testData.Address.Country,
+                _testData.Address.ZipCode
+            );
+
+            var order2 = await _orderManager.CreateOrderAsync(
+                1, _testData.CurrentUserId, _testData.CurrentUserName, _testData.CurrentUserEmail,
+                _testProducts.GetRandomProducts(10),
+                _testData.Address.Street,
+                _testData.Address.City,
+                _testData.Address.Country,
+                _testData.Address.ZipCode
+            );
         }
     }
 }

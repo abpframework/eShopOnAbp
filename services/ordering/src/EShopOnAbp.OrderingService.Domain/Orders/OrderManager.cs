@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using EShopOnAbp.OrderingService.Buyers;
 using Volo.Abp;
 using Volo.Abp.Domain.Services;
 using Volo.Abp.EventBus.Distributed;

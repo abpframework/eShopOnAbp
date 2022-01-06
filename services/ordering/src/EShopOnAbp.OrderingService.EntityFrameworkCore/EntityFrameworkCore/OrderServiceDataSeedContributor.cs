@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using EShopOnAbp.OrderingService.Buyers;
 using EShopOnAbp.OrderingService.Orders;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Data;

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using EShopOnAbp.OrderingService.Buyers;
 using Volo.Abp.Domain.Entities;
 
 namespace EShopOnAbp.OrderingService.Orders;
@@ -11,7 +10,6 @@ public class Order : AggregateRoot<Guid>
     private int _orderStatusId;
     private int _paymentTypeId;
     public DateTime OrderDate { get; private set; }
-    
     public PaymentType PaymentType { get; private set; }
     public Guid? PaymentRequestId { get; private set; }
     public string PaymentStatus { get; private set; }
