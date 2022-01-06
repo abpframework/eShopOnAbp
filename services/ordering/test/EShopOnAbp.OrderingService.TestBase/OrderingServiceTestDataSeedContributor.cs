@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using EShopOnAbp.OrderingService.Orders;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
@@ -28,7 +29,7 @@ namespace EShopOnAbp.OrderingService
 
         private async Task SeedTestOrdersAsync()
         {
-            var order1 = await _orderManager.CreateOrderAsync(
+            await _orderManager.CreateOrderAsync(
                 1,
                 _testData.CurrentUserId,
                 _testData.CurrentUserName,
@@ -40,9 +41,27 @@ namespace EShopOnAbp.OrderingService
                 _testData.Address.ZipCode
             );
 
-            var order2 = await _orderManager.CreateOrderAsync(
+            await _orderManager.CreateOrderAsync(
                 1, _testData.CurrentUserId, _testData.CurrentUserName, _testData.CurrentUserEmail,
                 _testProducts.GetRandomProducts(10),
+                _testData.Address.Street,
+                _testData.Address.City,
+                _testData.Address.Country,
+                _testData.Address.ZipCode
+            );
+
+            await _orderManager.CreateOrderAsync(
+                1, _testData.CurrentUserId, _testData.CurrentUserName, _testData.CurrentUserEmail,
+                _testProducts.GetRandomProducts(2),
+                _testData.Address.Street,
+                _testData.Address.City,
+                _testData.Address.Country,
+                _testData.Address.ZipCode
+            );
+
+            await _orderManager.CreateOrderAsync(
+                1, _testData.TestUserId, _testData.TestUserName, _testData.TestUserEmail,
+                _testProducts.GetRandomProducts(7),
                 _testData.Address.Street,
                 _testData.Address.City,
                 _testData.Address.Country,

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using EShopOnAbp.OrderingService.Orders;
 using EShopOnAbp.OrderingService.Orders.Specifications;
 using EShopOnAbp.OrderingService.Samples;
@@ -34,6 +35,15 @@ public class OrderRepository_Tests : SampleRepository_Tests<OrderingServiceEntit
     {
         var orders =
             await _orderRepository.GetOrdersByUserId(_testData.CurrentUserId, new Last30DaysSpecification(), true);
-        orders.Count.ShouldBe(2);
+        orders.Count.ShouldBe(3);
+        var firstOrder = orders.First();
+        firstOrder.OrderItems.Count.ShouldBe(5);
+    }
+    [Fact]
+    public async Task Should_Get_Users_Last_Year_Orders()
+    {
+        var orders =
+            await _orderRepository.GetOrdersByUserId(_testData.CurrentUserId, new YearSpecification(2020), true);
+        orders.Count.ShouldBe(0);
     }
 }
