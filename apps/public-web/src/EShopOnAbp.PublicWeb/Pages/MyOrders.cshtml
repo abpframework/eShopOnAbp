@@ -1,0 +1,39 @@
+﻿@page
+@using EShopOnAbp.Localization
+@using Microsoft.Extensions.Localization
+@model EShopOnAbp.PublicWeb.Pages.MyOrdersModel
+
+@inject IStringLocalizer<EShopOnAbpResource> L
+
+@section scripts {
+    <abp-script src="/Pages/myOrders.js"/>
+}
+
+<h3>Hello</h3>
+
+@foreach (var item in Model.MyOrders)
+{
+    <abp-card>
+        <abp-card-body>
+            <h5>@item.OrderDate</h5>
+            <p>@item.OrderStatus</p>
+            <p>@item.Buyer.Name</p>
+            <abp-row>
+                @foreach (var product in item.Items)
+                {
+                    <abp-column>
+                        <abp-card>
+                            <abp-card-title>
+                                <img style="width: 200px" src="/product-images/@product.PictureUrl"/>
+                            </abp-card-title>
+                            <abp-card-body>
+                                <p>@product.ProductName x @product.Units</p>
+                            </abp-card-body>
+                        </abp-card>
+                    </abp-column>
+                }
+            </abp-row>
+        </abp-card-body>
+    </abp-card>
+    <hr/>
+}
