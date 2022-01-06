@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using EShopOnAbp.OrderingService.Buyers;
 using EShopOnAbp.OrderingService.Localization;
+using EShopOnAbp.OrderingService.Orders.Specifications;
 using Volo.Abp.Application.Services;
+using Volo.Abp.Specifications;
 using Volo.Abp.Users;
 
 namespace EShopOnAbp.OrderingService.Orders;
@@ -15,7 +16,7 @@ public class OrderAppService : ApplicationService, IOrderAppService
 
     public OrderAppService(OrderManager orderManager,
         IOrderRepository orderRepository
-        )
+    )
     {
         _orderManager = orderManager;
         _orderRepository = orderRepository;
@@ -26,7 +27,19 @@ public class OrderAppService : ApplicationService, IOrderAppService
     public async Task<OrderDto> GetAsync(Guid id)
     {
         var order = await _orderRepository.GetAsync(id);
-        return await CreateOrderDtoMappingAsync(order);
+        return CreateOrderDtoMapping(order);
+    }
+
+    public async Task<List<OrderDto>> GetMyOrders(GetMyOrdersInput input)
+    {
+        ISpecification<Order> specification = null;
+        if (!input.Filter.IsNullOrEmpty())
+        {
+            specification = SpecificationFactory.Create(input.Filter);
+        }
+
+        var orders = await _orderRepository.GetOrdersByUserId(CurrentUser.GetId(), specification, true);
+        return CreateOrderDtoMapping(orders);
     }
 
     public async Task<OrderDto> CreateAsync(OrderCreateDto input)
@@ -47,7 +60,7 @@ public class OrderAppService : ApplicationService, IOrderAppService
             addressDescription: input.Address.Description
         );
 
-        return await CreateOrderDtoMappingAsync(placedOrder);
+        return CreateOrderDtoMapping(placedOrder);
     }
 
     private List<(Guid productId, string productName, string productCode, decimal unitPrice, decimal discount, string
@@ -67,7 +80,18 @@ public class OrderAppService : ApplicationService, IOrderAppService
         return orderItems;
     }
 
-    private async Task<OrderDto> CreateOrderDtoMappingAsync(Order placedOrder)
+    private List<OrderDto> CreateOrderDtoMapping(List<Order> orders)
+    {
+        List<OrderDto> dtoList = new List<OrderDto>();
+        foreach (var order in orders)
+        {
+            dtoList.Add(CreateOrderDtoMapping(order));
+        }
+
+        return dtoList;
+    }
+
+    private OrderDto CreateOrderDtoMapping(Order placedOrder)
     {
         return new OrderDto()
         {
