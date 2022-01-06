@@ -1,7 +1,5 @@
 (function () {
-
     let anonymousId = abp.utils.getCookieValue("anonymous_id");
-
 
     abp.widgets.BasketWidget = function ($wrapper) {
         var widgetManager = $wrapper.data('abp-widget-manager');
@@ -10,23 +8,55 @@
             $wrapper
                 .find('.basket-item-remove')
                 .click(function () {
-                    var $this = $(this);
-                    var productId = $this.parent('.basket-list-item').attr('data-product-id');
+                    let $this = $(this);
+                    let productId = $this.parents('.basket-list-item').attr('data-product-id');
                     eShopOnAbp.basketService.basket.removeProduct({
                         productId: productId,
                         anonymousId: anonymousId
                     }).then(function () {
-
                         widgetManager.refresh();
-
                         $('.abp-widget-wrapper[data-widget-name="CartWidget"]')
                             .data('abp-widget-manager')
                             .refresh();
-
                         abp.notify.info("Removed the product from your basket.", "Removed basket item");
                     });
                 });
 
+            $wrapper
+                .find('.basket-item-increase')
+                .click(function (e) {
+                    e.preventDefault();
+                    let $this = $(this);
+                    let productId = $this.parents('.basket-list-item').attr('data-product-id');
+                    eShopOnAbp.basketService.basket.addProduct({
+                        productId: productId,
+                        count: 1,
+                        anonymousId: anonymousId
+                    }).then(function () {
+                        widgetManager.refresh();
+                        $('.abp-widget-wrapper[data-widget-name="CartWidget"]')
+                            .data('abp-widget-manager')
+                            .refresh();
+                    });
+                });
+
+            $wrapper
+                .find('.basket-item-decrease')
+                .click(function (e) {
+                    e.preventDefault();
+                    let $this = $(this);                    
+                    let productId = $this.parents('.basket-list-item').attr('data-product-id');
+                    eShopOnAbp.basketService.basket.removeProduct({
+                        productId: productId,
+                        count: 1,
+                        anonymousId: anonymousId
+                    }).then(function () {
+                        widgetManager.refresh();
+                        $('.abp-widget-wrapper[data-widget-name="CartWidget"]')
+                            .data('abp-widget-manager')
+                            .refresh();
+                    });
+                });
         };
 
         return {
