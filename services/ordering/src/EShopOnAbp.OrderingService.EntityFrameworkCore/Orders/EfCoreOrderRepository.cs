@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using EShopOnAbp.OrderingService.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.Specifications;
@@ -48,8 +49,10 @@ public class EfCoreOrderRepository : EfCoreRepository<OrderingServiceDbContext, 
         CancellationToken cancellationToken = default)
     {
         return await (await GetQueryableAsync())
-            .IncludeDetails(includeDetails)
-            .FirstOrDefaultAsync(q => q.OrderNo == orderNo, cancellationToken: GetCancellationToken(cancellationToken));
+                   .IncludeDetails(includeDetails)
+                   .FirstOrDefaultAsync(q => q.OrderNo == orderNo,
+                       cancellationToken: GetCancellationToken(cancellationToken))
+               ?? throw new EntityNotFoundException(typeof(Order)); //TODO: Maybe create new exception with property extending this
     }
 
     public override async Task<IQueryable<Order>> WithDetailsAsync()

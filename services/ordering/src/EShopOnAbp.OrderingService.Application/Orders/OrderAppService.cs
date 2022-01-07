@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using EShopOnAbp.OrderingService.Localization;
 using EShopOnAbp.OrderingService.Orders.Specifications;
+using Microsoft.Extensions.Logging;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Specifications;
 using Volo.Abp.Users;
@@ -41,6 +42,7 @@ public class OrderAppService : ApplicationService, IOrderAppService
 
     public async Task<OrderDto> GetByOrderNoAsync(int orderNo)
     {
+        Logger.LogInformation($"========== {orderNo} ============== ");
         var order = await _orderRepository.GetByOrderNoAsync(orderNo);
         return CreateOrderDtoMapping(order);
     }
@@ -94,19 +96,20 @@ public class OrderAppService : ApplicationService, IOrderAppService
         return dtoList;
     }
 
-    private OrderDto CreateOrderDtoMapping(Order placedOrder)
+    private OrderDto CreateOrderDtoMapping(Order order)
     {
         return new OrderDto()
         {
-            Address = ObjectMapper.Map<Address, OrderAddressDto>(placedOrder.Address),
-            Items = ObjectMapper.Map<List<OrderItem>, List<OrderItemDto>>(placedOrder.OrderItems),
-            Buyer = ObjectMapper.Map<Buyer, BuyerDto>(placedOrder.Buyer),
-            Id = placedOrder.Id,
-            OrderDate = placedOrder.OrderDate,
-            OrderStatus = placedOrder.OrderStatus.Name,
-            OrderStatusId = placedOrder.OrderStatus.Id,
-            PaymentType = placedOrder.PaymentType.Name,
-            PaymentTypeId = placedOrder.PaymentType.Id
+            Address = ObjectMapper.Map<Address, OrderAddressDto>(order.Address),
+            Items = ObjectMapper.Map<List<OrderItem>, List<OrderItemDto>>(order.OrderItems),
+            Buyer = ObjectMapper.Map<Buyer, BuyerDto>(order.Buyer),
+            Id = order.Id,
+            OrderNo = order.OrderNo,
+            OrderDate = order.OrderDate,
+            OrderStatus = order.OrderStatus.Name,
+            OrderStatusId = order.OrderStatus.Id,
+            PaymentType = order.PaymentType.Name,
+            PaymentTypeId = order.PaymentType.Id
         };
     }
 }

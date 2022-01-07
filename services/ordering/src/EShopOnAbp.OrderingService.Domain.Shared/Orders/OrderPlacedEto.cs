@@ -9,6 +9,7 @@ namespace EShopOnAbp.OrderingService.Orders;
 public class OrderPlacedEto : EtoBase
 {
     public Guid OrderId { get; set; }
+    public int OrderNo { get; set; }
     public DateTime OrderDate { get; set; }
     public BuyerEto Buyer { get; set; }
     public List<OrderItemEto> Items { get; set; } = new();

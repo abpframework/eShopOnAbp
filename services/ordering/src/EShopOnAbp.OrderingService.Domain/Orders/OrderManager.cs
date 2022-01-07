@@ -70,6 +70,7 @@ public class OrderManager : DomainService
         {
             OrderId = placedOrder.Id,
             OrderDate = placedOrder.OrderDate,
+            OrderNo = placedOrder.OrderNo,
             Buyer = GetBuyerEto(order.Buyer),
             Items = GetProductItemEtoList(order.OrderItems)
         });
