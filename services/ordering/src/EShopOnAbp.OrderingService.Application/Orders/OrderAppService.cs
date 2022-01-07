@@ -42,8 +42,8 @@ public class OrderAppService : ApplicationService, IOrderAppService
 
     public async Task<OrderDto> GetByOrderNoAsync(int orderNo)
     {
-        Logger.LogInformation($"========== {orderNo} ============== ");
         var order = await _orderRepository.GetByOrderNoAsync(orderNo);
+        Logger.LogInformation($" Order recieved with order no:{orderNo}");
         return CreateOrderDtoMapping(order);
     }
 
