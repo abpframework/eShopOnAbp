@@ -11,6 +11,7 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
         public Guid PaymentRequestId { get; set; }
         
         public string OrderId { get; set; }
+        public int OrderNo { get; set; }
         public string FailReason { get; set; }
         public ExtraPropertyDictionary ExtraProperties { get; set; }
     }

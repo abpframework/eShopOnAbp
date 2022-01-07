@@ -11,6 +11,7 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
     {
         public Guid PaymentRequestId { get; set; }
         public string OrderId { get; set; }
+        public int OrderNo { get; set; }
         public string Currency { get; set; }
         public string BuyerId { get; set; }
         public PaymentRequestState State { get; set; }
