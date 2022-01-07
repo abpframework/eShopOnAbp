@@ -15,29 +15,51 @@
     <abp-style src="/Pages/myOrders.css"/>
 }
 
-<div>
-    <strong>@Model.MyOrders.Count sipariş</strong> verildi.
+@{
+    string lastYearString = $"y{DateTime.Today.Year - 1}";
+}
+
+<div class="mb-5 mt-5 col">
+    <abp-row>
+        <abp-column size="_9"><span class="order-title"><strong>@Model.MyOrders.Count sipariş</strong> verildi.</span></abp-column>
+        <abp-column size="_3">
+            <select class="form-select">
+                        <option value="last30">@L["Last30Days"]</option>
+                        <option value="m1">@L["LastMonth"]</option>
+                        <option value="m3">@L["Last3Months"]</option>
+                        <option value="@lastYearString">@L["LastYear"]</option>
+                        <option value="y2020">2020</option>
+                        <option value="y2019">2019</option>
+                    </select>
+        </abp-column>
+    </abp-row>
 </div>
 
 @foreach (var order in Model.MyOrders)
 {
-    <div class="card order-item">
+    var orderTotalString = order.Items.Sum(q => q.UnitPrice).ToString("C", new CultureInfo("en-US"));
+    string addressString = $"{order.Address.Street} {order.Address.ZipCode} \n {order.Address.City}/{order.Address.Country}";
+    <div class="card">
         <div class="card-header">
             <div class="row">
                 <div class="col">
-                    <div>Sipariş Tarihi</div>
-                    <div>@order.OrderDate.ToString("dd MMMM yyyy")</div>
+                    <div class="o-header">Sipariş Tarihi</div>
+                    <div class="o-description">@order.OrderDate.ToString("dd MMMM yyyy")</div>
                 </div>
                 <div class="col">
-                    <div>TOPLAM</div>
-                    <div>@order.Items.Sum(q => q.UnitPrice)</div>
+                    <div class="o-header">Toplam</div>
+                    <div class="o-description">@orderTotalString</div>
                 </div>
                 <div class="col">
-                    <div>TESLİMAT ADRESİ</div>
-                    <div>@order.Address.Description</div>
+                    <div class="o-header">Teslimat Adresi</div>
+                    <div>
+                        <abp-button abp-tooltip-bottom="@addressString">@order.Address.Description</abp-button>
+                    </div>
                 </div>
                 <div class="col">
-                    <div>SİPARİŞ NO @order.OrderNo.ToString("N0", new NumberFormatInfo() {NumberGroupSeparator = " "})</div>
+                    <div>
+                        <span class="o-header">Sipariş No</span> <span class="o-order-no">@order.OrderNo.ToString("N0", new NumberFormatInfo() {NumberGroupSeparator = " "})</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -61,8 +83,12 @@
                                 </div>
                             </abp-column>
                             <abp-column offset="_3" size="_2">
-                                <abp-row class="pb-3"><abp-button class="btn btn-light shadow" disabled="true" abp-tooltip-right="Not available yet">Ürünleri iade et</abp-button></abp-row>
-                                <abp-row><abp-button class="btn btn-light shadow" disabled="true" abp-tooltip-right="Not available yet">Ürün yorumu yazın</abp-button></abp-row>
+                                <abp-row class="pb-3">
+                                    <abp-button class="btn btn-light shadow" disabled="true" abp-tooltip-right="Not available yet">Ürünleri iade et</abp-button>
+                                </abp-row>
+                                <abp-row>
+                                    <abp-button class="btn btn-light shadow" disabled="true" abp-tooltip-right="Not available yet">Ürün yorumu yazın</abp-button>
+                                </abp-row>
                             </abp-column>
                         </abp-row>
                     </abp-card-body>
