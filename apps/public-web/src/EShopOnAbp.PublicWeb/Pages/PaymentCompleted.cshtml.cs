@@ -16,8 +16,7 @@ public class PaymentCompletedModel : AbpPageModel
         _paymentRequestAppService = paymentRequestAppService;
     }
 
-    [BindProperty(SupportsGet = true)]
-    public string Token { get; set; }
+    [BindProperty(SupportsGet = true)] public string Token { get; set; }
 
     public PaymentRequestDto PaymentRequest { get; private set; }
 
