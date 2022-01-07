@@ -22,10 +22,16 @@ public class PaymentCompletedModel : AbpPageModel
 
     public bool IsSuccessful { get; private set; }
 
-    public async Task OnGetAsync()
+    public async Task<IActionResult> OnGetAsync()
     {
         PaymentRequest = await _paymentRequestAppService.CompleteAsync(Token);
 
         IsSuccessful = PaymentRequest.State == PaymentRequestState.Completed;
+        if (IsSuccessful)
+        {
+            return RedirectToPage("OrderReceived", new { orderNo = PaymentRequest.OrderNo });    
+        }
+
+        return Page();
     }
 }

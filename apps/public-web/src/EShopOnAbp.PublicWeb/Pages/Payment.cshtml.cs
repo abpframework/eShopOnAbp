@@ -58,6 +58,7 @@ public class PaymentModel : AbpPageModel
         var paymentRequest = await _paymentRequestAppService.CreateAsync(new PaymentRequestCreationDto
         {
             OrderId = placedOrder.Id.ToString(),
+            OrderNo = placedOrder.OrderNo,
             BuyerId = CurrentUser.GetId().ToString(),
             Currency = EShopOnAbpPaymentConsts.Currency,
             Products = ObjectMapper.Map<List<BasketItemDto>, List<PaymentRequestProductCreationDto>>(basket.Items)
@@ -80,7 +81,7 @@ public class PaymentModel : AbpPageModel
         {
             City = address.City,
             Country = address.Country,
-            Description = address.Description,
+            Description = address.Type,
             Street = address.Street,
             ZipCode = address.ZipCode
         };
