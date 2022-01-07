@@ -1,13 +1,13 @@
-﻿using EShopOnAbp.BasketService;
+﻿using System;
+using System.Threading.Tasks;
+using EShopOnAbp.BasketService;
+using EShopOnAbp.Shared.Hosting.AspNetCore;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Threading.Tasks;
-using EShopOnAbp.Shared.Hosting.AspNetCore;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Users;
 
-namespace EShopOnAbp.PublicWeb.Basket
+namespace EShopOnAbp.PublicWeb.ServiceProviders
 {
     public class UserBasketProvider : ITransientDependency
     {

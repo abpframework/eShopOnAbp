@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using EShopOnAbp.BasketService;
-using EShopOnAbp.PublicWeb.Basket;
+using EShopOnAbp.PublicWeb.ServiceProviders;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.UI.Widgets;

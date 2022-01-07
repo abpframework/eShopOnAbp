@@ -12,6 +12,6 @@
         paymentInput.setAttribute('name', "model.SelectedPaymentId");
         paymentInput.setAttribute('value', document.querySelector(".payment-list .card.is-selected").getAttribute("data-payment-id"));
         paymentInput.setAttribute('type', "hidden");
-        form.appendChild(paymentInput);        
+        form.appendChild(paymentInput);
     };
 })();
