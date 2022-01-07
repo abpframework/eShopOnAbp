@@ -32,6 +32,14 @@ namespace EShopOnAbp.OrderingService.Orders.ClientProxies
             });
         }
 
+        public virtual async Task<OrderDto> GetByOrderNoAsync(int orderNo)
+        {
+            return await RequestAsync<OrderDto>(nameof(GetByOrderNoAsync), new ClientProxyRequestTypeValue
+            {
+                { typeof(int), orderNo }
+            });
+        }
+
         public virtual async Task<OrderDto> CreateAsync(OrderCreateDto input)
         {
             return await RequestAsync<OrderDto>(nameof(CreateAsync), new ClientProxyRequestTypeValue

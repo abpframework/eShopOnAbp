@@ -15,7 +15,7 @@ public interface IOrderRepository : IRepository<Order, Guid>
         bool includeDetails = true,
         CancellationToken cancellationToken = default);
 
-        Task<Order> GetByOrderNoAsync(int orderNo,
+    Task<Order> GetByOrderNoAsync(int orderNo,
         bool includeDetails = true,
         CancellationToken cancellationToken = default);
 }

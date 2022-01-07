@@ -39,9 +39,10 @@ public class OrderAppService : ApplicationService, IOrderAppService
         return CreateOrderDtoMapping(orders);
     }
 
-    public Task<OrderDto> GetByOrderNoAsync(int orderNo)
+    public async Task<OrderDto> GetByOrderNoAsync(int orderNo)
     {
-        var order = await _orderRepository.get
+        var order = await _orderRepository.GetByOrderNoAsync(orderNo);
+        return CreateOrderDtoMapping(order);
     }
 
     public async Task<OrderDto> CreateAsync(OrderCreateDto input)

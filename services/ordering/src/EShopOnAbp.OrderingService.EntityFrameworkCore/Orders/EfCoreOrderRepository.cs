@@ -35,12 +35,13 @@ public class EfCoreOrderRepository : EfCoreRepository<OrderingServiceDbContext, 
         CancellationToken cancellationToken = default)
     {
         return await (await GetDbSetAsync())
-        .IncludeDetails(includeDetails)
-        .Where(q=>q.Buyer.Id == userId)
-        .Where(spec.ToExpression())
-        .OrderByDescending(o=>o.OrderDate)
-        .ToListAsync(GetCancellationToken(cancellationToken));
-        
+            .IncludeDetails(includeDetails)
+            .Where(q => q.Buyer.Id == userId)
+            .Where(spec.ToExpression())
+            .OrderByDescending(o => o.OrderDate)
+            .ToListAsync(GetCancellationToken(cancellationToken));
+    }
+
     public async Task<Order> GetByOrderNoAsync(
         int orderNo,
         bool includeDetails = true,
