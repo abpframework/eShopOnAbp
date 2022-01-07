@@ -15,5 +15,16 @@
                 abp.notify.success("Added product to your basket.", "Successfully added");
             });
         });
+
+        $('#date-filter-selecter').on("change", el => {
+            const filter = el.target.value;
+            console.log(filter);
+            eShopOnAbp.orderingService.orders.order.getMyOrders({
+                filter: filter
+            }).then(res => {
+                console.log(res);
+            });
+        })
+
     });
 })();

@@ -8,6 +8,7 @@
 
 @section scripts {
     <abp-script src="/client-proxies/basket-proxy.js"/>
+    <abp-script src="/client-proxies/ordering-proxy.js"/>
     <abp-script src="/Pages/myOrders.js"/>
 }
 
@@ -23,7 +24,7 @@
     <abp-row>
         <abp-column size="_9"><span class="order-title"><strong>@Model.MyOrders.Count sipariş</strong> verildi.</span></abp-column>
         <abp-column size="_3">
-            <select class="form-select">
+            <select class="form-select" id="date-filter-selecter">
                         <option value="last30">@L["Last30Days"]</option>
                         <option value="m1">@L["LastMonth"]</option>
                         <option value="m3">@L["Last3Months"]</option>
