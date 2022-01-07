@@ -12,6 +12,10 @@ public interface IOrderRepository : IRepository<Order, Guid>
     Task<List<Order>> GetOrdersByUserId(
         Guid userId,
         ISpecification<Order> spec,
-        bool includeDetails = false,
+        bool includeDetails = true,
+        CancellationToken cancellationToken = default);
+
+        Task<Order> GetByOrderNoAsync(int orderNo,
+        bool includeDetails = true,
         CancellationToken cancellationToken = default);
 }

@@ -10,6 +10,7 @@ public class Order : AggregateRoot<Guid>
     private int _orderStatusId;
     private int _paymentTypeId;
     public DateTime OrderDate { get; private set; }
+    public int OrderNo { get; private set; }
     public PaymentType PaymentType { get; private set; }
     public Guid? PaymentRequestId { get; private set; }
     public string PaymentStatus { get; private set; }
@@ -22,11 +23,12 @@ public class Order : AggregateRoot<Guid>
     {
     }
 
-    internal Order(Guid id, Buyer buyer, Address address,PaymentType paymentType, Guid? paymentRequestId = null) : base(id)
+    internal Order(Guid id, Buyer buyer, Address address, PaymentType paymentType, Guid? paymentRequestId = null) : base(id)
     {
         _orderStatusId = OrderStatus.Placed.Id;
         _paymentTypeId = paymentType.Id;
         OrderDate = DateTime.UtcNow;
+        OrderNo = id.GetHashCode();
         Buyer = buyer;
         Address = address;
         PaymentRequestId = paymentRequestId;

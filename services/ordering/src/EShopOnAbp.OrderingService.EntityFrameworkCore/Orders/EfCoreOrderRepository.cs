@@ -40,12 +40,20 @@ public class EfCoreOrderRepository : EfCoreRepository<OrderingServiceDbContext, 
         .Where(spec.ToExpression())
         .OrderByDescending(o=>o.OrderDate)
         .ToListAsync(GetCancellationToken(cancellationToken));
+        
+    public async Task<Order> GetByOrderNoAsync(
+        int orderNo,
+        bool includeDetails = true,
+        CancellationToken cancellationToken = default)
+    {
+        return await (await GetQueryableAsync())
+            .IncludeDetails(includeDetails)
+            .FirstOrDefaultAsync(q => q.OrderNo == orderNo, cancellationToken: GetCancellationToken(cancellationToken));
     }
 
     public override async Task<IQueryable<Order>> WithDetailsAsync()
     {
         return (await GetQueryableAsync())
-            .Include(q => q.OrderStatus)
-            .Include(q => q.PaymentType);
+            .IncludeDetails();
     }
 }
