@@ -7,7 +7,7 @@
 @{
     var totalCount = Model?.Basket.Items.Count ?? 0;
     var totalPrice = Model.Basket.TotalPrice;
-    var demoDiscountPercentage = 10;
+    var demoDiscountPercentage = 0;
     var discountTotal = totalPrice * demoDiscountPercentage / 100;
     var grandTotal = totalPrice - discountTotal;
 }
