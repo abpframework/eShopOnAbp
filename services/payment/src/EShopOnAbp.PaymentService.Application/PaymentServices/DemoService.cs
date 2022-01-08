@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
 using EShopOnAbp.PaymentService.PaymentRequests;
+using Volo.Abp.DependencyInjection;
 
 namespace EShopOnAbp.PaymentService.PaymentServices;
 
+[ExposeServices(typeof(IPaymentStrategy), typeof(DemoService))]
 public class DemoService : IPaymentStrategy
 {
     public Task<PaymentRequestStartResultDto> StartAsync(PaymentRequest paymentRequest, PaymentRequestStartDto input)

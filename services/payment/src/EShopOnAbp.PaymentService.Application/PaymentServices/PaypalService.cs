@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 using EShopOnAbp.PaymentService.PaymentRequests;
 using PayPalCheckoutSdk.Core;
 using PayPalCheckoutSdk.Orders;
+using Volo.Abp.DependencyInjection;
 
 namespace EShopOnAbp.PaymentService.PaymentServices;
 
+[ExposeServices(typeof(IPaymentStrategy), typeof(PaypalService))]
 public class PaypalService : IPaymentStrategy
 {
     private readonly PayPalHttpClient _payPalHttpClient;

@@ -53,8 +53,9 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
 
         public virtual async Task<PaymentRequestStartResultDto> StartAsync(PaymentRequestStartDto input)
         {
-            PaymentRequest paymentRequest = await PaymentRequestRepository.GetAsync(input.PaymentRequestId, includeDetails: true);
-            
+            PaymentRequest paymentRequest =
+                await PaymentRequestRepository.GetAsync(input.PaymentRequestId, includeDetails: true);
+
             var paymentService = _paymentServiceFactory.Create(input.PaymentTypeId);
             return await paymentService.StartAsync(paymentRequest, input);
         }
@@ -62,7 +63,7 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
         public virtual async Task<PaymentRequestDto> CompleteAsync(PaymentRequestCompleteInputDto input)
         {
             var paymentService = _paymentServiceFactory.Create(input.PaymentTypeId);
-            
+
             var paymentRequest = await paymentService.CompleteAsync(PaymentRequestRepository, input.Token);
             return ObjectMapper.Map<PaymentRequest, PaymentRequestDto>(paymentRequest);
         }

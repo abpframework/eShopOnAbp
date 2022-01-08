@@ -1,7 +1,5 @@
 ﻿using System;
-using EShopOnAbp.PaymentService.PaymentRequests;
 using Microsoft.Extensions.DependencyInjection;
-using PayPalCheckoutSdk.Core;
 using Volo.Abp.DependencyInjection;
 
 namespace EShopOnAbp.PaymentService.PaymentServices;
@@ -19,17 +17,14 @@ public class PaymentServiceFactory : ITransientDependency
     {
         if (paymentTypeId == 0)
         {
-            return new DemoService();
+            return _serviceProvider.GetRequiredService<DemoService>();
         }
 
         if (paymentTypeId == 1)
         {
-            var paypalService = _serviceProvider.GetRequiredService<PayPalHttpClient>();
-            var requestDomainService = _serviceProvider.GetRequiredService<PaymentRequestDomainService>();
-
-            return new PaypalService(paypalService, requestDomainService);
+            return _serviceProvider.GetRequiredService<PaypalService>();
         }
 
-        return new DemoService();
+        return _serviceProvider.GetRequiredService<DemoService>();
     }
 }
