@@ -18,3 +18,15 @@
 .is-selected {
     border: solid #bfbfe3;
 }
+
+.payment-type-header {
+    font-weight: 500;
+}
+
+.paypal {
+    color: #6c84fa;
+}
+
+.demo {
+    color: darkgray;
+}

@@ -6,10 +6,18 @@
             $wrapper
                 .find('.address-list .card')
                 .click(function () {
-                    var $this = $(this);
-                    var addressId = $this.attr('data-address-id');
-                    abp.utils.setCookieValue("selected-address", addressId);
+                    const $this = $(this);
+                    // const addressId = $this.attr('data-address-id');
                     $this.parents(".address-list").find('.card').removeClass("is-selected");
+                    $this.addClass("is-selected");
+                });
+
+            $wrapper
+                .find('.payment-list .card')
+                .click(el => {
+                    const $this = $(el.currentTarget);
+                    // const paymentTypeId = $this.attr('data-payment-id');
+                    $this.parents(".payment-list").find('.card').removeClass("is-selected");
                     $this.addClass("is-selected");
                 });
         };

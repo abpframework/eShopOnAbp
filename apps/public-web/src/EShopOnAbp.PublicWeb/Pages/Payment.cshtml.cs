@@ -59,7 +59,7 @@ public class PaymentModel : AbpPageModel
 
         var placedOrder = await _orderAppService.CreateAsync(new OrderCreateDto()
         {
-            PaymentTypeId = 1, // Paypal
+            PaymentTypeId = model.SelectedPaymentId, 
             Address = GetUserAddress(model.SelectedAddressId),
             Products = productItems
         });
