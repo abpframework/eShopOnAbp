@@ -5,7 +5,6 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using EShopOnAbp.PaymentService.PaymentServices;
-using Microsoft.Extensions.Logging;
 
 namespace EShopOnAbp.PaymentService.PaymentRequests
 {
@@ -15,7 +14,6 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
         private readonly PaymentRequestDomainService _paymentRequestDomainService;
         protected IPaymentRequestRepository PaymentRequestRepository { get; }
         protected PayPalHttpClient PayPalHttpClient { get; }
-
 
         public PaymentRequestAppService(
             IPaymentRequestRepository paymentRequestRepository,

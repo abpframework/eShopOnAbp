@@ -12,12 +12,5 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
         Task<PaymentRequestDto> CompleteAsync(PaymentRequestCompleteInputDto input);
 
         Task<bool> HandleWebhookAsync(string payload);
-        // /// <summary>
-        // /// 0 - Demo
-        // /// 1 - Paypal
-        // /// </summary>
-        // /// <param name="paymentTypeId"></param>
-        // /// <returns></returns>
-        // Task SetPaymentServiceAsync(int paymentTypeId);
     }
 }

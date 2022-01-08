@@ -7,6 +7,7 @@ using EShopOnAbp.PaymentService.PayPal;
 using PayPalCheckoutSdk.Core;
 using System;
 using EShopOnAbp.PaymentService.PaymentRequests;
+using EShopOnAbp.PaymentService.PaymentServices;
 
 namespace EShopOnAbp.PaymentService
 {
