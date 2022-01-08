@@ -7,16 +7,16 @@ namespace EShopOnAbp.OrderingService.Orders;
 
 public class PaymentType : Enumeration
 {
+    public static PaymentType Demo = new PaymentType(0, nameof(Demo).ToLowerInvariant());
     public static PaymentType Paypal = new PaymentType(1, nameof(Paypal).ToLowerInvariant());
-    public static PaymentType Demo = new PaymentType(2, nameof(Paypal).ToLowerInvariant());
 
     public PaymentType(int id, string name) : base(id, name)
     {
     }
 
     public static IEnumerable<PaymentType> List() =>
-        new[] {Paypal, Demo};
-    
+        new[] {Demo, Paypal};
+
     public static PaymentType FromName(string name)
     {
         var state = List()
