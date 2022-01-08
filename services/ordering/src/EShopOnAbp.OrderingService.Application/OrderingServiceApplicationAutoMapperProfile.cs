@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using EShopOnAbp.OrderingService.Buyers;
 using EShopOnAbp.OrderingService.Orders;
 using Volo.Abp.AutoMapper;
 

@@ -1,0 +1,59 @@
+﻿@page "{orderNo:int}"
+@using System.Globalization
+@model EShopOnAbp.PublicWeb.Pages.OrderReceivedModel
+@{
+    decimal orderTotal = 0;
+    Model.ReceivedOrder.Items.ForEach(q => orderTotal += q.Units * q.UnitPrice);
+    string orderTotalString = orderTotal.ToString("C", new CultureInfo("en-US")); // We work with USD any ways
+    string orderNoString = Model.ReceivedOrder.OrderNo.ToString("N0", new NumberFormatInfo() {NumberGroupSeparator = " "});
+}
+
+@section styles{
+    <abp-style src="/Pages/orderReceived.css"/>
+}
+
+@{
+    var paymentIcon = Model.ReceivedOrder.PaymentType == "paypal" ? "fa-cc-paypal" : "fa-credit-card";
+}
+<abp-row class="justify-content-center p-5">
+    <abp-card class="col-lg-10 col-md-10 col-sm-12 shadow">
+        <abp-card-body>
+            <abp-row class="p-5">
+                <abp-column size="_1">
+                    <i class="fa fa-3x fa-check-circle" style="color: greenyellow"></i>
+                </abp-column>
+                <abp-column>
+                    <div>
+                        <h4>Sipariş alındı!</h4>
+                        <p>Siparişiniz ile ilgili detaylar <strong>@Model.ReceivedOrder.Buyer.Email</strong> adresine gönderildi. <a href="/MyOrders">Siparişlerime git</a></p>
+                    </div>
+                </abp-column>
+
+            </abp-row>
+            <abp-row>
+                <abp-column>
+                    <div class="ro-title">Sipariş Numarası</div>
+                    <div class="ro-body ro-ono">
+                        @orderNoString
+                    </div>
+                </abp-column>
+                <abp-column>
+                    <div class="ro-title">Teslimat Adresi</div>
+                    <div class="ro-body ro-large">
+                        @Model.ReceivedOrder.Address.Description
+                    </div>
+                    <div>@Model.ReceivedOrder.Address.Street - @Model.ReceivedOrder.Address.ZipCode</div>
+                    <div>@Model.ReceivedOrder.Address.City / @Model.ReceivedOrder.Address.Country</div>
+                </abp-column>
+                <abp-column>
+                    <div class="ro-title">Ödenen Tutar</div>
+                    <div class="ro-body ro-large">@orderTotalString</div>
+                    <div class="pt-2">
+                        <i class="fa fa-5x @paymentIcon" style="color:indigo"></i>
+                    </div>
+                </abp-column>
+            </abp-row>
+            <abp-row class="p-5"></abp-row>
+        </abp-card-body>
+    </abp-card>
+</abp-row>

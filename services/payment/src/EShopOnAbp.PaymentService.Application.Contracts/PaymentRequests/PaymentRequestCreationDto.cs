@@ -16,6 +16,9 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
         [MaxLength(PaymentRequestConsts.MaxOrderIdLength)]
         public string OrderId { get; set; }
 
+        [Required]
+        public int OrderNo { get; set; }
+
         public string BuyerId { get; set; }
         public List<PaymentRequestProductCreationDto> Products { get; set; }
     }

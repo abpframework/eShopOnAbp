@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Volo.Abp.DependencyInjection;
 
-namespace EShopOnAbp.PublicWeb.Basket;
+namespace EShopOnAbp.PublicWeb.ServiceProviders;
 
 public class UserAddressProvider : ITransientDependency
 {

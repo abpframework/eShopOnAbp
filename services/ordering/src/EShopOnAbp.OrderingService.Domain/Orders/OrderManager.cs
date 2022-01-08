@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using EShopOnAbp.OrderingService.Buyers;
 using Volo.Abp;
 using Volo.Abp.Domain.Services;
 using Volo.Abp.EventBus.Distributed;
@@ -71,6 +70,7 @@ public class OrderManager : DomainService
         {
             OrderId = placedOrder.Id,
             OrderDate = placedOrder.OrderDate,
+            OrderNo = placedOrder.OrderNo,
             Buyer = GetBuyerEto(order.Buyer),
             Items = GetProductItemEtoList(order.OrderItems)
         });

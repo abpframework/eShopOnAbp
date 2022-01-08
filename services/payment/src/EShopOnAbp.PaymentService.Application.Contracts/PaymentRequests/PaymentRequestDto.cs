@@ -14,6 +14,8 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
 
         public string OrderId { get; set; }
         
+        public int OrderNo {get;set;}
+        
         public string BuyerId { get; set; }
 
         public bool IsDeleted { get; set; }

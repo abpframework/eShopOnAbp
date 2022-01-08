@@ -6,7 +6,6 @@
     }
 
     $(function () {
-
         $('.product-list-item').click(function () {
             var $this = $(this);
             var productId = $this.attr('data-product-id');
@@ -14,7 +13,6 @@
                 productId: productId,
                 anonymousId: anonymousId,
             }).then(function () {
-
                 $('.abp-widget-wrapper[data-widget-name="CartWidget"]')
                     .data('abp-widget-manager')
                     .refresh();

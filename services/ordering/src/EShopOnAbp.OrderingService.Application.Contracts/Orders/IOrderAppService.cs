@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Services;
 
@@ -8,5 +9,6 @@ public interface IOrderAppService : IApplicationService
 {
     Task<OrderDto> CreateAsync(OrderCreateDto input);
     Task<OrderDto> GetAsync(Guid id);
+    Task<List<OrderDto>> GetMyOrdersAsync(GetMyOrdersInput input);
     Task<OrderDto> GetByOrderNoAsync(int orderNo);
 }

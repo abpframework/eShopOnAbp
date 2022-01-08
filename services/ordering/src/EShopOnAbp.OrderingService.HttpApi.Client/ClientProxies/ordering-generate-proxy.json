@@ -60,6 +60,80 @@
               "allowAnonymous": null,
               "implementFrom": "EShopOnAbp.OrderingService.Orders.IOrderAppService"
             },
+            "GetMyOrdersAsyncByInput": {
+              "uniqueName": "GetMyOrdersAsyncByInput",
+              "name": "GetMyOrdersAsync",
+              "httpMethod": "GET",
+              "url": "api/ordering/order/my-orders",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "EShopOnAbp.OrderingService.Orders.GetMyOrdersInput, EShopOnAbp.OrderingService.Application.Contracts",
+                  "type": "EShopOnAbp.OrderingService.Orders.GetMyOrdersInput",
+                  "typeSimple": "EShopOnAbp.OrderingService.Orders.GetMyOrdersInput",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "Filter",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                }
+              ],
+              "returnValue": {
+                "type": "System.Collections.Generic.List<EShopOnAbp.OrderingService.Orders.OrderDto>",
+                "typeSimple": "[EShopOnAbp.OrderingService.Orders.OrderDto]"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "EShopOnAbp.OrderingService.Orders.IOrderAppService"
+            },
+            "GetByOrderNoAsyncByOrderNo": {
+              "uniqueName": "GetByOrderNoAsyncByOrderNo",
+              "name": "GetByOrderNoAsync",
+              "httpMethod": "GET",
+              "url": "api/ordering/order/by-order-no",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "orderNo",
+                  "typeAsString": "System.Int32, System.Private.CoreLib",
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "orderNo",
+                  "name": "orderNo",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "EShopOnAbp.OrderingService.Orders.OrderDto",
+                "typeSimple": "EShopOnAbp.OrderingService.Orders.OrderDto"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "EShopOnAbp.OrderingService.Orders.IOrderAppService"
+            },
             "CreateAsyncByInput": {
               "uniqueName": "CreateAsyncByInput",
               "name": "CreateAsync",

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using EShopOnAbp.OrderingService.Buyers;
 using Volo.Abp.Domain.Entities;
 
 namespace EShopOnAbp.OrderingService.Orders;
@@ -24,17 +23,30 @@ public class Order : AggregateRoot<Guid>
     {
     }
 
-    internal Order(Guid id, Buyer buyer, Address address, PaymentType paymentType, Guid? paymentRequestId = null) : base(id)
+    internal Order(Guid id, Buyer buyer, Address address, PaymentType paymentType,
+        Guid? paymentRequestId = null) : base(id)
     {
         _orderStatusId = OrderStatus.Placed.Id;
         _paymentTypeId = paymentType.Id;
         OrderDate = DateTime.UtcNow;
-        OrderNo = id.GetHashCode();
+        OrderNo = GenerateOrderNo(id);
         Buyer = buyer;
         Address = address;
         PaymentRequestId = paymentRequestId;
         PaymentStatus = "Waiting"; // TODO: magic string
         OrderItems = new List<OrderItem>();
+    }
+
+    private int GenerateOrderNo(Guid id)
+    {
+        // Simple order no generation. Should be improved for uniqueness.
+        var code = Id.GetHashCode();
+        if (code < 0) // Should be negative
+        {
+            code *= -1;
+        }
+
+        return code;
     }
 
     internal Order SetOrderAccepted(Guid paymentRequestId, string paymentRequestStatus)

@@ -55,6 +55,7 @@
         <div class="row" style="padding: 25px; text-align: center">
             <form method="post">
                 @Html.AntiForgeryToken()
+                <input type="hidden" name="model.TotalDiscountPercentage" class="total-discount" data-discount-total="@demoDiscountPercentage" value="@demoDiscountPercentage" />
                 <abp-button type="submit" size="Large" class="basket-purchase-button" text="@L[Model.ButtonDescription]" button-type="Warning"/>
             </form>
         </div>

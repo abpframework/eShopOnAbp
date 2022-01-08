@@ -1,6 +1,6 @@
-﻿using EShopOnAbp.PublicWeb.Basket;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using EShopOnAbp.PublicWeb.ServiceProviders;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.UI.Widgets;
 

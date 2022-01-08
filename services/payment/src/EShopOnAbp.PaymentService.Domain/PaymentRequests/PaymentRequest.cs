@@ -11,6 +11,7 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
     {
         [NotNull] public string Currency { get; protected set; }
         [NotNull] public string OrderId { get; protected set; }
+        public int OrderNo { get; protected set; }
         [CanBeNull] public string BuyerId { get; protected set; }
         public PaymentRequestState State { get; protected set; }
         [CanBeNull] public string FailReason { get; protected set; }
@@ -22,12 +23,14 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
 
         public PaymentRequest(Guid id,
             [NotNull] string orderId,
+            int orderNo,
             [NotNull] string currency,
             [CanBeNull] string buyerId = null) : base(id)
         {
             OrderId = Check.NotNullOrWhiteSpace(orderId, nameof(orderId), minLength: PaymentRequestConsts.MinOrderIdLength, maxLength: PaymentRequestConsts.MaxOrderIdLength);
             Currency = Check.NotNullOrWhiteSpace(currency, nameof(currency), maxLength: PaymentRequestConsts.MaxCurrencyLength);
             BuyerId = buyerId;
+            OrderNo = orderNo;
         }
 
         public virtual void SetAsCompleted()
@@ -44,6 +47,7 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
             {
                 PaymentRequestId = Id,
                 OrderId = OrderId,
+                OrderNo = OrderNo,
                 BuyerId = BuyerId,
                 Currency = Currency,
                 State = State,
@@ -66,6 +70,7 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
             {
                 PaymentRequestId = Id,
                 OrderId = OrderId,
+                OrderNo = OrderNo,
                 FailReason = failReason,
                 ExtraProperties = ExtraProperties
             });

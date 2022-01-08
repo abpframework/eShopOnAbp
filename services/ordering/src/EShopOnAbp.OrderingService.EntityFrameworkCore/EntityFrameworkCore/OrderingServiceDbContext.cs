@@ -1,5 +1,4 @@
 ﻿using System;
-using EShopOnAbp.OrderingService.Buyers;
 using EShopOnAbp.OrderingService.Orders;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Data;

@@ -25,6 +25,8 @@ namespace EShopOnAbp.PaymentService.EntityFrameworkCore
                     .Property(p => p.OrderId)
                     .IsRequired()
                     .HasMaxLength(PaymentRequestConsts.MaxOrderIdLength);
+
+                entity.Property(q => q.OrderNo).IsRequired();
                 
                 entity.HasIndex(o => o.OrderId);
             });

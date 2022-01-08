@@ -69,6 +69,9 @@ namespace EShopOnAbp.PaymentService.Migrations
                         .HasMaxLength(36)
                         .HasColumnType("character varying(36)");
 
+                    b.Property<int>("OrderNo")
+                        .HasColumnType("integer");
+
                     b.Property<int>("State")
                         .HasColumnType("integer");
 

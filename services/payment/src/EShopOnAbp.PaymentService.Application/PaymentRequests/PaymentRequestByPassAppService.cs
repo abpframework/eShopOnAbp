@@ -8,7 +8,11 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
     [ExposeServices(typeof(PaymentRequestByPassAppService))]
     public class PaymentRequestByPassAppService : PaymentRequestAppService
     {
-        public PaymentRequestByPassAppService(IPaymentRequestRepository paymentRequestRepository, PayPalHttpClient payPalHttpClient) : base(paymentRequestRepository, payPalHttpClient)
+        public PaymentRequestByPassAppService(
+            IPaymentRequestRepository paymentRequestRepository,
+            PayPalHttpClient payPalHttpClient)
+            : base(paymentRequestRepository,
+                payPalHttpClient)
         {
         }
 

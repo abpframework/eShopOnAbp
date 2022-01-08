@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using EShopOnAbp.OrderingService.Buyers;
 using EShopOnAbp.OrderingService.Localization;
+using EShopOnAbp.OrderingService.Orders.Specifications;
+using Microsoft.Extensions.Logging;
 using Volo.Abp.Application.Services;
+using Volo.Abp.Specifications;
 using Volo.Abp.Users;
 
 namespace EShopOnAbp.OrderingService.Orders;
@@ -15,7 +17,7 @@ public class OrderAppService : ApplicationService, IOrderAppService
 
     public OrderAppService(OrderManager orderManager,
         IOrderRepository orderRepository
-        )
+    )
     {
         _orderManager = orderManager;
         _orderRepository = orderRepository;
@@ -26,12 +28,23 @@ public class OrderAppService : ApplicationService, IOrderAppService
     public async Task<OrderDto> GetAsync(Guid id)
     {
         var order = await _orderRepository.GetAsync(id);
-        return await CreateOrderDtoMappingAsync(order);
+        return CreateOrderDtoMapping(order);
     }
 
-    public Task<OrderDto> GetByOrderNoAsync(int orderNo)
+    public async Task<List<OrderDto>> GetMyOrdersAsync(GetMyOrdersInput input)
     {
-        var order = await _orderRepository.get
+        ISpecification<Order> specification = SpecificationFactory.Create(input.Filter);
+        
+        var orders = await _orderRepository.GetOrdersByUserId(CurrentUser.GetId(), specification, true);
+        
+        return CreateOrderDtoMapping(orders);
+    }
+
+    public async Task<OrderDto> GetByOrderNoAsync(int orderNo)
+    {
+        var order = await _orderRepository.GetByOrderNoAsync(orderNo);
+        Logger.LogInformation($" Order recieved with order no:{orderNo}");
+        return CreateOrderDtoMapping(order);
     }
 
     public async Task<OrderDto> CreateAsync(OrderCreateDto input)
@@ -52,7 +65,7 @@ public class OrderAppService : ApplicationService, IOrderAppService
             addressDescription: input.Address.Description
         );
 
-        return await CreateOrderDtoMappingAsync(placedOrder);
+        return CreateOrderDtoMapping(placedOrder);
     }
 
     private List<(Guid productId, string productName, string productCode, decimal unitPrice, decimal discount, string
@@ -72,19 +85,31 @@ public class OrderAppService : ApplicationService, IOrderAppService
         return orderItems;
     }
 
-    private async Task<OrderDto> CreateOrderDtoMappingAsync(Order placedOrder)
+    private List<OrderDto> CreateOrderDtoMapping(List<Order> orders)
+    {
+        List<OrderDto> dtoList = new List<OrderDto>();
+        foreach (var order in orders)
+        {
+            dtoList.Add(CreateOrderDtoMapping(order));
+        }
+
+        return dtoList;
+    }
+
+    private OrderDto CreateOrderDtoMapping(Order order)
     {
         return new OrderDto()
         {
-            Address = ObjectMapper.Map<Address, OrderAddressDto>(placedOrder.Address),
-            Items = ObjectMapper.Map<List<OrderItem>, List<OrderItemDto>>(placedOrder.OrderItems),
-            Buyer = ObjectMapper.Map<Buyer, BuyerDto>(placedOrder.Buyer),
-            Id = placedOrder.Id,
-            OrderDate = placedOrder.OrderDate,
-            OrderStatus = placedOrder.OrderStatus.Name,
-            OrderStatusId = placedOrder.OrderStatus.Id,
-            PaymentType = placedOrder.PaymentType.Name,
-            PaymentTypeId = placedOrder.PaymentType.Id
+            Address = ObjectMapper.Map<Address, OrderAddressDto>(order.Address),
+            Items = ObjectMapper.Map<List<OrderItem>, List<OrderItemDto>>(order.OrderItems),
+            Buyer = ObjectMapper.Map<Buyer, BuyerDto>(order.Buyer),
+            Id = order.Id,
+            OrderNo = order.OrderNo,
+            OrderDate = order.OrderDate,
+            OrderStatus = order.OrderStatus.Name,
+            OrderStatusId = order.OrderStatus.Id,
+            PaymentType = order.PaymentType.Name,
+            PaymentTypeId = order.PaymentType.Id
         };
     }
 }

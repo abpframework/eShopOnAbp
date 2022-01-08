@@ -1,6 +1,6 @@
-﻿using EShopOnAbp.BasketService;
+﻿using System;
+using EShopOnAbp.BasketService;
 using EShopOnAbp.PaymentService.PaymentRequests;
-using EShopOnAbp.PublicWeb.Basket;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EShopOnAbp.OrderingService.Orders;
+using EShopOnAbp.PublicWeb.ServiceProviders;
 using Volo.Abp.AspNetCore.Mvc.UI.RazorPages;
 using Volo.Abp.Users;
 
@@ -46,18 +47,27 @@ public class PaymentModel : AbpPageModel
         Logger.LogInformation("Payment Proceeded...");
         Logger.LogInformation($"AddressId: {model.SelectedAddressId}");
         Logger.LogInformation($"PaymentId: {model.SelectedPaymentId}");
+        Logger.LogInformation($"Total Discount: {model.TotalDiscountPercentage}");
 
         var basket = await _userBasketProvider.GetBasketAsync();
+        var productItems = ObjectMapper.Map<List<BasketItemDto>, List<OrderItemCreateDto>>(basket.Items);
+
+        if (model.TotalDiscountPercentage != 0)
+        {
+            ApplyDiscountPercentageToBasketItems(productItems, model.TotalDiscountPercentage);
+        }
+
         var placedOrder = await _orderAppService.CreateAsync(new OrderCreateDto()
         {
             PaymentTypeId = 1, // Paypal
             Address = GetUserAddress(model.SelectedAddressId),
-            Products = ObjectMapper.Map<List<BasketItemDto>, List<OrderItemCreateDto>>(basket.Items)
+            Products = productItems
         });
 
         var paymentRequest = await _paymentRequestAppService.CreateAsync(new PaymentRequestCreationDto
         {
             OrderId = placedOrder.Id.ToString(),
+            OrderNo = placedOrder.OrderNo,
             BuyerId = CurrentUser.GetId().ToString(),
             Currency = EShopOnAbpPaymentConsts.Currency,
             Products = ObjectMapper.Map<List<BasketItemDto>, List<PaymentRequestProductCreationDto>>(basket.Items)
@@ -73,22 +83,31 @@ public class PaymentModel : AbpPageModel
         return Redirect(response.CheckoutLink);
     }
 
+    public class PaymentPageViewModel
+    {
+        public int SelectedAddressId { get; set; }
+        public int SelectedPaymentId { get; set; }
+        public decimal TotalDiscountPercentage { get; set; }
+    }
+
+    private void ApplyDiscountPercentageToBasketItems(List<OrderItemCreateDto> productItems, decimal discount)
+    {
+        for (int i = 0; i < productItems.Count; i++)
+        {
+            productItems[i].Discount = discount;
+        }
+    }
+
     private OrderAddressDto GetUserAddress(int selectedAddressId)
     {
         var address = _userAddressProvider.GetDemoAddresses().First(q => q.Id == selectedAddressId);
         return new OrderAddressDto
         {
+            Description = address.Type,
             City = address.City,
             Country = address.Country,
-            Description = address.Description,
             Street = address.Street,
             ZipCode = address.ZipCode
         };
-    }
-
-    public class PaymentPageViewModel
-    {
-        public int SelectedAddressId { get; set; }
-        public int SelectedPaymentId { get; set; }
     }
 }
