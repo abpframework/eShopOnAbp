@@ -18,7 +18,7 @@ namespace EShopOnAbp.PublicWeb
                 .ForMember(p => p.Quantity, opts => opts.MapFrom(p => p.Count));
 
             CreateMap<BasketItemDto, OrderItemCreateDto>()
-                .ForMember(p => p.UnitPrice, opts => opts.MapFrom(q => q.TotalPrice))
+                .ForMember(p => p.UnitPrice, opts => opts.MapFrom(q => q.TotalPrice / q.Count))
                 .ForMember(p => p.Units, opts => opts.MapFrom(q => q.Count))
                 .ForMember(p => p.PictureUrl, opts => opts.MapFrom(q => q.ImageName))
                 .Ignore(q => q.Discount);

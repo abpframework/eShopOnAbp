@@ -32,7 +32,7 @@
                     @foreach (var item in Model.Items)
                     {
                         string imageName = item.ImageName.IsNullOrEmpty() ? "/product-images/noimage.jpg" : $"/product-images/{item.ImageName}";
-                        var price = (item.TotalPrice * item.Count).ToString("0.00");
+                        var price = item.TotalPrice.ToString("0.00");
                         <div class="card basket-list-item" data-product-id="@item.ProductId">
                             <div class="card-body">
                                 <div class="flex-container horizontal">
@@ -48,7 +48,9 @@
                                                 <span>$@price</span>
                                             </div>
                                             <div class="flex-item description-cargo">
-                                                <span><i class="fa fa-truck"></i> @L["FreeCargo"]</span>
+                                                <span>
+                                                    <i class="fa fa-truck"></i> @L["FreeCargo"]
+                                                </span>
                                             </div>
                                         </div>
                                     </div>

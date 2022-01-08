@@ -2,8 +2,7 @@
 @using System.Globalization
 @model EShopOnAbp.PublicWeb.Pages.OrderReceivedModel
 @{
-    decimal orderTotal = 0;
-    Model.ReceivedOrder.Items.ForEach(q => orderTotal += q.Units * q.UnitPrice);
+    decimal orderTotal = Model.ReceivedOrder.Items.Sum(q => q.UnitPrice * q.Units);
     string orderTotalString = orderTotal.ToString("C", new CultureInfo("en-US")); // We work with USD any ways
     string orderNoString = Model.ReceivedOrder.OrderNo.ToString("N0", new NumberFormatInfo() {NumberGroupSeparator = " "});
 }
