@@ -10,7 +10,7 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
 {
     public class PaymentRequestAppService : PaymentServiceAppService, IPaymentRequestAppService
     {
-        private readonly PaymentServiceFactory _paymentServiceFactory;
+        private readonly PaymentMethodResolver _paymentMethodResolver;
         private readonly PaymentRequestDomainService _paymentRequestDomainService;
         protected IPaymentRequestRepository PaymentRequestRepository { get; }
         protected PayPalHttpClient PayPalHttpClient { get; }
@@ -18,12 +18,12 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
         public PaymentRequestAppService(
             IPaymentRequestRepository paymentRequestRepository,
             PayPalHttpClient payPalHttpClient,
-            PaymentServiceFactory paymentServiceFactory,
+            PaymentMethodResolver paymentMethodResolver,
             PaymentRequestDomainService paymentRequestDomainService)
         {
             PaymentRequestRepository = paymentRequestRepository;
             PayPalHttpClient = payPalHttpClient;
-            _paymentServiceFactory = paymentServiceFactory;
+            _paymentMethodResolver = paymentMethodResolver;
             _paymentRequestDomainService = paymentRequestDomainService;
         }
 
@@ -56,13 +56,13 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
             PaymentRequest paymentRequest =
                 await PaymentRequestRepository.GetAsync(input.PaymentRequestId, includeDetails: true);
 
-            var paymentService = _paymentServiceFactory.Create(input.PaymentTypeId);
+            var paymentService = _paymentMethodResolver.Resolve(input.PaymentTypeId);
             return await paymentService.StartAsync(paymentRequest, input);
         }
 
         public virtual async Task<PaymentRequestDto> CompleteAsync(PaymentRequestCompleteInputDto input)
         {
-            var paymentService = _paymentServiceFactory.Create(input.PaymentTypeId);
+            var paymentService = _paymentMethodResolver.Resolve(input.PaymentTypeId);
 
             var paymentRequest = await paymentService.CompleteAsync(PaymentRequestRepository, input.Token);
             return ObjectMapper.Map<PaymentRequest, PaymentRequestDto>(paymentRequest);

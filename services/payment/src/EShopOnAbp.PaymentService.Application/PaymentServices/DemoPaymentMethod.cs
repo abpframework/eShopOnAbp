@@ -5,9 +5,16 @@ using Volo.Abp.DependencyInjection;
 
 namespace EShopOnAbp.PaymentService.PaymentServices;
 
-[ExposeServices(typeof(IPaymentStrategy), typeof(DemoService))]
-public class DemoService : IPaymentStrategy
+[ExposeServices(typeof(IPaymentMethod), typeof(DemoPaymentMethod))]
+public class DemoPaymentMethod : IPaymentMethod
 {
+    public int PaymentTypeId { get; }
+
+    public DemoPaymentMethod()
+    {
+        PaymentTypeId = 0;
+    }
+
     public Task<PaymentRequestStartResultDto> StartAsync(PaymentRequest paymentRequest, PaymentRequestStartDto input)
     {
         return Task.FromResult(new PaymentRequestStartResultDto

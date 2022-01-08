@@ -10,16 +10,18 @@ using Volo.Abp.DependencyInjection;
 
 namespace EShopOnAbp.PaymentService.PaymentServices;
 
-[ExposeServices(typeof(IPaymentStrategy), typeof(PaypalService))]
-public class PaypalService : IPaymentStrategy
+[ExposeServices(typeof(IPaymentMethod), typeof(PaypalMethod))]
+public class PaypalMethod : IPaymentMethod
 {
     private readonly PayPalHttpClient _payPalHttpClient;
     private readonly PaymentRequestDomainService _paymentRequestDomainService;
+    public int PaymentTypeId { get; }
 
-    public PaypalService(PayPalHttpClient payPalHttpClient, PaymentRequestDomainService paymentRequestDomainService)
+    public PaypalMethod(PayPalHttpClient payPalHttpClient, PaymentRequestDomainService paymentRequestDomainService)
     {
         _payPalHttpClient = payPalHttpClient;
         _paymentRequestDomainService = paymentRequestDomainService;
+        PaymentTypeId = 1;
     }
 
     public async Task<PaymentRequestStartResultDto> StartAsync(PaymentRequest paymentRequest,

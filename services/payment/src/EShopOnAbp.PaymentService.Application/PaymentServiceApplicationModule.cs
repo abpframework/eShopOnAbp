@@ -8,6 +8,7 @@ using PayPalCheckoutSdk.Core;
 using System;
 using EShopOnAbp.PaymentService.PaymentRequests;
 using EShopOnAbp.PaymentService.PaymentServices;
+using Microsoft.Extensions.Logging;
 
 namespace EShopOnAbp.PaymentService
 {
@@ -16,7 +17,7 @@ namespace EShopOnAbp.PaymentService
         typeof(PaymentServiceApplicationContractsModule),
         typeof(AbpDddApplicationModule),
         typeof(AbpAutoMapperModule)
-        )]
+    )]
     public class PaymentServiceApplicationModule : AbpModule
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
@@ -40,6 +41,11 @@ namespace EShopOnAbp.PaymentService
 
                 return new PayPalHttpClient(new LiveEnvironment(options.ClientId, options.Secret));
             });
+
+            context.Services.AddTransient<PaymentMethodResolver>(provider => new PaymentMethodResolver(
+                provider.GetServices<IPaymentMethod>(),
+                provider.GetRequiredService<ILogger<PaymentMethodResolver>>()
+            ));
         }
     }
 }
