@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using Volo.Abp;
 using Volo.Abp.Domain.Values;
 
 namespace EShopOnAbp.OrderingService.Orders;
 
-public class Buyer: ValueObject
+public class Buyer : ValueObject
 {
     public Guid? Id { get; private set; }
     public string Name { get; private set; }
@@ -13,15 +14,15 @@ public class Buyer: ValueObject
 
     private Buyer()
     {
-        
     }
 
-    public Buyer(string email, string name, Guid? id)
+    public Buyer(string email, [CanBeNull] string name, Guid? id)
     {
-        Name = Check.NotNullOrEmpty(name, nameof(name));
         Email = Check.NotNullOrEmpty(email, nameof(email));
+        Name = name;
         Id = id;
     }
+
     protected override IEnumerable<object> GetAtomicValues()
     {
         yield return Id;
