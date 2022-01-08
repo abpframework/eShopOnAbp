@@ -1,7 +1,7 @@
 ﻿@page
 @using EShopOnAbp.Localization
 @using Microsoft.Extensions.Localization
-@using System.Globalization
+@using EShopOnAbp.PublicWeb.Components.UserOrders
 @model EShopOnAbp.PublicWeb.Pages.MyOrdersModel
 
 @inject IStringLocalizer<EShopOnAbpResource> L
@@ -18,124 +18,26 @@
 
 @{
     string lastYearString = $"y{DateTime.Today.Year - 1}";
+    string filter = "";
+    var selectList = new List<SelectListItem>
+    {
+        new(@L["Last30Days"], "last30", selected: true),
+        new(@L["LastMonth"], "m1"),
+        new(@L["Last3Months"], "m3"),
+        new(@L["LastYear"], lastYearString),
+        new("2020", "y2020"),
+        new("2019", "y2019")
+    };
 }
 
-<div class="mb-5 mt-5 col">
+<div class="mt-5 col">
     <abp-row>
-        <abp-column size="_9"><span class="order-title"><strong>@Model.MyOrders.Count sipariş</strong> verildi.</span></abp-column>
-        <abp-column size="_3">
-            <select class="form-select" id="date-filter-selecter">
-                        <option value="last30">@L["Last30Days"]</option>
-                        <option value="m1">@L["LastMonth"]</option>
-                        <option value="m3">@L["Last3Months"]</option>
-                        <option value="@lastYearString">@L["LastYear"]</option>
-                        <option value="y2020">2020</option>
-                        <option value="y2019">2019</option>
-                    </select>
+        <abp-column offset="_9" size="_3">
+            <abp-select suppress-label="true" asp-for="OrderFilter" asp-items="selectList"></abp-select>
         </abp-column>
     </abp-row>
 </div>
 
-@foreach (var order in Model.MyOrders)
-{
-    var orderTotalString = order.Items.Sum(q => q.UnitPrice).ToString("C", new CultureInfo("en-US"));
-    string addressString = $"{order.Address.Street} {order.Address.ZipCode} \n {order.Address.City}/{order.Address.Country}";
-    <div class="card">
-        <div class="card-header">
-            <div class="row">
-                <div class="col">
-                    <div class="o-header">Sipariş Tarihi</div>
-                    <div class="o-description">@order.OrderDate.ToString("dd MMMM yyyy")</div>
-                </div>
-                <div class="col">
-                    <div class="o-header">Toplam</div>
-                    <div class="o-description">@orderTotalString</div>
-                </div>
-                <div class="col">
-                    <div class="o-header">Teslimat Adresi</div>
-                    <div>
-                        <abp-button abp-tooltip-bottom="@addressString">@order.Address.Description</abp-button>
-                    </div>
-                </div>
-                <div class="col">
-                    <div>
-                        <span class="o-header">Sipariş No</span> <span class="o-order-no">@order.OrderNo.ToString("N0", new NumberFormatInfo() {NumberGroupSeparator = " "})</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card-body">
-            @foreach (var item in order.Items)
-            {
-                <abp-card class="order-item m-3">
-                    <abp-card-body>
-                        <div class="row m-3">
-                            <h3>@order.OrderStatus</h3>
-                        </div>
-                        <abp-row>
-                            <abp-column size="_2">
-                                <img class="img-size" src="/product-images/@item.PictureUrl"/>
-                            </abp-column>
-                            <abp-column size-lg="_4">
-                                <div>@item.ProductName</div>
-                                <div>Ürünü iade edebileceğiniz son tarih: @order.OrderDate.AddMonths(1).ToString("dd MMMM yyyy")</div>
-                                <div class="mt-3">
-                                    <abp-button icon="fas fa-cart-plus" class="btn btn-warning buy-again" text="Tekrar Satın Alın" data-product-id="@item.ProductId"></abp-button>
-                                </div>
-                            </abp-column>
-                            <abp-column offset="_3" size="_2">
-                                <abp-row class="pb-3">
-                                    <abp-button class="btn btn-light shadow" disabled="true" abp-tooltip-right="Not available yet">Ürünleri iade et</abp-button>
-                                </abp-row>
-                                <abp-row>
-                                    <abp-button class="btn btn-light shadow" disabled="true" abp-tooltip-right="Not available yet">Ürün yorumu yazın</abp-button>
-                                </abp-row>
-                            </abp-column>
-                        </abp-row>
-                    </abp-card-body>
-                </abp-card>
-            }
-        </div>
-    </div>
-    <hr/>
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-@* @foreach (var item in Model.MyOrders) *@
-@* { *@
-@*     <abp-card> *@
-@*         <abp-card-body> *@
-@*             <h5>@item.OrderDate</h5> *@
-@*             <p>@item.OrderStatus</p> *@
-@*             <p>@item.Buyer.Name</p> *@
-@*             <abp-row> *@
-@*                 @foreach (var product in item.Items) *@
-@*                 { *@
-@*                     <abp-column> *@
-@*                         <abp-card> *@
-@*                             <abp-card-title> *@
-@*                                 <img style="width: 200px" src="/product-images/@product.PictureUrl"/> *@
-@*                             </abp-card-title> *@
-@*                             <abp-card-body> *@
-@*                                 <p>@product.ProductName x @product.Units</p> *@
-@*                             </abp-card-body> *@
-@*                         </abp-card> *@
-@*                     </abp-column> *@
-@*                 } *@
-@*             </abp-row> *@
-@*         </abp-card-body> *@
-@*     </abp-card> *@
-@*     <hr/> *@
-@* } *@
+<div id="UserOrdersArea" class="pt-5">
+    @await Component.InvokeAsync(typeof(UserOrderWidgetViewComponent), new {Filter = Model.OrderFilter})
+</div>

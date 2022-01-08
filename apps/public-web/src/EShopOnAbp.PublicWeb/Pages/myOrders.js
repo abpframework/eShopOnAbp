@@ -16,15 +16,11 @@
             });
         });
 
-        $('#date-filter-selecter').on("change", el => {
+        $('#OrderFilter').on("change", el => {
             const filter = el.target.value;
-            console.log(filter);
-            eShopOnAbp.orderingService.orders.order.getMyOrders({
-                filter: filter
-            }).then(res => {
-                console.log(res);
-            });
-        })
+            location.href=`?filter=${filter}`
+        });
+        $('#total-orders').val($('#total-order-count').val());
 
     });
 })();
