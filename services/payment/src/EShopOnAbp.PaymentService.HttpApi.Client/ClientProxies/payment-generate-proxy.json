@@ -14,33 +14,33 @@
             }
           ],
           "actions": {
-            "CompleteAsyncByToken": {
-              "uniqueName": "CompleteAsyncByToken",
+            "CompleteAsyncByInput": {
+              "uniqueName": "CompleteAsyncByInput",
               "name": "CompleteAsync",
               "httpMethod": "POST",
               "url": "api/payment/requests/complete",
               "supportedVersions": [],
               "parametersOnMethod": [
                 {
-                  "name": "token",
-                  "typeAsString": "System.String, System.Private.CoreLib",
-                  "type": "System.String",
-                  "typeSimple": "string",
+                  "name": "input",
+                  "typeAsString": "EShopOnAbp.PaymentService.PaymentRequests.PaymentRequestCompleteInputDto, EShopOnAbp.PaymentService.Application.Contracts",
+                  "type": "EShopOnAbp.PaymentService.PaymentRequests.PaymentRequestCompleteInputDto",
+                  "typeSimple": "EShopOnAbp.PaymentService.PaymentRequests.PaymentRequestCompleteInputDto",
                   "isOptional": false,
                   "defaultValue": null
                 }
               ],
               "parameters": [
                 {
-                  "nameOnMethod": "token",
-                  "name": "token",
+                  "nameOnMethod": "input",
+                  "name": "input",
                   "jsonName": null,
-                  "type": "System.String",
-                  "typeSimple": "string",
+                  "type": "EShopOnAbp.PaymentService.PaymentRequests.PaymentRequestCompleteInputDto",
+                  "typeSimple": "EShopOnAbp.PaymentService.PaymentRequests.PaymentRequestCompleteInputDto",
                   "isOptional": false,
                   "defaultValue": null,
                   "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
+                  "bindingSourceId": "Body",
                   "descriptorName": ""
                 }
               ],

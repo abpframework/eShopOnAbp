@@ -20,9 +20,9 @@ namespace EShopOnAbp.PaymentService.Controllers
         }
 
         [HttpPost("complete")]
-        public Task<PaymentRequestDto> CompleteAsync(string token)
+        public Task<PaymentRequestDto> CompleteAsync(PaymentRequestCompleteInputDto input)
         {
-            return PaymentRequestAppService.CompleteAsync(token);
+            return PaymentRequestAppService.CompleteAsync(input);
         }
 
         [HttpPost]

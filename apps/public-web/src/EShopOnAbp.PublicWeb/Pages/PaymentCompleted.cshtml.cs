@@ -24,12 +24,23 @@ public class PaymentCompletedModel : AbpPageModel
 
     public async Task<IActionResult> OnGetAsync()
     {
-        PaymentRequest = await _paymentRequestAppService.CompleteAsync(Token);
+        int selectedPaymentId = 0;
+        if (HttpContext.Request.Cookies.TryGetValue(EShopOnAbpPaymentConsts.PaymentIdCookie,
+                out var selectedPaymentIdString))
+        {
+            selectedPaymentId = string.IsNullOrEmpty(selectedPaymentIdString) ? 0 : int.Parse(selectedPaymentIdString);
+        }
+
+        PaymentRequest = await _paymentRequestAppService.CompleteAsync(
+            new PaymentRequestCompleteInputDto() {Token = Token, PaymentTypeId = selectedPaymentId});
 
         IsSuccessful = PaymentRequest.State == PaymentRequestState.Completed;
+        
         if (IsSuccessful)
         {
-            return RedirectToPage("OrderReceived", new { orderNo = PaymentRequest.OrderNo });    
+            // Remove cookie so that can be set again when default payment type is set
+            HttpContext.Response.Cookies.Delete(EShopOnAbpPaymentConsts.PaymentIdCookie);
+            return RedirectToPage("OrderReceived", new {orderNo = PaymentRequest.OrderNo});
         }
 
         return Page();

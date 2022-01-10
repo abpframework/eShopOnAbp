@@ -1,4 +1,4 @@
-﻿namespace EShopOnAbp.PaymentService.PayPal
+﻿namespace EShopOnAbp.PaymentService
 {
     public static class PayPalConsts
     {

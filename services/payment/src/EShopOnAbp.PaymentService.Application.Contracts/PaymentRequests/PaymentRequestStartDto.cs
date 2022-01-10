@@ -6,6 +6,7 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
     [Serializable]
     public class PaymentRequestStartDto
     {
+        public int PaymentTypeId { get; set; }
         public Guid PaymentRequestId { get; set; }
 
         [Required]
