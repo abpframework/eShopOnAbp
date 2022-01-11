@@ -23,6 +23,8 @@
     "RemoveFromBasket": "Remove from basket",
     "CompletePurchase": "Complete purchase",
     "CompleteOrder": "Complete order",
-    "Index:AddToBasket": "Add to basket"
+    "Index:AddToBasket": "Add to basket",
+    "Payment:SelectAddress": "Select Address",
+    "Payment:SelectPaymentMethod": "Select Payment Method"
   }
 }

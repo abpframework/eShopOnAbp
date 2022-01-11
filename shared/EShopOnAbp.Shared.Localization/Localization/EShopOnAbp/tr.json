@@ -23,6 +23,8 @@
     "RemoveFromBasket": "Sepetten kaldır",
     "CompletePurchase": "Alışverişi tamamla",
     "CompleteOrder": "Siparişi onayla",
-    "Index:AddToBasket": "Sepete ekle"
+    "Index:AddToBasket": "Sepete ekle",
+    "Payment:SelectAddress": "Adres Seçin",
+    "Payment:SelectPaymentMethod": "Ödeme Şeklini Seçin"
   }
 }
