@@ -36,6 +36,12 @@
     "MyOrders:Last30Days": "Last 30 days",
     "MyOrders:LastMonth": "Last month",
     "MyOrders:Last3Months": "Last 3 months",
-    "MyOrders:LastYear": "Last year"
+    "MyOrders:LastYear": "Last year",
+    "UserOrders:TotalOrderCount": "Total order count:",
+    "UserOrders:OrderDate": "Order Date",
+    "UserOrders:BuyAgain": "Buy Again",
+    "UserOrders:ProductReturnDate": "Last date for product return:",
+    "UserOrders:ReturnProducts": "Return products",
+    "UserOrders:AddReview": "Add product review"
   }
 }
