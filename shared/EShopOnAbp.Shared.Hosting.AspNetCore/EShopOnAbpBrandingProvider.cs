@@ -1,10 +1,10 @@
 ﻿using Volo.Abp.DependencyInjection;
 using Volo.Abp.Ui.Branding;
 
-namespace EShopOnAbp.AuthServer
+namespace EShopOnAbp.Shared.Hosting.AspNetCore
 {
     [Dependency(ReplaceServices = true)]
-    public class EShopOnAbpAuthServerBrandingProvider : DefaultBrandingProvider
+    public class EShopOnAbpBrandingProvider : DefaultBrandingProvider
     {
         public override string AppName => "EShopOnAbp";
     }
