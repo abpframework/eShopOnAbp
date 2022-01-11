@@ -83,6 +83,7 @@ namespace EShopOnAbp.IdentityService.DbMigrations
                 "role"
             };
 
+            await CreateApiResourceAsync("AuthServer", commonApiUserClaims);
             await CreateApiResourceAsync("IdentityService", commonApiUserClaims);
             await CreateApiResourceAsync("AdministrationService", commonApiUserClaims);
             await CreateApiResourceAsync("CatalogService", commonApiUserClaims);
@@ -93,6 +94,7 @@ namespace EShopOnAbp.IdentityService.DbMigrations
 
         private async Task CreateApiScopesAsync()
         {
+            await CreateApiScopeAsync("AuthServer");
             await CreateApiScopeAsync("IdentityService");
             await CreateApiScopeAsync("AdministrationService");
             await CreateApiScopeAsync("CatalogService");
@@ -103,6 +105,9 @@ namespace EShopOnAbp.IdentityService.DbMigrations
 
         private async Task CreateSwaggerClientsAsync()
         {
+            await CreateSwaggerClientAsync("AuthServer",
+                new[] { "AuthServer"});
+
             await CreateSwaggerClientAsync("IdentityService",
                 new[] { "IdentityService"});
 
@@ -216,6 +221,7 @@ namespace EShopOnAbp.IdentityService.DbMigrations
                 name: "PublicWeb",
                 scopes: commonScopes.Union(new[]
                 {
+                    "AuthServer",
                     "AdministrationService",
                     "CatalogService",
                     "BasketService",
@@ -237,6 +243,7 @@ namespace EShopOnAbp.IdentityService.DbMigrations
                 name: "Web",
                 scopes: commonScopes.Union(new[]
                 {
+                    "AuthServer",
                     "IdentityService",
                     "AdministrationService"
                 }),

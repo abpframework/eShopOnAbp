@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Volo.Abp.Account;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Identity;
 using Volo.Abp.Modularity;
@@ -9,7 +8,6 @@ namespace EShopOnAbp.IdentityService
     [DependsOn(
         typeof(IdentityServiceDomainModule),
         typeof(IdentityServiceApplicationContractsModule),
-        typeof(AbpAccountApplicationModule),
         typeof(AbpIdentityApplicationModule)
         )]
     public class IdentityServiceApplicationModule : AbpModule
