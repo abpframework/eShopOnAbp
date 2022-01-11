@@ -19,6 +19,7 @@ using Microsoft.Extensions.Configuration;
 using Volo.Abp;
 using Volo.Abp.Account;
 using Volo.Abp.Account.Web;
+using Volo.Abp.AspNetCore.Authentication.JwtBearer;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
 using Volo.Abp.Auditing;
@@ -37,10 +38,12 @@ namespace EShopOnAbp.AuthServer
 {
     [DependsOn(
         typeof(AbpCachingStackExchangeRedisModule),
+        typeof(AbpAspNetCoreAuthenticationJwtBearerModule),
         typeof(AbpEventBusRabbitMqModule),
         typeof(AbpBackgroundJobsRabbitMqModule),
         typeof(AbpAspNetCoreMvcUiBasicThemeModule),
         typeof(AbpAccountWebIdentityServerModule),
+        typeof(AbpAccountHttpApiModule),
         typeof(AbpAccountApplicationModule),
         typeof(EShopOnAbpSharedHostingAspNetCoreModule),
         typeof(EShopOnAbpSharedLocalizationModule),
@@ -89,6 +92,14 @@ namespace EShopOnAbp.AuthServer
             var hostingEnvironment = context.Services.GetHostingEnvironment();
             var configuration = context.Services.GetConfiguration();
             
+            context.Services.AddAuthentication()
+                .AddJwtBearer(options =>
+                {
+                    options.Authority = configuration["AuthServer:Authority"];
+                    options.RequireHttpsMetadata = Convert.ToBoolean(configuration["AuthServer:RequireHttpsMetadata"]);
+                    options.Audience = "AuthServer";
+                });
+
             Configure<IdentityServerOptions>(options =>
             {
                 options.IssuerUri = configuration["App:SelfUrl"];
@@ -199,6 +210,7 @@ namespace EShopOnAbp.AuthServer
             app.UseCors();
             // app.UseHttpMetrics();
             app.UseAuthentication();
+            app.UseJwtTokenMiddleware();
             app.UseAbpSerilogEnrichers();
             app.UseUnitOfWork();
             app.UseIdentityServer();

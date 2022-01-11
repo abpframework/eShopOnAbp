@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Volo.Abp;
-using Volo.Abp.Account;
 using Volo.Abp.AspNetCore.Mvc.UI.MultiTenancy;
 using Volo.Abp.Http.Client.IdentityModel.Web;
 using Volo.Abp.Identity;
@@ -24,7 +23,6 @@ namespace EShopOnAbp.AdministrationService
         typeof(AdministrationServiceApplicationModule),
         typeof(AdministrationServiceEntityFrameworkCoreModule),
         typeof(EShopOnAbpSharedHostingMicroservicesModule),
-        typeof(AbpAccountApplicationContractsModule),
         typeof(AbpHttpClientIdentityModelWebModule),
         typeof(AbpAspNetCoreMvcUiMultiTenancyModule),
         typeof(AbpIdentityHttpApiClientModule)

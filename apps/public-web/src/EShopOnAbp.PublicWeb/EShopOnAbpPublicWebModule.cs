@@ -43,7 +43,6 @@ namespace EShopOnAbp.PublicWeb
         typeof(AbpAspNetCoreAuthenticationOpenIdConnectModule),
         typeof(AbpHttpClientIdentityModelWebModule),
         typeof(AbpAspNetCoreMvcUiBasicThemeModule),
-        typeof(AbpAccountHttpApiModule),
         typeof(AbpAccountHttpApiClientModule),
         typeof(EShopOnAbpSharedHostingAspNetCoreModule),
         typeof(EShopOnAbpSharedLocalizationModule),
@@ -123,6 +122,7 @@ namespace EShopOnAbp.PublicWeb
                     options.Scope.Add("role");
                     options.Scope.Add("email");
                     options.Scope.Add("phone");
+                    options.Scope.Add("AuthServer");
                     options.Scope.Add("AdministrationService");
                     options.Scope.Add("BasketService");
                     options.Scope.Add("CatalogService");
