@@ -28,3 +28,22 @@
 .product-info-box {
     min-height: 80px;
 }
+
+.add-basket-button {
+    display: none;
+    font-weight: 500;
+}
+
+.product-list-item:hover .add-basket-button {
+    display: inline-block;
+}
+
+.product-list-item:hover .info-section {
+    display: none;
+}
+
+.product-price {
+    font-weight: bolder;
+    font-size: larger;
+    line-height: 40px;
+}

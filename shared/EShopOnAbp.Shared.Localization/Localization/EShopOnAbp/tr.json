@@ -22,6 +22,7 @@
     "StockCount": "Stokta",
     "RemoveFromBasket": "Sepetten kaldır",
     "CompletePurchase": "Alışverişi tamamla",
-    "CompleteOrder": "Siparişi onayla"
+    "CompleteOrder": "Siparişi onayla",
+    "Index:AddToBasket": "Sepete ekle"
   }
 }

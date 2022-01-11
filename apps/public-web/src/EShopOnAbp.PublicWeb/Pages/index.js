@@ -6,7 +6,7 @@
     }
 
     $(function () {
-        $('.product-list-item').click(function () {
+        $('.add-basket-button').click(function () {
             var $this = $(this);
             var productId = $this.attr('data-product-id');
             eShopOnAbp.basketService.basket.addProduct({
