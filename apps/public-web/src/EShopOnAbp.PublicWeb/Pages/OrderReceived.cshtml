@@ -1,6 +1,9 @@
 ﻿@page "{orderNo:int}"
 @using System.Globalization
+@using EShopOnAbp.Localization
+@using Microsoft.Extensions.Localization
 @model EShopOnAbp.PublicWeb.Pages.OrderReceivedModel
+@inject IStringLocalizer<EShopOnAbpResource> L
 @{
     decimal orderTotal = Model.ReceivedOrder.Items.Sum(q => q.UnitPrice * q.Units);
     string orderTotalString = orderTotal.ToString("C", new CultureInfo("en-US")); // We work with USD any ways
@@ -23,21 +26,23 @@
                 </abp-column>
                 <abp-column>
                     <div>
-                        <h4>Sipariş alındı!</h4>
-                        <p>Siparişiniz ile ilgili detaylar <strong>@Model.ReceivedOrder.Buyer.Email</strong> adresine gönderildi. <a href="/MyOrders">Siparişlerime git</a></p>
+                        <h4>@L["OrderReceived:AcceptedOrder"]</h4>
+                        <p>
+                            @L["OrderReceived:MailSentTo"] <strong>@Model.ReceivedOrder.Buyer.Email</strong> @L["OrderReceived:MailSentToEnd"] <a href="/MyOrders">@L["OrderReceived:LinkToMyOrders"]</a>
+                        </p>
                     </div>
                 </abp-column>
 
             </abp-row>
             <abp-row>
                 <abp-column>
-                    <div class="ro-title">Sipariş Numarası</div>
+                    <div class="ro-title">@L["OrderReceived:OrderNo"]</div>
                     <div class="ro-body ro-ono">
                         @orderNoString
                     </div>
                 </abp-column>
                 <abp-column>
-                    <div class="ro-title">Teslimat Adresi</div>
+                    <div class="ro-title">@L["OrderReceived:DeliveryAddress"]</div>
                     <div class="ro-body ro-large">
                         @Model.ReceivedOrder.Address.Description
                     </div>
@@ -45,7 +50,7 @@
                     <div>@Model.ReceivedOrder.Address.City / @Model.ReceivedOrder.Address.Country</div>
                 </abp-column>
                 <abp-column>
-                    <div class="ro-title">Ödenen Tutar</div>
+                    <div class="ro-title">@L["OrderReceived:PaidTotal"]</div>
                     <div class="ro-body ro-large">@orderTotalString</div>
                     <div class="pt-2">
                         <i class="fa fa-5x @paymentIcon" style="color:indigo"></i>
