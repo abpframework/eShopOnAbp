@@ -32,6 +32,10 @@
     "OrderReceived:LinkToMyOrders": "Go to my orders.",
     "OrderReceived:OrderNo": "Order No",
     "OrderReceived:DeliveryAddress": "Delivery Address",
-    "OrderReceived:PaidTotal": "Paid Total"
+    "OrderReceived:PaidTotal": "Paid Total",
+    "MyOrders:Last30Days": "Last 30 days",
+    "MyOrders:LastMonth": "Last month",
+    "MyOrders:Last3Months": "Last 3 months",
+    "MyOrders:LastYear": "Last year"
   }
 }

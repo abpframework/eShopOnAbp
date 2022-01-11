@@ -19,15 +19,20 @@
 @{
     string lastYearString = $"y{DateTime.Today.Year - 1}";
     string filter = "";
+    int lastYearCounter = 2;
     var selectList = new List<SelectListItem>
     {
-        new(@L["Last30Days"], "last30", selected: true),
-        new(@L["LastMonth"], "m1"),
-        new(@L["Last3Months"], "m3"),
-        new(@L["LastYear"], lastYearString),
-        new("2020", "y2020"),
-        new("2019", "y2019")
+        new(@L["MyOrders:Last30Days"], "last30", selected: true),
+        new(@L["MyOrders:LastMonth"], "m1"),
+        new(@L["MyOrders:Last3Months"], "m3"),
+        new(@L["MyOrders:LastYear"], lastYearString)
     };
+    for (int i = 0; i < lastYearCounter; i++)
+    {
+        selectList.Add(
+            new((DateTime.Today.Year - 2 - i).ToString(), $"y{DateTime.Today.Year - 2 - i}")
+            );
+    }
 }
 
 <div class="mt-5 col">

@@ -32,6 +32,10 @@
     "OrderReceived:LinkToMyOrders": "Siparişlerime git.",
     "OrderReceived:OrderNo": "Sipariş Numarası",
     "OrderReceived:DeliveryAddress": "Teslimat Adresi",
-    "OrderReceived:PaidTotal": "Ödenen Tutar"
+    "OrderReceived:PaidTotal": "Ödenen Tutar",
+    "MyOrders:Last30Days": "Son 30 gün",
+    "MyOrders:LastMonth": "Geçen ay",
+    "MyOrders:Last3Months": "Son 3 ay",
+    "MyOrders:LastYear": "Geçen yıl"
   }
 }
