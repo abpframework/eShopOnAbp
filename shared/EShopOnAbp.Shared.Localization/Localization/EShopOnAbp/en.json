@@ -25,6 +25,13 @@
     "CompleteOrder": "Complete order",
     "Index:AddToBasket": "Add to basket",
     "Payment:SelectAddress": "Select Address",
-    "Payment:SelectPaymentMethod": "Select Payment Method"
+    "Payment:SelectPaymentMethod": "Select Payment Method",
+    "OrderReceived:AcceptedOrder": "Your order is received!",
+    "OrderReceived:MailSentTo": "Your order details have been sent to ",
+    "OrderReceived:MailSentToEnd": " email address.",
+    "OrderReceived:LinkToMyOrders": "Go to my orders.",
+    "OrderReceived:OrderNo": "Order No",
+    "OrderReceived:DeliveryAddress": "Delivery Address",
+    "OrderReceived:PaidTotal": "Paid Total"
   }
 }

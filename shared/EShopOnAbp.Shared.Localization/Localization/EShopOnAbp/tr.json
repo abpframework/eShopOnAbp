@@ -25,6 +25,13 @@
     "CompleteOrder": "Siparişi onayla",
     "Index:AddToBasket": "Sepete ekle",
     "Payment:SelectAddress": "Adres Seçin",
-    "Payment:SelectPaymentMethod": "Ödeme Şeklini Seçin"
+    "Payment:SelectPaymentMethod": "Ödeme Şeklini Seçin",
+    "OrderReceived:AcceptedOrder": "Siparişiniz alındı!",
+    "OrderReceived:MailSentTo": "Siparişiniz ile ilgili detaylar ",
+    "OrderReceived:MailSentToEnd": " email adresine gönderildi.",
+    "OrderReceived:LinkToMyOrders": "Siparişlerime git.",
+    "OrderReceived:OrderNo": "Sipariş Numarası",
+    "OrderReceived:DeliveryAddress": "Teslimat Adresi",
+    "OrderReceived:PaidTotal": "Ödenen Tutar"
   }
 }
