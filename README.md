@@ -26,7 +26,7 @@ You can either run in Visual Studio, or using [Microsoft Tye](https://github.com
 
 - Install Tye (*follow [these steps](https://github.com/dotnet/tye/blob/main/docs/getting_started.md#installing-tye)*)
 
-- Rename `.env.example` file to `.env` file and provide PayPal ClientID and Secret. If you want to bypass paypal sandbox implementation, uncomment [paypal bypass configuration](https://github.com/abpframework/eShopOnAbp/blob/main/services/payment/src/EShopOnAbp.PaymentService.HttpApi.Host/PaymentServiceHttpApiHostModule.cs#L36).
+- Rename `.env.example` file to `.env` file and provide PayPal ClientID and Secret.
 
 - Execute `run-tye.ps1`
 
