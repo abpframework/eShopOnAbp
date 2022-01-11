@@ -22,6 +22,7 @@
     "StockCount": "Stock Count",
     "RemoveFromBasket": "Remove from basket",
     "CompletePurchase": "Complete purchase",
-    "CompleteOrder": "Complete order"
+    "CompleteOrder": "Complete order",
+    "Index:AddToBasket": "Add to basket"
   }
 }

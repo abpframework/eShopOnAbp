@@ -15,11 +15,11 @@ namespace EShopOnAbp.PaymentService.Controllers.ClientProxies
     [ExposeServices(typeof(IPaymentRequestAppService), typeof(PaymentRequestClientProxy))]
     public partial class PaymentRequestClientProxy : ClientProxyBase<IPaymentRequestAppService>, IPaymentRequestAppService
     {
-        public virtual async Task<PaymentRequestDto> CompleteAsync(string token)
+        public virtual async Task<PaymentRequestDto> CompleteAsync(PaymentRequestCompleteInputDto input)
         {
             return await RequestAsync<PaymentRequestDto>(nameof(CompleteAsync), new ClientProxyRequestTypeValue
             {
-                { typeof(string), token }
+                { typeof(PaymentRequestCompleteInputDto), input }
             });
         }
 

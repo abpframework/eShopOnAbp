@@ -9,7 +9,7 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
 
         Task<PaymentRequestStartResultDto> StartAsync(PaymentRequestStartDto input);
 
-        Task<PaymentRequestDto> CompleteAsync(string token);
+        Task<PaymentRequestDto> CompleteAsync(PaymentRequestCompleteInputDto input);
 
         Task<bool> HandleWebhookAsync(string payload);
     }

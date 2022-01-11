@@ -26,8 +26,7 @@ public class UserAddressProvider : ITransientDependency
                 Street = "Yeşilköy Serbest Bölge Mah. E-Blok Sk. Bakırköy",
                 City = "İstanbul",
                 Country = "Turkey",
-                ZipCode = "34149",
-                Description = "Near Ataturk Airport"
+                ZipCode = "34149"
             }
         };
     }
@@ -38,7 +37,6 @@ public class AddressDto
     public int Id { get; set; }
     public string Type { get; set; }
     public bool IsDefault { get; set; } = false;
-    public string Description { get; set; }
     public string Street { get; set; }
     public string City { get; set; }
     public string Country { get; set; }

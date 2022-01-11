@@ -12,40 +12,47 @@
 <div class="row">
     <div class="col-lg-9">
         <div class="address-list p-5">
-            <h3>Select Address</h3>
-            @for (int i = 0; i < Math.Ceiling(Model.Address.Count / (double) defaultColumnSize); i++)
-            {
-                <abp-row>
-                    @for (int j = 0; j < defaultColumnSize; j++)
-                    {
-                        <abp-column size-lg="_3" size-md="_4" size-sm="_6">
-                            @if (i * defaultColumnSize + j < Model.Address.Count)
-                            {
-                                var address = Model.Address[(i * defaultColumnSize) + j];
-                                string isSelected = address.IsDefault ? "is-selected" : string.Empty;
-                                <div class="card @isSelected" data-address-id="@address.Id">
-                                    <div class="card-header"><h4>@address.Type</h4></div>
-                                    <div class="card-body">
-                                        <p class="card-text">@address.ToString()</p>
-                                    </div>
-                                    <div class="card-footer">@address.Description</div>
-                                </div>
-                            }
-                        </abp-column>
-                    }
-                </abp-row>
-            }
+            <h5>Select Address</h5>
+            <abp-row>
+                @foreach (var address in Model.Address)
+                {
+                    string isSelectedAddressClass = address.IsDefault ? "is-selected" : string.Empty;
+                    <abp-column size="_3">
+                        <div class="card @isSelectedAddressClass" data-address-id="@address.Id">
+                            <div class="card-header">
+                                <h4>@address.Type</h4>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">@address.ToString()</p>
+                            </div>
+                            <div class="card-footer">@address.Type</div>
+                        </div>
+                    </abp-column>
+                }
+            </abp-row>
         </div>
 
         <div class="payment-list p-5">
-            <h3>Select Payment Method</h3>
+            <h5>Select Payment Method</h5>
             <abp-row>
-                <abp-column size-lg="_3" size-md="_4" size-sm="_6">
-                    <abp-card class="is-selected" data-payment-id="1">
-                    <img class="" src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="paypal logo">
-                    </abp-card>
-                </abp-column>
+                @foreach (var paymentType in Model.PaymentTypes)
+                {
+                    string isSelectedClass = paymentType.IsDefault ? "is-selected" : "";
+                    <abp-column size="_2">
+                        <abp-card class="@isSelectedClass" data-payment-id="@paymentType.Id">
+                            <abp-card-body>
+                                <p class="card-title payment-type-header" style="text-align: center">
+                                    @paymentType.Name
+                                </p>
+                                <p class="card-text">
+                                    <i class="fa fa-5x @paymentType.IconCss"></i>
+                                </p>
+                            </abp-card-body>
+                        </abp-card>
+                    </abp-column>
+                }
             </abp-row>
+
         </div>
     </div>
     <div class="col-lg-3">

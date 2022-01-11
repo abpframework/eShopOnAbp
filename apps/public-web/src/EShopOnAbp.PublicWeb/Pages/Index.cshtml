@@ -1,6 +1,7 @@
 ﻿@page
 @using EShopOnAbp.Localization
 @using Microsoft.Extensions.Localization
+@using System.Globalization
 @model EShopOnAbp.PublicWeb.Pages.IndexModel
 @inject IStringLocalizer<EShopOnAbpResource> L
 
@@ -36,24 +37,21 @@
                             @if ((i * productsColumnSize) + j < Model.Products.Count)
                             {
                                 var product = Model.Products[(i * productsColumnSize) + j];
+                                var productPrice = product.Price.ToString("C", new CultureInfo("en-US"));
+                                string productImage = !product.ImageName.IsNullOrEmpty() ? $"/product-images/{product.ImageName}" : "/product-images/@product.ImageName";
+                                string buyText = L["Index:AddToBasket"];
                                 <div class="product-list-item" data-product-id="@product.Id.ToString()">
-                                    @if (!product.ImageName.IsNullOrEmpty())
-                                    {
-                                        <img src="/product-images/@product.ImageName"/>
-                                    }
-                                    else
-                                    {
-                                        <img src="/product-images/noimage.jpg"/>
-                                    }
-                                    <div class="row mt-5">
-                                        <div class="col">
-                                            <div class="product-info-box">
-                                                <h6>@product.Name</h6>
-                                                <em class="d-block text-muted">@product.Code - @L["StockCount"]: @product.StockCount</em>
-                                            </div>
+                                    <div class="col">
+                                        <div class="product-info-box">
+                                            <h6>@product.Name</h6>
+                                            <em class="d-block text-muted">@product.Code - @L["StockCount"]: @product.StockCount</em>
                                         </div>
-                                        <div class="col-auto text-right text-danger">
-                                            <strong class="product-price">$@product.Price</strong>
+                                    </div>
+                                    <img src="@productImage"/>
+                                    <div class="row mt-5 ">
+                                        <abp-button class="add-basket-button" button-type="Warning" text="@buyText" data-product-id="@product.Id.ToString()"></abp-button>
+                                        <div class="info-section col" style="text-align: center">
+                                            <span class="product-price">@productPrice</span>
                                         </div>
                                     </div>
                                 </div>

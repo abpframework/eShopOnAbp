@@ -59,7 +59,7 @@ public class PaymentModel : AbpPageModel
 
         var placedOrder = await _orderAppService.CreateAsync(new OrderCreateDto()
         {
-            PaymentTypeId = 1, // Paypal
+            PaymentTypeId = model.SelectedPaymentId,
             Address = GetUserAddress(model.SelectedAddressId),
             Products = productItems
         });
@@ -75,9 +75,10 @@ public class PaymentModel : AbpPageModel
 
         var response = await _paymentRequestAppService.StartAsync(new PaymentRequestStartDto
         {
+            PaymentTypeId = model.SelectedPaymentId,
             PaymentRequestId = paymentRequest.Id,
             ReturnUrl = _publicWebPaymentOptions.PaymentSuccessfulCallbackUrl,
-            CancelUrl = _publicWebPaymentOptions.PaymentFailureCallbackUrl,
+            CancelUrl = _publicWebPaymentOptions.PaymentFailureCallbackUrl
         });
 
         return Redirect(response.CheckoutLink);
