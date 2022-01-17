@@ -14,13 +14,21 @@
             }
           ],
           "actions": {
-            "CompleteAsyncByInput": {
-              "uniqueName": "CompleteAsyncByInput",
+            "CompleteAsyncByPaymentTypeAndInput": {
+              "uniqueName": "CompleteAsyncByPaymentTypeAndInput",
               "name": "CompleteAsync",
               "httpMethod": "POST",
               "url": "api/payment/requests/complete",
               "supportedVersions": [],
               "parametersOnMethod": [
+                {
+                  "name": "paymentType",
+                  "typeAsString": "System.String, System.Private.CoreLib",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
                 {
                   "name": "input",
                   "typeAsString": "EShopOnAbp.PaymentService.PaymentRequests.PaymentRequestCompleteInputDto, EShopOnAbp.PaymentService.Application.Contracts",
@@ -31,6 +39,18 @@
                 }
               ],
               "parameters": [
+                {
+                  "nameOnMethod": "paymentType",
+                  "name": "paymentType",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                },
                 {
                   "nameOnMethod": "input",
                   "name": "input",
@@ -88,13 +108,21 @@
               "allowAnonymous": null,
               "implementFrom": "EShopOnAbp.PaymentService.PaymentRequests.IPaymentRequestAppService"
             },
-            "HandleWebhookAsyncByPayload": {
-              "uniqueName": "HandleWebhookAsyncByPayload",
+            "HandleWebhookAsyncByPaymentTypeAndPayload": {
+              "uniqueName": "HandleWebhookAsyncByPaymentTypeAndPayload",
               "name": "HandleWebhookAsync",
               "httpMethod": "POST",
-              "url": "api/payment/requests/webhook",
+              "url": "api/payment/requests/{paymentType}/webhook",
               "supportedVersions": [],
               "parametersOnMethod": [
+                {
+                  "name": "paymentType",
+                  "typeAsString": "System.String, System.Private.CoreLib",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
                 {
                   "name": "payload",
                   "typeAsString": "System.String, System.Private.CoreLib",
@@ -105,6 +133,18 @@
                 }
               ],
               "parameters": [
+                {
+                  "nameOnMethod": "paymentType",
+                  "name": "paymentType",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                },
                 {
                   "nameOnMethod": "payload",
                   "name": "payload",
@@ -125,13 +165,21 @@
               "allowAnonymous": null,
               "implementFrom": "EShopOnAbp.PaymentService.PaymentRequests.IPaymentRequestAppService"
             },
-            "StartAsyncByInput": {
-              "uniqueName": "StartAsyncByInput",
+            "StartAsyncByPaymentTypeAndInput": {
+              "uniqueName": "StartAsyncByPaymentTypeAndInput",
               "name": "StartAsync",
               "httpMethod": "POST",
               "url": "api/payment/requests/start",
               "supportedVersions": [],
               "parametersOnMethod": [
+                {
+                  "name": "paymentType",
+                  "typeAsString": "System.String, System.Private.CoreLib",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
                 {
                   "name": "input",
                   "typeAsString": "EShopOnAbp.PaymentService.PaymentRequests.PaymentRequestStartDto, EShopOnAbp.PaymentService.Application.Contracts",
@@ -142,6 +190,18 @@
                 }
               ],
               "parameters": [
+                {
+                  "nameOnMethod": "paymentType",
+                  "name": "paymentType",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                },
                 {
                   "nameOnMethod": "input",
                   "name": "input",
