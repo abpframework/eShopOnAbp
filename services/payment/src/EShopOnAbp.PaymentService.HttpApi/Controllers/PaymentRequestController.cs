@@ -19,7 +19,7 @@ namespace EShopOnAbp.PaymentService.Controllers
             PaymentRequestAppService = paymentRequestAppService;
         }
 
-        [HttpPost("complete")]
+        [HttpPost("{paymentType}/complete")]
         public Task<PaymentRequestDto> CompleteAsync(string paymentType, PaymentRequestCompleteInputDto input)
         {
             return PaymentRequestAppService.CompleteAsync(paymentType, input);
@@ -41,7 +41,7 @@ namespace EShopOnAbp.PaymentService.Controllers
             return await PaymentRequestAppService.HandleWebhookAsync(paymentType, payload);
         }
 
-        [HttpPost("start")]
+        [HttpPost("{paymentType}/start")]
         public Task<PaymentRequestStartResultDto> StartAsync(string paymentType, PaymentRequestStartDto input)
         {
             return PaymentRequestAppService.StartAsync(paymentType, input);

@@ -18,7 +18,7 @@
               "uniqueName": "CompleteAsyncByPaymentTypeAndInput",
               "name": "CompleteAsync",
               "httpMethod": "POST",
-              "url": "api/payment/requests/complete",
+              "url": "api/payment/requests/{paymentType}/complete",
               "supportedVersions": [],
               "parametersOnMethod": [
                 {
@@ -47,8 +47,8 @@
                   "typeSimple": "string",
                   "isOptional": false,
                   "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
                   "descriptorName": ""
                 },
                 {
@@ -169,7 +169,7 @@
               "uniqueName": "StartAsyncByPaymentTypeAndInput",
               "name": "StartAsync",
               "httpMethod": "POST",
-              "url": "api/payment/requests/start",
+              "url": "api/payment/requests/{paymentType}/start",
               "supportedVersions": [],
               "parametersOnMethod": [
                 {
@@ -198,8 +198,8 @@
                   "typeSimple": "string",
                   "isOptional": false,
                   "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
                   "descriptorName": ""
                 },
                 {
