@@ -1,7 +1,7 @@
 (function () {
     // Write selected payment type to cookie anyways
-    const paymentTypeId = $(".payment-list").find(".is-selected").attr('data-payment-id');
-    abp.utils.setCookieValue("selected_payment_id", paymentTypeId);
+    const paymentType = $(".payment-list").find(".is-selected").attr('data-payment-type');
+    abp.utils.setCookieValue("selected_payment_type", paymentType);
 
     abp.widgets.PaymentWidget = function ($wrapper) {
         var widgetManager = $wrapper.data('abp-widget-manager');
@@ -19,8 +19,8 @@
                 .find('.payment-list .card')
                 .click(el => {
                     const $this = $(el.currentTarget);
-                    const paymentTypeId = $this.attr('data-payment-id');
-                    abp.utils.setCookieValue("selected_payment_id", paymentTypeId);
+                    const paymentTypeId = $this.attr('data-payment-type');
+                    abp.utils.setCookieValue("selected_payment_type", paymentTypeId);
                     $this.parents(".payment-list").find('.card').removeClass("is-selected");
                     $this.addClass("is-selected");
                 });

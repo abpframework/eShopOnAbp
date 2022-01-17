@@ -46,7 +46,7 @@ public class PaymentModel : AbpPageModel
     {
         Logger.LogInformation("Payment Proceeded...");
         Logger.LogInformation($"AddressId: {model.SelectedAddressId}");
-        Logger.LogInformation($"PaymentId: {model.SelectedPaymentId}");
+        Logger.LogInformation($"PaymentType: {model.SelectedPaymentType}");
         Logger.LogInformation($"Total Discount: {model.TotalDiscountPercentage}");
 
         var basket = await _userBasketProvider.GetBasketAsync();
@@ -59,7 +59,6 @@ public class PaymentModel : AbpPageModel
 
         var placedOrder = await _orderAppService.CreateAsync(new OrderCreateDto()
         {
-            PaymentTypeId = model.SelectedPaymentId,
             Address = GetUserAddress(model.SelectedAddressId),
             Products = productItems
         });
@@ -73,13 +72,14 @@ public class PaymentModel : AbpPageModel
             Products = ObjectMapper.Map<List<BasketItemDto>, List<PaymentRequestProductCreationDto>>(basket.Items)
         });
 
-        var response = await _paymentRequestAppService.StartAsync(new PaymentRequestStartDto
-        {
-            PaymentTypeId = model.SelectedPaymentId,
-            PaymentRequestId = paymentRequest.Id,
-            ReturnUrl = _publicWebPaymentOptions.PaymentSuccessfulCallbackUrl,
-            CancelUrl = _publicWebPaymentOptions.PaymentFailureCallbackUrl
-        });
+        var response = await _paymentRequestAppService.StartAsync(
+            model.SelectedPaymentType,
+            new PaymentRequestStartDto
+            {
+                PaymentRequestId = paymentRequest.Id,
+                ReturnUrl = _publicWebPaymentOptions.PaymentSuccessfulCallbackUrl,
+                CancelUrl = _publicWebPaymentOptions.PaymentFailureCallbackUrl
+            });
 
         return Redirect(response.CheckoutLink);
     }
@@ -87,7 +87,7 @@ public class PaymentModel : AbpPageModel
     public class PaymentPageViewModel
     {
         public int SelectedAddressId { get; set; }
-        public int SelectedPaymentId { get; set; }
+        public string SelectedPaymentType { get; set; }
         public decimal TotalDiscountPercentage { get; set; }
     }
 
