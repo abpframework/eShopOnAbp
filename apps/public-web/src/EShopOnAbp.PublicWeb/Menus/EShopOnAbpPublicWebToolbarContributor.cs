@@ -16,7 +16,7 @@ namespace EShopOnAbp.PublicWeb.Menus
                 return Task.CompletedTask;
             }
 
-            context.Toolbar.Items.Add(new ToolbarItem(typeof(CartWidgetViewComponent)));
+            context.Toolbar.Items.Insert(0, new ToolbarItem(typeof(CartWidgetViewComponent), order: 0));
 
             if (!context.ServiceProvider.GetRequiredService<ICurrentUser>().IsAuthenticated)
             {

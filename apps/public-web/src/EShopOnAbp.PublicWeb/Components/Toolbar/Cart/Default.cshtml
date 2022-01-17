@@ -1,16 +1,47 @@
 ﻿@using EShopOnAbp.BasketService.Localization
+@using EShopOnAbp.PublicWeb.Components.Basket
 @using Microsoft.AspNetCore.Mvc.Localization
 @inject IHtmlLocalizer<BasketServiceResource> L
 @model EShopOnAbp.BasketService.BasketDto
 <div id="shopping-cart" class="nav-link">
-    @if (Model == null)
-    {
-        <span class="cart-error" style="vertical-align: -webkit-baseline-middle;color: white">@L["Toolbar:BasketNotLoaded"] </span>
-    }
-    else
-    {
-        <a class="btn nav-link" style="padding:0px" role="button" href="~/Basket">
-            <span abp-badge="Info" data-cart-count>@Model.Items.Count</span> @L["Toolbar:Cart"] 
-        </a>
-    }
+
+	@if (Model == null)
+	{
+		<span class="cart-error" style="vertical-align: -webkit-baseline-middle;color: white">@L["Toolbar:BasketNotLoaded"] </span>
+	}
+	else
+	{
+		<div class="dropdown">
+			<a class="btn nav-link dropdown-toggle" id="shopping-cart-link" style="padding:0px" role="button" href="~/Basket">
+				<span abp-badge="Info" data-cart-count>@Model.Items.Count</span> @L["Toolbar:Cart"]
+			</a>
+
+			<div class="dropdown-menu dropdown-menu-end border-0 shadow-sm cart-preview" aria-labelledby="shopping-cart-link">
+
+				@foreach (var item in Model.Items)
+				{
+					string imageName = item.ImageName.IsNullOrEmpty() ? "/product-images/noimage.jpg" : $"/product-images/{item.ImageName}";
+					var price = item.TotalPrice.ToString("0.00");
+					<div class="dropdown-item">
+
+						<abp-row>
+							<abp-column size="_3">
+								<img class="basket-item-preview-image p-1" src="@imageName" />
+							</abp-column>
+							<abp-column size="_9">
+								<p><strong>@item.ProductName</strong></p>
+								<p>$@item.TotalPrice</p>
+							</abp-column>
+						</abp-row>
+					</div>
+				}
+
+				<div>
+					<div class="d-grid gap-2 m-2">
+						<abp-button href="~/Basket" button-type="Outline_Warning" text="@L["Toolbar:Cart"].Value" />
+					</div>
+				</div>
+			</div>
+		</div>
+	}
 </div>
