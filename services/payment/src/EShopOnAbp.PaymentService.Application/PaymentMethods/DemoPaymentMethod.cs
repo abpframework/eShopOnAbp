@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using EShopOnAbp.PaymentService.PaymentRequests;
 using Volo.Abp.DependencyInjection;
@@ -15,6 +16,11 @@ public class DemoPaymentMethod : IPaymentMethod
 
     public Task<PaymentRequestStartResultDto> StartAsync(PaymentRequest paymentRequest, PaymentRequestStartDto input)
     {
+        if (paymentRequest.Products.Sum(x => x.TotalPrice) <= 0)
+        {
+            throw new ArgumentException("Price can't be zero or less.");
+        }
+
         return Task.FromResult(new PaymentRequestStartResultDto
         {
             CheckoutLink = input.ReturnUrl + "?token=" + input.PaymentRequestId
