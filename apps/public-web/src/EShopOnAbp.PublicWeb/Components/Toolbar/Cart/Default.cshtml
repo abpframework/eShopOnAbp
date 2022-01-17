@@ -18,29 +18,49 @@
 
 			<div class="dropdown-menu dropdown-menu-end border-0 shadow-sm cart-preview" aria-labelledby="shopping-cart-link">
 
-				@foreach (var item in Model.Items)
+				@if (!Model.Items.Any())
 				{
-					string imageName = item.ImageName.IsNullOrEmpty() ? "/product-images/noimage.jpg" : $"/product-images/{item.ImageName}";
-					var price = item.TotalPrice.ToString("0.00");
-					<div class="dropdown-item">
+					<div class="p-3 text-center">
+						<h3 class="text-center">
+							<i class="fas fa-shopping-cart"></i>
+						</h3>
+						<br />
+						<div class="text-center">
+							<span>
+								@L["Toolbar:CartEmpty"]
+							</span>
+						</div>
+					</div>
+				}
+				else
+				{
+					foreach (var item in Model.Items)
+					{
+						string imageName = item.ImageName.IsNullOrEmpty() ? "/product-images/noimage.jpg" : $"/product-images/{item.ImageName}";
+						var price = item.TotalPrice.ToString("0.00");
+						<div class="dropdown-item">
 
-						<abp-row>
-							<abp-column size="_3">
-								<img class="basket-item-preview-image p-1" src="@imageName" />
-							</abp-column>
-							<abp-column size="_9">
-								<p><strong>@item.ProductName</strong></p>
-								<p>$@item.TotalPrice</p>
-							</abp-column>
-						</abp-row>
+							<abp-row>
+								<abp-column size="_3">
+									<img class="basket-item-preview-image m-1 my-2" src="@imageName" />
+								</abp-column>
+								<abp-column size="_9">
+									<p class="mt-2 mb-0"><strong>@item.ProductName</strong></p>
+									<p>$@item.TotalPrice</p>
+								</abp-column>
+							</abp-row>
+						</div>
+					}
+
+					<div>
+						<div class="d-grid gap-2 m-2">
+							<a href="~/Basket" class="btn btn-outline-warning text-center">
+								@L["Toolbar:Cart"]
+							</a>
+						</div>
 					</div>
 				}
 
-				<div>
-					<div class="d-grid gap-2 m-2">
-						<abp-button href="~/Basket" button-type="Outline_Warning" text="@L["Toolbar:Cart"].Value" />
-					</div>
-				</div>
 			</div>
 		</div>
 	}
