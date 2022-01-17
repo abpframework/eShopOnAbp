@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using EShopOnAbp.PaymentService.PaymentRequests;
+using Newtonsoft.Json.Linq;
 using PayPalCheckoutSdk.Core;
 using PayPalCheckoutSdk.Orders;
 using Volo.Abp.DependencyInjection;
@@ -15,13 +16,13 @@ public class PaypalMethod : IPaymentMethod
 {
     private readonly PayPalHttpClient _payPalHttpClient;
     private readonly PaymentRequestDomainService _paymentRequestDomainService;
-    public int PaymentTypeId { get; }
+    public int PaymentTypeId => PaymentTypeIds.PayPal;
+    public string PaymentType => PaymentTypes.PayPal;
 
     public PaypalMethod(PayPalHttpClient payPalHttpClient, PaymentRequestDomainService paymentRequestDomainService)
     {
         _payPalHttpClient = payPalHttpClient;
         _paymentRequestDomainService = paymentRequestDomainService;
-        PaymentTypeId = 1;
     }
 
     public async Task<PaymentRequestStartResultDto> StartAsync(PaymentRequest paymentRequest,
@@ -94,5 +95,22 @@ public class PaypalMethod : IPaymentMethod
         var paymentRequestId = Guid.Parse(order.PurchaseUnits.First().ReferenceId);
         return await _paymentRequestDomainService.UpdatePaymentRequestStateAsync(paymentRequestId, order.Status,
             order.Id);
+    }
+
+    public async Task HandleWebhookAsync(string payload)
+    {
+        // TODO: Find better way to parse.
+        var jObject = JObject.Parse(payload);
+
+        var order = jObject["resource"].ToObject<Order>();
+
+        var request = new OrdersGetRequest(order.Id);
+
+        // Ensure order object comes from PayPal
+        var response = await _payPalHttpClient.Execute(request);
+        order = response.Result<Order>();
+
+        var paymentRequestId = Guid.Parse(order.PurchaseUnits.First().ReferenceId);
+        await _paymentRequestDomainService.UpdatePaymentRequestStateAsync(paymentRequestId, order.Status, order.Id);
     }
 }

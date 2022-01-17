@@ -8,12 +8,10 @@ namespace EShopOnAbp.PaymentService.PaymentMethods;
 [ExposeServices(typeof(IPaymentMethod), typeof(DemoPaymentMethod))]
 public class DemoPaymentMethod : IPaymentMethod
 {
-    public int PaymentTypeId { get; }
+    public int PaymentTypeId => PaymentTypeIds.Demo;
 
-    public DemoPaymentMethod()
-    {
-        PaymentTypeId = 0;
-    }
+    public string PaymentType => PaymentTypes.Demo;
+
 
     public Task<PaymentRequestStartResultDto> StartAsync(PaymentRequest paymentRequest, PaymentRequestStartDto input)
     {
@@ -30,5 +28,10 @@ public class DemoPaymentMethod : IPaymentMethod
         paymentRequest.SetAsCompleted();
 
         return await paymentRequestRepository.UpdateAsync(paymentRequest);
+    }
+
+    public Task HandleWebhookAsync(string payload)
+    {
+        return Task.CompletedTask;
     }
 }

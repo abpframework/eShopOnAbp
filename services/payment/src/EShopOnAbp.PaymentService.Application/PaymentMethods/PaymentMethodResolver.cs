@@ -28,4 +28,17 @@ public class PaymentMethodResolver : ITransientDependency
 
         return paymentMethod;
     }
+
+    public IPaymentMethod Resolve(string paymentType)
+    {
+        var paymentMethod = _paymentMethods.FirstOrDefault(q => q.PaymentType == paymentType);
+        if (paymentMethod == null)
+        {
+            _logger.LogError($"Couldn't find Payment method with type:{paymentType}");
+            throw new ArgumentException("Payment method not found", paymentType);
+        }
+
+        return paymentMethod;
+    }
+
 }

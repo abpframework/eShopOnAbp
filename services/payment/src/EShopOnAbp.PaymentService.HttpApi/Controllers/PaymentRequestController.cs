@@ -20,9 +20,9 @@ namespace EShopOnAbp.PaymentService.Controllers
         }
 
         [HttpPost("complete")]
-        public Task<PaymentRequestDto> CompleteAsync(PaymentRequestCompleteInputDto input)
+        public Task<PaymentRequestDto> CompleteAsync(string paymentType, PaymentRequestCompleteInputDto input)
         {
-            return PaymentRequestAppService.CompleteAsync(input);
+            return PaymentRequestAppService.CompleteAsync(paymentType, input);
         }
 
         [HttpPost]
@@ -32,19 +32,19 @@ namespace EShopOnAbp.PaymentService.Controllers
         }
 
         [HttpPost]
-        [Route("webhook")]
-        public async Task<bool> HandleWebhookAsync(string payload)
+        [Route("{paymentType}/webhook")]
+        public async Task<bool> HandleWebhookAsync(string paymentType, string payload)
         {
             var bytes = await Request.Body.GetAllBytesAsync();
             payload = Encoding.UTF8.GetString(bytes);
 
-            return await PaymentRequestAppService.HandleWebhookAsync(payload);
+            return await PaymentRequestAppService.HandleWebhookAsync(paymentType, payload);
         }
 
         [HttpPost("start")]
-        public Task<PaymentRequestStartResultDto> StartAsync(PaymentRequestStartDto input)
+        public Task<PaymentRequestStartResultDto> StartAsync(string paymentType, PaymentRequestStartDto input)
         {
-            return PaymentRequestAppService.StartAsync(input);
+            return PaymentRequestAppService.StartAsync(paymentType, input);
         }
     }
 }
