@@ -8,7 +8,7 @@ using PayPalCheckoutSdk.Core;
 using PayPalCheckoutSdk.Orders;
 using Volo.Abp.DependencyInjection;
 
-namespace EShopOnAbp.PaymentService.PaymentServices;
+namespace EShopOnAbp.PaymentService.PaymentMethods;
 
 [ExposeServices(typeof(IPaymentMethod), typeof(PaypalMethod))]
 public class PaypalMethod : IPaymentMethod
@@ -76,7 +76,7 @@ public class PaypalMethod : IPaymentMethod
         request.Prefer("return=representation");
         request.RequestBody(order);
 
-        Order result = (await _payPalHttpClient.Execute(request)).Result<Order>();
+        var result = (await _payPalHttpClient.Execute(request)).Result<Order>();
 
         return new PaymentRequestStartResultDto
         {

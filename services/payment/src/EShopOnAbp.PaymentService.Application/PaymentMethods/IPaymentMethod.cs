@@ -2,7 +2,7 @@
 using EShopOnAbp.PaymentService.PaymentRequests;
 using Volo.Abp.DependencyInjection;
 
-namespace EShopOnAbp.PaymentService.PaymentServices;
+namespace EShopOnAbp.PaymentService.PaymentMethods;
 
 public interface IPaymentMethod : ITransientDependency
 {

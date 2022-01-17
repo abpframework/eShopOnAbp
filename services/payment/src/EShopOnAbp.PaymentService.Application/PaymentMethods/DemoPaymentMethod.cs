@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using EShopOnAbp.PaymentService.PaymentRequests;
 using Volo.Abp.DependencyInjection;
 
-namespace EShopOnAbp.PaymentService.PaymentServices;
+namespace EShopOnAbp.PaymentService.PaymentMethods;
 
 [ExposeServices(typeof(IPaymentMethod), typeof(DemoPaymentMethod))]
 public class DemoPaymentMethod : IPaymentMethod

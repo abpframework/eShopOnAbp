@@ -4,7 +4,7 @@ using System.Linq;
 using Microsoft.Extensions.Logging;
 using Volo.Abp.DependencyInjection;
 
-namespace EShopOnAbp.PaymentService.PaymentServices;
+namespace EShopOnAbp.PaymentService.PaymentMethods;
 
 public class PaymentMethodResolver : ITransientDependency
 {
@@ -19,7 +19,7 @@ public class PaymentMethodResolver : ITransientDependency
 
     public IPaymentMethod Resolve(int paymentTypeId)
     {
-        IPaymentMethod paymentMethod = _paymentMethods.FirstOrDefault(q => q.PaymentTypeId == paymentTypeId);
+        var paymentMethod = _paymentMethods.FirstOrDefault(q => q.PaymentTypeId == paymentTypeId);
         if (paymentMethod == null)
         {
             _logger.LogError($"Couldn't find Payment method with id:{paymentTypeId}");

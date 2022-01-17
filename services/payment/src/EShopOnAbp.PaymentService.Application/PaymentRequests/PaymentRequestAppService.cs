@@ -4,7 +4,7 @@ using PayPalCheckoutSdk.Orders;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using EShopOnAbp.PaymentService.PaymentServices;
+using EShopOnAbp.PaymentService.PaymentMethods;
 
 namespace EShopOnAbp.PaymentService.PaymentRequests
 {
