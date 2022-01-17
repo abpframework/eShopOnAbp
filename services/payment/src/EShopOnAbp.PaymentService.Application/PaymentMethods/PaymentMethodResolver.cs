@@ -31,7 +31,7 @@ public class PaymentMethodResolver : ITransientDependency
 
     public IPaymentMethod Resolve(string paymentType)
     {
-        var paymentMethod = _paymentMethods.FirstOrDefault(q => q.PaymentType == paymentType);
+        var paymentMethod = _paymentMethods.FirstOrDefault(q => q.PaymentType.Equals(paymentType, StringComparison.InvariantCultureIgnoreCase));
         if (paymentMethod == null)
         {
             _logger.LogError($"Couldn't find Payment method with type:{paymentType}");
