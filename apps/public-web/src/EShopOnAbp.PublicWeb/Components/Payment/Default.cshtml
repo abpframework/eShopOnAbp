@@ -35,7 +35,7 @@
                 {
                     string isSelectedClass = paymentType.IsDefault ? "is-selected" : "";
                     <abp-column size="_2">
-                        <abp-card class="@isSelectedClass" data-payment-id="@paymentType.Id">
+                        <abp-card class="@isSelectedClass" data-payment-type="@paymentType.Type">
                             <abp-card-body>
                                 <p class="card-title payment-type-header" style="text-align: center">
                                     @paymentType.Name

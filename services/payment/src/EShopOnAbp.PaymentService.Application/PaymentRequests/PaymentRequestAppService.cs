@@ -1,10 +1,6 @@
-﻿using Newtonsoft.Json.Linq;
-using PayPalCheckoutSdk.Core;
-using PayPalCheckoutSdk.Orders;
-using System;
+﻿using EShopOnAbp.PaymentService.PaymentMethods;
 using System.Linq;
 using System.Threading.Tasks;
-using EShopOnAbp.PaymentService.PaymentServices;
 
 namespace EShopOnAbp.PaymentService.PaymentRequests
 {
@@ -13,16 +9,13 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
         private readonly PaymentMethodResolver _paymentMethodResolver;
         private readonly PaymentRequestDomainService _paymentRequestDomainService;
         protected IPaymentRequestRepository PaymentRequestRepository { get; }
-        protected PayPalHttpClient PayPalHttpClient { get; }
 
         public PaymentRequestAppService(
             IPaymentRequestRepository paymentRequestRepository,
-            PayPalHttpClient payPalHttpClient,
             PaymentMethodResolver paymentMethodResolver,
             PaymentRequestDomainService paymentRequestDomainService)
         {
             PaymentRequestRepository = paymentRequestRepository;
-            PayPalHttpClient = payPalHttpClient;
             _paymentMethodResolver = paymentMethodResolver;
             _paymentRequestDomainService = paymentRequestDomainService;
         }
@@ -51,37 +44,28 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
             return ObjectMapper.Map<PaymentRequest, PaymentRequestDto>(paymentRequest);
         }
 
-        public virtual async Task<PaymentRequestStartResultDto> StartAsync(PaymentRequestStartDto input)
+        public virtual async Task<PaymentRequestStartResultDto> StartAsync(string paymentType, PaymentRequestStartDto input)
         {
             PaymentRequest paymentRequest =
                 await PaymentRequestRepository.GetAsync(input.PaymentRequestId, includeDetails: true);
 
-            var paymentService = _paymentMethodResolver.Resolve(input.PaymentTypeId);
+            var paymentService = _paymentMethodResolver.Resolve(paymentType);
             return await paymentService.StartAsync(paymentRequest, input);
         }
 
-        public virtual async Task<PaymentRequestDto> CompleteAsync(PaymentRequestCompleteInputDto input)
+        public virtual async Task<PaymentRequestDto> CompleteAsync(string paymentType, PaymentRequestCompleteInputDto input)
         {
-            var paymentService = _paymentMethodResolver.Resolve(input.PaymentTypeId);
+            var paymentService = _paymentMethodResolver.Resolve(paymentType);
 
             var paymentRequest = await paymentService.CompleteAsync(PaymentRequestRepository, input.Token);
             return ObjectMapper.Map<PaymentRequest, PaymentRequestDto>(paymentRequest);
         }
 
-        public virtual async Task<bool> HandleWebhookAsync(string payload)
+        public virtual async Task<bool> HandleWebhookAsync(string paymentType, string payload)
         {
-            var jObject = JObject.Parse(payload);
+            var paymentService = _paymentMethodResolver.Resolve(paymentType);
 
-            var order = jObject["resource"].ToObject<Order>();
-
-            var request = new OrdersGetRequest(order.Id);
-
-            // Ensure order object comes from PayPal
-            var response = await PayPalHttpClient.Execute(request);
-            order = response.Result<Order>();
-
-            var paymentRequestId = Guid.Parse(order.PurchaseUnits.First().ReferenceId);
-            await _paymentRequestDomainService.UpdatePaymentRequestStateAsync(paymentRequestId, order.Status, order.Id);
+            await paymentService.HandleWebhookAsync(payload);
 
             // PayPal doesn't accept Http 204 (NoContent) result and tries to execute webhook again.
             // So with following value, API returns Http 200 (OK) result.

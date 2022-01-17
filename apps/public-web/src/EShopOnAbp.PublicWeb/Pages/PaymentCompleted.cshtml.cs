@@ -1,6 +1,7 @@
 ﻿using EShopOnAbp.PaymentService.PaymentRequests;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 using Volo.Abp.AspNetCore.Mvc.UI.RazorPages;
 
@@ -24,23 +25,24 @@ public class PaymentCompletedModel : AbpPageModel
 
     public async Task<IActionResult> OnGetAsync()
     {
-        int selectedPaymentId = 0;
-        if (HttpContext.Request.Cookies.TryGetValue(EShopOnAbpPaymentConsts.PaymentIdCookie,
-                out var selectedPaymentIdString))
+        if (!HttpContext.Request.Cookies.TryGetValue(EShopOnAbpPaymentConsts.PaymentTypeCookie,
+                out var selectedPaymentType))
         {
-            selectedPaymentId = string.IsNullOrEmpty(selectedPaymentIdString) ? 0 : int.Parse(selectedPaymentIdString);
+            throw new InvalidOperationException("A payment type must be selected!");
         }
 
         PaymentRequest = await _paymentRequestAppService.CompleteAsync(
-            new PaymentRequestCompleteInputDto() {Token = Token, PaymentTypeId = selectedPaymentId});
+            // TODO: Use string name
+            selectedPaymentType,
+            new PaymentRequestCompleteInputDto() { Token = Token });
 
         IsSuccessful = PaymentRequest.State == PaymentRequestState.Completed;
-        
+
         if (IsSuccessful)
         {
             // Remove cookie so that can be set again when default payment type is set
-            HttpContext.Response.Cookies.Delete(EShopOnAbpPaymentConsts.PaymentIdCookie);
-            return RedirectToPage("OrderReceived", new {orderNo = PaymentRequest.OrderNo});
+            HttpContext.Response.Cookies.Delete(EShopOnAbpPaymentConsts.PaymentTypeCookie);
+            return RedirectToPage("OrderReceived", new { orderNo = PaymentRequest.OrderNo });
         }
 
         return Page();

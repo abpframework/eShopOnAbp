@@ -9,15 +9,15 @@ public class PaymentTypeProvider : ITransientDependency
     {
         return new List<PaymentType>
         {
-            new() {Id = 0, Name = "Demo", IconCss = "fa-credit-card demo", IsDefault = true},
-            new() {Id = 1, Name = "Paypal", IconCss = "fa-cc-paypal paypal"}
+            new() { Type = "demo", Name = "Demo", IconCss = "fa-credit-card demo", IsDefault = true},
+            new() { Type = "paypal", Name = "Paypal", IconCss = "fa-cc-paypal paypal"}
         };
     }
 }
 
 public class PaymentType
 {
-    public int Id { get; set; }
+    public string Type { get; set; }
     public string Name { get; set; }
     public string IconCss { get; set; }
     public bool IsDefault { get; set; } = false;
