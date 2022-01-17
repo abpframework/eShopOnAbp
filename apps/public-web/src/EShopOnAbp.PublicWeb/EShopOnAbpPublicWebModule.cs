@@ -33,6 +33,9 @@ using Volo.Abp.MultiTenancy;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.UI.Navigation.Urls;
 using Yarp.ReverseProxy.Transforms;
+using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
+using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic.Bundling;
+using EShopOnAbp.PublicWeb.Components.Toolbar.Cart;
 
 namespace EShopOnAbp.PublicWeb
 {
@@ -76,6 +79,17 @@ namespace EShopOnAbp.PublicWeb
             Configure<AbpAutoMapperOptions>(options =>
             {
                 options.AddMaps<EShopOnAbpPublicWebModule>(validate: true);
+            });
+
+            Configure<AbpBundlingOptions>(options =>
+            {
+                options.StyleBundles.Configure(
+                   BasicThemeBundles.Styles.Global,
+                   bundle =>
+                   {
+                       bundle.AddContributors(typeof(CartWidgetStyleContributor));
+                   }
+               );
             });
 
             Configure<AbpMultiTenancyOptions>(options =>
