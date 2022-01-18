@@ -32,7 +32,8 @@ public class OrderingServiceDbContext : AbpDbContext<OrderingServiceDbContext>, 
             b.ToTable(OrderingServiceDbProperties.DbTablePrefix + "Orders", OrderingServiceDbProperties.DbSchema);
             b.ConfigureByConvention(); //auto configure for the base class props
 
-                b.Property(q => q.PaymentStatus).HasMaxLength(OrderConstants.PaymentStatusMaxLength);
+            b.Property(q => q.PaymentStatus).HasMaxLength(OrderConstants.PaymentStatusMaxLength);
+            b.Property(q => q.PaymentMethod).HasMaxLength(OrderConstants.OrderPaymentMethodNameMaxLength);
 
             b.OwnsOne(o => o.Address, a => { a.WithOwner(); });
             b.OwnsOne(o => o.Buyer, a => { a.WithOwner(); });
@@ -52,7 +53,7 @@ public class OrderingServiceDbContext : AbpDbContext<OrderingServiceDbContext>, 
                 OrderingServiceDbProperties.DbSchema);
             b.ConfigureByConvention(); //auto configure for the base class props
 
-                b.Property<Guid>("OrderId").IsRequired();
+            b.Property<Guid>("OrderId").IsRequired();
             b.Property(q => q.ProductId).IsRequired();
             b.Property(q => q.ProductCode).IsRequired();
             b.Property(q => q.ProductName).IsRequired();
@@ -68,7 +69,7 @@ public class OrderingServiceDbContext : AbpDbContext<OrderingServiceDbContext>, 
                 OrderingServiceDbProperties.DbSchema);
             b.ConfigureByConvention(); //auto configure for the base class props
 
-                b.HasKey(q => q.Id);
+            b.HasKey(q => q.Id);
 
             b.Property(q => q.Id)
                 .HasDefaultValue(1)

@@ -26,7 +26,8 @@ namespace EShopOnAbp.OrderingService.Migrations
             migrationBuilder.AddColumn<string>(
                 name: "PaymentMethod",
                 table: "Orders",
-                type: "text",
+                type: "character varying(128)",
+                maxLength: 128,
                 nullable: true);
         }
 

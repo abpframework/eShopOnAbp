@@ -46,7 +46,8 @@ namespace EShopOnAbp.OrderingService.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("PaymentMethod")
-                        .HasColumnType("text");
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
 
                     b.Property<Guid?>("PaymentRequestId")
                         .HasColumnType("uuid");

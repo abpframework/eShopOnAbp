@@ -13,7 +13,7 @@ using Volo.Abp.EntityFrameworkCore;
 namespace EShopOnAbp.OrderingService.Migrations
 {
     [DbContext(typeof(OrderingServiceDbContext))]
-    [Migration("20220118084223_Removed_PaymentType")]
+    [Migration("20220118090449_Removed_PaymentType")]
     partial class Removed_PaymentType
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -48,7 +48,8 @@ namespace EShopOnAbp.OrderingService.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("PaymentMethod")
-                        .HasColumnType("text");
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
 
                     b.Property<Guid?>("PaymentRequestId")
                         .HasColumnType("uuid");
