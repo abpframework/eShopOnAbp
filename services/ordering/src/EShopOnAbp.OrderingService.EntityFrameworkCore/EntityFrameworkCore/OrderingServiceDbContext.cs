@@ -33,7 +33,7 @@ public class OrderingServiceDbContext : AbpDbContext<OrderingServiceDbContext>, 
             b.ConfigureByConvention(); //auto configure for the base class props
 
             b.Property(q => q.PaymentStatus).HasMaxLength(OrderConstants.PaymentStatusMaxLength);
-            b.Property(q => q.PaymentMethod).HasMaxLength(OrderConstants.OrderPaymentMethodNameMaxLength);
+            b.Property(q => q.PaymentMethod).HasMaxLength(OrderConstants.OrderPaymentMethodNameMaxLength).IsRequired();
 
             b.OwnsOne(o => o.Address, a => { a.WithOwner(); });
             b.OwnsOne(o => o.Buyer, a => { a.WithOwner(); });

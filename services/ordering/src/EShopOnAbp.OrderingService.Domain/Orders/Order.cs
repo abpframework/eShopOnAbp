@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using EShopOnAbp.PaymentService.PaymentRequests;
+using JetBrains.Annotations;
+using Volo.Abp;
 using Volo.Abp.Domain.Entities;
 
 namespace EShopOnAbp.OrderingService.Orders;
@@ -22,8 +25,7 @@ public class Order : AggregateRoot<Guid>
     {
     }
 
-    internal Order(Guid id, Buyer buyer, Address address, string paymentMethod,
-        Guid? paymentRequestId = null) : base(id)
+    internal Order(Guid id, Buyer buyer, Address address, [NotNull]string paymentMethod, Guid? paymentRequestId = null) : base(id)
     {
         _orderStatusId = OrderStatus.Placed.Id;
         OrderDate = DateTime.UtcNow;
@@ -31,8 +33,8 @@ public class Order : AggregateRoot<Guid>
         Buyer = buyer;
         Address = address;
         PaymentRequestId = paymentRequestId;
-        PaymentMethod = paymentMethod;
-        PaymentStatus = "Waiting"; // TODO: magic string
+        PaymentMethod = Check.NotNullOrEmpty(paymentMethod,nameof(paymentMethod),maxLength:OrderConstants.OrderPaymentMethodNameMaxLength);
+        PaymentStatus = PaymentRequestState.Waiting.ToString(); // From PaymentService.Domain.Shared
         OrderItems = new List<OrderItem>();
     }
 
