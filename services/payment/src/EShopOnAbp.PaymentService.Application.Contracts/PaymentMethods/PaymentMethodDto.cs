@@ -2,5 +2,5 @@
 
 public class PaymentMethodDto
 {
-    public string PaymentType { get; set; }
+    public string Name { get; set; }
 }

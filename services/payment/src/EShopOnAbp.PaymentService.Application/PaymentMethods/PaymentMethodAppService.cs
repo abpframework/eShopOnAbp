@@ -17,7 +17,7 @@ public class PaymentMethodAppService : PaymentServiceAppService, IPaymentMethodA
     {
         return Task.FromResult(
                 _paymentMethods
-                    .Select(p => new PaymentMethodDto { PaymentType = p.PaymentType })
+                    .Select(p => new PaymentMethodDto { Name = p.Name })
                     .ToList()
             );
     }

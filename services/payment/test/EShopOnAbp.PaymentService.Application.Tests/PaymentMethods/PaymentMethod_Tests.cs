@@ -23,7 +23,7 @@ public class PaymentMethod_Tests : PaymentServiceApplicationTestBase
     {
         var paymentMethods = GetRequiredService<IEnumerable<IPaymentMethod>>().ToList();
 
-        var distinctedPaymentMethods = paymentMethods.DistinctBy(p => p.PaymentType).ToList();
+        var distinctedPaymentMethods = paymentMethods.DistinctBy(p => p.Name).ToList();
 
         paymentMethods.Count.ShouldBe(distinctedPaymentMethods.Count);
     }
@@ -33,7 +33,7 @@ public class PaymentMethod_Tests : PaymentServiceApplicationTestBase
     {
         foreach (var paymentMethod in GetRequiredService<IEnumerable<IPaymentMethod>>())
         {
-            paymentMethod.PaymentType.ShouldNotBeNullOrEmpty();
+            paymentMethod.Name.ShouldNotBeNullOrEmpty();
         }
     }
 

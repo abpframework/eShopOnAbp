@@ -1,6 +1,6 @@
 ﻿namespace EShopOnAbp.PaymentService.PaymentMethods;
 
-public static class PaymentTypes
+public static class PaymentMethodNames
 {
     /*
      * PaymentTypes must be unique.

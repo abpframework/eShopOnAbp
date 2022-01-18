@@ -16,8 +16,7 @@ public class PaypalMethod : IPaymentMethod
 {
     private readonly PayPalHttpClient _payPalHttpClient;
     private readonly PaymentRequestDomainService _paymentRequestDomainService;
-    public int PaymentTypeId => PaymentTypeIds.PayPal;
-    public string PaymentType => PaymentTypes.PayPal;
+    public string Name => PaymentMethodNames.PayPal;
 
     public PaypalMethod(PayPalHttpClient payPalHttpClient, PaymentRequestDomainService paymentRequestDomainService)
     {

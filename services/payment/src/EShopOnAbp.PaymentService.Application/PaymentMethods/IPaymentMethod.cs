@@ -6,9 +6,7 @@ namespace EShopOnAbp.PaymentService.PaymentMethods;
 
 public interface IPaymentMethod : ITransientDependency
 {
-    int PaymentTypeId { get; }
-
-    string PaymentType { get; }
+    string Name { get; }
 
     public Task<PaymentRequestStartResultDto> StartAsync(PaymentRequest paymentRequest, PaymentRequestStartDto input);
 

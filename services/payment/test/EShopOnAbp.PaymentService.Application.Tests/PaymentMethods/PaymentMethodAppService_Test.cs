@@ -23,7 +23,7 @@ public class PaymentMethodAppService_Test : PaymentServiceApplicationTestBase
 
         paymentMethods.ShouldNotBeEmpty();
 
-        paymentMethods.ShouldContain(x => x.PaymentType == PaymentTypes.PayPal);
-        paymentMethods.ShouldContain(x => x.PaymentType == PaymentTypes.Demo);
+        paymentMethods.ShouldContain(x => x.Name == PaymentMethodNames.PayPal);
+        paymentMethods.ShouldContain(x => x.Name == PaymentMethodNames.Demo);
     }
 }
