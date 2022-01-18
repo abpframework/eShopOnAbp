@@ -9,10 +9,7 @@ namespace EShopOnAbp.PaymentService.PaymentMethods;
 [ExposeServices(typeof(IPaymentMethod), typeof(DemoPaymentMethod))]
 public class DemoPaymentMethod : IPaymentMethod
 {
-    public int PaymentTypeId => PaymentTypeIds.Demo;
-
-    public string PaymentType => PaymentTypes.Demo;
-
+    public string Name => PaymentMethodNames.Demo;
 
     public Task<PaymentRequestStartResultDto> StartAsync(PaymentRequest paymentRequest, PaymentRequestStartDto input)
     {

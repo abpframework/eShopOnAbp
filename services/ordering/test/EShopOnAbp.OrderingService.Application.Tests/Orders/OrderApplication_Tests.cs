@@ -45,7 +45,7 @@ public class OrderApplication_Tests:OrderingServiceApplicationTestBase
 
         var placedOrder = await _orderAppService.CreateAsync(new OrderCreateDto()
         {
-            PaymentTypeId = 1,
+            PaymentMethod = 1,
             Address = new OrderAddressDto()
             {
                 City = "Test City", Country = "Test Country", Description = "No Description", Street = "Test Street",

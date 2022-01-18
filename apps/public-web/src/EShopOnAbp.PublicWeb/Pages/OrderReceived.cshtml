@@ -1,9 +1,12 @@
 ﻿@page "{orderNo:int}"
 @using System.Globalization
 @using EShopOnAbp.Localization
+@using EShopOnAbp.PublicWeb.PaymentMethods
 @using Microsoft.Extensions.Localization
+@using Microsoft.Extensions.Options
 @model EShopOnAbp.PublicWeb.Pages.OrderReceivedModel
 @inject IStringLocalizer<EShopOnAbpResource> L
+@inject IOptions<PaymentMethodUiOptions> PaymentMethodUiOptions
 @{
     decimal orderTotal = Model.ReceivedOrder.Items.Sum(q => q.UnitPrice * q.Units);
     string orderTotalString = orderTotal.ToString("C", new CultureInfo("en-US")); // We work with USD any ways
@@ -15,7 +18,7 @@
 }
 
 @{
-    var paymentIcon = Model.ReceivedOrder.PaymentType == "paypal" ? "fa-cc-paypal" : "fa-credit-card";
+    var paymentIcon = PaymentMethodUiOptions.Value.Icons.GetValueOrDefault(Model.ReceivedOrder.PaymentMethod, PaymentMethodUiOptions.Value.DefaultIcon);
 }
 <abp-row class="justify-content-center p-5">
     <abp-card class="col-lg-10 col-md-10 col-sm-12 shadow">

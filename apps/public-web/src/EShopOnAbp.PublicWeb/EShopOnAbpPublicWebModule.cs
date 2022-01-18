@@ -36,6 +36,9 @@ using Yarp.ReverseProxy.Transforms;
 using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic.Bundling;
 using EShopOnAbp.PublicWeb.Components.Toolbar.Cart;
+using EShopOnAbp.PublicWeb.PaymentMethods;
+using EShopOnAbp.PaymentService.PaymentMethods;
+using Microsoft.Extensions.Configuration;
 
 namespace EShopOnAbp.PublicWeb
 {
@@ -107,10 +110,7 @@ namespace EShopOnAbp.PublicWeb
                 options.Applications["MVC"].RootUrl = configuration["App:SelfUrl"];
             });
 
-            Configure<EShopOnAbpPublicWebPaymentOptions>(options =>
-            {
-                options.PaymentSuccessfulCallbackUrl = configuration["App:SelfUrl"].EnsureEndsWith('/') + "PaymentCompleted";
-            });
+            ConfigurePayment(configuration);
 
             context.Services.AddAuthentication(options =>
                 {
@@ -174,6 +174,19 @@ namespace EShopOnAbp.PublicWeb
                             );
                     });
                 });
+        }
+
+        private void ConfigurePayment(IConfiguration configuration)
+        {
+            Configure<EShopOnAbpPublicWebPaymentOptions>(options =>
+            {
+                options.PaymentSuccessfulCallbackUrl = configuration["App:SelfUrl"].EnsureEndsWith('/') + "PaymentCompleted";
+            });
+
+            Configure<PaymentMethodUiOptions>(options =>
+            {
+                options.ConfigureIcon(PaymentMethodNames.PayPal, "fa-cc-paypal paypal");
+            });
         }
 
         public override void OnApplicationInitialization(ApplicationInitializationContext context)

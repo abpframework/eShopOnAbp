@@ -17,25 +17,13 @@ public class PaymentMethodResolver : ITransientDependency
         _logger = logger;
     }
 
-    public IPaymentMethod Resolve(int paymentTypeId)
+    public IPaymentMethod Resolve(string paymentMethodName)
     {
-        var paymentMethod = _paymentMethods.FirstOrDefault(q => q.PaymentTypeId == paymentTypeId);
+        var paymentMethod = _paymentMethods.FirstOrDefault(q => q.Name.Equals(paymentMethodName, StringComparison.InvariantCultureIgnoreCase));
         if (paymentMethod == null)
         {
-            _logger.LogError($"Couldn't find Payment method with id:{paymentTypeId}");
-            throw new ArgumentException("Payment method not found", paymentTypeId.ToString());
-        }
-
-        return paymentMethod;
-    }
-
-    public IPaymentMethod Resolve(string paymentType)
-    {
-        var paymentMethod = _paymentMethods.FirstOrDefault(q => q.PaymentType.Equals(paymentType, StringComparison.InvariantCultureIgnoreCase));
-        if (paymentMethod == null)
-        {
-            _logger.LogError($"Couldn't find Payment method with type:{paymentType}");
-            throw new ArgumentException("Payment method not found", paymentType);
+            _logger.LogError($"Couldn't find Payment method with type:{paymentMethodName}");
+            throw new ArgumentException("Payment method not found", paymentMethodName);
         }
 
         return paymentMethod;

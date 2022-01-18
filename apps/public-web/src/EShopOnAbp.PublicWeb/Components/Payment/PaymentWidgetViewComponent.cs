@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using EShopOnAbp.BasketService;
+using EShopOnAbp.PaymentService.PaymentMethods;
 using EShopOnAbp.PublicWeb.ServiceProviders;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc;
@@ -11,23 +12,23 @@ namespace EShopOnAbp.PublicWeb.Components.Payment;
 [Widget(
     AutoInitialize = true,
     RefreshUrl = "/Widgets/Payment",
-    StyleTypes = new[] {typeof(PaymentWidgetStyleContributor)},
-    ScriptTypes = new[] {typeof(PaymentWidgetScriptContributor)}
+    StyleTypes = new[] { typeof(PaymentWidgetStyleContributor) },
+    ScriptTypes = new[] { typeof(PaymentWidgetScriptContributor) }
 )]
 public class PaymentWidgetViewComponent : AbpViewComponent
 {
     private readonly UserBasketProvider _userBasketProvider;
     private readonly UserAddressProvider _userAddressProvider;
-    private readonly PaymentTypeProvider _paymentTypeProvider;
+    private readonly PaymentMethodProvider _paymentMethodProvider;
 
     public PaymentWidgetViewComponent(
         UserBasketProvider userBasketProvider,
         UserAddressProvider userAddressProvider,
-        PaymentTypeProvider paymentTypeProvider)
+        PaymentMethodProvider paymentMethodProvider)
     {
         _userBasketProvider = userBasketProvider;
         _userAddressProvider = userAddressProvider;
-        _paymentTypeProvider = paymentTypeProvider;
+        _paymentMethodProvider = paymentMethodProvider;
     }
 
     public async Task<IViewComponentResult> InvokeAsync()
@@ -36,7 +37,7 @@ public class PaymentWidgetViewComponent : AbpViewComponent
         {
             Basket = await _userBasketProvider.GetBasketAsync(),
             Address = _userAddressProvider.GetDemoAddresses(),
-            PaymentTypes = _paymentTypeProvider.GetPaymentTypes()
+            PaymentMethods = await _paymentMethodProvider.GetPaymentMethodsAsync()
         };
         return View("~/Components/Payment/Default.cshtml", viewModel);
     }
@@ -46,5 +47,5 @@ public class PaymentViewModel
 {
     public BasketDto Basket { get; set; }
     public List<AddressDto> Address { get; set; }
-    public List<PaymentType> PaymentTypes { get; set; }
+    public List<PaymentMethodViewModel> PaymentMethods { get; set; }
 }

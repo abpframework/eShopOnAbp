@@ -25,7 +25,6 @@ public class EfCoreOrderRepository : EfCoreRepository<OrderingServiceDbContext, 
     {
         var newEntity = await base.InsertAsync(entity, autoSave, GetCancellationToken(cancellationToken));
         await EnsurePropertyLoadedAsync(newEntity, o => o.OrderStatus, GetCancellationToken(cancellationToken));
-        await EnsurePropertyLoadedAsync(newEntity, o => o.PaymentType, GetCancellationToken(cancellationToken));
         return newEntity;
     }
 

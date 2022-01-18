@@ -7,17 +7,14 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
     public class PaymentRequestAppService : PaymentServiceAppService, IPaymentRequestAppService
     {
         private readonly PaymentMethodResolver _paymentMethodResolver;
-        private readonly PaymentRequestDomainService _paymentRequestDomainService;
         protected IPaymentRequestRepository PaymentRequestRepository { get; }
 
         public PaymentRequestAppService(
             IPaymentRequestRepository paymentRequestRepository,
-            PaymentMethodResolver paymentMethodResolver,
-            PaymentRequestDomainService paymentRequestDomainService)
+            PaymentMethodResolver paymentMethodResolver)
         {
             PaymentRequestRepository = paymentRequestRepository;
             _paymentMethodResolver = paymentMethodResolver;
-            _paymentRequestDomainService = paymentRequestDomainService;
         }
 
         public virtual async Task<PaymentRequestDto> CreateAsync(PaymentRequestCreationDto input)

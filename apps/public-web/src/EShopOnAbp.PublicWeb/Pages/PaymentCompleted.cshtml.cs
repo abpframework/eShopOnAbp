@@ -25,15 +25,15 @@ public class PaymentCompletedModel : AbpPageModel
 
     public async Task<IActionResult> OnGetAsync()
     {
-        if (!HttpContext.Request.Cookies.TryGetValue(EShopOnAbpPaymentConsts.PaymentTypeCookie,
-                out var selectedPaymentType))
+        if (!HttpContext.Request.Cookies.TryGetValue(EShopOnAbpPaymentConsts.PaymentMethodCookie,
+                out var selectedPaymentMethod))
         {
             throw new InvalidOperationException("A payment type must be selected!");
         }
 
         PaymentRequest = await _paymentRequestAppService.CompleteAsync(
             // TODO: Use string name
-            selectedPaymentType,
+            selectedPaymentMethod,
             new PaymentRequestCompleteInputDto() { Token = Token });
 
         IsSuccessful = PaymentRequest.State == PaymentRequestState.Completed;
@@ -41,7 +41,7 @@ public class PaymentCompletedModel : AbpPageModel
         if (IsSuccessful)
         {
             // Remove cookie so that can be set again when default payment type is set
-            HttpContext.Response.Cookies.Delete(EShopOnAbpPaymentConsts.PaymentTypeCookie);
+            HttpContext.Response.Cookies.Delete(EShopOnAbpPaymentConsts.PaymentMethodCookie);
             return RedirectToPage("OrderReceived", new { orderNo = PaymentRequest.OrderNo });
         }
 

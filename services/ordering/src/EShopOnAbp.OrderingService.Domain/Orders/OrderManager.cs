@@ -21,7 +21,7 @@ public class OrderManager : DomainService
     }
 
     public async Task<Order> CreateOrderAsync(
-        int paymentTypeId,
+        string paymentMethod,
         Guid buyerId,
         string buyerName,
         string buyerEmail,
@@ -44,7 +44,7 @@ public class OrderManager : DomainService
                 country: addressCountry,
                 zipcode: addressZipCode,
                 description: addressDescription),
-            paymentType: PaymentType.From(paymentTypeId)
+            paymentMethod: paymentMethod
         );
 
         // Add new order items

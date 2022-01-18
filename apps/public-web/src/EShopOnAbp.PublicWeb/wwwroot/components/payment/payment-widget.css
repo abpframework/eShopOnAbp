@@ -15,18 +15,19 @@
     padding: 2px 16px;
 }
 
+.payment-method-icon {
+    opacity:0.8;
+}
+
+.selectable {
+    cursor: pointer !important;
+}
+
 .is-selected {
     border: solid #bfbfe3;
-}
-
-.payment-type-header {
-    font-weight: 500;
-}
-
-.paypal {
     color: #6c84fa;
 }
 
-.demo {
-    color: darkgray;
+.payment-method-header {
+    font-weight: 500;
 }
