@@ -10,7 +10,6 @@ public static class EfCoreOrderQueryableExtensions
             ? queryable
             : queryable
                 .Include(q => q.OrderStatus)
-                .Include(q => q.PaymentType)
                 .Include(q => q.Address)
                 .Include(q => q.Buyer)
                 .Include(q => q.OrderItems);

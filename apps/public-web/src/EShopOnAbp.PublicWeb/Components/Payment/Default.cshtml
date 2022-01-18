@@ -14,7 +14,7 @@
                 {
                     string isSelectedAddressClass = address.IsDefault ? "is-selected" : string.Empty;
                     <abp-column size="_3">
-                        <div class="card @isSelectedAddressClass" data-address-id="@address.Id">
+                        <div class="card selectable @isSelectedAddressClass" data-address-id="@address.Id">
                             <div class="card-header">
                                 <h4>@address.Type</h4>
                             </div>
@@ -31,17 +31,17 @@
         <div class="payment-list p-5">
             <h5 class="mb-5">@L["Payment:SelectPaymentMethod"]</h5>
             <abp-row>
-                @foreach (var paymentType in Model.PaymentTypes)
+                @foreach (var paymentMethod in Model.PaymentMethods)
                 {
-                    string isSelectedClass = paymentType.IsDefault ? "is-selected" : "";
+                    string isSelectedClass = paymentMethod.IsDefault ? "is-selected" : "";
                     <abp-column size="_2">
-                        <abp-card class="@isSelectedClass" data-payment-type="@paymentType.Type">
+                        <abp-card class="selectable @isSelectedClass" data-payment-method="@paymentMethod.Name">
                             <abp-card-body>
-                                <p class="card-title payment-type-header" style="text-align: center">
-                                    @paymentType.Name
+                                <p class="card-title payment-method-header" style="text-align: center">
+                                    @paymentMethod.Name
                                 </p>
-                                <p class="card-text">
-                                    <i class="fa fa-5x @paymentType.IconCss"></i>
+                                <p class="card-text payment-method-icon">
+                                    <i class="fa fa-5x @paymentMethod.IconCss"></i>
                                 </p>
                             </abp-card-body>
                         </abp-card>

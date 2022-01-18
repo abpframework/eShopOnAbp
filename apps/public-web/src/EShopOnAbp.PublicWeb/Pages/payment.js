@@ -9,8 +9,8 @@
         form.appendChild(addressInput);
 
         let paymentInput = document.createElement('input');
-        paymentInput.setAttribute('name', "model.SelectedPaymentType");
-        paymentInput.setAttribute('value', document.querySelector(".payment-list .card.is-selected").getAttribute("data-payment-type"));
+        paymentInput.setAttribute('name', "model.SelectedPaymentMethod");
+        paymentInput.setAttribute('value', document.querySelector(".payment-list .card.is-selected").getAttribute("data-payment-method"));
         paymentInput.setAttribute('type', "hidden");
         form.appendChild(paymentInput);
     };

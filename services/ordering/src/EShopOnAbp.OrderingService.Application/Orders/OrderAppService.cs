@@ -53,7 +53,7 @@ public class OrderAppService : ApplicationService, IOrderAppService
 
         var placedOrder = await _orderManager.CreateOrderAsync
         (
-            paymentTypeId: input.PaymentTypeId,
+            paymentMethod: input.PaymentMethod,
             buyerId: CurrentUser.GetId(),
             buyerName: CurrentUser.Name,
             buyerEmail: CurrentUser.Email,
@@ -108,8 +108,7 @@ public class OrderAppService : ApplicationService, IOrderAppService
             OrderDate = order.OrderDate,
             OrderStatus = order.OrderStatus.Name,
             OrderStatusId = order.OrderStatus.Id,
-            PaymentType = order.PaymentType.Name,
-            PaymentTypeId = order.PaymentType.Id
+            PaymentMethod = order.PaymentMethod
         };
     }
 }

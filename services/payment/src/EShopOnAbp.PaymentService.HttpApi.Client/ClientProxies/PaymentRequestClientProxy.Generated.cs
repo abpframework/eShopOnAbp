@@ -15,11 +15,11 @@ namespace EShopOnAbp.PaymentService.Controllers.ClientProxies;
 [ExposeServices(typeof(IPaymentRequestAppService), typeof(PaymentRequestClientProxy))]
 public partial class PaymentRequestClientProxy : ClientProxyBase<IPaymentRequestAppService>, IPaymentRequestAppService
 {
-    public virtual async Task<PaymentRequestDto> CompleteAsync(string paymentType, PaymentRequestCompleteInputDto input)
+    public virtual async Task<PaymentRequestDto> CompleteAsync(string paymentMethod, PaymentRequestCompleteInputDto input)
         {
             return await RequestAsync<PaymentRequestDto>(nameof(CompleteAsync), new ClientProxyRequestTypeValue
             {
-                { typeof(string), paymentType },
+                { typeof(string), paymentMethod },
                 { typeof(PaymentRequestCompleteInputDto), input }
             });
         }
@@ -32,20 +32,20 @@ public partial class PaymentRequestClientProxy : ClientProxyBase<IPaymentRequest
             });
         }
 
-        public virtual async Task<bool> HandleWebhookAsync(string paymentType, string payload)
+        public virtual async Task<bool> HandleWebhookAsync(string paymentMethod, string payload)
         {
             return await RequestAsync<bool>(nameof(HandleWebhookAsync), new ClientProxyRequestTypeValue
             {
-                { typeof(string), paymentType },
+                { typeof(string), paymentMethod },
                 { typeof(string), payload }
             });
         }
 
-        public virtual async Task<PaymentRequestStartResultDto> StartAsync(string paymentType, PaymentRequestStartDto input)
+        public virtual async Task<PaymentRequestStartResultDto> StartAsync(string paymentMethod, PaymentRequestStartDto input)
         {
             return await RequestAsync<PaymentRequestStartResultDto>(nameof(StartAsync), new ClientProxyRequestTypeValue
             {
-                { typeof(string), paymentType },
+                { typeof(string), paymentMethod },
                 { typeof(PaymentRequestStartDto), input }
             });
         }

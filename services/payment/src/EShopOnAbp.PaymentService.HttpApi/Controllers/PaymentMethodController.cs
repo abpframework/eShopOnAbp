@@ -18,6 +18,7 @@ public class PaymentMethodController : PaymentServiceController, IPaymentMethodA
         PaymentMethodAppService = paymentMethodAppService;
     }
 
+    [HttpGet]
     public Task<List<PaymentMethodDto>> GetListAsync()
     {
         return PaymentMethodAppService.GetListAsync();

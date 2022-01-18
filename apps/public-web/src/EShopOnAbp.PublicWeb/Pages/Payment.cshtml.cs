@@ -46,7 +46,7 @@ public class PaymentModel : AbpPageModel
     {
         Logger.LogInformation("Payment Proceeded...");
         Logger.LogInformation($"AddressId: {model.SelectedAddressId}");
-        Logger.LogInformation($"PaymentType: {model.SelectedPaymentType}");
+        Logger.LogInformation($"PaymentMethod: {model.SelectedPaymentMethod}");
         Logger.LogInformation($"Total Discount: {model.TotalDiscountPercentage}");
 
         var basket = await _userBasketProvider.GetBasketAsync();
@@ -59,6 +59,7 @@ public class PaymentModel : AbpPageModel
 
         var placedOrder = await _orderAppService.CreateAsync(new OrderCreateDto()
         {
+            PaymentMethod = model.SelectedPaymentMethod,
             Address = GetUserAddress(model.SelectedAddressId),
             Products = productItems
         });
@@ -73,7 +74,7 @@ public class PaymentModel : AbpPageModel
         });
 
         var response = await _paymentRequestAppService.StartAsync(
-            model.SelectedPaymentType,
+            model.SelectedPaymentMethod,
             new PaymentRequestStartDto
             {
                 PaymentRequestId = paymentRequest.Id,
@@ -87,7 +88,7 @@ public class PaymentModel : AbpPageModel
     public class PaymentPageViewModel
     {
         public int SelectedAddressId { get; set; }
-        public string SelectedPaymentType { get; set; }
+        public string SelectedPaymentMethod { get; set; }
         public decimal TotalDiscountPercentage { get; set; }
     }
 

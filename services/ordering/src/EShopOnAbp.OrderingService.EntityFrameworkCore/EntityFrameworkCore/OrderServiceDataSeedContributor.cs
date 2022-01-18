@@ -24,16 +24,6 @@ public class OrderServiceDataSeedContributor : IDataSeedContributor, ITransientD
     public async Task SeedAsync(DataSeedContext context)
     {
         await SeedOrderStatusAsync();
-        await SeedPaymentTypesAsync();
-    }
-
-    private async Task SeedPaymentTypesAsync()
-    {
-        if (!await _dbContext.Set<PaymentType>().AnyAsync())
-        {
-            await _dbContext.Set<PaymentType>().AddRangeAsync(PaymentType.List());
-            await _dbContext.SaveChangesAsync();
-        }
     }
 
     private async Task SeedOrderStatusAsync()
