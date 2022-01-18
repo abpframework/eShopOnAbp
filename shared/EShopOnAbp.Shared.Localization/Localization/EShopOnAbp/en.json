@@ -25,6 +25,8 @@
     "CompleteOrder": "Complete order",
     "Index:AddToBasket": "Add to basket",
     "Payment:SelectAddress": "Select Address",
+    "Payment:PaymentMethod.paypal": "PayPal",
+    "Payment:PaymentMethod.demo": "Demo",
     "Payment:SelectPaymentMethod": "Select Payment Method",
     "OrderReceived:AcceptedOrder": "Your order is received!",
     "OrderReceived:MailSentTo": "Your order details have been sent to ",
