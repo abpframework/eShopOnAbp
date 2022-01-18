@@ -18,12 +18,12 @@ namespace EShopOnAbp.PaymentService.PaymentRequests
         public async Task Should_Insert_Payment_Request()
         {
             var id = Guid.NewGuid();
-            var paymentRequest = new PaymentRequest(id, "123",456,"USD");
-            
+            var paymentRequest = new PaymentRequest(id, Guid.NewGuid().ToString(), 456, "USD");
+
             await _paymentRequestRepository.InsertAsync(paymentRequest, autoSave: true);
-            
+
             var inserted = await _paymentRequestRepository.GetAsync(id);
-            
+
             inserted.Id.ShouldNotBe(Guid.Empty);
         }
     }
