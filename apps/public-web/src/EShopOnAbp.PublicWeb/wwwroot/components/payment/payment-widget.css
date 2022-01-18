@@ -20,12 +20,12 @@
 }
 
 .selectable {
-    cursor: pointer;
+    cursor: pointer !important;
 }
 
 .is-selected {
     border: solid #bfbfe3;
-    color: #6c84fa !important;
+    color: #6c84fa;
 }
 
 .payment-method-header {
