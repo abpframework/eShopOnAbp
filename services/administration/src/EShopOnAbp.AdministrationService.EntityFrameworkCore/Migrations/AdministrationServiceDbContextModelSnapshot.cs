@@ -78,7 +78,7 @@ namespace EShopOnAbp.AdministrationService.Migrations
                         .HasColumnName("ExecutionDuration");
 
                     b.Property<DateTime>("ExecutionTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("ExtraProperties")
                         .HasColumnType("text")
@@ -145,7 +145,7 @@ namespace EShopOnAbp.AdministrationService.Migrations
                         .HasColumnName("ExecutionDuration");
 
                     b.Property<DateTime>("ExecutionTime")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("ExecutionTime");
 
                     b.Property<string>("ExtraProperties")
@@ -190,7 +190,7 @@ namespace EShopOnAbp.AdministrationService.Migrations
                         .HasColumnName("AuditLogId");
 
                     b.Property<DateTime>("ChangeTime")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("ChangeTime");
 
                     b.Property<byte>("ChangeType")

@@ -13,7 +13,7 @@ using Volo.Abp.EntityFrameworkCore;
 namespace EShopOnAbp.AdministrationService.Migrations
 {
     [DbContext(typeof(AdministrationServiceDbContext))]
-    [Migration("20211125123421_Initial")]
+    [Migration("20220119084149_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -80,7 +80,7 @@ namespace EShopOnAbp.AdministrationService.Migrations
                         .HasColumnName("ExecutionDuration");
 
                     b.Property<DateTime>("ExecutionTime")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("ExtraProperties")
                         .HasColumnType("text")
@@ -147,7 +147,7 @@ namespace EShopOnAbp.AdministrationService.Migrations
                         .HasColumnName("ExecutionDuration");
 
                     b.Property<DateTime>("ExecutionTime")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("ExecutionTime");
 
                     b.Property<string>("ExtraProperties")
@@ -192,7 +192,7 @@ namespace EShopOnAbp.AdministrationService.Migrations
                         .HasColumnName("AuditLogId");
 
                     b.Property<DateTime>("ChangeTime")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasColumnName("ChangeTime");
 
                     b.Property<byte>("ChangeType")
