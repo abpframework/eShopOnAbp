@@ -63,8 +63,10 @@ namespace EShopOnAbp.WebGateway
             {
                 var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
                 var routes = configuration.GetSection("Routes").Get<List<OcelotConfiguration>>();
+                var routedServices = routes.GroupBy(t => t.ServiceKey).Select(r => r.First()).Distinct();
                 
-                foreach (var config in routes.GroupBy(t => t.ServiceKey).Select(r => r.First()).Distinct())
+                //TODO : AccountService (AuthServer) doesn't have any swagger end point
+                foreach (var config in routedServices.Where(q => !q.ServiceKey.StartsWith("Account")))
                 {
                     var url =
                         $"{config.DownstreamScheme}://{config.DownstreamHostAndPorts.FirstOrDefault()?.Host}:{config.DownstreamHostAndPorts.FirstOrDefault()?.Port}";

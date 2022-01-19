@@ -1,4 +1,5 @@
-﻿using EShopOnAbp.Shared.Hosting.Gateways;
+﻿using System;
+using EShopOnAbp.Shared.Hosting.Gateways;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,21 +8,22 @@ using Ocelot.Middleware;
 using System.Collections.Generic;
 using System.Linq;
 using EShopOnAbp.Shared.Hosting.AspNetCore;
+using Microsoft.AspNetCore.Cors;
 using Volo.Abp;
 using Volo.Abp.Modularity;
 
 namespace EShopOnAbp.WebPublicGateway
 {
     [DependsOn(
-    typeof(EShopOnAbpSharedHostingGatewaysModule)
-)]
+        typeof(EShopOnAbpSharedHostingGatewaysModule)
+    )]
     public class EShopOnAbpWebPublicGatewayModule : AbpModule
     {
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
             var configuration = context.Services.GetConfiguration();
             var hostingEnvironment = context.Services.GetHostingEnvironment();
-            
+
             SwaggerConfigurationHelper.Configure(context, "WebPublic Gateway");
         }
 
@@ -41,7 +43,10 @@ namespace EShopOnAbp.WebPublicGateway
             {
                 var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
                 var routes = configuration.GetSection("Routes").Get<List<OcelotConfiguration>>();
-                foreach (var config in routes.GroupBy(t => t.ServiceKey).Select(r => r.First()).Distinct())
+                var routedServices = routes.GroupBy(t => t.ServiceKey).Select(r => r.First()).Distinct();
+                
+                //TODO : AccountService (AuthServer) doesn't have any swagger end point
+                foreach (var config in routedServices.Where(q => !q.ServiceKey.StartsWith("Account")))
                 {
                     var url =
                         $"{config.DownstreamScheme}://{config.DownstreamHostAndPorts.FirstOrDefault()?.Host}:{config.DownstreamHostAndPorts.FirstOrDefault()?.Port}";
