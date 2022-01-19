@@ -24,6 +24,7 @@
     "CompletePurchase": "Complete purchase",
     "CompleteOrder": "Complete order",
     "Index:AddToBasket": "Add to basket",
+    "Index:OutOfStock": "Out of Stock",
     "Payment:SelectAddress": "Select Address",
     "Payment:PaymentMethod.paypal": "PayPal",
     "Payment:PaymentMethod.demo": "Demo",
