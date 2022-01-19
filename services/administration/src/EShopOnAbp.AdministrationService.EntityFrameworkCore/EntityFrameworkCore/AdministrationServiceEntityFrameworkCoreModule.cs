@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System;
+using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BlobStoring.Database.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
@@ -33,6 +34,9 @@ namespace EShopOnAbp.AdministrationService.EntityFrameworkCore
 
                 options.AddDefaultRepositories(includeAllEntities: true);
             });
+
+            // https://www.npgsql.org/efcore/release-notes/6.0.html#opting-out-of-the-new-timestamp-mapping-logic
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
             Configure<AbpDbContextOptions>(options =>
             {

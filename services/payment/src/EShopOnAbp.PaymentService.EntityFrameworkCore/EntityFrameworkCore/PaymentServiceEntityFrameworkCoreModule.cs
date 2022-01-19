@@ -1,4 +1,5 @@
-﻿using EShopOnAbp.PaymentService.PaymentRequests;
+﻿using System;
+using EShopOnAbp.PaymentService.PaymentRequests;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore.PostgreSql;
@@ -23,6 +24,9 @@ namespace EShopOnAbp.PaymentService.EntityFrameworkCore
             {
                 options.AddRepository<PaymentRequest, EfCorePaymentRequestRepository>();
             });
+
+            // https://www.npgsql.org/efcore/release-notes/6.0.html#opting-out-of-the-new-timestamp-mapping-logic
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
             Configure<AbpDbContextOptions>(options =>
             {
