@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using StackExchange.Redis;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
@@ -72,32 +73,20 @@ namespace EShopOnAbp.AuthServer
             }
         }
         
-        private X509Certificate2 GetSigningCertificate(IWebHostEnvironment hostingEnv, IConfiguration configuration)
-        {
-            var fileName = "eshoponabp-authserver.pfx";
-            var passPhrase = "780F3C11-0A96-40DE-B335-9848BE88C77D";
-            var file = Path.Combine(hostingEnv.ContentRootPath, fileName);
-
-            if (!File.Exists(file))
-            {
-                throw new FileNotFoundException($"Signing Certificate couldn't found: {file}");
-            }
-
-            return new X509Certificate2(file, passPhrase);
-        }
-
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
             Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
             var hostingEnvironment = context.Services.GetHostingEnvironment();
             var configuration = context.Services.GetConfiguration();
+
+            ConfigureSwagger(context, configuration);
             
             context.Services.AddAuthentication()
                 .AddJwtBearer(options =>
                 {
                     options.Authority = configuration["AuthServer:Authority"];
                     options.RequireHttpsMetadata = Convert.ToBoolean(configuration["AuthServer:RequireHttpsMetadata"]);
-                    options.Audience = "AuthServer";
+                    options.Audience = "AccountService";
                 });
 
             Configure<IdentityServerOptions>(options =>
@@ -105,14 +94,6 @@ namespace EShopOnAbp.AuthServer
                 options.IssuerUri = configuration["App:SelfUrl"];
             });
 
-            Configure<AbpMultiTenancyOptions>(options =>
-            {
-                options.IsEnabled = true;
-            });
-
-            // context.Services.Replace(ServiceDescriptor.Transient<AbpClaimsService, EshopUserClaimService>());
-
-            
             Configure<AbpClaimsServiceOptions>(options =>
             {
                 options.RequestedClaims.AddRange(new[]{
@@ -215,11 +196,43 @@ namespace EShopOnAbp.AuthServer
             app.UseUnitOfWork();
             app.UseIdentityServer();
             app.UseAuthorization();
+            app.UseSwagger();
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Account Service API");
+            });
             app.UseAuditing();
             app.UseConfiguredEndpoints(endpoints =>
             {
                 // endpoints.MapMetrics();
             });
+        }
+        
+        private X509Certificate2 GetSigningCertificate(IWebHostEnvironment hostingEnv, IConfiguration configuration)
+        {
+            var fileName = "eshoponabp-authserver.pfx";
+            var passPhrase = "780F3C11-0A96-40DE-B335-9848BE88C77D";
+            var file = Path.Combine(hostingEnv.ContentRootPath, fileName);
+
+            if (!File.Exists(file))
+            {
+                throw new FileNotFoundException($"Signing Certificate couldn't found: {file}");
+            }
+
+            return new X509Certificate2(file, passPhrase);
+        }
+        
+        private void ConfigureSwagger(ServiceConfigurationContext context, IConfiguration configuration)
+        {
+            SwaggerWithAuthConfigurationHelper.Configure(
+                context: context,
+                authority: configuration["AuthServer:Authority"],
+                scopes: new Dictionary<string, string> /* Requested scopes for authorization code request and descriptions for swagger UI only */
+                {
+                    {"AccountService", "Account Service API"},
+                },
+                apiTitle: "Account Service API"
+            );
         }
     }
 }

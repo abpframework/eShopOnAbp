@@ -83,7 +83,7 @@ namespace EShopOnAbp.IdentityService.DbMigrations
                 "role"
             };
 
-            await CreateApiResourceAsync("AuthServer", commonApiUserClaims);
+            await CreateApiResourceAsync("AccountService", commonApiUserClaims);
             await CreateApiResourceAsync("IdentityService", commonApiUserClaims);
             await CreateApiResourceAsync("AdministrationService", commonApiUserClaims);
             await CreateApiResourceAsync("CatalogService", commonApiUserClaims);
@@ -94,7 +94,7 @@ namespace EShopOnAbp.IdentityService.DbMigrations
 
         private async Task CreateApiScopesAsync()
         {
-            await CreateApiScopeAsync("AuthServer");
+            await CreateApiScopeAsync("AccountService");
             await CreateApiScopeAsync("IdentityService");
             await CreateApiScopeAsync("AdministrationService");
             await CreateApiScopeAsync("CatalogService");
@@ -105,8 +105,8 @@ namespace EShopOnAbp.IdentityService.DbMigrations
 
         private async Task CreateSwaggerClientsAsync()
         {
-            await CreateSwaggerClientAsync("AuthServer",
-                new[] { "AuthServer"});
+            await CreateSwaggerClientAsync("AccountService",
+                new[] { "AccountService"});
 
             await CreateSwaggerClientAsync("IdentityService",
                 new[] { "IdentityService"});
@@ -221,7 +221,7 @@ namespace EShopOnAbp.IdentityService.DbMigrations
                 name: "PublicWeb",
                 scopes: commonScopes.Union(new[]
                 {
-                    "AuthServer",
+                    "AccountService",
                     "AdministrationService",
                     "CatalogService",
                     "BasketService",
@@ -243,7 +243,7 @@ namespace EShopOnAbp.IdentityService.DbMigrations
                 name: "Web",
                 scopes: commonScopes.Union(new[]
                 {
-                    "AuthServer",
+                    "AccountService",
                     "IdentityService",
                     "AdministrationService"
                 }),

@@ -43,10 +43,12 @@ namespace EShopOnAbp.WebPublicGateway
             {
                 var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
                 var routes = configuration.GetSection("Routes").Get<List<OcelotConfiguration>>();
-                var routedServices = routes.GroupBy(t => t.ServiceKey).Select(r => r.First()).Distinct();
+                var routedServices = routes
+                    .GroupBy(t => t.ServiceKey)
+                    .Select(r => r.First())
+                    .Distinct();
                 
-                //TODO : AccountService (AuthServer) doesn't have any swagger end point
-                foreach (var config in routedServices.Where(q => !q.ServiceKey.StartsWith("Account")))
+                foreach (var config in routedServices)
                 {
                     var url =
                         $"{config.DownstreamScheme}://{config.DownstreamHostAndPorts.FirstOrDefault()?.Host}:{config.DownstreamHostAndPorts.FirstOrDefault()?.Port}";
@@ -56,8 +58,12 @@ namespace EShopOnAbp.WebPublicGateway
                     }
 
                     options.SwaggerEndpoint($"{url}/swagger/v1/swagger.json", $"{config.ServiceKey} API");
-                    options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
-                    options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
+                    // options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
+                    // options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
+                    
+                    // TODO: Find a way to get these configurations from related running applications settings.
+                    // options.OAuthClientId($"{config.ServiceKey.Replace(" ","")}_Swagger");
+                    // options.OAuthClientSecret("1q2w3e*");
                 }
             });
             app.UseAbpSerilogEnrichers();
