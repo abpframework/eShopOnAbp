@@ -49,7 +49,14 @@
                                     </div>
                                     <img src="@productImage"/>
                                     <div class="row mt-5 ">
-                                        <abp-button class="add-basket-button" button-type="Warning" text="@buyText" data-product-id="@product.Id.ToString()"></abp-button>
+                                        @if(product.StockCount > 0)
+                                        {   
+                                            <abp-button class="add-basket-button" button-type="Warning" text="@buyText" data-product-id="@product.Id.ToString()"></abp-button>
+                                        }
+                                        else
+                                        {
+                                            <abp-button disabled="true" class="add-basket-button" button-type="Warning" text="@L["Index:OutOfStock"]" />
+                                        }
                                         <div class="info-section col" style="text-align: center">
                                             <span class="product-price">@productPrice</span>
                                         </div>

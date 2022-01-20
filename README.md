@@ -42,18 +42,32 @@ You can either run in Visual Studio, or using [Microsoft Tye](https://github.com
   ```
 
 ## Roadmap
-
+### Development
 - [x] New blank micro-service solution ✔️
 - [x] Creating Deployment Scenarios ✔️
 - [x] Creating empty business services ✔️
 
-- [ ] Implementing	 business logic into services
+- [x] Implementing	 business logic into services ✔️
   - [x] Payment with PayPal ✔️
-  - [ ] Basket, Catalog, Order Service
+  - [x] Basket, Catalog, Order Service ✔️
+
+- [ ] Switch ocelot to envoy in Public Web gateway
+  - [ ] Use gRPC for catalog microservice
 
 - [ ] Management Side of Services
 - [ ] Administration Services & UI
 
+### Deployment
+- [x] Docker Image creation ✔️
+- [ ] Docker compose for deployment
+- [x] Helm deployment for local k8s cluster ✔️
+- [ ] Deployment to azure k8s
+
+### Documentation
+- [ ] Create wiki
+- [ ] Getting started
+- [ ] Explore
+- [ ] Deployment
 ---
 
 Current milestone is Phase 1 structure is presented below:
