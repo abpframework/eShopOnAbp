@@ -9,10 +9,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using EShopOnAbp.CatalogService.MongoDB;
+using Microsoft.Extensions.Configuration;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.AntiForgery;
-using Volo.Abp.AspNetCore.Uow;
 using Volo.Abp.Modularity;
 using Volo.Abp.Threading;
 using Volo.Abp.Uow;
@@ -31,7 +31,7 @@ namespace EShopOnAbp.CatalogService
         {
             var configuration = context.Services.GetConfiguration();
 
-            JwtBearerConfigurationHelper.Configure(context, "AdministrationService"); //TODO: Should be "CatalogService", but didn't work :(
+            JwtBearerConfigurationHelper.Configure(context, "CatalogService"); //TODO: Should be "CatalogService", but didn't work :(
             // SwaggerConfigurationHelper.Configure(context, "Catalog Service API");
 
             SwaggerWithAuthConfigurationHelper.Configure(
@@ -104,7 +104,13 @@ namespace EShopOnAbp.CatalogService
             app.UseAbpClaimsMap();
             app.UseAuthorization();
             app.UseSwagger();
-            app.UseSwaggerUI(options => { options.SwaggerEndpoint("/swagger/v1/swagger.json", "Catalog Service API"); });
+            app.UseSwaggerUI(options =>
+            {
+                var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Catalog Service API");
+                options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
+                options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
+            });
             app.UseAbpSerilogEnrichers();
             app.UseAuditing();
             app.UseUnitOfWork();

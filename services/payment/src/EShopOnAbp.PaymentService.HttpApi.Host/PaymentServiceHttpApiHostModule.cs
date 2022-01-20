@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Configuration;
 using Volo.Abp;
 using Volo.Abp.Modularity;
 using Volo.Abp.Threading;
@@ -84,7 +85,13 @@ namespace EShopOnAbp.PaymentService
             app.UseAbpClaimsMap();
             app.UseAuthorization();
             app.UseSwagger();
-            app.UseSwaggerUI(options => { options.SwaggerEndpoint("/swagger/v1/swagger.json", "Payment Service API"); });
+            app.UseSwaggerUI(options =>
+            {
+                var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Payment Service API");
+                options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
+                options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
+            });
             app.UseAbpSerilogEnrichers();
             app.UseAuditing();
             app.UseUnitOfWork();

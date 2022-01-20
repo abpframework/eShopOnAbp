@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Configuration;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.AntiForgery;
@@ -24,20 +25,22 @@ namespace EShopOnAbp.BasketService
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
             Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
-                
+
             var configuration = context.Services.GetConfiguration();
             var hostingEnvironment = context.Services.GetHostingEnvironment();
 
-            JwtBearerConfigurationHelper.Configure(context, "AdministrationService"); //TODO: Should be "BasketService", but didn't work :(
+            JwtBearerConfigurationHelper.Configure(context,
+                "AdministrationService"); //TODO: Should be "BasketService", but didn't work :(
             // SwaggerConfigurationHelper.Configure(context, "Basket Service API");
 
             SwaggerWithAuthConfigurationHelper.Configure(
                 context: context,
                 authority: configuration["AuthServer:Authority"],
-                scopes: new Dictionary<string, string> /* Requested scopes for authorization code request and descriptions for swagger UI only */
-                {
-                    {"BasketService", "Catalog Service API"},
-                },
+                scopes: new
+                    Dictionary<string, string> /* Requested scopes for authorization code request and descriptions for swagger UI only */
+                    {
+                        {"BasketService", "Catalog Service API"},
+                    },
                 apiTitle: "Basket Service API"
             );
 
@@ -59,7 +62,7 @@ namespace EShopOnAbp.BasketService
                         .AllowCredentials();
                 });
             });
-            
+
             Configure<AbpAspNetCoreMvcOptions>(options =>
             {
                 options.ConventionalControllers.Create(
@@ -69,11 +72,8 @@ namespace EShopOnAbp.BasketService
                         opts.RemoteServiceName = "Basket";
                     });
             });
-            
-            Configure<AbpAntiForgeryOptions>(options =>
-            {
-                options.AutoValidate = false;
-            });
+
+            Configure<AbpAntiForgeryOptions>(options => { options.AutoValidate = false; });
         }
 
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
@@ -96,7 +96,13 @@ namespace EShopOnAbp.BasketService
             app.UseAbpClaimsMap();
             app.UseAuthorization();
             app.UseSwagger();
-            app.UseSwaggerUI(options => { options.SwaggerEndpoint("/swagger/v1/swagger.json", "Basket Service API"); });
+            app.UseSwaggerUI(options =>
+            {
+                var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Basket Service API");
+                options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
+                options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
+            });
             app.UseAbpSerilogEnrichers();
             app.UseAuditing();
             app.UseUnitOfWork();

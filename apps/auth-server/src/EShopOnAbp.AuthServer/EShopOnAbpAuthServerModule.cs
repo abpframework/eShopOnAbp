@@ -200,6 +200,8 @@ namespace EShopOnAbp.AuthServer
             app.UseSwaggerUI(options =>
             {
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "Account Service API");
+                options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
+                options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
             });
             app.UseAuditing();
             app.UseConfiguredEndpoints(endpoints =>
