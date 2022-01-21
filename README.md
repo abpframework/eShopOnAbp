@@ -70,9 +70,9 @@ You can either run in Visual Studio, or using [Microsoft Tye](https://github.com
 - [ ] Deployment
 ---
 
-Current milestone is Phase 1 structure is presented below:
+
+## Current Architecture
 
 ![eSopOnAbp Phase 1](/docs/roadmap/Phase_1.png)
 
-_See Phase 2 planning from [here](docs/roadmap/Phase_2.png)_
 
