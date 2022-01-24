@@ -38,6 +38,7 @@ namespace EShopOnAbp.WebPublicGateway
             }
 
             app.UseCorrelationId();
+            app.UseAbpSerilogEnrichers();
             app.UseSwagger();
             app.UseSwaggerUI(options =>
             {
@@ -66,10 +67,8 @@ namespace EShopOnAbp.WebPublicGateway
                     // options.OAuthClientSecret("1q2w3e*");
                 }
             });
-            app.UseAbpSerilogEnrichers();
             app.MapWhen(
-                ctx => ctx.Request.Path.ToString().StartsWith("/api/abp/api-definition") ||
-                       ctx.Request.Path.ToString().TrimEnd('/').Equals(""),
+                ctx => ctx.Request.Path.ToString().TrimEnd('/').Equals(""),
                 app2 =>
                 {
                     app2.UseRouting();
