@@ -42,37 +42,30 @@ You can either run in Visual Studio, or using [Microsoft Tye](https://github.com
   ```
 
 ## Roadmap
-### Development
+
 - [x] New blank micro-service solution ✔️
 - [x] Creating Deployment Scenarios ✔️
 - [x] Creating empty business services ✔️
-
 - [x] Implementing	 business logic into services ✔️
   - [x] Payment with PayPal ✔️
   - [x] Basket, Catalog, Order Service ✔️
-
-- [ ] Switch ocelot to envoy in Public Web gateway
-  - [ ] Use gRPC for catalog microservice
-
-- [ ] Management Side of Services
-- [ ] Administration Services & UI
-
-### Deployment
 - [x] Docker Image creation ✔️
-- [ ] Docker compose for deployment
 - [x] Helm deployment for local k8s cluster ✔️
+- [ ] Switch Ocelot to Envoy in Public Web gateway
+- [ ] Use gRPC for catalog microservice
+- [ ] Management Side of Services
+- [ ] Administration application (to manage products and orders, with a dashboard)
+- [ ] Product-detail page on the shopping application (with CMS-kit integration for comments and rating components)
 - [ ] Deployment to azure k8s
 
 ### Documentation
-- [ ] Create wiki
-- [ ] Getting started
-- [ ] Explore
-- [ ] Deployment
----
 
+- [ ] We will create an e-book to explain the solution
 
 ## Current Architecture
 
 ![eSopOnAbp Phase 1](/docs/roadmap/Phase_1.png)
 
+## ABP Community Talks
 
+We've organized a meetup related to this solution. You can watch it here: https://community.abp.io/posts/abp-community-talks-2022.1-microservice-development-a98jnsa0
