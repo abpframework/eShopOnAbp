@@ -9,112 +9,112 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.Modularity;
 using Volo.Abp.Threading;
 
-namespace EShopOnAbp.OrderingService
+namespace EShopOnAbp.OrderingService;
+
+[DependsOn(
+    typeof(OrderingServiceHttpApiModule),
+    typeof(OrderingServiceApplicationModule),
+    typeof(OrderingServiceEntityFrameworkCoreModule),
+    typeof(EShopOnAbpSharedHostingMicroservicesModule)
+)]
+public class OrderingServiceHttpApiHostModule : AbpModule
 {
-    [DependsOn(
-        typeof(OrderingServiceHttpApiModule),
-        typeof(OrderingServiceApplicationModule),
-        typeof(OrderingServiceEntityFrameworkCoreModule),
-        typeof(EShopOnAbpSharedHostingMicroservicesModule)
-        )]
-    public class OrderingServiceHttpApiHostModule : AbpModule
+    public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        public override void ConfigureServices(ServiceConfigurationContext context)
-        {
-            var hostingEnvironment = context.Services.GetHostingEnvironment();
-            var configuration = context.Services.GetConfiguration();
+        var configuration = context.Services.GetConfiguration();
+        var hostingEnvironment = context.Services.GetHostingEnvironment();
 
-            JwtBearerConfigurationHelper.Configure(context, "OrderingService");
+        JwtBearerConfigurationHelper.Configure(context, "OrderingService");
 
-            SwaggerWithAuthConfigurationHelper.Configure(
-                context: context,
-                authority: configuration["AuthServer:Authority"],
-                scopes: new Dictionary<string, string> /* Requested scopes for authorization code request and descriptions for swagger UI only */
+        SwaggerWithAuthConfigurationHelper.Configure(
+            context: context,
+            authority: configuration["AuthServer:Authority"],
+            scopes: new
+                Dictionary<string, string> /* Requested scopes for authorization code request and descriptions for swagger UI only */
                 {
-                    {"OrderingService", "Ordering Service API"},
+                    {"OrderingService", "Ordering Service API"}
                 },
-                apiTitle: "Ordering Service API"
-            );
+            apiTitle: "Ordering Service API"
+        );
 
-            context.Services.AddCors(options =>
-            {
-                options.AddDefaultPolicy(builder =>
-                {
-                    builder
-                        .WithOrigins(
-                            configuration["App:CorsOrigins"]
-                                .Split(",", StringSplitOptions.RemoveEmptyEntries)
-                                .Select(o => o.Trim().RemovePostFix("/"))
-                                .ToArray()
-                        )
-                        .WithAbpExposedHeaders()
-                        .SetIsOriginAllowedToAllowWildcardSubdomains()
-                        .AllowAnyHeader()
-                        .AllowAnyMethod()
-                        .AllowCredentials();
-                });
-            });
-            
-            // TODO: Crate controller instead of auto-controller configuration
-            Configure<AbpAspNetCoreMvcOptions>(options =>
-            {
-                options.ConventionalControllers.Create(typeof(OrderingServiceApplicationModule).Assembly, opts =>
-                {
-                    opts.RootPath = "ordering";
-                    opts.RemoteServiceName = "Ordering";
-                });
-            });
-        }
-
-        public override void OnApplicationInitialization(ApplicationInitializationContext context)
+        context.Services.AddCors(options =>
         {
-            var app = context.GetApplicationBuilder();
-            var env = context.GetEnvironment();
-
-            if (env.IsDevelopment())
+            options.AddDefaultPolicy(builder =>
             {
-                app.UseDeveloperExceptionPage();
-            }
-
-            app.UseCorrelationId();
-            app.UseCors();
-            app.UseAbpRequestLocalization();
-            app.UseStaticFiles();
-            app.UseRouting();
-            app.UseAuthentication();
-            app.UseAbpClaimsMap();
-            app.UseAuthorization();
-            app.UseSwagger();
-            app.UseSwaggerUI(options =>
-            {
-                var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Ordering Service API");
-                options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
-                options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
-                
+                builder
+                    .WithOrigins(
+                        configuration["App:CorsOrigins"]
+                            .Split(",", StringSplitOptions.RemoveEmptyEntries)
+                            .Select(o => o.Trim().RemovePostFix("/"))
+                            .ToArray()
+                    )
+                    .WithAbpExposedHeaders()
+                    .SetIsOriginAllowedToAllowWildcardSubdomains()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials();
             });
-            app.UseAbpSerilogEnrichers();
-            app.UseAuditing();
-            app.UseUnitOfWork();
-            app.UseConfiguredEndpoints();
+        });
+
+        // TODO: Crate controller instead of auto-controller configuration
+        Configure<AbpAspNetCoreMvcOptions>(options =>
+        {
+            options.ConventionalControllers.Create(typeof(OrderingServiceApplicationModule).Assembly, opts =>
+            {
+                opts.RootPath = "ordering";
+                opts.RemoteServiceName = "Ordering";
+            });
+        });
+    }
+
+    public override void OnApplicationInitialization(ApplicationInitializationContext context)
+    {
+        var app = context.GetApplicationBuilder();
+        var env = context.GetEnvironment();
+
+        if (env.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
         }
 
-        public override void OnPostApplicationInitialization(ApplicationInitializationContext context)
+        app.UseCorrelationId();
+        app.UseCors();
+        app.UseAbpRequestLocalization();
+        app.UseStaticFiles();
+        app.UseRouting();
+        app.UseAuthentication();
+        app.UseAbpClaimsMap();
+        app.UseAuthorization();
+        app.UseSwagger();
+        app.UseSwaggerUI(options =>
         {
-            using (var scope = context.ServiceProvider.CreateScope())
-            {
-                AsyncHelper.RunSync(
-                    () => scope.ServiceProvider
-                        .GetRequiredService<OrderingServiceDatabaseMigrationChecker>()
-                        .CheckAsync()
-                );
-            }
-        }
+            var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
+            options.SwaggerEndpoint("/swagger/v1/swagger.json", "Ordering Service API");
+            options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
+            options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
+        });
+        app.UseAbpSerilogEnrichers();
+        app.UseAuditing();
+        app.UseUnitOfWork();
+        app.UseConfiguredEndpoints();
+    }
+
+    public override async Task OnPostApplicationInitializationAsync(ApplicationInitializationContext context)
+    {
+        await context.ServiceProvider
+            .GetRequiredService<OrderingServiceDatabaseMigrationChecker>()
+            .CheckAsync();
+    }
+
+    public override void OnPostApplicationInitialization(ApplicationInitializationContext context)
+    {
+        AsyncHelper.RunSync(() => OnApplicationInitializationAsync(context));
     }
 }
