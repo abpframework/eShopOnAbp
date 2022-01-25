@@ -24,7 +24,22 @@ namespace EShopOnAbp.WebGateway
         {
             var configuration = context.Services.GetConfiguration();
             var hostingEnvironment = context.Services.GetHostingEnvironment();
-            SwaggerConfigurationHelper.Configure(context, "Web Gateway");
+            
+            SwaggerWithAuthConfigurationHelper.Configure(
+                context: context,
+                authority: configuration["AuthServer:Authority"],
+                scopes: new Dictionary<string, string> /* Requested scopes for authorization code request and descriptions for swagger UI only */
+                {
+                    { "AccountService", "Account Service API" },
+                    { "IdentityService", "Identity Service API" },
+                    { "AdministrationService", "Administration Service API" },
+                    { "CatalogService", "Catalog Service API" },
+                    { "BasketService", "Basket Service API" },
+                    { "PaymentService", "Payment Service API" },
+                    { "OrderingService", "Ordering Service API" },
+                },
+                apiTitle: "Web Gateway"
+            );
             
             context.Services.AddCors(options =>
             {

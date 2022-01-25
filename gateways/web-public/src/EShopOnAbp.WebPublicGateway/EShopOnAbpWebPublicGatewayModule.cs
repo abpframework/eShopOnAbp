@@ -24,7 +24,21 @@ namespace EShopOnAbp.WebPublicGateway
             var configuration = context.Services.GetConfiguration();
             var hostingEnvironment = context.Services.GetHostingEnvironment();
 
-            SwaggerConfigurationHelper.Configure(context, "WebPublic Gateway");
+            SwaggerWithAuthConfigurationHelper.Configure(
+                context: context,
+                authority: configuration["AuthServer:Authority"],
+                scopes: new Dictionary<string, string> /* Requested scopes for authorization code request and descriptions for swagger UI only */
+                {
+                    { "AccountService", "Account Service API" },
+                    { "IdentityService", "Identity Service API" },
+                    { "AdministrationService", "Administration Service API" },
+                    { "CatalogService", "Catalog Service API" },
+                    { "BasketService", "Basket Service API" },
+                    { "PaymentService", "Payment Service API" },
+                    { "OrderingService", "Ordering Service API" },
+                },
+                apiTitle: "WebPublic Gateway"
+            );
         }
 
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
@@ -59,12 +73,8 @@ namespace EShopOnAbp.WebPublicGateway
                     }
 
                     options.SwaggerEndpoint($"{url}/swagger/v1/swagger.json", $"{config.ServiceKey} API");
-                    // options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
-                    // options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
-                    
-                    // TODO: Find a way to get these configurations from related running applications settings.
-                    // options.OAuthClientId($"{config.ServiceKey.Replace(" ","")}_Swagger");
-                    // options.OAuthClientSecret("1q2w3e*");
+                    options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
+                    options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
                 }
             });
             app.MapWhen(

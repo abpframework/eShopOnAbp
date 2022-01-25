@@ -8,6 +8,7 @@ using EShopOnAbp.Shared.Hosting.Gateways;
 using EShopOnAbp.Shared.Hosting.Microservices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Volo.Abp;
@@ -28,9 +29,19 @@ namespace EShopOnAbp.IdentityService
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
             var configuration = context.Services.GetConfiguration();
-            var hostingEnvironment = context.Services.GetHostingEnvironment();
 
             JwtBearerConfigurationHelper.Configure(context, "IdentityService");
+            
+            SwaggerWithAuthConfigurationHelper.Configure(
+                context: context,
+                authority: configuration["AuthServer:Authority"],
+                scopes: new Dictionary<string, string> /* Requested scopes for authorization code request and descriptions for swagger UI only */
+                {
+                    {"IdentityService", "Identity Service API"}
+                },
+                apiTitle: "IdentityService Gateway API"
+            );
+            
 
             context.Services.AddCors(options =>
             {
@@ -50,16 +61,6 @@ namespace EShopOnAbp.IdentityService
                         .AllowCredentials();
                 });
             });
-            
-            SwaggerWithAuthConfigurationHelper.Configure(
-                context: context,
-                authority: configuration["AuthServer:Authority"],
-                scopes: new Dictionary<string, string> /* Requested scopes for authorization code request and descriptions for swagger UI only */
-                {
-                    {"IdentityService", "Identity Service API"}
-                },
-                apiTitle: "IdentityService Gateway API"
-            );
         }
 
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
@@ -83,7 +84,10 @@ namespace EShopOnAbp.IdentityService
             app.UseSwagger();
             app.UseSwaggerUI(options =>
             {
+                var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "Identity Service API");
+                options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
+                options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
             });
             app.UseAbpSerilogEnrichers();
             app.UseAuditing();

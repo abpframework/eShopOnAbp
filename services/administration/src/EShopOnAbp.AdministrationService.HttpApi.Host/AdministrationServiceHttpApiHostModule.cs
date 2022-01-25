@@ -7,6 +7,7 @@ using EShopOnAbp.Shared.Hosting.AspNetCore;
 using EShopOnAbp.Shared.Hosting.Microservices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Volo.Abp;
@@ -40,7 +41,7 @@ namespace EShopOnAbp.AdministrationService
                 authority: configuration["AuthServer:Authority"],
                 scopes: new Dictionary<string, string> /* Requested scopes for authorization code request and descriptions for swagger UI only */
                 {
-                    {"Administration", "Administration Service API"},
+                    {"AdministrationService", "Administration Service API"},
                 },
                 apiTitle: "Administration Service API"
             );
@@ -85,7 +86,10 @@ namespace EShopOnAbp.AdministrationService
             app.UseSwagger();
             app.UseSwaggerUI(options =>
             {
+                var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "Administration Service API");
+                options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
+                options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
             });
             app.UseAbpSerilogEnrichers();
             app.UseAuditing();
