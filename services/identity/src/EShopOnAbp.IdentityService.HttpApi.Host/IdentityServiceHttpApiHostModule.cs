@@ -29,7 +29,6 @@ namespace EShopOnAbp.IdentityService
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
             var configuration = context.Services.GetConfiguration();
-            var hostingEnvironment = context.Services.GetHostingEnvironment();
 
             JwtBearerConfigurationHelper.Configure(context, "IdentityService");
             
