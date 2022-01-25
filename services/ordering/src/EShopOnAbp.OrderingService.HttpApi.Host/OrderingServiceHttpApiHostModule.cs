@@ -25,7 +25,6 @@ namespace EShopOnAbp.OrderingService
         )]
     public class OrderingServiceHttpApiHostModule : AbpModule
     {
-
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
             var hostingEnvironment = context.Services.GetHostingEnvironment();
@@ -88,7 +87,6 @@ namespace EShopOnAbp.OrderingService
             app.UseAbpRequestLocalization();
             app.UseStaticFiles();
             app.UseRouting();
-            // app.UseHttpMetrics();
             app.UseAuthentication();
             app.UseAbpClaimsMap();
             app.UseAuthorization();
@@ -104,10 +102,7 @@ namespace EShopOnAbp.OrderingService
             app.UseAbpSerilogEnrichers();
             app.UseAuditing();
             app.UseUnitOfWork();
-            app.UseConfiguredEndpoints(endpoints =>
-            {
-                // endpoints.MapMetrics();
-            });
+            app.UseConfiguredEndpoints();
         }
 
         public override void OnPostApplicationInitialization(ApplicationInitializationContext context)

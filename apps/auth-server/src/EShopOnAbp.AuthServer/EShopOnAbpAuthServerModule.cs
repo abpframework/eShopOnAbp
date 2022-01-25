@@ -31,7 +31,6 @@ using Volo.Abp.Emailing;
 using Volo.Abp.EventBus.RabbitMq;
 using Volo.Abp.IdentityServer;
 using Volo.Abp.Modularity;
-using Volo.Abp.MultiTenancy;
 using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.VirtualFileSystem;
 
@@ -68,7 +67,7 @@ namespace EShopOnAbp.AuthServer
 
                 PreConfigure<IIdentityServerBuilder>(builder =>
                 {
-                    builder.AddSigningCredential(GetSigningCertificate(hostingEnvironment, configuration));
+                    builder.AddSigningCredential(GetSigningCertificate(hostingEnvironment));
                 });
             }
         }
@@ -189,7 +188,6 @@ namespace EShopOnAbp.AuthServer
             app.UseStaticFiles();
             app.UseRouting();
             app.UseCors();
-            // app.UseHttpMetrics();
             app.UseAuthentication();
             app.UseJwtTokenMiddleware();
             app.UseAbpSerilogEnrichers();
@@ -204,16 +202,13 @@ namespace EShopOnAbp.AuthServer
                 options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
             });
             app.UseAuditing();
-            app.UseConfiguredEndpoints(endpoints =>
-            {
-                // endpoints.MapMetrics();
-            });
+            app.UseConfiguredEndpoints();
         }
         
-        private X509Certificate2 GetSigningCertificate(IWebHostEnvironment hostingEnv, IConfiguration configuration)
+        private X509Certificate2 GetSigningCertificate(IWebHostEnvironment hostingEnv)
         {
-            var fileName = "eshoponabp-authserver.pfx";
-            var passPhrase = "780F3C11-0A96-40DE-B335-9848BE88C77D";
+            const string fileName = "eshoponabp-authserver.pfx";
+            const string passPhrase = "780F3C11-0A96-40DE-B335-9848BE88C77D";
             var file = Path.Combine(hostingEnv.ContentRootPath, fileName);
 
             if (!File.Exists(file))
@@ -229,9 +224,13 @@ namespace EShopOnAbp.AuthServer
             SwaggerWithAuthConfigurationHelper.Configure(
                 context: context,
                 authority: configuration["AuthServer:Authority"],
-                scopes: new Dictionary<string, string> /* Requested scopes for authorization code request and descriptions for swagger UI only */
+                scopes: new Dictionary<string, string>
                 {
-                    {"AccountService", "Account Service API"},
+                    /* Requested scopes for authorization code request and descriptions for swagger UI only */
+                    {
+                        "AccountService",
+                        "Account Service API"
+                    },
                 },
                 apiTitle: "Account Service API"
             );

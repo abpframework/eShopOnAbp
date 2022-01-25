@@ -48,15 +48,16 @@ public class EShopUserClaimsPrincipalFactory : AbpUserClaimsPrincipalFactory
     public override async Task<ClaimsPrincipal> CreateAsync(IdentityUser user)
     {
         var principal = await base.CreateAsync(user);
+        
         if (HttpContext.Request.Cookies.ContainsKey(EShopConstants.AnonymousUserClaimName))
         {
             HttpContext.Request.Cookies.TryGetValue(EShopConstants.AnonymousUserClaimName, out var anonymousUserId);
-
             await _cache.SetAsync(user.Id, new AnonymousUserItem {AnonymousUserId = anonymousUserId},
                 options: new DistributedCacheEntryOptions()
                 {
                     AbsoluteExpiration = DateTimeOffset.UtcNow.AddSeconds(60)
                 });
+            
             _logger.LogInformation($"Cached anonymousUserId:{anonymousUserId}.");
         }
 
@@ -68,8 +69,13 @@ public class EShopUserClaimsPrincipalFactory : AbpUserClaimsPrincipalFactory
         }
 
         _logger.LogInformation($"Retrieved anonymousUserId:{cachedItem.AnonymousUserId} from cache.");
-        principal.Identities.First()
-            .AddClaim(new Claim(EShopConstants.AnonymousUserClaimName, cachedItem.AnonymousUserId));
+
+        principal.Identities.First().AddClaim(
+            new Claim(
+                EShopConstants.AnonymousUserClaimName,
+                cachedItem.AnonymousUserId
+            )
+        );
 
         return principal;
     }
