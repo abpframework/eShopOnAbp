@@ -34,7 +34,6 @@ namespace EShopOnAbp.AdministrationService
             var configuration = context.Services.GetConfiguration();
             
             JwtBearerConfigurationHelper.Configure(context, "AdministrationService");
-            // SwaggerConfigurationHelper.Configure(context, "Administration Service API");
             
             SwaggerWithAuthConfigurationHelper.Configure(
                 context: context,
@@ -80,7 +79,6 @@ namespace EShopOnAbp.AdministrationService
             app.UseAbpRequestLocalization();
             app.UseStaticFiles();
             app.UseRouting();
-            //app.UseHttpMetrics();
             app.UseAuthentication();
             app.UseAbpClaimsMap();
             app.UseAuthorization();
@@ -92,10 +90,7 @@ namespace EShopOnAbp.AdministrationService
             app.UseAbpSerilogEnrichers();
             app.UseAuditing();
             app.UseUnitOfWork();
-            app.UseConfiguredEndpoints(endpoints =>
-            {
-                //endpoints.MapMetrics();
-            });
+            app.UseConfiguredEndpoints();
         }
 
         public override void OnPostApplicationInitialization(ApplicationInitializationContext context)

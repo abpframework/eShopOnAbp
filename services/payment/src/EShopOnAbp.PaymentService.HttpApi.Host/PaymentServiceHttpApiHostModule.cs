@@ -1,6 +1,5 @@
 using EShopOnAbp.PaymentService.DbMigrations;
 using EShopOnAbp.PaymentService.EntityFrameworkCore;
-using EShopOnAbp.PaymentService.PayPal;
 using EShopOnAbp.Shared.Hosting.AspNetCore;
 using EShopOnAbp.Shared.Hosting.Microservices;
 using Microsoft.AspNetCore.Builder;
@@ -33,7 +32,6 @@ namespace EShopOnAbp.PaymentService
             var configuration = context.Services.GetConfiguration();
             
             JwtBearerConfigurationHelper.Configure(context, "PaymentService");
-            // SwaggerConfigurationHelper.Configure(context, "Payment Service API");
 
             SwaggerWithAuthConfigurationHelper.Configure(
                 context: context,
@@ -80,7 +78,6 @@ namespace EShopOnAbp.PaymentService
             app.UseAbpRequestLocalization();
             app.UseStaticFiles();
             app.UseRouting();
-            // app.UseHttpMetrics();
             app.UseAuthentication();
             app.UseAbpClaimsMap();
             app.UseAuthorization();
@@ -95,10 +92,7 @@ namespace EShopOnAbp.PaymentService
             app.UseAbpSerilogEnrichers();
             app.UseAuditing();
             app.UseUnitOfWork();
-            app.UseConfiguredEndpoints(endpoints =>
-            {
-                // endpoints.MapMetrics();
-            });
+            app.UseConfiguredEndpoints();
         }
 
         public override void OnPostApplicationInitialization(ApplicationInitializationContext context)
