@@ -31,8 +31,7 @@ namespace EShopOnAbp.CatalogService
         {
             var configuration = context.Services.GetConfiguration();
 
-            JwtBearerConfigurationHelper.Configure(context, "CatalogService"); //TODO: Should be "CatalogService", but didn't work :(
-            // SwaggerConfigurationHelper.Configure(context, "Catalog Service API");
+            JwtBearerConfigurationHelper.Configure(context, "CatalogService");
 
             SwaggerWithAuthConfigurationHelper.Configure(
                 context: context,
@@ -99,7 +98,6 @@ namespace EShopOnAbp.CatalogService
             app.UseAbpRequestLocalization();
             app.UseStaticFiles();
             app.UseRouting();
-            // app.UseHttpMetrics();
             app.UseAuthentication();
             app.UseAbpClaimsMap();
             app.UseAuthorization();
@@ -114,10 +112,7 @@ namespace EShopOnAbp.CatalogService
             app.UseAbpSerilogEnrichers();
             app.UseAuditing();
             app.UseUnitOfWork();
-            app.UseConfiguredEndpoints(endpoints =>
-            {
-                // endpoints.MapMetrics();
-            });
+            app.UseConfiguredEndpoints();
         }
 
         public override void OnPostApplicationInitialization(ApplicationInitializationContext context)

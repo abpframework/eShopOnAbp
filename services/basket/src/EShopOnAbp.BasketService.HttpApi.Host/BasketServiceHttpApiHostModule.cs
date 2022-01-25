@@ -31,7 +31,6 @@ namespace EShopOnAbp.BasketService
 
             JwtBearerConfigurationHelper.Configure(context,
                 "AdministrationService"); //TODO: Should be "BasketService", but didn't work :(
-            // SwaggerConfigurationHelper.Configure(context, "Basket Service API");
 
             SwaggerWithAuthConfigurationHelper.Configure(
                 context: context,
@@ -91,7 +90,6 @@ namespace EShopOnAbp.BasketService
             app.UseAbpRequestLocalization();
             app.UseStaticFiles();
             app.UseRouting();
-            // app.UseHttpMetrics();
             app.UseAuthentication();
             app.UseAbpClaimsMap();
             app.UseAuthorization();
@@ -106,10 +104,7 @@ namespace EShopOnAbp.BasketService
             app.UseAbpSerilogEnrichers();
             app.UseAuditing();
             app.UseUnitOfWork();
-            app.UseConfiguredEndpoints(endpoints =>
-            {
-                // endpoints.MapMetrics();
-            });
+            app.UseConfiguredEndpoints();
         }
     }
 }

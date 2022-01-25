@@ -12,7 +12,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Volo.Abp;
-using Volo.Abp.Data;
 using Volo.Abp.Modularity;
 using Volo.Abp.Threading;
 
@@ -44,6 +43,7 @@ namespace EShopOnAbp.IdentityService
                 apiTitle: "IdentityService Gateway API"
             );
             
+
             context.Services.AddCors(options =>
             {
                 options.AddDefaultPolicy(builder =>
@@ -79,7 +79,6 @@ namespace EShopOnAbp.IdentityService
             app.UseAbpRequestLocalization();
             app.UseStaticFiles();
             app.UseRouting();
-            // app.UseHttpMetrics();
             app.UseAuthentication();
             app.UseAbpClaimsMap();
             app.UseAuthorization();
@@ -94,10 +93,7 @@ namespace EShopOnAbp.IdentityService
             app.UseAbpSerilogEnrichers();
             app.UseAuditing();
             app.UseUnitOfWork();
-            app.UseConfiguredEndpoints(endpoints =>
-            {
-                // endpoints.MapMetrics();
-            });
+            app.UseConfiguredEndpoints();
         }
 
         public override void OnPostApplicationInitialization(ApplicationInitializationContext context)
