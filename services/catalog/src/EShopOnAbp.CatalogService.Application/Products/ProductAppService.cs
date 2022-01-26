@@ -11,7 +11,7 @@ using Volo.Abp.Domain.Repositories;
 
 namespace EShopOnAbp.CatalogService.Products
 {
-    //[Authorize(CatalogServicePermissions.Products.Default)] //TODO: Temporary removed authorization (I needed to use swagger but the auth didn't work)
+    [Authorize(CatalogServicePermissions.Products.Default)]
     public class ProductAppService : ApplicationService, IProductAppService
     {
         private readonly ProductManager _productManager;
@@ -23,18 +23,17 @@ namespace EShopOnAbp.CatalogService.Products
             _productRepository = productRepository;
         }
 
-        //TODO: Is this method used?
         public async Task<PagedResultDto<ProductDto>> GetListPagedAsync(PagedAndSortedResultRequestDto input)
         {
             var queryable = await _productRepository.GetQueryableAsync();
-            
+
             var products = await AsyncExecuter.ToListAsync(
                 queryable
                     .OrderBy(input.Sorting ?? "Name")
                     .Skip(input.SkipCount)
                     .Take(input.MaxResultCount)
             );
-            
+
             var totalCount = await _productRepository.GetCountAsync();
 
             return new PagedResultDto<ProductDto>(
@@ -71,7 +70,7 @@ namespace EShopOnAbp.CatalogService.Products
             return ObjectMapper.Map<Product, ProductDto>(product);
         }
 
-        //[Authorize(CatalogServicePermissions.Products.Update)] //TODO: Temporary removed authorization (I needed to use swagger but the auth didn't work)
+        [Authorize(CatalogServicePermissions.Products.Update)]
         public async Task<ProductDto> UpdateAsync(Guid id, UpdateProductDto input)
         {
             var product = await _productRepository.GetAsync(id);

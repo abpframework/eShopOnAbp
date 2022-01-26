@@ -6,6 +6,7 @@
     "LongWelcomeMessage": "Uygulamaya hoşgeldiniz. Bu, ABP framework'ü üzerine bina edilmiş bir başlangıç projesidir. Daha fazla bilgi için abp.io adresini ziyaret edebilirsiniz.",
     "Toolbar:Cart": "Sepetim",
     "Toolbar:BasketNotLoaded": "Sepet Hatası!",
-    "Toolbar:CartEmpty": "Sepetiniz Boş"
+    "Toolbar:CartEmpty": "Sepetiniz Boş",
+    "ProductNotFound": "Bu ürün bulunamadı!"
   }
 }

@@ -31,6 +31,6 @@ public class BasketProductService : IBasketProductService, ITransientDependency
     private Task<ProductDto> GetProductAsync(Guid productId)
     {
         return _productAppService.GetAsync(productId) ?? 
-               throw new UserFriendlyException("Could not find the product!"); //TODO: Business exception with localization;
+               throw new UserFriendlyException(BasketServiceDomainErrorCodes.ProductNotFound);
     }
 }
