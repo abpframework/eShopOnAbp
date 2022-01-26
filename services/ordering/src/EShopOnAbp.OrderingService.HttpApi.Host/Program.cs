@@ -1,56 +1,37 @@
 ﻿using System;
-using System.IO;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
+using System.Threading.Tasks;
+using EShopOnAbp.Shared.Hosting.AspNetCore;
+using Microsoft.AspNetCore.Builder;
 using Serilog;
-using Serilog.Events;
 
-namespace EShopOnAbp.OrderingService
+namespace EShopOnAbp.OrderingService;
+
+public class Program
 {
-    public class Program
+    public static async Task<int> Main(string[] args)
     {
-        public static int Main(string[] args)
+        var assemblyName = typeof(Program).Assembly.GetName().Name;
+
+        SerilogConfigurationHelper.Configure(assemblyName);
+
+        try
         {
-            Log.Logger = new LoggerConfiguration()
-#if DEBUG
-                .MinimumLevel.Debug()
-#else
-                .MinimumLevel.Information()
-#endif
-                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-                .Enrich.FromLogContext()
-                .WriteTo.Async(c => c.File("Logs/logs.txt"))
-#if DEBUG
-                .WriteTo.Async(c => c.Console())
-#endif
-                .CreateLogger();
+            Log.Information($"Starting {assemblyName}.");
+            var app = await ApplicationBuilderHelper
+                .BuildApplicationAsync<OrderingServiceHttpApiHostModule>(args);
+            await app.InitializeApplicationAsync();
+            await app.RunAsync();
 
-            try
-            {
-                Log.Information("Starting web host.");
-                CreateHostBuilder(args).Build().Run();
-                return 0;
-            }
-            catch (Exception ex)
-            {
-                Log.Fatal(ex, "Host terminated unexpectedly!");
-                return 1;
-            }
-            finally
-            {
-                Log.CloseAndFlush();
-            }
+            return 0;
         }
-
-        internal static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .AddAppSettingsSecretsJson()
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                })
-                .UseAutofac()
-                .UseSerilog();
+        catch (Exception ex)
+        {
+            Log.Fatal(ex, $"{assemblyName} terminated unexpectedly!");
+            return 1;
+        }
+        finally
+        {
+            Log.CloseAndFlush();
+        }
     }
 }

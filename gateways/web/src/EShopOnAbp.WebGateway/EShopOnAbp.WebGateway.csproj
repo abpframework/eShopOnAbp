@@ -4,7 +4,6 @@
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
-
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\shared\EShopOnAbp.Shared.Hosting.Gateways\EShopOnAbp.Shared.Hosting.Gateways.csproj" />
   </ItemGroup>

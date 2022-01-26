@@ -9,102 +9,103 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Volo.Abp;
 using Volo.Abp.Modularity;
 using Volo.Abp.Threading;
 
-namespace EShopOnAbp.PaymentService
+namespace EShopOnAbp.PaymentService;
+
+[DependsOn(
+    typeof(PaymentServiceApplicationModule),
+    typeof(PaymentServiceEntityFrameworkCoreModule),
+    typeof(PaymentServiceHttpApiModule),
+    typeof(EShopOnAbpSharedHostingMicroservicesModule)
+)]
+public class PaymentServiceHttpApiHostModule : AbpModule
 {
-    [DependsOn(
-        typeof(PaymentServiceApplicationModule),
-        typeof(PaymentServiceEntityFrameworkCoreModule),
-        typeof(PaymentServiceHttpApiModule),
-        typeof(EShopOnAbpSharedHostingMicroservicesModule)
-        )]
-    public class PaymentServiceHttpApiHostModule : AbpModule
+    public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        public override void ConfigureServices(ServiceConfigurationContext context)
-        {
-            Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
-            
-            var hostingEnvironment = context.Services.GetHostingEnvironment();
-            var configuration = context.Services.GetConfiguration();
-            
-            JwtBearerConfigurationHelper.Configure(context, "PaymentService");
+        Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
 
-            SwaggerWithAuthConfigurationHelper.Configure(
-                context: context,
-                authority: configuration["AuthServer:Authority"],
-                scopes: new Dictionary<string, string> /* Requested scopes for authorization code request and descriptions for swagger UI only */
+        var hostingEnvironment = context.Services.GetHostingEnvironment();
+        var configuration = context.Services.GetConfiguration();
+
+        JwtBearerConfigurationHelper.Configure(context, "PaymentService");
+
+        SwaggerWithAuthConfigurationHelper.Configure(
+            context: context,
+            authority: configuration["AuthServer:Authority"],
+            scopes: new
+                Dictionary<string, string> /* Requested scopes for authorization code request and descriptions for swagger UI only */
                 {
-                    {"PaymentService", "Payment Service API"},
+                    {"PaymentService", "Payment Service API"}
                 },
-                apiTitle: "Payment Service API"
-            );
+            apiTitle: "Payment Service API"
+        );
 
-            context.Services.AddCors(options =>
-            {
-                options.AddDefaultPolicy(builder =>
-                {
-                    builder
-                        .WithOrigins(
-                            configuration["App:CorsOrigins"]
-                                .Split(",", StringSplitOptions.RemoveEmptyEntries)
-                                .Select(o => o.Trim().RemovePostFix("/"))
-                                .ToArray()
-                        )
-                        .WithAbpExposedHeaders()
-                        .SetIsOriginAllowedToAllowWildcardSubdomains()
-                        .AllowAnyHeader()
-                        .AllowAnyMethod()
-                        .AllowCredentials();
-                });
-            });
-        }
-
-        public override void OnApplicationInitialization(ApplicationInitializationContext context)
+        context.Services.AddCors(options =>
         {
-            var app = context.GetApplicationBuilder();
-            var env = context.GetEnvironment();
-
-            if (env.IsDevelopment())
+            options.AddDefaultPolicy(builder =>
             {
-                app.UseDeveloperExceptionPage();
-            }
-
-            app.UseCorrelationId();
-            app.UseCors();
-            app.UseAbpRequestLocalization();
-            app.UseStaticFiles();
-            app.UseRouting();
-            app.UseAuthentication();
-            app.UseAbpClaimsMap();
-            app.UseAuthorization();
-            app.UseSwagger();
-            app.UseSwaggerUI(options =>
-            {
-                var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Payment Service API");
-                options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
-                options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
+                builder
+                    .WithOrigins(
+                        configuration["App:CorsOrigins"]
+                            .Split(",", StringSplitOptions.RemoveEmptyEntries)
+                            .Select(o => o.Trim().RemovePostFix("/"))
+                            .ToArray()
+                    )
+                    .WithAbpExposedHeaders()
+                    .SetIsOriginAllowedToAllowWildcardSubdomains()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials();
             });
-            app.UseAbpSerilogEnrichers();
-            app.UseAuditing();
-            app.UseUnitOfWork();
-            app.UseConfiguredEndpoints();
+        });
+    }
+
+    public override void OnApplicationInitialization(ApplicationInitializationContext context)
+    {
+        var app = context.GetApplicationBuilder();
+        var env = context.GetEnvironment();
+
+        if (env.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
         }
 
-        public override void OnPostApplicationInitialization(ApplicationInitializationContext context)
+        app.UseCorrelationId();
+        app.UseCors();
+        app.UseAbpRequestLocalization();
+        app.UseStaticFiles();
+        app.UseRouting();
+        app.UseAuthentication();
+        app.UseAbpClaimsMap();
+        app.UseAuthorization();
+        app.UseSwagger();
+        app.UseSwaggerUI(options =>
         {
-            using (var scope = context.ServiceProvider.CreateScope())
-            {
-                AsyncHelper.RunSync(
-                    () => scope.ServiceProvider
-                        .GetRequiredService<PaymentServiceDatabaseMigrationChecker>()
-                        .CheckAsync()
-                );
-            }
-        }
+            var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
+            options.SwaggerEndpoint("/swagger/v1/swagger.json", "Payment Service API");
+            options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
+            options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
+        });
+        app.UseAbpSerilogEnrichers();
+        app.UseAuditing();
+        app.UseUnitOfWork();
+        app.UseConfiguredEndpoints();
+    }
+
+    public override async Task OnPostApplicationInitializationAsync(ApplicationInitializationContext context)
+    {
+        await context.ServiceProvider
+            .GetRequiredService<PaymentServiceDatabaseMigrationChecker>()
+            .CheckAsync();
+    }
+
+    public override void OnPostApplicationInitialization(ApplicationInitializationContext context)
+    {
+        AsyncHelper.RunSync(() => OnApplicationInitializationAsync(context));
     }
 }

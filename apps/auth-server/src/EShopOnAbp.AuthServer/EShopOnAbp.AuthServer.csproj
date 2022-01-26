@@ -5,20 +5,20 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="6.0.0" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="6.0.1" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.1" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Volo.Abp.Caching.StackExchangeRedis" Version="5.0.0-rc.1" />
-        <PackageReference Include="Volo.Abp.EventBus.RabbitMQ" Version="5.0.0-rc.1" />
-        <PackageReference Include="Volo.Abp.BackgroundJobs.RabbitMQ" Version="5.0.0-rc.1" />
-        <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic" Version="5.0.0-rc.1" />
-        <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic" Version="5.0.0-rc.1" />
-        <PackageReference Include="Volo.Abp.Account.Web.IdentityServer" Version="5.0.0-rc.1" />
-        <PackageReference Include="Volo.Abp.Account.HttpApi" Version="5.0.0-rc.1" />
-        <PackageReference Include="Volo.Abp.Account.Application" Version="5.0.0-rc.1" />
-        <PackageReference Include="Volo.Abp.AspNetCore.Authentication.JwtBearer" Version="5.0.0-rc.1" />
+        <PackageReference Include="Volo.Abp.Caching.StackExchangeRedis" Version="5.1.2" />
+        <PackageReference Include="Volo.Abp.EventBus.RabbitMQ" Version="5.1.2" />
+        <PackageReference Include="Volo.Abp.BackgroundJobs.RabbitMQ" Version="5.1.2" />
+        <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic" Version="5.1.2" />
+        <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic" Version="5.1.2" />
+        <PackageReference Include="Volo.Abp.Account.Web.IdentityServer" Version="5.1.2" />
+        <PackageReference Include="Volo.Abp.Account.HttpApi" Version="5.1.2" />
+        <PackageReference Include="Volo.Abp.Account.Application" Version="5.1.2" />
+        <PackageReference Include="Volo.Abp.AspNetCore.Authentication.JwtBearer" Version="5.1.2" />
     </ItemGroup>
 
     <ItemGroup>
