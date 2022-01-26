@@ -23,66 +23,36 @@
             }
           ],
           "actions": {
-            "GetAsync": {
-              "uniqueName": "GetAsync",
+            "GetAsyncByAnonymousUserId": {
+              "uniqueName": "GetAsyncByAnonymousUserId",
               "name": "GetAsync",
               "httpMethod": "GET",
               "url": "api/basket/basket",
               "supportedVersions": [],
-              "parametersOnMethod": [],
-              "parameters": [],
-              "returnValue": {
-                "type": "EShopOnAbp.BasketService.BasketDto",
-                "typeSimple": "EShopOnAbp.BasketService.BasketDto"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "EShopOnAbp.BasketService.IBasketAppService"
-            },
-            "GetByAnonymousUserIdAsyncById": {
-              "uniqueName": "GetByAnonymousUserIdAsyncById",
-              "name": "GetByAnonymousUserIdAsync",
-              "httpMethod": "GET",
-              "url": "api/basket/basket/{id}/by-anonymous-user-id",
-              "supportedVersions": [],
               "parametersOnMethod": [
                 {
-                  "name": "id",
-                  "typeAsString": "System.Guid, System.Private.CoreLib",
-                  "type": "System.Guid",
-                  "typeSimple": "string",
+                  "name": "anonymousUserId",
+                  "typeAsString": "System.Nullable`1[[System.Guid, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]], System.Private.CoreLib",
+                  "type": "System.Guid?",
+                  "typeSimple": "string?",
                   "isOptional": false,
                   "defaultValue": null
                 }
               ],
               "parameters": [
                 {
-                  "nameOnMethod": "id",
-                  "name": "id",
+                  "nameOnMethod": "anonymousUserId",
+                  "name": "anonymousUserId",
                   "jsonName": null,
-                  "type": "System.Guid",
-                  "typeSimple": "string",
+                  "type": "System.Guid?",
+                  "typeSimple": "string?",
                   "isOptional": false,
                   "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
                   "descriptorName": ""
                 }
               ],
-              "returnValue": {
-                "type": "EShopOnAbp.BasketService.BasketDto",
-                "typeSimple": "EShopOnAbp.BasketService.BasketDto"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "EShopOnAbp.BasketService.IBasketAppService"
-            },
-            "MergeBasketsAsync": {
-              "uniqueName": "MergeBasketsAsync",
-              "name": "MergeBasketsAsync",
-              "httpMethod": "POST",
-              "url": "api/basket/basket/merge-baskets",
-              "supportedVersions": [],
-              "parametersOnMethod": [],
-              "parameters": [],
               "returnValue": {
                 "type": "EShopOnAbp.BasketService.BasketDto",
                 "typeSimple": "EShopOnAbp.BasketService.BasketDto"
@@ -184,21 +154,6 @@
               "returnValue": {
                 "type": "EShopOnAbp.BasketService.BasketDto",
                 "typeSimple": "EShopOnAbp.BasketService.BasketDto"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "EShopOnAbp.BasketService.IBasketAppService"
-            },
-            "PurchaseAsync": {
-              "uniqueName": "PurchaseAsync",
-              "name": "PurchaseAsync",
-              "httpMethod": "POST",
-              "url": "api/basket/basket/purchase",
-              "supportedVersions": [],
-              "parametersOnMethod": [],
-              "parameters": [],
-              "returnValue": {
-                "type": "System.Void",
-                "typeSimple": "System.Void"
               },
               "allowAnonymous": null,
               "implementFrom": "EShopOnAbp.BasketService.IBasketAppService"

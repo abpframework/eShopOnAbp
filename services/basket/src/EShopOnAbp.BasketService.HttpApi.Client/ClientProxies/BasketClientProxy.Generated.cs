@@ -9,44 +9,33 @@ using Volo.Abp.Http.Client.ClientProxying;
 using EShopOnAbp.BasketService;
 
 // ReSharper disable once CheckNamespace
-namespace EShopOnAbp.BasketService.ClientProxies
+namespace EShopOnAbp.BasketService.ClientProxies;
+
+[Dependency(ReplaceServices = true)]
+[ExposeServices(typeof(IBasketAppService), typeof(BasketClientProxy))]
+public partial class BasketClientProxy : ClientProxyBase<IBasketAppService>, IBasketAppService
 {
-    [Dependency(ReplaceServices = true)]
-    [ExposeServices(typeof(IBasketAppService), typeof(BasketClientProxy))]
-    public partial class BasketClientProxy : ClientProxyBase<IBasketAppService>, IBasketAppService
+    public virtual async Task<BasketDto> GetAsync(Guid? anonymousUserId)
     {
-        public virtual async Task<BasketDto> GetAsync()
+        return await RequestAsync<BasketDto>(nameof(GetAsync), new ClientProxyRequestTypeValue
         {
-            return await RequestAsync<BasketDto>(nameof(GetAsync));
-        }
+            { typeof(Guid?), anonymousUserId }
+        });
+    }
 
-        public virtual async Task<BasketDto> GetByAnonymousUserIdAsync(Guid id)
+    public virtual async Task<BasketDto> AddProductAsync(AddProductDto input)
+    {
+        return await RequestAsync<BasketDto>(nameof(AddProductAsync), new ClientProxyRequestTypeValue
         {
-            return await RequestAsync<BasketDto>(nameof(GetByAnonymousUserIdAsync), new ClientProxyRequestTypeValue
-            {
-                { typeof(Guid), id }
-            });
-        }
+            { typeof(AddProductDto), input }
+        });
+    }
 
-        public virtual async Task<BasketDto> MergeBasketsAsync()
+    public virtual async Task<BasketDto> RemoveProductAsync(RemoveProductDto input)
+    {
+        return await RequestAsync<BasketDto>(nameof(RemoveProductAsync), new ClientProxyRequestTypeValue
         {
-            return await RequestAsync<BasketDto>(nameof(MergeBasketsAsync));
-        }
-
-        public virtual async Task<BasketDto> AddProductAsync(AddProductDto input)
-        {
-            return await RequestAsync<BasketDto>(nameof(AddProductAsync), new ClientProxyRequestTypeValue
-            {
-                { typeof(AddProductDto), input }
-            });
-        }
-
-        public virtual async Task<BasketDto> RemoveProductAsync(RemoveProductDto input)
-        {
-            return await RequestAsync<BasketDto>(nameof(RemoveProductAsync), new ClientProxyRequestTypeValue
-            {
-                { typeof(RemoveProductDto), input }
-            });
-        }
+            { typeof(RemoveProductDto), input }
+        });
     }
 }
