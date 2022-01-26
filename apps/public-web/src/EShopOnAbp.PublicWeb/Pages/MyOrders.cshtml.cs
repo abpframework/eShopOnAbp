@@ -7,8 +7,9 @@ public class MyOrdersModel : AbpPageModel
 {
     public string OrderFilter { get; set; }
 
-    public async Task OnGet(string filter)
+    public Task OnGet(string filter)
     {
         OrderFilter = filter;
+        return Task.CompletedTask;
     }
 }
