@@ -36,7 +36,6 @@ public class BasketAppService : BasketServiceAppService, IBasketAppService
     public async Task<BasketDto> GetByAnonymousUserIdAsync(Guid id)
     {
         var basket = await _basketRepository.GetAsync(id);
-        ;
         return await GetBasketDtoAsync(basket);
     }
 

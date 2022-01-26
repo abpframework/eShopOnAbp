@@ -9,6 +9,7 @@ using Volo.Abp.Guids;
 
 namespace EShopOnAbp.PublicWeb.Components.AnonymousUser;
 
+/* TODO: Convert this to an ASP.NET Core middleware */
 [Widget(
     AutoInitialize = true
 )]
