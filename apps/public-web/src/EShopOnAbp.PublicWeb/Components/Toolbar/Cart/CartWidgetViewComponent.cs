@@ -14,17 +14,17 @@ namespace EShopOnAbp.PublicWeb.Components.Toolbar.Cart;
 )]
 public class CartWidgetViewComponent : AbpViewComponent
 {
-    private readonly UserBasketProvider userBasketProvider;
+    private readonly UserBasketProvider _userBasketProvider;
 
     public CartWidgetViewComponent(UserBasketProvider userBasketProvider)
     {
-        this.userBasketProvider = userBasketProvider;
+        _userBasketProvider = userBasketProvider;
     }
 
     public async Task<IViewComponentResult> InvokeAsync()
     {
         return View(
             "~/Components/Toolbar/Cart/Default.cshtml",
-            await userBasketProvider.GetBasketAsync());
+            await _userBasketProvider.GetBasketAsync());
     }
 }

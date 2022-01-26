@@ -31,7 +31,6 @@ namespace EShopOnAbp.PublicWeb.Pages
                 HasRemoteServiceError = true;
                 Console.WriteLine(e);
             }
-            
         }
 
         public async Task OnPostLoginAsync()
