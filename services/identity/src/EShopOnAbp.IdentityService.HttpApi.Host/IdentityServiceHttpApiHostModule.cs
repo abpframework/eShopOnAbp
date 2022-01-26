@@ -39,7 +39,7 @@ public class IdentityServiceHttpApiHostModule : AbpModule
             scopes: new
                 Dictionary<string, string> /* Requested scopes for authorization code request and descriptions for swagger UI only */
                 {
-                    {"IdentityService", "Identity Service API"}
+                    { "IdentityService", "Identity Service API" }
                 },
             apiTitle: "IdentityService Gateway API"
         );
@@ -102,10 +102,5 @@ public class IdentityServiceHttpApiHostModule : AbpModule
         await context.ServiceProvider
             .GetRequiredService<IdentityServiceDatabaseMigrationChecker>()
             .CheckAsync();
-    }
-
-    public override void OnPostApplicationInitialization(ApplicationInitializationContext context)
-    {
-        AsyncHelper.RunSync(() => OnApplicationInitializationAsync(context));
     }
 }

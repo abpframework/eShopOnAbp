@@ -106,9 +106,4 @@ public class AdministrationServiceHttpApiHostModule : AbpModule
             .GetRequiredService<AdministrationServiceDatabaseMigrationChecker>()
             .CheckAsync();
     }
-
-    public override void OnPostApplicationInitialization(ApplicationInitializationContext context)
-    {
-        AsyncHelper.RunSync(() => OnApplicationInitializationAsync(context));
-    }
 }

@@ -39,7 +39,7 @@ public class OrderingServiceHttpApiHostModule : AbpModule
             scopes: new
                 Dictionary<string, string> /* Requested scopes for authorization code request and descriptions for swagger UI only */
                 {
-                    {"OrderingService", "Ordering Service API"}
+                    { "OrderingService", "Ordering Service API" }
                 },
             apiTitle: "Ordering Service API"
         );
@@ -111,10 +111,5 @@ public class OrderingServiceHttpApiHostModule : AbpModule
         await context.ServiceProvider
             .GetRequiredService<OrderingServiceDatabaseMigrationChecker>()
             .CheckAsync();
-    }
-
-    public override void OnPostApplicationInitialization(ApplicationInitializationContext context)
-    {
-        AsyncHelper.RunSync(() => OnApplicationInitializationAsync(context));
     }
 }

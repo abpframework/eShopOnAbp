@@ -103,9 +103,4 @@ public class PaymentServiceHttpApiHostModule : AbpModule
             .GetRequiredService<PaymentServiceDatabaseMigrationChecker>()
             .CheckAsync();
     }
-
-    public override void OnPostApplicationInitialization(ApplicationInitializationContext context)
-    {
-        AsyncHelper.RunSync(() => OnApplicationInitializationAsync(context));
-    }
 }

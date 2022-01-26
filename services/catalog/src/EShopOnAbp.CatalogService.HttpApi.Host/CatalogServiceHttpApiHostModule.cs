@@ -40,7 +40,7 @@ public class CatalogServiceHttpApiHostModule : AbpModule
             scopes: new
                 Dictionary<string, string> /* Requested scopes for authorization code request and descriptions for swagger UI only */
                 {
-                    {"CatalogService", "Catalog Service API"}
+                    { "CatalogService", "Catalog Service API" }
                 },
             apiTitle: "Catalog Service API"
         );
@@ -119,10 +119,5 @@ public class CatalogServiceHttpApiHostModule : AbpModule
         await context.ServiceProvider
             .GetRequiredService<CatalogServiceDatabaseMigrationChecker>()
             .CheckAsync();
-    }
-
-    public override void OnPostApplicationInitialization(ApplicationInitializationContext context)
-    {
-        AsyncHelper.RunSync(() => OnApplicationInitializationAsync(context));
     }
 }
