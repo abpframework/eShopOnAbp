@@ -1,7 +1,5 @@
-﻿@using EShopOnAbp.PublicWeb.Components.AnonymousUser
-@using Volo.Abp.AspNetCore.Mvc.UI.Theming
+﻿@using Volo.Abp.AspNetCore.Mvc.UI.Theming
 @inject IThemeManager ThemeManager
 @{
     Layout = ThemeManager.CurrentTheme.GetPublicLayout();
 }
-@await Component.InvokeAsync(typeof(AnonymousUserViewComponent))
