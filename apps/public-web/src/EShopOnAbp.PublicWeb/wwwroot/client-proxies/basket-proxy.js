@@ -11,24 +11,10 @@
 
     abp.utils.createNamespace(window, 'eShopOnAbp.basketService.basket');
 
-    eShopOnAbp.basketService.basket.get = function(ajaxParams) {
+    eShopOnAbp.basketService.basket.get = function(anonymousUserId, ajaxParams) {
       return abp.ajax($.extend(true, {
-        url: abp.appPath + 'api/basket/basket',
+        url: abp.appPath + 'api/basket/basket' + abp.utils.buildQueryString([{ name: 'anonymousUserId', value: anonymousUserId }]) + '',
         type: 'GET'
-      }, ajaxParams));
-    };
-
-    eShopOnAbp.basketService.basket.getByAnonymousUserId = function(id, ajaxParams) {
-      return abp.ajax($.extend(true, {
-        url: abp.appPath + 'api/basket/basket/' + id + '/by-anonymous-user-id',
-        type: 'GET'
-      }, ajaxParams));
-    };
-
-    eShopOnAbp.basketService.basket.mergeBaskets = function(ajaxParams) {
-      return abp.ajax($.extend(true, {
-        url: abp.appPath + 'api/basket/basket/merge-baskets',
-        type: 'POST'
       }, ajaxParams));
     };
 
@@ -44,14 +30,6 @@
       return abp.ajax($.extend(true, {
         url: abp.appPath + 'api/basket/basket/product' + abp.utils.buildQueryString([{ name: 'productId', value: input.productId }, { name: 'count', value: input.count }, { name: 'anonymousId', value: input.anonymousId }]) + '',
         type: 'DELETE'
-      }, ajaxParams));
-    };
-
-    eShopOnAbp.basketService.basket.purchase = function(ajaxParams) {
-      return abp.ajax($.extend(true, {
-        url: abp.appPath + 'api/basket/basket/purchase',
-        type: 'POST',
-        dataType: null
       }, ajaxParams));
     };
 

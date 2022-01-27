@@ -11,7 +11,6 @@ public class Basket : AggregateRoot<Guid>
 
     private Basket()
     {
-
     }
 
     public Basket(Guid id)
@@ -69,5 +68,13 @@ public class Basket : AggregateRoot<Guid>
     public void Clear()
     {
         Items.Clear();
+    }
+
+    public void Merge(Basket basket)
+    {
+        foreach (var item in basket.Items)
+        {
+            AddProduct(item.ProductId, item.Count);
+        }
     }
 }

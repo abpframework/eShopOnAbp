@@ -11,23 +11,20 @@ namespace EShopOnAbp.PublicWeb.ServiceProviders
 {
     public class UserBasketProvider : ITransientDependency
     {
-        protected HttpContext HttpContext => httpContextAccessor.HttpContext;
+        private HttpContext HttpContext => _httpContextAccessor.HttpContext;
 
-        private readonly IHttpContextAccessor httpContextAccessor;
-        protected readonly ILogger<UserBasketProvider> logger;
-        protected readonly IBasketAppService basketAppService;
-        protected readonly ICurrentUser currentUser;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ILogger<UserBasketProvider> _logger;
+        private readonly IBasketAppService _basketAppService;
 
         public UserBasketProvider(
             IHttpContextAccessor httpContextAccessor,
             ILogger<UserBasketProvider> logger,
-            IBasketAppService basketAppService,
-            ICurrentUser currentUser)
+            IBasketAppService basketAppService)
         {
-            this.httpContextAccessor = httpContextAccessor;
-            this.logger = logger;
-            this.basketAppService = basketAppService;
-            this.currentUser = currentUser;
+            _httpContextAccessor = httpContextAccessor;
+            _logger = logger;
+            _basketAppService = basketAppService;
         }
 
         public virtual async Task<BasketDto> GetBasketAsync()
@@ -38,26 +35,11 @@ namespace EShopOnAbp.PublicWeb.ServiceProviders
                 HttpContext.Request.Cookies.TryGetValue(EShopConstants.AnonymousUserClaimName,
                     out string anonymousUserId);
 
-                if (!currentUser.IsAuthenticated)
-                {
-                    logger.LogInformation($"Getting basket for anonymous user id:{anonymousUserId}.");
-                    return await basketAppService.GetByAnonymousUserIdAsync(Guid.Parse(anonymousUserId));
-                }
-
-                //TODO: Merge with anonymously stored cart if exist
-                var userClaimValue = currentUser.FindClaimValue(EShopConstants.AnonymousUserClaimName);
-
-                // Fall-back for having trouble when setting claim on user login 
-                if (string.IsNullOrEmpty(userClaimValue))
-                {
-                    return await basketAppService.GetAsync();
-                }
-
-                return await basketAppService.MergeBasketsAsync();
+                return await _basketAppService.GetAsync(Guid.Parse(anonymousUserId));
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, ex.Message);
+                _logger.LogError(ex, ex.Message);
                 return null;
             }
         }
