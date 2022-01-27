@@ -38,6 +38,7 @@ using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic.Bundling;
 using EShopOnAbp.PublicWeb.Components.Toolbar.Cart;
 using EShopOnAbp.PublicWeb.PaymentMethods;
 using EShopOnAbp.PaymentService.PaymentMethods;
+using EShopOnAbp.PublicWeb.AnonymousUser;
 using Microsoft.Extensions.Configuration;
 
 namespace EShopOnAbp.PublicWeb;
@@ -202,6 +203,7 @@ public class EShopOnAbpPublicWebModule : AbpModule
         app.UseAuthentication();
         app.UseAbpSerilogEnrichers();
         app.UseAuthorization();
+        app.UseAnonymousUser();
         app.UseConfiguredEndpoints(endpoints =>
         {
             endpoints.MapReverseProxy();
