@@ -15,13 +15,6 @@ public static class ApplicationBuilderHelper
         where TStartupModule : IAbpModule
     {
         var builder = WebApplication.CreateBuilder(args);
-        builder.WebHost.ConfigureKestrel(serverOptions =>
-        {
-            serverOptions.ConfigureEndpointDefaults(listenOptions =>
-            {
-                listenOptions.Protocols = HttpProtocols.Http1AndHttp2;
-            });
-        });
         builder.Host
             .AddAppSettingsSecretsJson()
             .UseAutofac()
