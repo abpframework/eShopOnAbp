@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EShopOnAbp.CatalogService.Grpc;
 using EShopOnAbp.CatalogService.Products;
 
 namespace EShopOnAbp.BasketService
@@ -8,6 +9,7 @@ namespace EShopOnAbp.BasketService
         public BasketServiceApplicationAutoMapperProfile()
         {
             CreateMap<ProductEto, ProductDto>();
+            CreateMap<ProductResponse, ProductDto>();
         }
     }
 }

@@ -1,25 +1,27 @@
 using System;
 using System.Threading.Tasks;
+using EShopOnAbp.CatalogService.Grpc;
 using EShopOnAbp.CatalogService.Products;
+using Microsoft.Extensions.Logging;
 using Volo.Abp;
 using Volo.Abp.Caching;
-using Volo.Abp.DependencyInjection;
 
 namespace EShopOnAbp.BasketService;
 
-public class BasketProductService : IBasketProductService, ITransientDependency
+public class BasketProductService : BasketServiceAppService, IBasketProductService
 {
-    private readonly IPublicProductAppService _productAppService;
     private readonly IDistributedCache<ProductDto, Guid> _cache;
+    private readonly ProductPublic.ProductPublicClient _productPublicGrpcClient;
 
     public BasketProductService(
-        IPublicProductAppService productAppService,
-        IDistributedCache<ProductDto, Guid> cache)
+        IDistributedCache<ProductDto, Guid> cache,
+        ProductPublic.ProductPublicClient productPublicGrpcClient
+    )
     {
-        _productAppService = productAppService;
         _cache = cache;
+        _productPublicGrpcClient = productPublicGrpcClient;
     }
-    
+
     public async Task<ProductDto> GetAsync(Guid productId)
     {
         return await _cache.GetOrAddAsync(
@@ -28,9 +30,13 @@ public class BasketProductService : IBasketProductService, ITransientDependency
         );
     }
 
-    private Task<ProductDto> GetProductAsync(Guid productId)
+    private async Task<ProductDto> GetProductAsync(Guid productId)
     {
-        return _productAppService.GetAsync(productId) ?? 
+        var request = new ProductRequest { Id = productId.ToString() };
+        Logger.LogInformation("=== GRPC request {@request}", request);
+        var response = await _productPublicGrpcClient.GetByIdAsync(request);
+        Logger.LogInformation("=== GRPC response {@response}", response);
+        return ObjectMapper.Map<ProductResponse, ProductDto>(response) ??
                throw new UserFriendlyException(BasketServiceDomainErrorCodes.ProductNotFound);
     }
 }

@@ -9,7 +9,7 @@ option csharp_namespace = "EShopOnAbp.CatalogService.Grpc";
 package CatalogApi;
 
 service ProductPublic {
-	rpc GetAsync(ProductRequest) returns (ProductDto) {
+	rpc GetById(ProductRequest) returns (ProductResponse) {
 		/* >>
  option (google.api.http) = {
      get: "/api/catalog/product/{id}"
@@ -22,10 +22,11 @@ message ProductRequest {
 	string id = 1;
 }
 
-message ProductDto {
+message ProductResponse {
 	string id = 1;
 	string code = 2;
 	string name = 3;
-	float price = 4;
-	int32 stockCount = 5;
+	string imageName = 4;
+	float price = 5;
+	int32 stockCount = 6;
 }

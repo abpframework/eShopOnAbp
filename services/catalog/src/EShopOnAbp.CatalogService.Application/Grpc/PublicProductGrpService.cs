@@ -18,9 +18,9 @@ public class PublicProductGrpService : ProductPublic.ProductPublicBase
         _objectMapper = objectMapper;
     }
 
-    public override async Task<ProductDto> GetAsync(ProductRequest request, ServerCallContext context)
+    public override async Task<ProductResponse> GetById(ProductRequest request, ServerCallContext context)
     {
         var product = await _productRepository.GetAsync(Guid.Parse(request.Id));
-        return _objectMapper.Map<Product, ProductDto>(product);
+        return _objectMapper.Map<Product, ProductResponse>(product);
     }
 }

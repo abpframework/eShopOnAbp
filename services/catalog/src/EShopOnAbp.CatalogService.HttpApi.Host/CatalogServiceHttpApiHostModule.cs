@@ -121,20 +121,6 @@ public class CatalogServiceHttpApiHostModule : AbpModule
         app.UseConfiguredEndpoints(endpoints =>
         {
             endpoints.MapGrpcService<PublicProductGrpService>();
-            endpoints.MapGet("/_proto/", async ctx =>
-            {
-                ctx.Response.ContentType = "text/plain";
-                using var fs = new FileStream(Path.Combine(env.ContentRootPath, "Protos", "product.proto"), FileMode.Open, FileAccess.Read);
-                using var sr = new StreamReader(fs);
-                while (!sr.EndOfStream)
-                {
-                    var line = await sr.ReadLineAsync();
-                    if (line != "/* >>" || line != "<< */")
-                    {
-                        await ctx.Response.WriteAsync(line);
-                    }
-                }
-            });
         });
     }
 

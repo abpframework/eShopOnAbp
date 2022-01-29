@@ -21,8 +21,6 @@ public class Program
         try
         {
             Log.Information($"Starting {assemblyName}.");
-            // var app = await ApplicationBuilderHelper
-            //     .BuildApplicationAsync<CatalogServiceHttpApiHostModule>(args);
 
             var builder = WebApplication.CreateBuilder(args);
             builder.WebHost.ConfigureKestrel(serverOptions =>
@@ -36,6 +34,7 @@ public class Program
                     opts.UseHttps();
                     opts.Protocols = HttpProtocols.Http1AndHttp2;
                 });
+                // Grpc port
                 serverOptions.ListenLocalhost(81, opts => { opts.Protocols = HttpProtocols.Http2; });
             });
             builder.Host
