@@ -18,6 +18,18 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\shared\EShopOnAbp.Shared.Hosting.Microservices\EShopOnAbp.Shared.Hosting.Microservices.csproj" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.19.3" />
+    <PackageReference Include="Grpc.AspNetCore.Server" Version="2.42.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.42.0" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="Protos\product.proto" GrpcServices="Server" Generator="MSBuild:Compile" />
+    <Content Include="@(Protobuf)" />
+    <None Remove="@(Protobuf)" />
+  </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="Logs\**" />
