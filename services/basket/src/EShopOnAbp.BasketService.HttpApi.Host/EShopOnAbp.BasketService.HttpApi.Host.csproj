@@ -17,12 +17,25 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\shared\EShopOnAbp.Shared.Hosting.Microservices\EShopOnAbp.Shared.Hosting.Microservices.csproj" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.19.3" />
+    <PackageReference Include="Grpc.AspNetCore.Server.ClientFactory" Version="2.42.0" />
+    <PackageReference Include="Grpc.Core" Version="2.42.0" />
+    <PackageReference Include="Grpc.Net.Client" Version="2.42.0" />
+    <PackageReference Include="Grpc.Net.ClientFactory" Version="2.42.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.42.0" PrivateAssets="All" />
+  </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="Logs\**" />
     <Content Remove="Logs\**" />
     <EmbeddedResource Remove="Logs\**" />
     <None Remove="Logs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="..\..\..\catalog\src\EShopOnAbp.CatalogService.HttpApi.Host\Protos\product.proto" GrpcServices="Client" />
   </ItemGroup>
 
 </Project>

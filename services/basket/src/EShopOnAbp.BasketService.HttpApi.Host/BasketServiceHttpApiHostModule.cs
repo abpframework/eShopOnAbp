@@ -7,7 +7,10 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using EShopOnAbp.BasketService.Configs;
+using EShopOnAbp.CatalogService.Grpc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.AntiForgery;
@@ -72,6 +75,12 @@ public class BasketServiceHttpApiHostModule : AbpModule
         });
 
         Configure<AbpAntiForgeryOptions>(options => { options.AutoValidate = false; });
+
+        context.Services.AddGrpcClient<ProductPublic.ProductPublicClient>((services, options) =>
+        {
+            var catalogApi = services.GetRequiredService<IOptions<UrlsConfig>>().Value.GrpcCatalog;
+            options.Address = new Uri(catalogApi);
+        });
     }
 
     public override void OnApplicationInitialization(ApplicationInitializationContext context)
