@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using EShopOnAbp.CatalogService;
 using EShopOnAbp.CatalogService.Grpc;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Volo.Abp.Application;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Http.Client;
@@ -27,10 +28,10 @@ namespace EShopOnAbp.BasketService
                 options.AddMaps<BasketServiceApplicationModule>();
             });
 
-            context.Services.AddGrpcClient<ProductPublic.ProductPublicClient>((services, options) =>
+            context.Services.AddGrpcClient<ProductPublic.ProductPublicClient>((services, options) => 
             {
-                var remoteServiceConfigurationProvider = services.GetRequiredService<IRemoteServiceConfigurationProvider>();
-                var catalogServiceConfiguration = remoteServiceConfigurationProvider.GetConfigurationOrDefaultAsync("Catalog").Result;
+                var remoteServiceOptions = services.GetRequiredService<IOptionsMonitor<AbpRemoteServiceOptions>>().CurrentValue;
+                var catalogServiceConfiguration = remoteServiceOptions.RemoteServices.GetConfigurationOrDefault("Catalog");
                 var catalogGrpcUrl = catalogServiceConfiguration.GetOrDefault("GrpcUrl");
                 
                 options.Address = new Uri(catalogGrpcUrl);
