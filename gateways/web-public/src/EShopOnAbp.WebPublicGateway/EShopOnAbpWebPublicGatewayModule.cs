@@ -9,6 +9,7 @@ using System.Linq;
 using EShopOnAbp.Shared.Hosting.AspNetCore;
 using Volo.Abp;
 using Volo.Abp.Modularity;
+using Microsoft.AspNetCore.Rewrite;
 
 namespace EShopOnAbp.WebPublicGateway;
 
@@ -75,14 +76,11 @@ public class EShopOnAbpWebPublicGatewayModule : AbpModule
                 options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
             }
         });
-        app.MapWhen(
-            ctx => ctx.Request.Path.ToString().TrimEnd('/').Equals(""),
-            app2 =>
-            {
-                app2.UseRouting();
-                app2.UseConfiguredEndpoints();
-            }
-        );
+
+        app.UseRewriter(new RewriteOptions()
+            // Regex for "", "/" and "" (whitespace)
+            .AddRedirect("^(|\\|\\s+)$", "/swagger"));
+
         app.UseOcelot().Wait();
     }
 }
