@@ -3,8 +3,7 @@
   "texts": {
     "MyAccount":  "My account",
     "SamplePageMessage": "A sample page for the OrderingService module",
-    "Ordering:00001": "Possible values for Order status: {0}",
-    "Ordering:00011": "Possible values for Payment types: {0}",
+    "Ordering:00001": "Possible values for Order status: {OrderStatus}",
     "Ordering:00002": "Invalid number of units",
     "Ordering:00003": "Invalid discount",
     "Ordering:00004": "The total of order item is lower than applied discount",
