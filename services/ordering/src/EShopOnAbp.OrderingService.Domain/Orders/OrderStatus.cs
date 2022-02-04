@@ -5,22 +5,19 @@ using Volo.Abp;
 
 namespace EShopOnAbp.OrderingService.Orders;
 
-public class OrderStatus: Enumeration
+public class OrderStatus : Enumeration
 {
     public static OrderStatus Placed = new OrderStatus(1, nameof(Placed).ToLowerInvariant());
-    public static OrderStatus AwaitingValidation = new OrderStatus(2, nameof(AwaitingValidation).ToLowerInvariant());
-    public static OrderStatus StockConfirmed = new OrderStatus(3, nameof(StockConfirmed).ToLowerInvariant());
-    public static OrderStatus Paid = new OrderStatus(4, nameof(Paid).ToLowerInvariant());
-    public static OrderStatus Shipped = new OrderStatus(5, nameof(Shipped).ToLowerInvariant());
-    public static OrderStatus Cancelled = new OrderStatus(6, nameof(Cancelled).ToLowerInvariant());
+    public static OrderStatus Paid = new OrderStatus(2, nameof(Paid).ToLowerInvariant());
+    public static OrderStatus Shipped = new OrderStatus(3, nameof(Shipped).ToLowerInvariant());
+    public static OrderStatus Cancelled = new OrderStatus(4, nameof(Cancelled).ToLowerInvariant());
 
-    public OrderStatus(int id, string name)
-        : base(id, name)
+    public OrderStatus(int id, string name) : base(id, name)
     {
     }
 
     public static IEnumerable<OrderStatus> List() =>
-        new[] { Placed, AwaitingValidation, StockConfirmed, Paid, Shipped, Cancelled };
+        new[] {Placed, Paid, Shipped, Cancelled};
 
     public static OrderStatus FromName(string name)
     {
