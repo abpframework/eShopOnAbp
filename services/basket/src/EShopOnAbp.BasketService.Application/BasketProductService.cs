@@ -6,10 +6,11 @@ using Microsoft.Extensions.Logging;
 using Volo.Abp;
 using Volo.Abp.ObjectMapping;
 using Volo.Abp.Caching;
+using Volo.Abp.DependencyInjection;
 
 namespace EShopOnAbp.BasketService;
 
-public class BasketProductService : IBasketProductService
+public class BasketProductService : IBasketProductService, ITransientDependency
 {
     private readonly IDistributedCache<ProductDto, Guid> _cache;
     private readonly ILogger<BasketProductService> _logger;
