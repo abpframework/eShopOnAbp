@@ -166,6 +166,28 @@ gateway-web-public:
       host: eshop-st-order
       port: 80
 
+# basket-service sub-chart override
+basket:
+  config:
+    selfUrl: https://eshop-st-basket
+    corsOrigins: https://eshop-st-gateway-web, https://eshop-st-gateway-web-public, https://eshop-st-public-web
+    connectionStrings:
+      administrationService: "Host=es-st-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
+    authServer:
+      authority: http://eshop-st-authserver
+      requireHttpsMetadata: "false"
+      swaggerClientId: "WebGateway_Swagger"
+      swaggerClientSecret: "1q2w3e*"
+    dotnetEnv: Staging
+    redisHost: es-st-redis
+    rabbitmqHost: es-st-rabbitmq
+    elasticsearchHost: es-st-elasticsearch
+  ingress:
+    host: eshop-st-basket
+  image:
+    repository: "eshoponabp/service-basket"
+    tag: latest
+
 
 # Default values for eshoponabp.
 # This is a YAML-formatted file.
