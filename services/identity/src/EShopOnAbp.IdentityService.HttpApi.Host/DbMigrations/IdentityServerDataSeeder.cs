@@ -164,6 +164,7 @@ namespace EShopOnAbp.IdentityService.DbMigrations
                         webGatewaySwaggerRootUrl.RemovePostFix("/"),
                         publicWebGatewayRootUrl.RemovePostFix("/"),
                         accountServiceRootUrl.RemovePostFix("/"),
+                        identityServiceRootUrl.RemovePostFix("/"),
                         administrationServiceRootUrl.RemovePostFix("/"),
                         catalogServiceRootUrl.RemovePostFix("/"),
                         basketServiceRootUrl.RemovePostFix("/"),

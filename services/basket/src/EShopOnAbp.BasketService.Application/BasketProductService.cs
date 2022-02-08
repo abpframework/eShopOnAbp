@@ -1,7 +1,10 @@
 using System;
 using System.Threading.Tasks;
+using EShopOnAbp.CatalogService.Grpc;
 using EShopOnAbp.CatalogService.Products;
+using Microsoft.Extensions.Logging;
 using Volo.Abp;
+using Volo.Abp.ObjectMapping;
 using Volo.Abp.Caching;
 using Volo.Abp.DependencyInjection;
 
@@ -9,17 +12,23 @@ namespace EShopOnAbp.BasketService;
 
 public class BasketProductService : IBasketProductService, ITransientDependency
 {
-    private readonly IPublicProductAppService _productAppService;
     private readonly IDistributedCache<ProductDto, Guid> _cache;
+    private readonly ILogger<BasketProductService> _logger;
+    private readonly IObjectMapper _mapper;
+    private readonly ProductPublic.ProductPublicClient _productPublicGrpcClient;
 
     public BasketProductService(
-        IPublicProductAppService productAppService,
-        IDistributedCache<ProductDto, Guid> cache)
+        IDistributedCache<ProductDto, Guid> cache,
+        ILogger<BasketProductService> logger,
+        IObjectMapper mapper,
+        ProductPublic.ProductPublicClient productPublicGrpcClient)
     {
-        _productAppService = productAppService;
         _cache = cache;
+        _logger = logger;
+        _mapper = mapper;
+        _productPublicGrpcClient = productPublicGrpcClient;
     }
-    
+
     public async Task<ProductDto> GetAsync(Guid productId)
     {
         return await _cache.GetOrAddAsync(
@@ -28,9 +37,13 @@ public class BasketProductService : IBasketProductService, ITransientDependency
         );
     }
 
-    private Task<ProductDto> GetProductAsync(Guid productId)
+    private async Task<ProductDto> GetProductAsync(Guid productId)
     {
-        return _productAppService.GetAsync(productId) ?? 
+        var request = new ProductRequest { Id = productId.ToString() };
+        _logger.LogInformation("=== GRPC request {@request}", request);
+        var response = await _productPublicGrpcClient.GetByIdAsync(request);
+        _logger.LogInformation("=== GRPC response {@response}", response);
+        return _mapper.Map<ProductResponse, ProductDto>(response) ??
                throw new UserFriendlyException(BasketServiceDomainErrorCodes.ProductNotFound);
     }
 }

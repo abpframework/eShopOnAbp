@@ -7,9 +7,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using EShopOnAbp.CatalogService.Grpc;
 using EShopOnAbp.CatalogService.MongoDB;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc;
@@ -80,6 +83,10 @@ public class CatalogServiceHttpApiHostModule : AbpModule
         });
 
         Configure<AbpAntiForgeryOptions>(options => { options.AutoValidate = false; });
+        context.Services.AddGrpc(options =>
+        {
+            options.EnableDetailedErrors = true;
+        });
     }
 
     public override void OnApplicationInitialization(ApplicationInitializationContext context)
@@ -111,7 +118,10 @@ public class CatalogServiceHttpApiHostModule : AbpModule
         app.UseAbpSerilogEnrichers();
         app.UseAuditing();
         app.UseUnitOfWork();
-        app.UseConfiguredEndpoints();
+        app.UseConfiguredEndpoints(endpoints =>
+        {
+            endpoints.MapGrpcService<PublicProductGrpService>();
+        });
     }
 
     public override async Task OnPostApplicationInitializationAsync(ApplicationInitializationContext context)

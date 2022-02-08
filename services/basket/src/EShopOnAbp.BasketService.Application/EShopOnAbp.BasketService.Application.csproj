@@ -18,4 +18,14 @@
     <PackageReference Include="Volo.Abp.Ddd.Application" Version="5.1.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.19.3" />
+    <PackageReference Include="Grpc.Net.ClientFactory" Version="2.42.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.42.0" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="..\..\..\catalog\src\EShopOnAbp.CatalogService.Application.Contracts\Protos\product.proto" GrpcServices="Client" />
+  </ItemGroup>
+
 </Project>

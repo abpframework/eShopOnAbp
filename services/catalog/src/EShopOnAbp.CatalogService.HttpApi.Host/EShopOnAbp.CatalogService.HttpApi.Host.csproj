@@ -18,6 +18,10 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\shared\EShopOnAbp.Shared.Hosting.Microservices\EShopOnAbp.Shared.Hosting.Microservices.csproj" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Grpc.AspNetCore.Server" Version="2.42.0" />
+  </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="Logs\**" />

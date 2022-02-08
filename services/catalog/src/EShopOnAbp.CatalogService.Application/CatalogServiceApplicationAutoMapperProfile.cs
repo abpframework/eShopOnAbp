@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EShopOnAbp.CatalogService.Grpc;
 using EShopOnAbp.CatalogService.Products;
 
 namespace EShopOnAbp.CatalogService
@@ -8,6 +9,7 @@ namespace EShopOnAbp.CatalogService
         public CatalogServiceApplicationAutoMapperProfile()
         {
             CreateMap<Product, ProductDto>();
+            CreateMap<Product, ProductResponse>();
         }
     }
 }

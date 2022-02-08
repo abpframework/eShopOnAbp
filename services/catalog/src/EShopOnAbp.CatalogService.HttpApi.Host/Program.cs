@@ -17,8 +17,8 @@ public class Program
         try
         {
             Log.Information($"Starting {assemblyName}.");
-            var app = await ApplicationBuilderHelper
-                .BuildApplicationAsync<CatalogServiceHttpApiHostModule>(args);
+
+            var app = await ApplicationBuilderHelper.BuildApplicationAsync<CatalogServiceHttpApiHostModule>(args);
             await app.InitializeApplicationAsync();
             await app.RunAsync();
 
