@@ -13,6 +13,9 @@ config:
   rabbitmqHost: es-st-rabbitmq
   elasticsearchHost: es-st-elasticsearch
   stringEncryptionDefaultPassPhrase: gsKnGZ041HLL4IM8
+  remoteServices:
+    catalogBaseUrl: #
+    catalogGrpcUrl: #
 
 ingress:
   host: eshop-st-basket

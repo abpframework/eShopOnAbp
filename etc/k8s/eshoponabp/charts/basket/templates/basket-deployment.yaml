@@ -44,7 +44,11 @@ spec:
         - name: "AuthServer__SwaggerClientSecret"
           value: "{{ .Values.config.swaggerClientSecret }}"
         - name: "StringEncryption__DefaultPassPhrase"
-          value: "{{ .Values.config.stringEncryptionDefaultPassPhrase }}"    
+          value: "{{ .Values.config.stringEncryptionDefaultPassPhrase }}"
+        - name: "RemoteServices__Catalog__BaseUrl"
+          value: "{{ .Values.config.remoteServices.catalogBaseUrl }}"
+        - name: "RemoteServices__Catalog__GrpcUrl"
+          value: "{{ .Values.config.remoteServices.catalogGrpcUrl }}"  
           {{- if .Values.env }}
 {{ toYaml .Values.env | indent 8 }}
           {{- end }}
