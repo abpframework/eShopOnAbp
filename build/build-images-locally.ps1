@@ -64,7 +64,7 @@ dotnet publish -c Release
 docker build -f Dockerfile.local -t eshoponabp/service-administration:$version .
 
 ### BASKET-SERVICE
-Write-Host "**************** BUILDING BASKET-SERVICE 8/10 ****************" -ForegroundColor Green
+Write-Host "**************** BUILDING BASKET-SERVICE 8/$total ****************" -ForegroundColor Green
 Set-Location $basketServiceFolder
 dotnet publish -c Release
 docker build -f Dockerfile.local -t eshoponabp/service-basket:$version .
