@@ -19,8 +19,14 @@ identityServerClients:
   publicWebRootUrl: #
   webGatewayRootUrl: #
   publicWebGatewayRootUrl: #
+  accountServiceRootUrl: #  
   identityServiceRootUrl: #
   administrationServiceRootUrl: #
+  basketServiceRootUrl: #
+  catalogServiceRootUrl: #
+  orderingServiceRootUrl: #
+  paymentServiceRootUrl: #
+  
 
 ingress:
   host: eshop-st-identity

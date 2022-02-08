@@ -69,6 +69,11 @@ identity:
     publicWebGatewayRootUrl: https://eshop-st-gateway-web-public/
     identityServiceRootUrl: https://eshop-st-identity/
     administrationServiceRootUrl: https://eshop-st-administration/
+    accountServiceRootUrl: https://eshop-st-authserver/
+    basketServiceRootUrl: https://eshop-st-basket/
+    catalogServiceRootUrl: https://eshop-st-catalog/
+    orderingServiceRootUrl: https://eshop-st-ordering/
+    paymentServiceRootUrl: https://eshop-st-payment/
   ingress:
     host: eshop-st-identity
   image:
