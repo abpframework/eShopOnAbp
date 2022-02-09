@@ -52,7 +52,7 @@ spec:
         - name: "IdentityServerClients__PublicWeb__RootUrl"
           value: {{ .Values.identityServerClients.publicWebRootUrl }}
         - name: "IdentityServerClients__PublicWebGateway__RootUrl"
-          value: {{ .Values.identityServerClients.publicWebRootUrl }}
+          value: {{ .Values.identityServerClients.publicWebGatewayRootUrl }}
         - name: "IdentityServerClients__WebGateway__RootUrl"
           value: {{ .Values.identityServerClients.webGatewayRootUrl }}  
         - name: "IdentityServerClients__IdentityService__RootUrl"
