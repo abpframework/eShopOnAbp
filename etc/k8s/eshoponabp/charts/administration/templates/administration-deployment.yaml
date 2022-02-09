@@ -23,8 +23,10 @@ spec:
         env:
         - name: App__SelfUrl
           value: "{{ .Values.config.selfUrl }}"
-        - name: RemoteServices__Default__BaseUrl
-          value: "{{ .Values.config.gatewayUrl }}"
+        - name: RemoteServices__AbpIdentity__BaseUrl
+          value: "{{ .Values.config.remoteServices.abpIdentityBaseUrl }}"
+        - name: RemoteServices__AbpIdentity__UseCurrentAccessToken
+          value: "{{ .Values.config.remoteServices.useCurrentToken }}"  
         - name: App__CorsOrigins
           value: "{{ .Values.config.corsOrigins }}"
         - name: IdentityClients__Default__Authority
@@ -39,6 +41,10 @@ spec:
           value: "{{ .Values.config.authServer.authority }}"
         - name: "AuthServer__RequireHttpsMetadata"
           value: "{{ .Values.config.authServer.requireHttpsMetadata }}"
+        - name: "AuthServer__SwaggerClientId"
+          value: "{{ .Values.config.authServer.swaggerClientId }}"
+        - name: "AuthServer__SwaggerClientSecret"
+          value: "{{ .Values.config.authServer.swaggerClientSecret }}"  
         - name: "StringEncryption__DefaultPassPhrase"
           value: "{{ .Values.config.stringEncryptionDefaultPassPhrase }}"
         - name: "RabbitMQ__Connections__Default__HostName"

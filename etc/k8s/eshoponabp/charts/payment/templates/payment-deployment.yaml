@@ -25,8 +25,8 @@ spec:
           value: "{{ .Values.config.selfUrl }}"
         - name: App__CorsOrigins
           value: "{{ .Values.config.corsOrigins }}"
-        - name: "ConnectionStrings__OrderingService"
-          value: {{ .Values.config.connectionStrings.orderingService }}  
+        - name: "ConnectionStrings__PaymentService"
+          value: {{ .Values.config.connectionStrings.paymentService }}  
         - name: "ConnectionStrings__AdministrationService"
           value: {{ .Values.config.connectionStrings.administrationService }}
         - name: "DOTNET_ENVIRONMENT"

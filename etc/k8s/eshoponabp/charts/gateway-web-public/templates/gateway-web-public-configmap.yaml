@@ -61,11 +61,11 @@ data:
     {
       "ServiceKey": "Ordering Service",
       "DownstreamPathTemplate": "/api/ordering/{everything}",
-      "DownstreamScheme": "{{ .Values.reRoutes.orderService.schema }}",
+      "DownstreamScheme": "{{ .Values.reRoutes.orderingService.schema }}",
       "DownstreamHostAndPorts": [
         {
-          "Host": "{{ .Values.reRoutes.orderService.host }}",
-          "Port": "{{ .Values.reRoutes.orderService.port }}",
+          "Host": "{{ .Values.reRoutes.orderingService.host }}",
+          "Port": "{{ .Values.reRoutes.orderingService.port }}",
         }
       ],
       "UpstreamPathTemplate": "/api/ordering/{everything}",
