@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using EShopOnAbp.OrderingService.Orders;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
@@ -30,7 +29,7 @@ namespace EShopOnAbp.OrderingService
         private async Task SeedTestOrdersAsync()
         {
             await _orderManager.CreateOrderAsync(
-                1,
+                "paypal",
                 _testData.CurrentUserId,
                 _testData.CurrentUserName,
                 _testData.CurrentUserEmail,
@@ -42,7 +41,7 @@ namespace EShopOnAbp.OrderingService
             );
 
             await _orderManager.CreateOrderAsync(
-                1, _testData.CurrentUserId, _testData.CurrentUserName, _testData.CurrentUserEmail,
+                "paypal", _testData.CurrentUserId, _testData.CurrentUserName, _testData.CurrentUserEmail,
                 _testProducts.GetRandomProducts(10),
                 _testData.Address.Street,
                 _testData.Address.City,
@@ -51,7 +50,7 @@ namespace EShopOnAbp.OrderingService
             );
 
             await _orderManager.CreateOrderAsync(
-                1, _testData.CurrentUserId, _testData.CurrentUserName, _testData.CurrentUserEmail,
+                "paypal", _testData.CurrentUserId, _testData.CurrentUserName, _testData.CurrentUserEmail,
                 _testProducts.GetRandomProducts(2),
                 _testData.Address.Street,
                 _testData.Address.City,
@@ -60,7 +59,7 @@ namespace EShopOnAbp.OrderingService
             );
 
             await _orderManager.CreateOrderAsync(
-                1, _testData.TestUserId, _testData.TestUserName, _testData.TestUserEmail,
+                "paypal", _testData.TestUserId, _testData.TestUserName, _testData.TestUserEmail,
                 _testProducts.GetRandomProducts(7),
                 _testData.Address.Street,
                 _testData.Address.City,
