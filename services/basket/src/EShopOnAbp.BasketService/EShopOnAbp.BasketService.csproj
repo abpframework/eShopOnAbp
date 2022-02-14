@@ -14,7 +14,7 @@
         <PackageReference Include="Grpc.Tools" Version="2.42.0" PrivateAssets="All" />
         <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="6.0.0" />
         
-        <PackageReference Include="Volo.Abp.Authorization" Version="5.1.2"/>
+        <PackageReference Include="Volo.Abp.Authorization" Version="5.1.2" />
         <PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="5.1.2" />
         <PackageReference Include="Volo.Abp.AutoMapper" Version="5.1.2" />
         <PackageReference Include="Volo.Abp.Caching" Version="5.1.2" />
