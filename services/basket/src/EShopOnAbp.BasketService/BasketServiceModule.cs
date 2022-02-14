@@ -1,5 +1,6 @@
 ﻿using EShopOnAbp.BasketService.Entities;
 using EShopOnAbp.BasketService.Localization;
+using EShopOnAbp.CatalogService;
 using EShopOnAbp.CatalogService.Grpc;
 using EShopOnAbp.Shared.Hosting.AspNetCore;
 using EShopOnAbp.Shared.Hosting.Microservices;
@@ -7,19 +8,32 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 using Volo.Abp;
+using Volo.Abp.Application;
+using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.AntiForgery;
+using Volo.Abp.Authorization;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Caching;
+using Volo.Abp.Domain;
 using Volo.Abp.Http.Client;
 using Volo.Abp.Localization;
 using Volo.Abp.Localization.ExceptionHandling;
 using Volo.Abp.Modularity;
+using Volo.Abp.Validation;
 using Volo.Abp.Validation.Localization;
 using Volo.Abp.VirtualFileSystem;
 
 namespace EShopOnAbp.BasketService
 {
-    [DependsOn(
+    [DependsOn(typeof(AbpAuthorizationModule),
+        typeof(AbpAspNetCoreMvcModule),
+        typeof(AbpAutoMapperModule),
+        typeof(AbpCachingModule),
+        typeof(AbpDddApplicationModule),
+        typeof(AbpDddDomainModule),
+        typeof(AbpValidationModule),
+        typeof(CatalogServiceHttpApiClientModule),
+        typeof(EShopOnAbpSharedHostingMicroservicesModule)
     )]
     public class BasketServiceModule : AbpModule 
     {
@@ -37,6 +51,8 @@ namespace EShopOnAbp.BasketService
             ConfigureLocalization();
             ConfigureHttpApiProxy(context);
             ConfigureAuthentication(context, configuration);
+            ConfigureSwagger(context, configuration);
+            ConfigureAutoApiControllers();
         }
         
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
@@ -70,11 +86,9 @@ namespace EShopOnAbp.BasketService
             app.UseUnitOfWork();
             app.UseConfiguredEndpoints();
         }
-
-        private void ConfigureAuthentication(ServiceConfigurationContext context, IConfiguration configuration)
+        
+        private void ConfigureSwagger(ServiceConfigurationContext context, IConfiguration configuration)
         {
-            JwtBearerConfigurationHelper.Configure(context, "BasketService");
-
             SwaggerWithAuthConfigurationHelper.Configure(
                 context: context,
                 authority: configuration["AuthServer:Authority"],
@@ -85,6 +99,11 @@ namespace EShopOnAbp.BasketService
                     },
                 apiTitle: "Basket Service API"
             );
+        }
+        
+        private void ConfigureAuthentication(ServiceConfigurationContext context, IConfiguration configuration)
+        {
+            JwtBearerConfigurationHelper.Configure(context, "BasketService");
 
             context.Services.AddCors(options =>
             {
@@ -108,10 +127,18 @@ namespace EShopOnAbp.BasketService
             Configure<AbpAntiForgeryOptions>(options => { options.AutoValidate = false; });
         }
 
+        private void ConfigureAutoApiControllers()
+        {
+            Configure<AbpAspNetCoreMvcOptions>(options =>
+            {
+                options.ConventionalControllers.Create(typeof(BasketServiceModule).Assembly);
+            });
+        }
+        
         private void ConfigureHttpApiProxy(ServiceConfigurationContext context)
         {
             context.Services.AddStaticHttpClientProxies(
-                typeof(BasketServiceApplicationContractsModule).Assembly,
+                typeof(BasketServiceModule).Assembly,
                 RemoteServiceName
             );
         }
@@ -132,7 +159,7 @@ namespace EShopOnAbp.BasketService
         {
             Configure<AbpAutoMapperOptions>(options =>
             {
-                options.AddMaps<BasketServiceApplicationModule>();
+                options.AddMaps<BasketServiceModule>();
             });
         }
 

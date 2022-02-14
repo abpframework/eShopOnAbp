@@ -1,67 +1,47 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
+    <Import Project="..\..\..\..\common.props" />
+
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
-    <!--    DOMAIN SHARED    -->
     <ItemGroup>
-        <PackageReference Include="Volo.Abp.Validation" Version="5.1.2" />
+        <PackageReference Include="Google.Protobuf" Version="3.19.3" />
+        <PackageReference Include="Grpc.Net.ClientFactory" Version="2.42.0" />
+        <PackageReference Include="Grpc.Tools" Version="2.42.0" PrivateAssets="All" />
         <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="6.0.0" />
-        <ProjectReference Include="..\..\..\ordering\src\EShopOnAbp.OrderingService.Domain.Shared\EShopOnAbp.OrderingService.Domain.Shared.csproj" />
+        
+        <PackageReference Include="Volo.Abp.Authorization" Version="5.1.2"/>
+        <PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="5.1.2" />
+        <PackageReference Include="Volo.Abp.AutoMapper" Version="5.1.2" />
+        <PackageReference Include="Volo.Abp.Caching" Version="5.1.2" />
+        <PackageReference Include="Volo.Abp.Ddd.Domain" Version="5.1.2" />
+        <PackageReference Include="Volo.Abp.Ddd.Application" Version="5.1.2" />        
+        <PackageReference Include="Volo.Abp.Validation" Version="5.1.2" />        
     </ItemGroup>
+    
+    <ItemGroup>        
+        <ProjectReference Include="..\..\..\catalog\src\EShopOnAbp.CatalogService.HttpApi.Client\EShopOnAbp.CatalogService.HttpApi.Client.csproj" />
+        <ProjectReference Include="..\..\..\..\shared\EShopOnAbp.Shared.Hosting.Microservices\EShopOnAbp.Shared.Hosting.Microservices.csproj" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <Protobuf Include="..\..\..\catalog\src\EShopOnAbp.CatalogService.Application.Contracts\Protos\product.proto" GrpcServices="Client" />
+    </ItemGroup>
+    
     <ItemGroup>
         <EmbeddedResource Include="Localization\BasketService\*.json" />
         <Content Remove="Localization\BasketService\*.json" />
     </ItemGroup>
-
-    <!--    DOMAIN    -->
-    <ItemGroup>
-        <ProjectReference Include="..\EShopOnAbp.BasketService.Domain.Shared\EShopOnAbp.BasketService.Domain.Shared.csproj" />
-        <PackageReference Include="Volo.Abp.Ddd.Domain" Version="5.1.2" />
-        <PackageReference Include="Volo.Abp.Caching" Version="5.1.2" />
-    </ItemGroup>
-
-    <!--    APPLICATION CONTRACTS    -->
-    <ItemGroup>
-        <ProjectReference Include="..\EShopOnAbp.BasketService.Domain.Shared\EShopOnAbp.BasketService.Domain.Shared.csproj" />
-        <PackageReference Include="Volo.Abp.Ddd.Application.Contracts" Version="5.1.2" />
-        <PackageReference Include="Volo.Abp.Authorization" Version="5.1.2" />
-    </ItemGroup>
     
-    <!--    APPLICATION    -->
-    <ItemGroup>
-        <PackageReference Include="Volo.Abp.AutoMapper" Version="5.1.2" />
-        <PackageReference Include="Volo.Abp.Ddd.Application" Version="5.1.2" />
-        <PackageReference Include="Google.Protobuf" Version="3.19.3" />
-        <PackageReference Include="Grpc.Net.ClientFactory" Version="2.42.0" />
-        <PackageReference Include="Grpc.Tools" Version="2.42.0" PrivateAssets="All" />
-        <Protobuf Include="..\..\..\catalog\src\EShopOnAbp.CatalogService.Application.Contracts\Protos\product.proto" GrpcServices="Client" />
-        <ProjectReference Include="..\EShopOnAbp.BasketService.Domain\EShopOnAbp.BasketService.Domain.csproj" />
-        <ProjectReference Include="..\EShopOnAbp.BasketService.Application.Contracts\EShopOnAbp.BasketService.Application.Contracts.csproj" />
-        <ProjectReference Include="..\..\..\catalog\src\EShopOnAbp.CatalogService.HttpApi.Client\EShopOnAbp.CatalogService.HttpApi.Client.csproj" />
-    </ItemGroup>
-
-    <!--    HTTP API    -->
-    <ItemGroup>
-        <PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="5.1.2" />
-        <ProjectReference Include="..\EShopOnAbp.BasketService.Application.Contracts\EShopOnAbp.BasketService.Application.Contracts.csproj" />
-    </ItemGroup>
-
-    <!--    HTTP API HOST   -->
-    <ItemGroup>
-        <ProjectReference Include="..\EShopOnAbp.BasketService.Application\EShopOnAbp.BasketService.Application.csproj" />
-        <ProjectReference Include="..\EShopOnAbp.BasketService.HttpApi\EShopOnAbp.BasketService.HttpApi.csproj" />
-        <ProjectReference Include="..\..\..\..\shared\EShopOnAbp.Shared.Hosting.Microservices\EShopOnAbp.Shared.Hosting.Microservices.csproj" />
-    </ItemGroup>
-
     <ItemGroup>
         <Compile Remove="Logs\**" />
         <Content Remove="Logs\**" />
         <EmbeddedResource Remove="Logs\**" />
         <None Remove="Logs\**" />
     </ItemGroup>
-
+    
 </Project>
