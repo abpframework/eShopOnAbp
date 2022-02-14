@@ -1,6 +1,4 @@
-﻿using System;
-using EShopOnAbp.BasketService;
-using EShopOnAbp.PaymentService.PaymentRequests;
+﻿using EShopOnAbp.PaymentService.PaymentRequests;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -8,6 +6,7 @@ using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EShopOnAbp.BasketService.Services.Dtos;
 using EShopOnAbp.OrderingService.Orders;
 using EShopOnAbp.PublicWeb.ServiceProviders;
 using Volo.Abp.AspNetCore.Mvc.UI.RazorPages;

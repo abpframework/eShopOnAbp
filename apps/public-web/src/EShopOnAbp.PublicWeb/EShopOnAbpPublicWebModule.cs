@@ -54,7 +54,7 @@ namespace EShopOnAbp.PublicWeb;
     typeof(EShopOnAbpSharedHostingAspNetCoreModule),
     typeof(EShopOnAbpSharedLocalizationModule),
     typeof(CatalogServiceHttpApiClientModule),
-    typeof(BasketServiceHttpApiClientModule),
+    typeof(BasketServiceModule),
     typeof(OrderingServiceHttpApiClientModule),
     typeof(AbpAspNetCoreSignalRModule),
     typeof(PaymentServiceHttpApiClientModule),
