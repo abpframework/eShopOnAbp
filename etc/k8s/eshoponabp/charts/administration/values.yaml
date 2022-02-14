@@ -1,12 +1,16 @@
 config:
   selfUrl: # https://eshop-st-administration
-  gatewayUrl: # https://eshop-st-gateway-internal/
   corsOrigins: # https://eshop-st-gateway-web,https://eshop-st-gateway-public-web,https://eshop-st-gateway-internal
   connectionStrings:
     administrationService: #
   authServer:
     authority: http://eshop-st-authserver
     requireHttpsMetadata: "false"
+    swaggerClientId: WebGateway_Swagger
+    swaggerClientSecret: "1q2w3e*"
+  remoteServices:
+    abpIdentityBaseUrl: #
+    useCurrentToken: "false"
   dotnetEnv: Staging
   redisHost: es-st-redis
   rabbitmqHost: es-st-rabbitmq

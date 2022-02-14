@@ -23,6 +23,10 @@ helm install ingress-nginx ingress-nginx/ingress-nginx
 127.0.0.1 eshop-st-authserver
 127.0.0.1 eshop-st-identity
 127.0.0.1 eshop-st-administration
+127.0.0.1 eshop-st-basket
+127.0.0.1 eshop-st-catalog
+127.0.0.1 eshop-st-ordering
+127.0.0.1 eshop-st-payment
 127.0.0.1 eshop-st-gateway-web
 127.0.0.1 eshop-st-gateway-web-public
 ````

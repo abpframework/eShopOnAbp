@@ -20,39 +20,36 @@ spec:
           containerPort: 80
         - name: https
           containerPort: 443
-        volumeMounts:
-        - name: config-volume
-          mountPath: /app/appsettings.json
-          subPath: appsettings.json
         env:
         - name: App__SelfUrl
           value: "{{ .Values.config.selfUrl }}"
         - name: App__CorsOrigins
-          value: "{{ .Values.config.corsOrigins }}"  
-        - name: GlobalConfiguration__BaseUrl
-          value: "{{ .Values.config.globalConfigurationBaseUrl }}"
+          value: "{{ .Values.config.corsOrigins }}"
+        - name: "ConnectionStrings__AdministrationService"
+          value: {{ .Values.config.connectionStrings.administrationService }}
         - name: "DOTNET_ENVIRONMENT"
           value: "{{ .Values.config.dotnetEnv }}"
         - name: "Redis__Configuration"
           value: "{{ .Values.config.redisHost }}"
         - name: "RabbitMQ__Connections__Default__HostName"
-          value: "{{ .Values.config.rabbitmqHost }}"  
+          value: "{{ .Values.config.rabbitmqHost }}"
+        - name: "ElasticSearch__Url"
+          value: "{{ .Values.config.elasticsearchHost }}"   
         - name: "AuthServer__Authority"
           value: "{{ .Values.config.authServer.authority }}"
         - name: "AuthServer__RequireHttpsMetadata"
           value: "{{ .Values.config.authServer.requireHttpsMetadata }}"
         - name: "AuthServer__SwaggerClientId"
-          value: "{{ .Values.config.authServer.swaggerClientId }}"
+          value: "{{ .Values.config.swaggerClientId }}"
         - name: "AuthServer__SwaggerClientSecret"
-          value: "{{ .Values.config.authServer.swaggerClientSecret }}"  
-        - name: "ElasticSearch__Url"
-          value: "{{ .Values.config.elasticsearchHost }}"          
+          value: "{{ .Values.config.swaggerClientSecret }}"
         - name: "StringEncryption__DefaultPassPhrase"
           value: "{{ .Values.config.stringEncryptionDefaultPassPhrase }}"
+        - name: "RemoteServices__Catalog__BaseUrl"
+          value: "{{ .Values.config.remoteServices.catalogBaseUrl }}"
+        - name: "RemoteServices__Catalog__GrpcUrl"
+          value: "{{ .Values.config.remoteServices.catalogGrpcUrl }}"  
           {{- if .Values.env }}
 {{ toYaml .Values.env | indent 8 }}
           {{- end }}
-      volumes:
-      - name: config-volume
-        configMap:
-          name: {{ .Release.Name }}-{{ .Chart.Name }}-configmap
+

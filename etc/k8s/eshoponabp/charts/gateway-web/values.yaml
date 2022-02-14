@@ -4,7 +4,9 @@ config:
   globalConfigurationBaseUrl: # http://eshop-st-gateway-web
   authServer:
     authority: http://eshop-st-authserver
-    requireHttpsMetadata: "false"  
+    requireHttpsMetadata: "false"
+    swaggerClientId: WebGateway_Swagger
+    swaggerClientSecret: "1q2w3e*"
   dotnetEnv: # 
   redisHost: #
   rabbitmqHost: #
