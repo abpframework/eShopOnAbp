@@ -25,8 +25,8 @@ spec:
           value: "{{ .Values.config.selfUrl }}"
         - name: App__CorsOrigins
           value: "{{ .Values.config.corsOrigins }}"
-        - name: "ConnectionStrings__IdentityService"
-          value: {{ .Values.config.connectionStrings.identityService }}
+        - name: "ConnectionStrings__OrderingService"
+          value: {{ .Values.config.connectionStrings.orderingService }}  
         - name: "ConnectionStrings__AdministrationService"
           value: {{ .Values.config.connectionStrings.administrationService }}
         - name: "DOTNET_ENVIRONMENT"
@@ -44,31 +44,9 @@ spec:
         - name: "AuthServer__SwaggerClientId"
           value: "{{ .Values.config.authServer.swaggerClientId }}"
         - name: "AuthServer__SwaggerClientSecret"
-          value: "{{ .Values.config.authServer.swaggerClientSecret }}"  
+          value: "{{ .Values.config.authServer.swaggerClientSecret }}"
         - name: "StringEncryption__DefaultPassPhrase"
-          value: "{{ .Values.config.stringEncryptionDefaultPassPhrase }}"             
-        - name: "IdentityServerClients__Web__RootUrl"
-          value: {{ .Values.identityServerClients.webRootUrl }}
-        - name: "IdentityServerClients__PublicWeb__RootUrl"
-          value: {{ .Values.identityServerClients.publicWebRootUrl }}
-        - name: "IdentityServerClients__PublicWebGateway__RootUrl"
-          value: {{ .Values.identityServerClients.publicWebGatewayRootUrl }}
-        - name: "IdentityServerClients__WebGateway__RootUrl"
-          value: {{ .Values.identityServerClients.webGatewayRootUrl }}  
-        - name: "IdentityServerClients__IdentityService__RootUrl"
-          value: {{ .Values.identityServerClients.identityServiceRootUrl }}
-        - name: "IdentityServerClients__AdministrationService__RootUrl"
-          value: {{ .Values.identityServerClients.administrationServiceRootUrl }}
-        - name: "IdentityServerClients__AccountService__RootUrl"
-          value: {{ .Values.identityServerClients.accountServiceRootUrl }}
-        - name: "IdentityServerClients__BasketService__RootUrl"
-          value: {{ .Values.identityServerClients.basketServiceRootUrl }}
-        - name: "IdentityServerClients__CatalogService__RootUrl"
-          value: {{ .Values.identityServerClients.catalogServiceRootUrl }}
-        - name: "IdentityServerClients__OrderingService__RootUrl"
-          value: {{ .Values.identityServerClients.orderingServiceRootUrl }}
-        - name: "IdentityServerClients__PaymentService__RootUrl"
-          value: {{ .Values.identityServerClients.paymentServiceRootUrl }}  
+          value: "{{ .Values.config.stringEncryptionDefaultPassPhrase }}"
           {{- if .Values.env }}
 {{ toYaml .Values.env | indent 8 }}
           {{- end }}
