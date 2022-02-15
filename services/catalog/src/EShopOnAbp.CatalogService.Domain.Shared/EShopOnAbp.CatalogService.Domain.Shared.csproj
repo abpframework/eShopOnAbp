@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\basket\src\EShopOnAbp.BasketService.Domain.Shared\EShopOnAbp.BasketService.Domain.Shared.csproj" />
+    <ProjectReference Include="..\..\..\ordering\src\EShopOnAbp.OrderingService.Domain.Shared\EShopOnAbp.OrderingService.Domain.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

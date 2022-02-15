@@ -1,4 +1,4 @@
-﻿using EShopOnAbp.BasketService;
+﻿using EShopOnAbp.OrderingService;
 using EShopOnAbp.CatalogService.Products;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Domain;
@@ -11,7 +11,7 @@ namespace EShopOnAbp.CatalogService
         typeof(CatalogServiceDomainSharedModule),
         typeof(AbpDddDomainModule),
         typeof(AbpAutoMapperModule),
-        typeof(BasketServiceDomainSharedModule)
+        typeof(OrderingServiceDomainSharedModule)
     )]
     public class CatalogServiceDomainModule : AbpModule
     {
