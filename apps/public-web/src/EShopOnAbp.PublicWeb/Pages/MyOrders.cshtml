@@ -18,14 +18,13 @@
 
 @{
     string lastYearString = $"y{DateTime.Today.Year - 1}";
-    string filter = "";
     int lastYearCounter = 2;
     var selectList = new List<SelectListItem>
     {
-        new(@L["MyOrders:Last30Days"], "last30", selected: true),
-        new(@L["MyOrders:LastMonth"], "m1"),
-        new(@L["MyOrders:Last3Months"], "m3"),
-        new(@L["MyOrders:LastYear"], lastYearString)
+        new(L["MyOrders:Last30Days"], "last30", selected: true),
+        new(L["MyOrders:LastMonth"], "m1"),
+        new(L["MyOrders:Last3Months"], "m3"),
+        new(L["MyOrders:LastYear"], lastYearString)
     };
     for (int i = 0; i < lastYearCounter; i++)
     {
