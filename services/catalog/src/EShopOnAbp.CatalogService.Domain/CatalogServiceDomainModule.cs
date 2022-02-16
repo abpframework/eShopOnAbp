@@ -1,4 +1,3 @@
-using EShopOnAbp.OrderingService;
 using EShopOnAbp.CatalogService.Products;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Domain;
@@ -14,13 +13,7 @@ namespace EShopOnAbp.CatalogService;
 )]
 public class CatalogServiceDomainModule : AbpModule
 {
-    [DependsOn(
-        typeof(CatalogServiceDomainSharedModule),
-        typeof(AbpDddDomainModule),
-        typeof(AbpAutoMapperModule),
-        typeof(OrderingServiceDomainSharedModule)
-    )]
-    public class CatalogServiceDomainModule : AbpModule
+    public override void ConfigureServices(ServiceConfigurationContext context)
     {
         Configure<AbpAutoMapperOptions>(options => { options.AddMaps<CatalogServiceDomainModule>(validate: true); });
 

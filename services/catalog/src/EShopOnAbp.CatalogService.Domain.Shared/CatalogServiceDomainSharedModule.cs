@@ -1,4 +1,5 @@
 ﻿using EShopOnAbp.CatalogService.Localization;
+using EShopOnAbp.OrderingService;
 using Volo.Abp.Localization;
 using Volo.Abp.Localization.ExceptionHandling;
 using Volo.Abp.Modularity;
@@ -9,7 +10,8 @@ using Volo.Abp.VirtualFileSystem;
 namespace EShopOnAbp.CatalogService;
 
 [DependsOn(
-    typeof(AbpValidationModule)
+    typeof(AbpValidationModule),
+    typeof(OrderingServiceDomainSharedModule)
 )]
 public class CatalogServiceDomainSharedModule : AbpModule
 {
