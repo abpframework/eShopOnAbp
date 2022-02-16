@@ -1,21 +1,11 @@
 ﻿syntax = "proto3";
 
-/* >>
-import "google/api/annotations.proto";
-<< */
-
 option csharp_namespace = "EShopOnAbp.CatalogService.Grpc";
 
 package CatalogApi;
 
 service ProductPublic {
-	rpc GetById(ProductRequest) returns (ProductResponse) {
-		/* >>
- option (google.api.http) = {
-     get: "/api/catalog/product/{id}"
-   };
-<< */
-	}
+	rpc GetById(ProductRequest) returns (ProductResponse);
 }
 
 message ProductRequest {
