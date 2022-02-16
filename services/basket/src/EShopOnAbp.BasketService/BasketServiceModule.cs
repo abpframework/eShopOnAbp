@@ -1,5 +1,4 @@
 ﻿using EShopOnAbp.BasketService.Entities;
-using EShopOnAbp.BasketService.Localization;
 using EShopOnAbp.CatalogService.Grpc;
 using EShopOnAbp.Shared.Hosting.AspNetCore;
 using EShopOnAbp.Shared.Hosting.Microservices;
@@ -10,27 +9,22 @@ using Volo.Abp;
 using Volo.Abp.Application;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.AntiForgery;
-using Volo.Abp.Authorization;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Caching;
 using Volo.Abp.Domain;
 using Volo.Abp.Http.Client;
-using Volo.Abp.Localization;
-using Volo.Abp.Localization.ExceptionHandling;
 using Volo.Abp.Modularity;
-using Volo.Abp.Validation;
-using Volo.Abp.Validation.Localization;
 using Volo.Abp.VirtualFileSystem;
 
 namespace EShopOnAbp.BasketService
 {
-    [DependsOn(typeof(AbpAuthorizationModule),
+    [DependsOn(
         typeof(AbpAspNetCoreMvcModule),
+        typeof(AbpHttpClientModule),
         typeof(AbpAutoMapperModule),
         typeof(AbpCachingModule),
         typeof(AbpDddApplicationModule),
         typeof(AbpDddDomainModule),
-        typeof(AbpValidationModule),
         typeof(BasketServiceContractsModule),
         typeof(EShopOnAbpSharedHostingMicroservicesModule)
     )]
@@ -39,9 +33,13 @@ namespace EShopOnAbp.BasketService
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
             var hostingEnvironment = context.Services.GetHostingEnvironment();
+
+            Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = hostingEnvironment.IsDevelopment();
+            
             var configuration = context.Services.GetConfiguration();
 
             ConfigureAutoMapper();
+            ConfigureAspNetCoreRouting(context);
             ConfigureGrpc(context);
             ConfigureDistributedCache();
             ConfigureVirtualFileSystem();
@@ -49,7 +47,19 @@ namespace EShopOnAbp.BasketService
             ConfigureSwagger(context, configuration);
             ConfigureAutoApiControllers();
         }
-        
+
+        private void ConfigureAspNetCoreRouting(ServiceConfigurationContext context)
+        {
+            Configure<AbpAspNetCoreMvcOptions>(options =>
+            {
+                options.ConventionalControllers.Create(typeof(BasketServiceModule).Assembly, opts =>
+                {
+                    opts.RootPath = "basket";
+                    opts.RemoteServiceName = BasketServiceConstants.RemoteServiceName;
+                });
+            });
+        }
+
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
         {
             var app = context.GetApplicationBuilder();
