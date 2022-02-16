@@ -1,0 +1,100 @@
+﻿{
+  "GlobalConfiguration": {
+    "BaseUrl": "https://localhost:44373"
+  },
+  "Routes": [
+    {
+      "ServiceKey": "Account Service",
+      "DownstreamPathTemplate": "/api/account/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44330
+        }
+      ],
+      "UpstreamPathTemplate": "/api/account/{everything}",
+      "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ]
+    },
+    {
+      "ServiceKey": "Administration Service",
+      "DownstreamPathTemplate": "/api/abp/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44353
+        }
+      ],
+      "UpstreamPathTemplate": "/api/abp/{everything}",
+      "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ],
+      "QoSOptions": {
+        "ExceptionsAllowedBeforeBreaking": 3,
+        "DurationOfBreak": 3000,
+        "TimeoutValue": 2500
+      }
+    },
+    {
+      "ServiceKey": "Catalog Service",
+      "DownstreamPathTemplate": "/api/catalog/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44354
+        }
+      ],
+      "UpstreamPathTemplate": "/api/catalog/{everything}",
+      "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ],
+      "QoSOptions": {
+        "ExceptionsAllowedBeforeBreaking": 3,
+        "DurationOfBreak": 3000,
+        "TimeoutValue": 2500
+      }
+    },
+    {
+      "ServiceKey": "Basket Service",
+      "DownstreamPathTemplate": "/api/basket/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44355
+        }
+      ],
+      "UpstreamPathTemplate": "/api/basket/{everything}",
+      "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ],
+      "QoSOptions": {
+        "ExceptionsAllowedBeforeBreaking": 3,
+        "DurationOfBreak": 3000,
+        "TimeoutValue": 2500
+      }
+    },
+    {
+      "ServiceKey": "Ordering Service",
+      "DownstreamPathTemplate": "/api/ordering/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44356
+        }
+      ],
+      "UpstreamPathTemplate": "/api/ordering/{everything}",
+      "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ]
+    },
+    {
+      "ServiceKey": "Payment Service",
+      "DownstreamPathTemplate": "/api/payment/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44357
+        }
+      ],
+      "UpstreamPathTemplate": "/api/payment/{everything}",
+      "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ]
+    }
+  ]  
+}

@@ -1,35 +1,29 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: {{ .Release.Name }}-{{ .Chart.Name }}-configmap
-data:
-  ocelot.json: |-
-    {
-      "GlobalConfiguration": {
-      "BaseUrl": "{{ .Values.config.globalConfigurationBaseUrl }}"
-    },
-      "Routes": [   
+﻿{
+  "GlobalConfiguration": {
+    "BaseUrl": "https://localhost:44372"
+  },
+  "Routes": [
     {
       "ServiceKey": "Identity Service",
       "DownstreamPathTemplate": "/api/identity/{everything}",
-      "DownstreamScheme": "{{ .Values.reRoutes.identityService.schema }}",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "{{ .Values.reRoutes.identityService.host }}",
-          "Port": {{ .Values.reRoutes.identityService.port }}
+          "Host": "localhost",
+          "Port": 44351
         }
       ],
       "UpstreamPathTemplate": "/api/identity/{everything}",
       "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ]
     },
     {
-      "ServiceKey": "Identity Service",
+      "ServiceKey": "Account Service",
       "DownstreamPathTemplate": "/api/account/{everything}",
-      "DownstreamScheme": "{{ .Values.reRoutes.identityService.schema }}",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "{{ .Values.reRoutes.identityService.host }}",
-          "Port": {{ .Values.reRoutes.identityService.port }}
+          "Host": "localhost",
+          "Port": 44330
         }
       ],
       "UpstreamPathTemplate": "/api/account/{everything}",
@@ -38,24 +32,29 @@ data:
     {
       "ServiceKey": "Administration Service",
       "DownstreamPathTemplate": "/api/abp/{everything}",
-      "DownstreamScheme": "{{ .Values.reRoutes.administrationService.schema }}",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "{{ .Values.reRoutes.administrationService.host }}",
-          "Port": "{{ .Values.reRoutes.administrationService.port }}",
+          "Host": "localhost",
+          "Port": 44353
         }
       ],
       "UpstreamPathTemplate": "/api/abp/{everything}",
-      "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ]
+      "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ],
+      "QoSOptions": {
+        "ExceptionsAllowedBeforeBreaking": 3,
+        "DurationOfBreak": 5000,
+        "TimeoutValue": 2500
+      }
     },
     {
       "ServiceKey": "Administration Service",
       "DownstreamPathTemplate": "/api/feature-management/{everything}",
-      "DownstreamScheme": "{{ .Values.reRoutes.administrationService.schema }}",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "{{ .Values.reRoutes.administrationService.host }}",
-          "Port": "{{ .Values.reRoutes.administrationService.port }}",
+          "Host": "localhost",
+          "Port": 44353
         }
       ],
       "UpstreamPathTemplate": "/api/feature-management/{everything}",
@@ -64,11 +63,11 @@ data:
     {
       "ServiceKey": "Administration Service",
       "DownstreamPathTemplate": "/api/permission-management/{everything}",
-      "DownstreamScheme": "{{ .Values.reRoutes.administrationService.schema }}",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "{{ .Values.reRoutes.administrationService.host }}",
-          "Port": "{{ .Values.reRoutes.administrationService.port }}",
+          "Host": "localhost",
+          "Port": 44353
         }
       ],
       "UpstreamPathTemplate": "/api/permission-management/{everything}",
@@ -77,14 +76,15 @@ data:
     {
       "ServiceKey": "Administration Service",
       "DownstreamPathTemplate": "/api/setting-management/{everything}",
-      "DownstreamScheme": "{{ .Values.reRoutes.administrationService.schema }}",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "{{ .Values.reRoutes.administrationService.host }}",
-          "Port": "{{ .Values.reRoutes.administrationService.port }}",
+          "Host": "localhost",
+          "Port": 44353
         }
       ],
       "UpstreamPathTemplate": "/api/setting-management/{everything}",
       "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ]
-    }]
     }
+  ]  
+}

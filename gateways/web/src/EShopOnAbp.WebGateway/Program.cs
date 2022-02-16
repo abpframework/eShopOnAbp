@@ -3,6 +3,8 @@ using Serilog;
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace EShopOnAbp.WebGateway;
 
@@ -17,10 +19,18 @@ public class Program
         try
         {
             Log.Information($"Starting {assemblyName}.");
-            var app = await ApplicationBuilderHelper.BuildApplicationAsync<EShopOnAbpWebGatewayModule>(args);
+            var builder = WebApplication.CreateBuilder(args);
+            builder.Host
+                .AddAppSettingsSecretsJson()
+                .AddOcelotJson()
+                .UseAutofac()
+                .UseSerilog();
+
+            await builder.AddApplicationAsync<EShopOnAbpWebGatewayModule>();
+            var app = builder.Build();
             await app.InitializeApplicationAsync();
             await app.RunAsync();
-
+            
             return 0;
         }
         catch (Exception ex)

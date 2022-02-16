@@ -3,8 +3,11 @@ kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-{{ .Chart.Name }}-configmap
 data:
-  appsettings.json: |-
+  ocelot.json: |-
     {
+      "GlobalConfiguration": {
+      "BaseUrl": "{{ .Values.config.globalConfigurationBaseUrl }}"
+    },
       "Routes": [   
     {
       "ServiceKey": "Identity Service",

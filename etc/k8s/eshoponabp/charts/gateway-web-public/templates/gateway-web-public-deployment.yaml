@@ -22,8 +22,8 @@ spec:
           containerPort: 443
         volumeMounts:
         - name: config-volume
-          mountPath: /app/appsettings.json
-          subPath: appsettings.json
+          mountPath: /app/ocelot.json
+          subPath: ocelot.json
         env:
         - name: App__SelfUrl
           value: "{{ .Values.config.selfUrl }}"
