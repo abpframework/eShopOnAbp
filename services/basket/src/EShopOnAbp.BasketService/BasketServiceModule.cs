@@ -1,6 +1,5 @@
 ﻿using EShopOnAbp.BasketService.Entities;
 using EShopOnAbp.BasketService.Localization;
-using EShopOnAbp.CatalogService;
 using EShopOnAbp.CatalogService.Grpc;
 using EShopOnAbp.Shared.Hosting.AspNetCore;
 using EShopOnAbp.Shared.Hosting.Microservices;
@@ -32,7 +31,7 @@ namespace EShopOnAbp.BasketService
         typeof(AbpDddApplicationModule),
         typeof(AbpDddDomainModule),
         typeof(AbpValidationModule),
-        typeof(CatalogServiceHttpApiClientModule),
+        typeof(BasketServiceContractsModule),
         typeof(EShopOnAbpSharedHostingMicroservicesModule)
     )]
     public class BasketServiceModule : AbpModule 

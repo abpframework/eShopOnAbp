@@ -1,4 +1,6 @@
-﻿namespace EShopOnAbp.BasketService.Services.Dtos
+﻿using System;
+
+namespace EShopOnAbp.BasketService.Services
 {
     public interface IHasAnonymousId
     {

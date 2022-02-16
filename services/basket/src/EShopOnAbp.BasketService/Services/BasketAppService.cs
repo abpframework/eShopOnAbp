@@ -1,6 +1,5 @@
 ﻿using EShopOnAbp.BasketService.Entities;
 using EShopOnAbp.BasketService.Localization;
-using EShopOnAbp.BasketService.Services.Dtos;
 using EShopOnAbp.CatalogService.Products;
 using Volo.Abp;
 using Volo.Abp.Application.Services;

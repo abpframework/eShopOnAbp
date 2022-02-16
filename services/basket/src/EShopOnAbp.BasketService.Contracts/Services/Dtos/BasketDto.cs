@@ -1,4 +1,6 @@
-namespace EShopOnAbp.BasketService.Services.Dtos;
+using System.Collections.Generic;
+
+namespace EShopOnAbp.BasketService.Services;
 
 public class BasketDto
 {

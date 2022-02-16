@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using EShopOnAbp.CatalogService.Products;
 using JetBrains.Annotations;
 
-namespace EShopOnAbp.BasketService;
+namespace EShopOnAbp.BasketService.Services;
 
 public interface IBasketProductService
 {

@@ -1,6 +1,7 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace EShopOnAbp.BasketService.Services.Dtos;
+namespace EShopOnAbp.BasketService.Services;
 
 public class AddProductDto : IHasAnonymousId
 {
