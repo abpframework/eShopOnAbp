@@ -36,8 +36,6 @@ namespace EShopOnAbp.BasketService
     )]
     public class BasketServiceModule : AbpModule 
     {
-        public const string RemoteServiceName = "Basket";
-        
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
             var hostingEnvironment = context.Services.GetHostingEnvironment();
@@ -47,8 +45,6 @@ namespace EShopOnAbp.BasketService
             ConfigureGrpc(context);
             ConfigureDistributedCache();
             ConfigureVirtualFileSystem();
-            ConfigureLocalization();
-            ConfigureHttpApiProxy(context);
             ConfigureAuthentication(context, configuration);
             ConfigureSwagger(context, configuration);
             ConfigureAutoApiControllers();
@@ -133,14 +129,6 @@ namespace EShopOnAbp.BasketService
                 options.ConventionalControllers.Create(typeof(BasketServiceModule).Assembly);
             });
         }
-        
-        private void ConfigureHttpApiProxy(ServiceConfigurationContext context)
-        {
-            context.Services.AddStaticHttpClientProxies(
-                typeof(BasketServiceModule).Assembly,
-                RemoteServiceName
-            );
-        }
 
         private void ConfigureGrpc(ServiceConfigurationContext context)
         {
@@ -186,24 +174,6 @@ namespace EShopOnAbp.BasketService
             Configure<AbpVirtualFileSystemOptions>(options =>
             {
                 options.FileSets.AddEmbedded<BasketServiceModule>();
-            });
-        }
-
-        private void ConfigureLocalization()
-        {
-            Configure<AbpLocalizationOptions>(options =>
-            {
-                options.Resources
-                    .Add<BasketServiceResource>("en")
-                    .AddBaseTypes(typeof(AbpValidationResource))
-                    .AddVirtualJson("/Localization/BasketService");
-
-                options.DefaultResourceType = typeof(BasketServiceResource);
-            });
-
-            Configure<AbpExceptionLocalizationOptions>(options =>
-            {
-                options.MapCodeNamespace("BasketService", typeof(BasketServiceResource));
             });
         }
     }

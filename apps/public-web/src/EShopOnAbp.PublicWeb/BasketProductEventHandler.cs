@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using EShopOnAbp.BasketService.Entities;
+using EShopOnAbp.BasketService.Services;
 using Microsoft.AspNetCore.SignalR;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Distributed;
