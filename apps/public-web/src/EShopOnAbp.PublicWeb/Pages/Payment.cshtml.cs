@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using EShopOnAbp.BasketService.Services.Dtos;
+using EShopOnAbp.BasketService.Services;
 using EShopOnAbp.OrderingService.Orders;
 using EShopOnAbp.PublicWeb.ServiceProviders;
 using Volo.Abp.AspNetCore.Mvc.UI.RazorPages;

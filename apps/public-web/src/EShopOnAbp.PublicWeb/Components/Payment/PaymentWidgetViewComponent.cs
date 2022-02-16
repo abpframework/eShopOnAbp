@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using EShopOnAbp.BasketService.Services.Dtos;
+using EShopOnAbp.BasketService.Services;
 using EShopOnAbp.PublicWeb.ServiceProviders;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc;

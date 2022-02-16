@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using EShopOnAbp.BasketService.Services.Dtos;
+using EShopOnAbp.BasketService.Services;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.UI.Widgets;

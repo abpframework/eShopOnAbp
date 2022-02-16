@@ -25,7 +25,7 @@
         <ProjectReference Include="..\..\..\..\shared\EShopOnAbp.Shared.Hosting.AspNetCore\EShopOnAbp.Shared.Hosting.AspNetCore.csproj" />
         <ProjectReference Include="..\..\..\..\shared\EShopOnAbp.Shared.Localization\EShopOnAbp.Shared.Localization.csproj" />
         <ProjectReference Include="..\..\..\..\services\catalog\src\EShopOnAbp.CatalogService.HttpApi.Client\EShopOnAbp.CatalogService.HttpApi.Client.csproj" />
-        <ProjectReference Include="..\..\..\..\services\basket\src\EShopOnAbp.BasketService\EShopOnAbp.BasketService.csproj" />
+        <ProjectReference Include="..\..\..\..\services\basket\src\EShopOnAbp.BasketService.Contracts\EShopOnAbp.BasketService.Contracts.csproj" />
         <ProjectReference Include="..\..\..\..\services\payment\src\EShopOnAbp.PaymentService.HttpApi.Client\EShopOnAbp.PaymentService.HttpApi.Client.csproj" />
         <ProjectReference Include="..\..\..\..\services\ordering\src\EShopOnAbp.OrderingService.HttpApi.Client\EShopOnAbp.OrderingService.HttpApi.Client.csproj" />
     </ItemGroup>

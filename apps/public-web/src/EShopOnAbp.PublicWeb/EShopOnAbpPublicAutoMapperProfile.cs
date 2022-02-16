@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using EShopOnAbp.BasketService.Services.Dtos;
+using EShopOnAbp.BasketService.Services;
 using EShopOnAbp.OrderingService.Orders;
 using EShopOnAbp.PaymentService.PaymentRequests;
 using Volo.Abp.AutoMapper;

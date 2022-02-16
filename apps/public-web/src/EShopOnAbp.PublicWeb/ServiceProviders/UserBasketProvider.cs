@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using EShopOnAbp.BasketService.Services;
-using EShopOnAbp.BasketService.Services.Dtos;
 using EShopOnAbp.Shared.Hosting.AspNetCore;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
