@@ -1,5 +1,4 @@
-﻿using EShopOnAbp.BasketService.Entities;
-using EShopOnAbp.CatalogService.Products;
+﻿using EShopOnAbp.CatalogService.Products;
 using Volo.Abp.Caching;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Entities.Events.Distributed;

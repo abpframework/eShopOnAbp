@@ -1,4 +1,6 @@
-﻿namespace EShopOnAbp.BasketService.Entities;
+﻿using System;
+
+namespace EShopOnAbp.BasketService.Services;
 
 public class BasketProductUpdatedEto
 {
