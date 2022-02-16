@@ -3,10 +3,7 @@
   "texts": {
     "Menu:Home": "Home",
     "Welcome": "Welcome",
-    "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io.",
-    "Toolbar:Cart": "My Cart",
-    "Toolbar:BasketNotLoaded": "Couldn't Load!",
-    "Toolbar:CartEmpty": "Cart is Empty!",
+    "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io.",    
     "ProductNotFound": "Could not find the product!"
   }
 }
