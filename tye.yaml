@@ -37,7 +37,7 @@ services:
     - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49
 
 - name: basket-service
-  project: services/basket/src/EShopOnAbp.BasketService.HttpApi.Host/EShopOnAbp.BasketService.HttpApi.Host.csproj
+  project: services/basket/src/EShopOnAbp.BasketService/EShopOnAbp.BasketService.csproj
   bindings:
     - protocol: https
       port: 44355

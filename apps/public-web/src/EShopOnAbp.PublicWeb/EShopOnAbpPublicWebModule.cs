@@ -40,6 +40,7 @@ using EShopOnAbp.PublicWeb.PaymentMethods;
 using EShopOnAbp.PaymentService.PaymentMethods;
 using EShopOnAbp.PublicWeb.AnonymousUser;
 using Microsoft.Extensions.Configuration;
+using Volo.Abp.VirtualFileSystem;
 
 namespace EShopOnAbp.PublicWeb;
 
@@ -54,7 +55,7 @@ namespace EShopOnAbp.PublicWeb;
     typeof(EShopOnAbpSharedHostingAspNetCoreModule),
     typeof(EShopOnAbpSharedLocalizationModule),
     typeof(CatalogServiceHttpApiClientModule),
-    typeof(BasketServiceHttpApiClientModule),
+    typeof(BasketServiceContractsModule),
     typeof(OrderingServiceHttpApiClientModule),
     typeof(AbpAspNetCoreSignalRModule),
     typeof(PaymentServiceHttpApiClientModule),
@@ -78,6 +79,8 @@ public class EShopOnAbpPublicWebModule : AbpModule
         Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
         var hostingEnvironment = context.Services.GetHostingEnvironment();
         var configuration = context.Services.GetConfiguration();
+
+        ConfigureBasketHttpClient(context);
 
         context.Services.AddAutoMapperObjectMapper<EShopOnAbpPublicWebModule>();
         Configure<AbpAutoMapperOptions>(options => { options.AddMaps<EShopOnAbpPublicWebModule>(validate: true); });
@@ -157,6 +160,18 @@ public class EShopOnAbpPublicWebModule : AbpModule
                     );
                 });
             });
+    }
+
+    private void ConfigureBasketHttpClient(ServiceConfigurationContext context)
+    {
+        context.Services.AddStaticHttpClientProxies(
+            typeof(BasketServiceContractsModule).Assembly, remoteServiceConfigurationName: BasketServiceConstants.RemoteServiceName
+        );
+        
+        Configure<AbpVirtualFileSystemOptions>(options =>
+        {
+            options.FileSets.AddEmbedded<EShopOnAbpPublicWebModule>();
+        });
     }
 
     private void ConfigurePayment(IConfiguration configuration)

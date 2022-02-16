@@ -43,6 +43,9 @@
     "UserOrders:BuyAgain": "Tekrar Satın Alın",
     "UserOrders:ProductReturnDate": "Ürünü iade edebileceğiniz son tarih:",
     "UserOrders:ReturnProducts": "Ürünleri iade et",
-    "UserOrders:AddReview": "Ürün yorumu yazın"
+    "UserOrders:AddReview": "Ürün yorumu yazın",
+    "Toolbar:Cart": "Sepetim",
+    "Toolbar:BasketNotLoaded": "Sepet Hatası!",
+    "Toolbar:CartEmpty": "Sepetiniz Boş"
   }
 }

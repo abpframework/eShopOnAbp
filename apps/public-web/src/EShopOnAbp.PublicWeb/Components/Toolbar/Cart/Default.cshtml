@@ -1,8 +1,7 @@
-﻿@using EShopOnAbp.BasketService.Localization
-@using EShopOnAbp.PublicWeb.Components.Basket
+﻿@using EShopOnAbp.Localization
 @using Microsoft.AspNetCore.Mvc.Localization
-@inject IHtmlLocalizer<BasketServiceResource> L
-@model EShopOnAbp.BasketService.BasketDto
+@inject IHtmlLocalizer<EShopOnAbpResource> L
+@model EShopOnAbp.BasketService.Services.BasketDto
 <div id="shopping-cart" class="nav-link">
 
 	@if (Model == null)

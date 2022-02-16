@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using EShopOnAbp.OrderingService.Orders;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
