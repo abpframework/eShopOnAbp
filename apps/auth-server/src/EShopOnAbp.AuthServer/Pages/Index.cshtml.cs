@@ -7,6 +7,8 @@ namespace EShopOnAbp.AuthServer.Pages
     {
         public ActionResult OnGet()
         {
+            var ipaddr = CurrentUser.FindClaim("ipaddr");
+
             if (!CurrentUser.IsAuthenticated)
             {
                 return Redirect("~/Account/Login");

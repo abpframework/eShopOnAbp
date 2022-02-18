@@ -12,11 +12,15 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
 using IdentityServer4.Configuration;
 using IdentityServer4.Extensions;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Volo.Abp;
 using Volo.Abp.Account;
 using Volo.Abp.Account.Web;
@@ -79,6 +83,8 @@ public class EShopOnAbpAuthServerModule : AbpModule
         var configuration = context.Services.GetConfiguration();
 
         ConfigureSwagger(context, configuration);
+
+        ConfigureExternalProviders(context, configuration);
 
         context.Services.AddAuthentication()
             .AddJwtBearer(options =>
@@ -148,6 +154,41 @@ public class EShopOnAbpAuthServerModule : AbpModule
         }
     }
 
+    private void ConfigureExternalProviders(ServiceConfigurationContext context, IConfiguration configuration)
+    {
+        Configure<AbpClaimsServiceOptions>(options =>
+        {
+            options.RequestedClaims.AddRange(new[]{
+                "ipaddr",
+                "myCustomClaimFromAzure"
+            });
+        });
+        context.Services.AddAuthentication()
+                .AddOpenIdConnect("AzureOpenId", "Azure AD OpenId", options =>
+                {
+                    options.Authority = "https://login.microsoftonline.com/" + configuration["AzureAd:TenantId"] +
+                                        "/v2.0/";
+                    options.ClientId = configuration["AzureAd:ClientId"];
+                    options.ResponseType = OpenIdConnectResponseType.CodeIdToken;
+                    options.CallbackPath = configuration["AzureAd:CallbackPath"];
+                    options.ClientSecret = configuration["AzureAd:ClientSecret"];
+                    options.RequireHttpsMetadata = false;
+                    options.SaveTokens = false;
+                    options.GetClaimsFromUserInfoEndpoint = true;
+                    options.Scope.Add("email");
+
+                    options.ClaimActions.Remove("ipaddr");
+
+                    options.ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "sub");
+
+                    options.Events.OnTokenValidated = async ctx =>
+                    {
+                        var claimsFromOidcProvider = ctx.Principal?.Claims.ToList(); // AzureAD claims
+                        await Task.CompletedTask;
+                    };
+                });
+    }
+
     public override void OnApplicationInitialization(ApplicationInitializationContext context)
     {
         var app = context.GetApplicationBuilder();
@@ -197,7 +238,6 @@ public class EShopOnAbpAuthServerModule : AbpModule
         app.UseAuditing();
         app.UseConfiguredEndpoints();
     }
-
     private X509Certificate2 GetSigningCertificate(IWebHostEnvironment hostingEnv)
     {
         const string fileName = "eshoponabp-authserver.pfx";
@@ -211,7 +251,6 @@ public class EShopOnAbpAuthServerModule : AbpModule
 
         return new X509Certificate2(file, passPhrase);
     }
-
     private void ConfigureSwagger(ServiceConfigurationContext context, IConfiguration configuration)
     {
         SwaggerWithAuthConfigurationHelper.Configure(
