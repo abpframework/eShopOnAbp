@@ -9,6 +9,7 @@ namespace EShopOnAbp.AdministrationService
     [DependsOn(
         typeof(AdministrationServiceDomainModule),
         typeof(AdministrationServiceApplicationContractsModule),
+        typeof(AbpAutoMapperModule),
         typeof(AbpPermissionManagementApplicationModule),
         typeof(AbpSettingManagementApplicationModule)
         )]
