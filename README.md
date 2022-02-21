@@ -52,7 +52,7 @@ You can either run in Visual Studio, or using [Microsoft Tye](https://github.com
 - [x] Docker Image creation ✔️
 - [x] Helm deployment for local k8s cluster ✔️
 - [ ] Switch Ocelot to Envoy in Public Web gateway
-- [ ] Use gRPC for catalog microservice
+- [x] Use gRPC for catalog microservice
 - [ ] Management Side of Services
 - [ ] Administration application (to manage products and orders, with a dashboard)
 - [ ] Product-detail page on the shopping application (with CMS-kit integration for comments and rating components)
