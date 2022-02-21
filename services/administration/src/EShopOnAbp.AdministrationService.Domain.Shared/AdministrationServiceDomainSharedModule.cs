@@ -1,6 +1,5 @@
 ﻿using EShopOnAbp.AdministrationService.Localization;
 using Volo.Abp.AuditLogging;
-using Volo.Abp.FeatureManagement;
 using Volo.Abp.Localization;
 using Volo.Abp.Localization.ExceptionHandling;
 using Volo.Abp.Modularity;
@@ -13,7 +12,6 @@ namespace EShopOnAbp.AdministrationService
 {
     [DependsOn(
         typeof(AbpPermissionManagementDomainSharedModule),
-        typeof(AbpFeatureManagementDomainSharedModule),
         typeof(AbpSettingManagementDomainSharedModule),
         typeof(AbpAuditLoggingDomainSharedModule)
         )]
