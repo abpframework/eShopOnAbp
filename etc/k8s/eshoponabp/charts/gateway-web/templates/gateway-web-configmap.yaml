@@ -23,13 +23,13 @@ data:
       "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ]
     },
     {
-      "ServiceKey": "Identity Service",
+      "ServiceKey": "Account Service",
       "DownstreamPathTemplate": "/api/account/{everything}",
-      "DownstreamScheme": "{{ .Values.reRoutes.identityService.schema }}",
+      "DownstreamScheme": "{{ .Values.reRoutes.accountService.schema }}",
       "DownstreamHostAndPorts": [
         {
-          "Host": "{{ .Values.reRoutes.identityService.host }}",
-          "Port": {{ .Values.reRoutes.identityService.port }}
+          "Host": "{{ .Values.reRoutes.accountService.host }}",
+          "Port": {{ .Values.reRoutes.accountService.port }}
         }
       ],
       "UpstreamPathTemplate": "/api/account/{everything}",
