@@ -13,6 +13,10 @@ config:
   elasticsearchHost: #
   stringEncryptionDefaultPassPhrase: gsKnGZ041HLL4IM8
 reRoutes:
+  accountService:
+    schema: http
+    host: eshop-st-authserver
+    port: 80
   identityService:
     schema: http
     host: eshop-st-identity

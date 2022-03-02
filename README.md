@@ -2,8 +2,6 @@
 
 This project is a reference for who want to build microservice solutions with the ABP Framework.
 
-> This project is in its infancy. By the time, we will write articles and documents to explain the goals and details of the project.
-
 See [the announcement](https://blog.abp.io/abp/Introducing-the-eShopOnAbp-Project) post for more info.
 
 ## Issues
@@ -52,7 +50,7 @@ You can either run in Visual Studio, or using [Microsoft Tye](https://github.com
 - [x] Docker Image creation ✔️
 - [x] Helm deployment for local k8s cluster ✔️
 - [ ] Switch Ocelot to Envoy in Public Web gateway
-- [ ] Use gRPC for catalog microservice
+- [x] Use gRPC for catalog microservice
 - [ ] Management Side of Services
 - [ ] Administration application (to manage products and orders, with a dashboard)
 - [ ] Product-detail page on the shopping application (with CMS-kit integration for comments and rating components)

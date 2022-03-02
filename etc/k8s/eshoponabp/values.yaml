@@ -160,6 +160,10 @@ gateway-web-public:
     repository: "eshoponabp/gateway-web-public"
     tag: latest
   reRoutes:
+    accountService:
+      schema: http
+      host: eshop-st-authserver
+      port: 80
     identityService:
       schema: http
       host: eshop-st-identity

@@ -5,8 +5,6 @@ VisualStudioVersion = 17.0.31717.71
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{CA9AC87F-097E-4F15-8393-4BC07735A5B0}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{04DBDB01-70F4-4E06-B468-8F87850B22BE}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EShopOnAbp.BasketService", "src\EShopOnAbp.BasketService\EShopOnAbp.BasketService.csproj", "{83F0BE02-6B71-4695-B86F-18DEEE34B485}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EShopOnAbp.BasketService.Contracts", "src\EShopOnAbp.BasketService.Contracts\EShopOnAbp.BasketService.Contracts.csproj", "{D2C4E464-221E-42F3-B1BB-79ABC5C3AC64}"
