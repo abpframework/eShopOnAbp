@@ -33,7 +33,7 @@ public class OrderingServiceHttpApiHostModule : AbpModule
 
         JwtBearerConfigurationHelper.Configure(context, "OrderingService");
 
-        SwaggerWithAuthConfigurationHelper.Configure(
+        SwaggerConfigurationHelper.ConfigureWithAuth(
             context: context,
             authority: configuration["AuthServer:Authority"],
             scopes: new

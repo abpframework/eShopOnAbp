@@ -23,7 +23,7 @@ public class EShopOnAbpWebPublicGatewayModule : AbpModule
         var configuration = context.Services.GetConfiguration();
         var hostingEnvironment = context.Services.GetHostingEnvironment();
 
-        SwaggerWithAuthConfigurationHelper.Configure(
+        SwaggerConfigurationHelper.ConfigureWithAuth(
             context: context,
             authority: configuration["AuthServer:Authority"],
             scopes: new Dictionary<string, string> /* Requested scopes for authorization code request and descriptions for swagger UI only */
