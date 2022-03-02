@@ -214,7 +214,7 @@ public class EShopOnAbpAuthServerModule : AbpModule
 
     private void ConfigureSwagger(ServiceConfigurationContext context, IConfiguration configuration)
     {
-        SwaggerWithAuthConfigurationHelper.Configure(
+        SwaggerConfigurationHelper.ConfigureWithAuth(
             context: context,
             authority: configuration["AuthServer:Authority"],
             scopes: new Dictionary<string, string>

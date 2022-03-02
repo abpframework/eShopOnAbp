@@ -37,7 +37,7 @@ public class CatalogServiceHttpApiHostModule : AbpModule
 
         JwtBearerConfigurationHelper.Configure(context, "CatalogService");
 
-        SwaggerWithAuthConfigurationHelper.Configure(
+        SwaggerConfigurationHelper.ConfigureWithAuth(
             context: context,
             authority: configuration["AuthServer:Authority"],
             scopes: new

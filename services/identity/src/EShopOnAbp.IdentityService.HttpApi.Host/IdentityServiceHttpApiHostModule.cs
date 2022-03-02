@@ -33,7 +33,7 @@ public class IdentityServiceHttpApiHostModule : AbpModule
 
         JwtBearerConfigurationHelper.Configure(context, "IdentityService");
 
-        SwaggerWithAuthConfigurationHelper.Configure(
+        SwaggerConfigurationHelper.ConfigureWithAuth(
             context: context,
             authority: configuration["AuthServer:Authority"],
             scopes: new

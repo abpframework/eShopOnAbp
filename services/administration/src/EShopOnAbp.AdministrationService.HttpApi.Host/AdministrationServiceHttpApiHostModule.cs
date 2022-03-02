@@ -37,7 +37,7 @@ public class AdministrationServiceHttpApiHostModule : AbpModule
 
         JwtBearerConfigurationHelper.Configure(context, "AdministrationService");
 
-        SwaggerWithAuthConfigurationHelper.Configure(
+        SwaggerConfigurationHelper.ConfigureWithAuth(
             context: context,
             authority: configuration["AuthServer:Authority"],
             scopes: new
