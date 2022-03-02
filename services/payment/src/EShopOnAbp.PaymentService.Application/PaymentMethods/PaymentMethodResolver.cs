@@ -28,5 +28,4 @@ public class PaymentMethodResolver : ITransientDependency
 
         return paymentMethod;
     }
-
 }
