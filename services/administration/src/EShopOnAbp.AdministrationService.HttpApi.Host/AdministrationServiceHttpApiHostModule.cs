@@ -6,11 +6,14 @@ using EShopOnAbp.AdministrationService.DbMigrations;
 using EShopOnAbp.AdministrationService.EntityFrameworkCore;
 using EShopOnAbp.Shared.Hosting.AspNetCore;
 using EShopOnAbp.Shared.Hosting.Microservices;
+using Medallion.Threading.Redis;
+using Medallion.Threading;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using StackExchange.Redis;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc.UI.MultiTenancy;
 using Volo.Abp.Http.Client.IdentityModel.Web;
@@ -65,6 +68,12 @@ public class AdministrationServiceHttpApiHostModule : AbpModule
                     .AllowAnyMethod()
                     .AllowCredentials();
             });
+        });
+
+        context.Services.AddSingleton<IDistributedLockProvider>(sp =>
+        {
+            var connection = ConnectionMultiplexer.Connect(configuration["Redis:Configuration"]);
+            return new RedisDistributedSynchronizationProvider(connection.GetDatabase());
         });
     }
 

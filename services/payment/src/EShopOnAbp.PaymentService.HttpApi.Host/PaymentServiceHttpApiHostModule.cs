@@ -14,6 +14,9 @@ using Microsoft.Extensions.Configuration;
 using Volo.Abp;
 using Volo.Abp.Modularity;
 using Volo.Abp.Threading;
+using Medallion.Threading.Redis;
+using Medallion.Threading;
+using StackExchange.Redis;
 
 namespace EShopOnAbp.PaymentService;
 
@@ -62,6 +65,12 @@ public class PaymentServiceHttpApiHostModule : AbpModule
                     .AllowAnyMethod()
                     .AllowCredentials();
             });
+        });
+
+        context.Services.AddSingleton<IDistributedLockProvider>(sp =>
+        {
+            var connection = ConnectionMultiplexer.Connect(configuration["Redis:Configuration"]);
+            return new RedisDistributedSynchronizationProvider(connection.GetDatabase());
         });
     }
 

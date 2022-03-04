@@ -1,8 +1,9 @@
 ﻿using EShopOnAbp.OrderingService.EntityFrameworkCore;
+using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations.EfCore;
+using Medallion.Threading;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
-using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations.EfCore;
-using Microsoft.Extensions.Logging;
 using Volo.Abp.Data;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.MultiTenancy;
@@ -15,24 +16,29 @@ namespace EShopOnAbp.OrderingService.DbMigrations
         IDistributedEventHandler<ApplyDatabaseMigrationsEto>
     {
         private readonly IDataSeeder _dataSeeder;
+
         public OrderingServiceDatabaseMigrationEventHandler(
             ICurrentTenant currentTenant,
             IUnitOfWorkManager unitOfWorkManager,
             ITenantStore tenantStore,
-            IDistributedEventBus distributedEventBus, 
-            IDataSeeder dataSeeder) 
+            IDistributedEventBus distributedEventBus,
+            IDataSeeder dataSeeder,
+            IDistributedLockProvider distributedLockProvider)
             : base(
                 currentTenant,
                 unitOfWorkManager,
                 tenantStore,
                 distributedEventBus,
-                OrderingServiceDbProperties.ConnectionStringName)
+                OrderingServiceDbProperties.ConnectionStringName,
+                distributedLockProvider)
         {
             _dataSeeder = dataSeeder;
         }
 
         public async Task HandleEventAsync(ApplyDatabaseMigrationsEto eventData)
         {
+            Logger.LogInformation("OrderingService - HandleEventAsync started ...");
+
             if (eventData.DatabaseName != DatabaseName)
             {
                 return;
@@ -45,9 +51,17 @@ namespace EShopOnAbp.OrderingService.DbMigrations
 
             try
             {
-                await MigrateDatabaseSchemaAsync(null);
-                Logger.LogInformation("Starting OrderingService DataSeeder...");
-                await _dataSeeder.SeedAsync();
+                Logger.LogInformation("OrderingService - Before Acquire ");
+
+                await using (var handle = await DistributedLockProvider.AcquireLockAsync(DatabaseName))
+                {
+                    if (handle != null)
+                    {
+                        await MigrateDatabaseSchemaAsync(null);
+                        Logger.LogInformation("Starting OrderingService DataSeeder...");
+                        await _dataSeeder.SeedAsync();
+                    }
+                }
             }
             catch (Exception ex)
             {

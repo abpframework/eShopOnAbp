@@ -10,6 +10,8 @@ using Volo.Abp.EventBus.Local;
 using Volo.Abp.Identity;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.Uow;
+using Medallion.Threading;
+using Microsoft.Extensions.Logging;
 
 namespace EShopOnAbp.IdentityService.DbMigrations
 {
@@ -29,13 +31,15 @@ namespace EShopOnAbp.IdentityService.DbMigrations
             IIdentityDataSeeder identityDataSeeder,
             IdentityServerDataSeeder identityServerDataSeeder,
             IDistributedEventBus distributedEventBus,
-            ILocalEventBus localEventBus
+            ILocalEventBus localEventBus,
+            IDistributedLockProvider distributedLockProvider
         ) : base(
             currentTenant,
             unitOfWorkManager,
             tenantStore,
             distributedEventBus,
-            IdentityServiceDbProperties.ConnectionStringName)
+            IdentityServiceDbProperties.ConnectionStringName,
+            distributedLockProvider)
         {
             _identityDataSeeder = identityDataSeeder;
             _identityServerDataSeeder = identityServerDataSeeder;
@@ -51,12 +55,21 @@ namespace EShopOnAbp.IdentityService.DbMigrations
 
             try
             {
-                var schemaMigrated = await MigrateDatabaseSchemaAsync(eventData.TenantId);
-                await SeedDataAsync(
-                    tenantId: eventData.TenantId,
-                    adminEmail: IdentityServiceDbProperties.DefaultAdminEmailAddress,
-                    adminPassword: IdentityServiceDbProperties.DefaultAdminPassword
-                );
+                Logger.LogInformation("IdentityService - Before Acquire ");
+
+                await using (var handle = await DistributedLockProvider.AcquireLockAsync(DatabaseName))
+                {
+                    if (handle != null)
+                    {
+                        await MigrateDatabaseSchemaAsync(eventData.TenantId);
+                        Logger.LogInformation("Starting IdentityService DataSeeder...");
+                        await SeedDataAsync(
+                            tenantId: eventData.TenantId,
+                            adminEmail: IdentityServiceDbProperties.DefaultAdminEmailAddress,
+                            adminPassword: IdentityServiceDbProperties.DefaultAdminPassword
+                        );
+                    }
+                }
 
                 await _localEventBus.PublishAsync(new ApplyDatabaseSeedsEto());
             }

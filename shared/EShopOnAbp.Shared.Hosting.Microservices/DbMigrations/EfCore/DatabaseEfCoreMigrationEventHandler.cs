@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Medallion.Threading;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -29,19 +30,23 @@ public abstract class DatabaseEfCoreMigrationEventHandler<TDbContext> : Database
     protected IDistributedEventBus DistributedEventBus { get; }
     protected ILogger<DatabaseEfCoreMigrationEventHandler<TDbContext>> Logger { get; set; }
     protected string DatabaseName { get; }
+    protected IDistributedLockProvider DistributedLockProvider { get; }
 
     protected DatabaseEfCoreMigrationEventHandler(
         ICurrentTenant currentTenant,
         IUnitOfWorkManager unitOfWorkManager,
         ITenantStore tenantStore,
         IDistributedEventBus distributedEventBus,
-        string databaseName)
+        string databaseName,
+        IDistributedLockProvider distributedLockProvider
+        )
     {
         CurrentTenant = currentTenant;
         UnitOfWorkManager = unitOfWorkManager;
         TenantStore = tenantStore;
         DatabaseName = databaseName;
         DistributedEventBus = distributedEventBus;
+        DistributedLockProvider = distributedLockProvider;
 
         Logger = NullLogger<DatabaseEfCoreMigrationEventHandler<TDbContext>>.Instance;
     }
@@ -76,6 +81,7 @@ public abstract class DatabaseEfCoreMigrationEventHandler<TDbContext> : Database
                 if (tenantId == null)
                 {
                     //Migrating the host database
+                    Logger.LogInformation($"{DatabaseName} MigrateDatabase in Shared - TenantId is null");
                     result = await MigrateDatabaseSchemaWithDbContextAsync();
                 }
                 else
@@ -85,6 +91,7 @@ public abstract class DatabaseEfCoreMigrationEventHandler<TDbContext> : Database
                         !tenantConfiguration.ConnectionStrings.GetOrDefault(DatabaseName).IsNullOrWhiteSpace())
                     {
                         //Migrating the tenant database (only if tenant has a separate database)
+                        Logger.LogInformation($"{DatabaseName} MigrateDatabase in Shared - TenantId is not null");
                         result = await MigrateDatabaseSchemaWithDbContextAsync();
                     }
                 }

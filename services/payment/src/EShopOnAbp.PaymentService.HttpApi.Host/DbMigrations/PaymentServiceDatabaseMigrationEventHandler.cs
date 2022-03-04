@@ -6,6 +6,8 @@ using Volo.Abp.Data;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.Uow;
+using Medallion.Threading;
+using Microsoft.Extensions.Logging;
 
 namespace EShopOnAbp.PaymentService.DbMigrations
 {
@@ -17,13 +19,15 @@ namespace EShopOnAbp.PaymentService.DbMigrations
             ICurrentTenant currentTenant,
             IUnitOfWorkManager unitOfWorkManager,
             ITenantStore tenantStore,
-            IDistributedEventBus distributedEventBus) 
+            IDistributedEventBus distributedEventBus,
+            IDistributedLockProvider distributedLockProvider)
             : base(
                 currentTenant,
                 unitOfWorkManager,
                 tenantStore,
                 distributedEventBus,
-                PaymentServiceDbProperties.ConnectionStringName)
+                PaymentServiceDbProperties.ConnectionStringName,
+                distributedLockProvider)
         {
         }
 
@@ -41,7 +45,17 @@ namespace EShopOnAbp.PaymentService.DbMigrations
 
             try
             {
-                await MigrateDatabaseSchemaAsync(null);
+                Logger.LogInformation("PaymentService - Before Acquire ");
+
+                await using (var handle = await DistributedLockProvider.AcquireLockAsync(DatabaseName))
+                {
+                    if (handle != null)
+                    {
+                        await MigrateDatabaseSchemaAsync(null);
+                        Logger.LogInformation("PaymentService No Seed...");
+
+                    }
+                }
             }
             catch (Exception ex)
             {

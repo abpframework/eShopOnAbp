@@ -1,8 +1,10 @@
 ﻿using EShopOnAbp.AdministrationService.EntityFrameworkCore;
+using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations.EfCore;
+using Medallion.Threading;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations.EfCore;
 using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Data;
 using Volo.Abp.EventBus.Distributed;
@@ -26,13 +28,16 @@ namespace EShopOnAbp.AdministrationService.DbMigrations
             ITenantStore tenantStore,
             IPermissionDefinitionManager permissionDefinitionManager,
             IPermissionDataSeeder permissionDataSeeder,
-            IDistributedEventBus distributedEventBus
+            IDistributedEventBus distributedEventBus,
+            IDistributedLockProvider distributedLockProvider
         ) : base(
             currentTenant,
             unitOfWorkManager,
             tenantStore,
             distributedEventBus,
-            AdministrationServiceDbProperties.ConnectionStringName)
+            AdministrationServiceDbProperties.ConnectionStringName,
+            distributedLockProvider
+            )
         {
             _permissionDefinitionManager = permissionDefinitionManager;
             _permissionDataSeeder = permissionDataSeeder;
@@ -40,6 +45,8 @@ namespace EShopOnAbp.AdministrationService.DbMigrations
 
         public async Task HandleEventAsync(ApplyDatabaseMigrationsEto eventData)
         {
+            Logger.LogInformation("AdministrationService - HandleEventAsync started ...");
+
             if (eventData.DatabaseName != DatabaseName)
             {
                 return;
@@ -47,7 +54,7 @@ namespace EShopOnAbp.AdministrationService.DbMigrations
 
             try
             {
-                var schemaMigrated = await MigrateDatabaseSchemaAsync(eventData.TenantId);
+                await MigrateDatabaseSchemaAsync(eventData.TenantId);
                 await SeedDataAsync(eventData.TenantId);
             }
             catch (Exception ex)
@@ -60,8 +67,17 @@ namespace EShopOnAbp.AdministrationService.DbMigrations
         {
             try
             {
-                await MigrateDatabaseSchemaAsync(eventData.Id);
-                await SeedDataAsync(eventData.Id);
+                Logger.LogInformation("AdministrationService - Before Acquire");
+
+                await using (var handle = await DistributedLockProvider.AcquireLockAsync(DatabaseName))
+                {
+                    if(handle != null)
+                    {
+                        await MigrateDatabaseSchemaAsync(eventData.Id);
+                        Logger.LogInformation("Starting AdministrationService DataSeeder...");
+                        await SeedDataAsync(eventData.Id);
+                    }
+                }
             }
             catch (Exception ex)
             {
