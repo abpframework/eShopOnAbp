@@ -10,42 +10,49 @@ using EShopOnAbp.OrderingService.Orders;
 using System.Collections.Generic;
 
 // ReSharper disable once CheckNamespace
-namespace EShopOnAbp.OrderingService.Orders.ClientProxies
+namespace EShopOnAbp.OrderingService.Orders.ClientProxies;
+
+[Dependency(ReplaceServices = true)]
+[ExposeServices(typeof(IOrderAppService), typeof(OrderClientProxy))]
+public partial class OrderClientProxy : ClientProxyBase<IOrderAppService>, IOrderAppService
 {
-    [Dependency(ReplaceServices = true)]
-    [ExposeServices(typeof(IOrderAppService), typeof(OrderClientProxy))]
-    public partial class OrderClientProxy : ClientProxyBase<IOrderAppService>, IOrderAppService
+    public virtual async Task<OrderDto> GetAsync(Guid id)
     {
-        public virtual async Task<OrderDto> GetAsync(Guid id)
+        return await RequestAsync<OrderDto>(nameof(GetAsync), new ClientProxyRequestTypeValue
         {
-            return await RequestAsync<OrderDto>(nameof(GetAsync), new ClientProxyRequestTypeValue
-            {
-                { typeof(Guid), id }
-            });
-        }
+            { typeof(Guid), id }
+        });
+    }
 
-        public virtual async Task<List<OrderDto>> GetMyOrdersAsync(GetMyOrdersInput input)
+    public virtual async Task<List<OrderDto>> GetMyOrdersAsync(GetMyOrdersInput input)
+    {
+        return await RequestAsync<List<OrderDto>>(nameof(GetMyOrdersAsync), new ClientProxyRequestTypeValue
         {
-            return await RequestAsync<List<OrderDto>>(nameof(GetMyOrdersAsync), new ClientProxyRequestTypeValue
-            {
-                { typeof(GetMyOrdersInput), input }
-            });
-        }
+            { typeof(GetMyOrdersInput), input }
+        });
+    }
 
-        public virtual async Task<OrderDto> GetByOrderNoAsync(int orderNo)
+    public virtual async Task<List<OrderDto>> GetOrdersAsync(GetOrdersInput input)
+    {
+        return await RequestAsync<List<OrderDto>>(nameof(GetOrdersAsync), new ClientProxyRequestTypeValue
         {
-            return await RequestAsync<OrderDto>(nameof(GetByOrderNoAsync), new ClientProxyRequestTypeValue
-            {
-                { typeof(int), orderNo }
-            });
-        }
+            { typeof(GetOrdersInput), input }
+        });
+    }
 
-        public virtual async Task<OrderDto> CreateAsync(OrderCreateDto input)
+    public virtual async Task<OrderDto> GetByOrderNoAsync(int orderNo)
+    {
+        return await RequestAsync<OrderDto>(nameof(GetByOrderNoAsync), new ClientProxyRequestTypeValue
         {
-            return await RequestAsync<OrderDto>(nameof(CreateAsync), new ClientProxyRequestTypeValue
-            {
-                { typeof(OrderCreateDto), input }
-            });
-        }
+            { typeof(int), orderNo }
+        });
+    }
+
+    public virtual async Task<OrderDto> CreateAsync(OrderCreateDto input)
+    {
+        return await RequestAsync<OrderDto>(nameof(CreateAsync), new ClientProxyRequestTypeValue
+        {
+            { typeof(OrderCreateDto), input }
+        });
     }
 }

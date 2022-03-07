@@ -34,9 +34,14 @@ public class OrderAppService : ApplicationService, IOrderAppService
     public async Task<List<OrderDto>> GetMyOrdersAsync(GetMyOrdersInput input)
     {
         ISpecification<Order> specification = SpecificationFactory.Create(input.Filter);
-        
         var orders = await _orderRepository.GetOrdersByUserId(CurrentUser.GetId(), specification, true);
-        
+        return CreateOrderDtoMapping(orders);
+    }
+
+    public async Task<List<OrderDto>> GetOrdersAsync(GetOrdersInput input)
+    {
+        ISpecification<Order> specification = SpecificationFactory.Create(input.Filter);
+        var orders = await _orderRepository.GetOrders(specification, true);
         return CreateOrderDtoMapping(orders);
     }
 

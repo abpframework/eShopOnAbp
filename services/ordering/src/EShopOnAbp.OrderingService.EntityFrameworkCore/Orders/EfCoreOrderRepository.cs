@@ -42,6 +42,18 @@ public class EfCoreOrderRepository : EfCoreRepository<OrderingServiceDbContext, 
             .ToListAsync(GetCancellationToken(cancellationToken));
     }
 
+    public async Task<List<Order>> GetOrders(
+        ISpecification<Order> spec,
+        bool includeDetails = false,
+        CancellationToken cancellationToken = default)
+    {
+        return await (await GetDbSetAsync())
+            .IncludeDetails(includeDetails)
+            .Where(spec.ToExpression())
+            .OrderByDescending(o => o.OrderDate)
+            .ToListAsync(GetCancellationToken(cancellationToken));
+    }
+
     public async Task<Order> GetByOrderNoAsync(
         int orderNo,
         bool includeDetails = true,
