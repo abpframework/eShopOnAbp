@@ -10,9 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DistributedLock.Redis" Version="1.0.1" />
     <PackageReference Include="Volo.Abp.DistributedLocking" Version="5.1.2" />
-    <PackageReference Include="Volo.Abp.DistributedLocking.Abstractions" Version="5.1.2" />
     <PackageReference Include="Volo.Abp.Http.Client.IdentityModel.Web" Version="5.1.2" />
     <PackageReference Include="Volo.Abp.Identity.HttpApi.Client" Version="5.1.2" />
   </ItemGroup>
