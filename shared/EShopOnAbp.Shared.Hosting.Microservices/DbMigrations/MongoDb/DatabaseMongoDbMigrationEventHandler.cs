@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Medallion.Threading;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using MongoDB.Driver;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Volo.Abp;
 using Volo.Abp.Data;
 using Volo.Abp.Domain.Entities.Events.Distributed;
@@ -27,16 +27,20 @@ public abstract class DatabaseMongoDbMigrationEventHandler<TDbContext> : Databas
     protected ITenantStore TenantStore { get; }
     protected IDistributedEventBus DistributedEventBus { get; }
     protected ILogger<DatabaseMongoDbMigrationEventHandler<TDbContext>> Logger { get; set; }
-
     protected IServiceProvider ServiceProvider { get; }
     protected string DatabaseName { get; }
+    protected IDistributedLockProvider DistributedLockProvider { get; }
+
 
     protected DatabaseMongoDbMigrationEventHandler(
         ICurrentTenant currentTenant,
         IUnitOfWorkManager unitOfWorkManager,
         ITenantStore tenantStore,
         IDistributedEventBus distributedEventBus,
-        string databaseName, IServiceProvider serviceProvider)
+        string databaseName, 
+        IServiceProvider serviceProvider,
+        IDistributedLockProvider distributedLockProvider
+        )
     {
         CurrentTenant = currentTenant;
         UnitOfWorkManager = unitOfWorkManager;
@@ -44,6 +48,7 @@ public abstract class DatabaseMongoDbMigrationEventHandler<TDbContext> : Databas
         DatabaseName = databaseName;
         ServiceProvider = serviceProvider;
         DistributedEventBus = distributedEventBus;
+        DistributedLockProvider = distributedLockProvider;
 
         Logger = NullLogger<DatabaseMongoDbMigrationEventHandler<TDbContext>>.Instance;
     }

@@ -20,6 +20,9 @@ using Volo.Abp.AspNetCore.Mvc.AntiForgery;
 using Volo.Abp.Modularity;
 using Volo.Abp.Threading;
 using Volo.Abp.Uow;
+using Medallion.Threading.Redis;
+using Medallion.Threading;
+using StackExchange.Redis;
 
 namespace EShopOnAbp.CatalogService;
 
@@ -65,6 +68,12 @@ public class CatalogServiceHttpApiHostModule : AbpModule
                     .AllowAnyMethod()
                     .AllowCredentials();
             });
+        });
+
+        context.Services.AddSingleton<IDistributedLockProvider>(sp =>
+        {
+            var connection = ConnectionMultiplexer.Connect(configuration["Redis:Configuration"]);
+            return new RedisDistributedSynchronizationProvider(connection.GetDatabase());
         });
 
         Configure<AbpAspNetCoreMvcOptions>(options =>
