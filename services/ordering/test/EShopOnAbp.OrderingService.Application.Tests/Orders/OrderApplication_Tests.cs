@@ -39,7 +39,8 @@ public class OrderApplication_Tests : OrderingServiceApplicationTestBase
             new OrderItemCreateDto()
             {
                 Discount = 0,
-                Units = 2, PictureUrl = string.Empty,
+                Units = 2,
+                PictureUrl = string.Empty,
                 ProductCode = "Test-001",
                 ProductId = Guid.NewGuid(),
                 ProductName = "Test product",
@@ -64,6 +65,15 @@ public class OrderApplication_Tests : OrderingServiceApplicationTestBase
         // Get Order by OrderNo;
         var myOrder = await _orderAppService.GetByOrderNoAsync(placedOrder.OrderNo);
         myOrder.ShouldNotBeNull();
+
+
+        var cancelledMyOrder = await _orderAppService.UpdateAsync(placedOrder.Id, new UpdateOrderDto()
+        {
+            OrderStatusId = OrderStatus.Cancelled.Id,
+        });
+        //TODO - temp value - it should be Cancelled
+        cancelledMyOrder.OrderStatus.ShouldBe(OrderStatus.Placed.ToString());
+
 
         // Get all orders
         var orders = await _orderAppService.GetOrdersAsync(new GetOrdersInput()

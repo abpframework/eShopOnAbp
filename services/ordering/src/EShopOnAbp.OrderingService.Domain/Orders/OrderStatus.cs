@@ -5,6 +5,7 @@ using Volo.Abp;
 
 namespace EShopOnAbp.OrderingService.Orders;
 
+//TODO will use enum instead of Enumeration
 public class OrderStatus : Enumeration
 {
     public static OrderStatus Placed = new OrderStatus(1, nameof(Placed).ToLowerInvariant());
@@ -22,12 +23,12 @@ public class OrderStatus : Enumeration
     public static OrderStatus FromName(string name)
     {
         var state = List()
-            .SingleOrDefault(s => String.Equals(s.Name, name, StringComparison.CurrentCultureIgnoreCase));
+            .SingleOrDefault(s => string.Equals(s.Name, name, StringComparison.CurrentCultureIgnoreCase));
 
         if (state == null)
         {
             throw new BusinessException(OrderingServiceErrorCodes.OrderingStatusNotFound)
-                .WithData("OrderStatus", String.Join(",", List().Select(s => s.Name)));
+                .WithData("OrderStatus", string.Join(",", List().Select(s => s.Name)));
         }
 
         return state;
@@ -40,7 +41,7 @@ public class OrderStatus : Enumeration
         if (state == null)
         {
             throw new BusinessException(OrderingServiceErrorCodes.OrderingStatusNotFound)
-                .WithData("OrderStatus", String.Join(",", List().Select(s => s.Name)));
+                .WithData("OrderStatus", string.Join(",", List().Select(s => s.Name)));
         }
 
         return state;

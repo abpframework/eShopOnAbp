@@ -171,6 +171,63 @@
               "allowAnonymous": null,
               "implementFrom": "EShopOnAbp.OrderingService.Orders.IOrderAppService"
             },
+            "UpdateAsyncByIdAndInput": {
+              "uniqueName": "UpdateAsyncByIdAndInput",
+              "name": "UpdateAsync",
+              "httpMethod": "PUT",
+              "url": "api/ordering/order/{id}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "input",
+                  "typeAsString": "EShopOnAbp.OrderingService.Orders.UpdateOrderDto, EShopOnAbp.OrderingService.Application.Contracts",
+                  "type": "EShopOnAbp.OrderingService.Orders.UpdateOrderDto",
+                  "typeSimple": "EShopOnAbp.OrderingService.Orders.UpdateOrderDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "EShopOnAbp.OrderingService.Orders.UpdateOrderDto",
+                  "typeSimple": "EShopOnAbp.OrderingService.Orders.UpdateOrderDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "EShopOnAbp.OrderingService.Orders.OrderDto",
+                "typeSimple": "EShopOnAbp.OrderingService.Orders.OrderDto"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "EShopOnAbp.OrderingService.Orders.IOrderAppService"
+            },
             "CreateAsyncByInput": {
               "uniqueName": "CreateAsyncByInput",
               "name": "CreateAsync",

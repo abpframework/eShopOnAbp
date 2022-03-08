@@ -48,6 +48,15 @@ public partial class OrderClientProxy : ClientProxyBase<IOrderAppService>, IOrde
         });
     }
 
+    public virtual async Task<OrderDto> UpdateAsync(Guid id, UpdateOrderDto input)
+    {
+        return await RequestAsync<OrderDto>(nameof(UpdateAsync), new ClientProxyRequestTypeValue
+        {
+            { typeof(Guid), id },
+            { typeof(UpdateOrderDto), input }
+        });
+    }
+
     public virtual async Task<OrderDto> CreateAsync(OrderCreateDto input)
     {
         return await RequestAsync<OrderDto>(nameof(CreateAsync), new ClientProxyRequestTypeValue

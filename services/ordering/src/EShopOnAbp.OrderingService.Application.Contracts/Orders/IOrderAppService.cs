@@ -12,4 +12,5 @@ public interface IOrderAppService : IApplicationService
     Task<List<OrderDto>> GetMyOrdersAsync(GetMyOrdersInput input);
     Task<List<OrderDto>> GetOrdersAsync(GetOrdersInput input);
     Task<OrderDto> GetByOrderNoAsync(int orderNo);
+    Task<OrderDto> UpdateAsync(Guid id, UpdateOrderDto input);
 }

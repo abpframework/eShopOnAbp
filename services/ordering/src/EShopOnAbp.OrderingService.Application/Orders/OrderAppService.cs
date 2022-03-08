@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using EShopOnAbp.OrderingService.Localization;
+﻿using EShopOnAbp.OrderingService.Localization;
 using EShopOnAbp.OrderingService.Orders.Specifications;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Specifications;
 using Volo.Abp.Users;
@@ -50,6 +50,15 @@ public class OrderAppService : ApplicationService, IOrderAppService
         var order = await _orderRepository.GetByOrderNoAsync(orderNo);
         Logger.LogInformation($" Order recieved with order no:{orderNo}");
         return CreateOrderDtoMapping(order);
+    }
+
+    public async Task<OrderDto> UpdateAsync(Guid id, UpdateOrderDto input)
+    {
+        var order = await _orderRepository.GetAsync(id);
+        order.SetOrder(input.OrderStatusId);
+        await _orderRepository.UpdateAsync(order);
+        return CreateOrderDtoMapping(order);
+
     }
 
     public async Task<OrderDto> CreateAsync(OrderCreateDto input)

@@ -1,8 +1,8 @@
-﻿using System;
+﻿using EShopOnAbp.PaymentService.PaymentRequests;
+using JetBrains.Annotations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using EShopOnAbp.PaymentService.PaymentRequests;
-using JetBrains.Annotations;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities;
 
@@ -25,7 +25,7 @@ public class Order : AggregateRoot<Guid>
     {
     }
 
-    internal Order(Guid id, Buyer buyer, Address address, [NotNull]string paymentMethod, Guid? paymentRequestId = null) : base(id)
+    internal Order(Guid id, Buyer buyer, Address address, [NotNull] string paymentMethod, Guid? paymentRequestId = null) : base(id)
     {
         _orderStatusId = OrderStatus.Placed.Id;
         OrderDate = DateTime.UtcNow;
@@ -33,7 +33,7 @@ public class Order : AggregateRoot<Guid>
         Buyer = buyer;
         Address = address;
         PaymentRequestId = paymentRequestId;
-        PaymentMethod = Check.NotNullOrEmpty(paymentMethod,nameof(paymentMethod),maxLength:OrderConstants.OrderPaymentMethodNameMaxLength);
+        PaymentMethod = Check.NotNullOrEmpty(paymentMethod, nameof(paymentMethod), maxLength: OrderConstants.OrderPaymentMethodNameMaxLength);
         PaymentStatus = PaymentRequestState.Waiting.ToString(); // From PaymentService.Domain.Shared
         OrderItems = new List<OrderItem>();
     }
@@ -86,5 +86,16 @@ public class Order : AggregateRoot<Guid>
     public decimal GetTotal()
     {
         return OrderItems.Sum(o => o.Units * o.UnitPrice);
+    }
+
+    public Order SetOrder(int orderStatus)
+    {
+        if (orderStatus == OrderStatus.Cancelled.Id)
+        {
+            return this;
+        }
+        //TODO no enough to update the object.
+        _orderStatusId = orderStatus;
+        return this;
     }
 }
