@@ -12,6 +12,7 @@ using Volo.Abp.MultiTenancy;
 using Volo.Abp.Uow;
 using Medallion.Threading;
 using Microsoft.Extensions.Logging;
+using Volo.Abp.DistributedLocking;
 
 namespace EShopOnAbp.IdentityService.DbMigrations
 {
@@ -32,7 +33,7 @@ namespace EShopOnAbp.IdentityService.DbMigrations
             IdentityServerDataSeeder identityServerDataSeeder,
             IDistributedEventBus distributedEventBus,
             ILocalEventBus localEventBus,
-            IDistributedLockProvider distributedLockProvider
+            IAbpDistributedLock distributedLockProvider
         ) : base(
             currentTenant,
             unitOfWorkManager,
@@ -57,7 +58,7 @@ namespace EShopOnAbp.IdentityService.DbMigrations
             {
                 Logger.LogInformation("IdentityService - Before Acquire ");
 
-                await using (var handle = await DistributedLockProvider.AcquireLockAsync(DatabaseName))
+                await using (var handle = await DistributedLockProvider.TryAcquireAsync(DatabaseName))
                 {
                     if (handle != null)
                     {

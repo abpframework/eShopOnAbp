@@ -1,5 +1,4 @@
-﻿using Medallion.Threading;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using MongoDB.Driver;
@@ -8,6 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Volo.Abp;
 using Volo.Abp.Data;
+using Volo.Abp.DistributedLocking;
 using Volo.Abp.Domain.Entities.Events.Distributed;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.MongoDB;
@@ -29,7 +29,7 @@ public abstract class DatabaseMongoDbMigrationEventHandler<TDbContext> : Databas
     protected ILogger<DatabaseMongoDbMigrationEventHandler<TDbContext>> Logger { get; set; }
     protected IServiceProvider ServiceProvider { get; }
     protected string DatabaseName { get; }
-    protected IDistributedLockProvider DistributedLockProvider { get; }
+    protected IAbpDistributedLock DistributedLockProvider { get; }
 
 
     protected DatabaseMongoDbMigrationEventHandler(
@@ -39,7 +39,7 @@ public abstract class DatabaseMongoDbMigrationEventHandler<TDbContext> : Databas
         IDistributedEventBus distributedEventBus,
         string databaseName, 
         IServiceProvider serviceProvider,
-        IDistributedLockProvider distributedLockProvider
+        IAbpDistributedLock distributedLockProvider
         )
     {
         CurrentTenant = currentTenant;

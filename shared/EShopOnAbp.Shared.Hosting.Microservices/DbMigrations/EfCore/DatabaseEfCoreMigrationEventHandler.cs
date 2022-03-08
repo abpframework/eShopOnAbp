@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Serilog;
 using Volo.Abp;
 using Volo.Abp.Data;
+using Volo.Abp.DistributedLocking;
 using Volo.Abp.Domain.Entities.Events.Distributed;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.EventBus.Distributed;
@@ -30,7 +31,7 @@ public abstract class DatabaseEfCoreMigrationEventHandler<TDbContext> : Database
     protected IDistributedEventBus DistributedEventBus { get; }
     protected ILogger<DatabaseEfCoreMigrationEventHandler<TDbContext>> Logger { get; set; }
     protected string DatabaseName { get; }
-    protected IDistributedLockProvider DistributedLockProvider { get; }
+    protected IAbpDistributedLock DistributedLockProvider { get; }
 
     protected DatabaseEfCoreMigrationEventHandler(
         ICurrentTenant currentTenant,
@@ -38,7 +39,7 @@ public abstract class DatabaseEfCoreMigrationEventHandler<TDbContext> : Database
         ITenantStore tenantStore,
         IDistributedEventBus distributedEventBus,
         string databaseName,
-        IDistributedLockProvider distributedLockProvider
+        IAbpDistributedLock distributedLockProvider
         )
     {
         CurrentTenant = currentTenant;

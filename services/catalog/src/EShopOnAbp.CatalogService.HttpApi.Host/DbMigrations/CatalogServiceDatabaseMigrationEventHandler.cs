@@ -1,10 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-using EShopOnAbp.CatalogService.MongoDB;
+﻿using EShopOnAbp.CatalogService.MongoDB;
 using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations.MongoDb;
-using Medallion.Threading;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Threading.Tasks;
 using Volo.Abp.Data;
+using Volo.Abp.DistributedLocking;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.Uow;
@@ -21,7 +21,7 @@ namespace EShopOnAbp.CatalogService.DbMigrations
             ITenantStore tenantStore,
             IDistributedEventBus distributedEventBus,
             IServiceProvider serviceProvider,
-            IDistributedLockProvider distributedLockProvider
+            IAbpDistributedLock distributedLockProvider
             ) : base(
                 currentTenant,
                 unitOfWorkManager,
@@ -47,9 +47,9 @@ namespace EShopOnAbp.CatalogService.DbMigrations
 
             try
             {
-                Logger.LogInformation("CatalogService - Before Acquire ");
+                Logger.LogInformation("CatalogService - Before Acquire and MigrateDatabaseSchemaAsync");
 
-                await using (var handle = await DistributedLockProvider.AcquireLockAsync(DatabaseName))
+                await using (var handle = await DistributedLockProvider.TryAcquireAsync(DatabaseName))
                 {
                     if (handle != null)
                     {

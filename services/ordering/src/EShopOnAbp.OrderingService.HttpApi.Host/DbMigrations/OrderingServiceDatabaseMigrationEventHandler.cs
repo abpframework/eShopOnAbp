@@ -1,10 +1,10 @@
 ﻿using EShopOnAbp.OrderingService.EntityFrameworkCore;
 using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations.EfCore;
-using Medallion.Threading;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 using Volo.Abp.Data;
+using Volo.Abp.DistributedLocking;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.Uow;
@@ -23,7 +23,7 @@ namespace EShopOnAbp.OrderingService.DbMigrations
             ITenantStore tenantStore,
             IDistributedEventBus distributedEventBus,
             IDataSeeder dataSeeder,
-            IDistributedLockProvider distributedLockProvider)
+            IAbpDistributedLock distributedLockProvider)
             : base(
                 currentTenant,
                 unitOfWorkManager,
@@ -53,7 +53,7 @@ namespace EShopOnAbp.OrderingService.DbMigrations
             {
                 Logger.LogInformation("OrderingService - Before Acquire ");
 
-                await using (var handle = await DistributedLockProvider.AcquireLockAsync(DatabaseName))
+                await using (var handle = await DistributedLockProvider.TryAcquireAsync(DatabaseName))
                 {
                     if (handle != null)
                     {

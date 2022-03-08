@@ -1,12 +1,12 @@
 ﻿using EShopOnAbp.AdministrationService.EntityFrameworkCore;
 using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations.EfCore;
-using Medallion.Threading;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Data;
+using Volo.Abp.DistributedLocking;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.PermissionManagement;
@@ -29,7 +29,7 @@ namespace EShopOnAbp.AdministrationService.DbMigrations
             IPermissionDefinitionManager permissionDefinitionManager,
             IPermissionDataSeeder permissionDataSeeder,
             IDistributedEventBus distributedEventBus,
-            IDistributedLockProvider distributedLockProvider
+            IAbpDistributedLock distributedLockProvider
         ) : base(
             currentTenant,
             unitOfWorkManager,
@@ -67,11 +67,11 @@ namespace EShopOnAbp.AdministrationService.DbMigrations
         {
             try
             {
-                Logger.LogInformation("AdministrationService - Before Acquire");
+                Logger.LogInformation("AdministrationService - Before Acquire and Migration and Seed Data");
 
-                await using (var handle = await DistributedLockProvider.AcquireLockAsync(DatabaseName))
+                await using (var handle = await DistributedLockProvider.TryAcquireAsync(DatabaseName))
                 {
-                    if(handle != null)
+                    if (handle != null)
                     {
                         await MigrateDatabaseSchemaAsync(eventData.Id);
                         Logger.LogInformation("Starting AdministrationService DataSeeder...");
