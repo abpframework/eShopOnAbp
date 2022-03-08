@@ -10,7 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.DistributedLocking" Version="5.1.2" />
     <PackageReference Include="Volo.Abp.Http.Client.IdentityModel.Web" Version="5.1.2" />
     <PackageReference Include="Volo.Abp.Identity.HttpApi.Client" Version="5.1.2" />
   </ItemGroup>
