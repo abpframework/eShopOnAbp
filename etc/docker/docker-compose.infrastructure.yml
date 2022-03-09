@@ -4,6 +4,11 @@ services:
   rabbitmq:
     container_name: rabbitmq
     image: rabbitmq:management-alpine
+    healthcheck:
+        test: rabbitmq-diagnostics -q ping
+        interval: 30s
+        timeout: 30s
+        retries: 3
     networks: 
       - eshoponabp-network
 
