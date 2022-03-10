@@ -27,14 +27,16 @@ You can either run in Visual Studio, or using [Microsoft Tye](https://github.com
 - Rename `.env.example` file to `.env` file and provide PayPal ClientID and Secret.
 
 - Execute `run-tye.ps1`
-	- **Note**: If you come across shell issues regarding authorization. You may check with the following codes your access and then set your machine configuration. [See Microsoft Powershell documentation](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.security/get-executionpolicy?view=powershell-7.2)
+
+- Wait until all applications are up!
+
+	- You can check running application from tye dashboard ([localhost:8000](http://127.0.0.1:8000/))
+	- **Note**: If you see all of your applications keep restarting on tye dashboard or tye console, you may be facing ssl certificate issues. To diagnose the problems better, check any application logs. If it is related with SSL, developer certificate creation may have failed because of powershell issues regarding authorization. Check the powershell script running configuration and set policy for your local machine as: 
 	```bash
 	Get-ExecutionPolicy list
 	Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
- 	```
-- Wait until all applications are up!
-
-  - You can check running application from tye dashboard ([localhost:8000](http://127.0.0.1:8000/))
+	```
+	See [Microsoft Powershell documentation](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.security/get-executionpolicy?view=powershell-7.2) for more information.
 
 - After all your backend services are up, start the angular application:
 
