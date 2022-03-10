@@ -1,5 +1,7 @@
 ﻿using EShopOnAbp.AdministrationService.EntityFrameworkCore;
 using EShopOnAbp.Shared.Hosting.AspNetCore;
+using Medallion.Threading;
+using Medallion.Threading.Redis;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Redis;
@@ -26,7 +28,6 @@ namespace EShopOnAbp.Shared.Hosting.Microservices
         public override void ConfigureServices(ServiceConfigurationContext context)
         {
             var configuration = context.Services.GetConfiguration();
-            var hostingEnvironment = context.Services.GetHostingEnvironment();
 
             Configure<AbpMultiTenancyOptions>(options =>
             {
@@ -42,6 +43,13 @@ namespace EShopOnAbp.Shared.Hosting.Microservices
             context.Services
                 .AddDataProtection()
                 .PersistKeysToStackExchangeRedis(redis, "EShopOnAbp-Protection-Keys");
+
+
+            context.Services.AddSingleton<IDistributedLockProvider>(sp =>
+            {
+                var connection = ConnectionMultiplexer.Connect(configuration["Redis:Configuration"]);
+                return new RedisDistributedSynchronizationProvider(connection.GetDatabase());
+            });
         }
     }
 }

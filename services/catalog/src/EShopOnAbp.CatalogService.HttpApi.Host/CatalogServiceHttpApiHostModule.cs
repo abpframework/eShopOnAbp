@@ -1,24 +1,21 @@
 using EShopOnAbp.CatalogService.DbMigrations;
+using EShopOnAbp.CatalogService.Grpc;
+using EShopOnAbp.CatalogService.MongoDB;
 using EShopOnAbp.Shared.Hosting.AspNetCore;
 using EShopOnAbp.Shared.Hosting.Microservices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using EShopOnAbp.CatalogService.Grpc;
-using EShopOnAbp.CatalogService.MongoDB;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.AntiForgery;
 using Volo.Abp.Modularity;
-using Volo.Abp.Threading;
 using Volo.Abp.Uow;
 
 namespace EShopOnAbp.CatalogService;
