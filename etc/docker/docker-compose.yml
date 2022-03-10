@@ -19,9 +19,12 @@ services:
     ports:
       - "44353:443"
     depends_on:
-      - redis
-      - postgres-db
-      - rabbitmq
+      redis:
+        condition: service_healthy
+      postgres-db:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
     restart: on-failure  
     networks: 
       - eshoponabp-network
