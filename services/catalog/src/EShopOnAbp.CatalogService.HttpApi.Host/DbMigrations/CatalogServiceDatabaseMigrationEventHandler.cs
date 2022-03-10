@@ -1,6 +1,5 @@
 ﻿using EShopOnAbp.CatalogService.MongoDB;
 using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations.MongoDb;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 using Serilog;

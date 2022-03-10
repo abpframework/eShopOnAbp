@@ -1,6 +1,5 @@
 ﻿using EShopOnAbp.OrderingService.EntityFrameworkCore;
 using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations.EfCore;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 using Serilog;

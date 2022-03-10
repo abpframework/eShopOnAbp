@@ -10,8 +10,6 @@ using Volo.Abp.EventBus.Local;
 using Volo.Abp.Identity;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.Uow;
-using Medallion.Threading;
-using Microsoft.Extensions.Logging;
 using Volo.Abp.DistributedLocking;
 
 namespace EShopOnAbp.IdentityService.DbMigrations
