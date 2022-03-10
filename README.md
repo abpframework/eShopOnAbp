@@ -27,11 +27,11 @@ You can either run in Visual Studio, or using [Microsoft Tye](https://github.com
 - Rename `.env.example` file to `.env` file and provide PayPal ClientID and Secret.
 
 - Execute `run-tye.ps1`
-- **Note**: If you meet with some shell issues regarding authorization. You may check with the following codes your access and then set your machine configuration. [for more detail](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.security/get-executionpolicy?view=powershell-7.2)
-```bash
-Get-ExecutionPolicy list
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
- ```
+	- **Note**: If you meet with some shell issues regarding authorization. You may check with the following codes your access and then set your machine configuration. [for more detail](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.security/get-executionpolicy?view=powershell-7.2)
+	```bash
+	Get-ExecutionPolicy list
+	Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
+ 	```
 - Wait until all applications are up!
 
   - You can check running application from tye dashboard ([localhost:8000](http://127.0.0.1:8000/))
