@@ -82,7 +82,7 @@ public abstract class DatabaseEfCoreMigrationEventHandler<TDbContext> : Database
                 if (tenantId == null)
                 {
                     //Migrating the host database
-                    Logger.LogInformation($"{DatabaseName} MigrateDatabase in Shared - TenantId is null");
+                    Log.Information($"There is no tenant. Migrating {DatabaseName}...");
                     result = await MigrateDatabaseSchemaWithDbContextAsync();
                 }
                 else
@@ -92,7 +92,7 @@ public abstract class DatabaseEfCoreMigrationEventHandler<TDbContext> : Database
                         !tenantConfiguration.ConnectionStrings.GetOrDefault(DatabaseName).IsNullOrWhiteSpace())
                     {
                         //Migrating the tenant database (only if tenant has a separate database)
-                        Logger.LogInformation($"{DatabaseName} MigrateDatabase in Shared - TenantId is not null");
+                        Log.Information($"Migrating tenant database:{DatabaseName} with tenantId:{tenantId}...");
                         result = await MigrateDatabaseSchemaWithDbContextAsync();
                     }
                 }
@@ -134,7 +134,7 @@ public abstract class DatabaseEfCoreMigrationEventHandler<TDbContext> : Database
         var tryCount = IncrementEventTryCount(eventData);
         if (tryCount <= MaxEventTryCount)
         {
-            Logger.LogWarning(
+            Log.Warning(
                 $"Could not perform tenant created event. Re-queueing the operation. TenantId = {eventData.Id}, TenantName = {eventData.Name}.");
             Logger.LogException(exception, LogLevel.Warning);
 

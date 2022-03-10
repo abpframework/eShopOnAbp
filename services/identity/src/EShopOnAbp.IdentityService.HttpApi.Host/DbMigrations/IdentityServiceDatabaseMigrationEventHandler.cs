@@ -56,14 +56,15 @@ namespace EShopOnAbp.IdentityService.DbMigrations
 
             try
             {
-                Logger.LogInformation("IdentityService - Before Acquire ");
-
                 await using (var handle = await DistributedLockProvider.TryAcquireAsync(DatabaseName))
                 {
+                    Log.Information("IdentityService has acquired lock for db migration...");
+                    
                     if (handle != null)
                     {
+                        Log.Information("IdentityService is migrating database...");
                         await MigrateDatabaseSchemaAsync(eventData.TenantId);
-                        Logger.LogInformation("Starting IdentityService DataSeeder...");
+                        Log.Information("IdentityService is seeding data...");
                         await SeedDataAsync(
                             tenantId: eventData.TenantId,
                             adminEmail: IdentityServiceDbProperties.DefaultAdminEmailAddress,
@@ -78,7 +79,6 @@ namespace EShopOnAbp.IdentityService.DbMigrations
             {
                 await HandleErrorOnApplyDatabaseMigrationAsync(eventData, ex);
             }
-
         }
 
         public async Task HandleEventAsync(TenantCreatedEto eventData)

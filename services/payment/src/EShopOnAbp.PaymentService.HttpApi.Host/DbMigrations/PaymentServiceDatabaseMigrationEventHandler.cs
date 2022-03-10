@@ -3,6 +3,7 @@ using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations.EfCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
+using Serilog;
 using Volo.Abp.Data;
 using Volo.Abp.DistributedLocking;
 using Volo.Abp.EventBus.Distributed;
@@ -45,15 +46,14 @@ namespace EShopOnAbp.PaymentService.DbMigrations
 
             try
             {
-                Logger.LogInformation("PaymentService - Before Acquire and MigrateDatabaseSchemaAsync");
+                Log.Information("PaymentService has acquired lock for db migration...");
 
                 await using (var handle = await DistributedLockProvider.TryAcquireAsync(DatabaseName))
                 {
                     if (handle != null)
                     {
+                        Log.Information("PaymentService is migrating database...");
                         await MigrateDatabaseSchemaAsync(null);
-                        Logger.LogInformation("PaymentService No Seed...");
-
                     }
                 }
             }

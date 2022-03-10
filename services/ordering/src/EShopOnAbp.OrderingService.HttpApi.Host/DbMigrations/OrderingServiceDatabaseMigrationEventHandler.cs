@@ -3,6 +3,7 @@ using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations.EfCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
+using Serilog;
 using Volo.Abp.Data;
 using Volo.Abp.DistributedLocking;
 using Volo.Abp.EventBus.Distributed;
@@ -37,8 +38,6 @@ namespace EShopOnAbp.OrderingService.DbMigrations
 
         public async Task HandleEventAsync(ApplyDatabaseMigrationsEto eventData)
         {
-            Logger.LogInformation("OrderingService - HandleEventAsync started ...");
-
             if (eventData.DatabaseName != DatabaseName)
             {
                 return;
@@ -51,14 +50,15 @@ namespace EShopOnAbp.OrderingService.DbMigrations
 
             try
             {
-                Logger.LogInformation("OrderingService - Before Acquire ");
-
                 await using (var handle = await DistributedLockProvider.TryAcquireAsync(DatabaseName))
                 {
+                    Log.Information("OrderingService has acquired lock for db migration...");
+                    
                     if (handle != null)
                     {
+                        Log.Information("OrderingService is migrating database...");
                         await MigrateDatabaseSchemaAsync(null);
-                        Logger.LogInformation("Starting OrderingService DataSeeder...");
+                        Log.Information("OrderingService is seeding data...");
                         await _dataSeeder.SeedAsync();
                     }
                 }

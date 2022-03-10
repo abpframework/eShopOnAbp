@@ -3,6 +3,7 @@ using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations.MongoDb;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
+using Serilog;
 using Volo.Abp.Data;
 using Volo.Abp.DistributedLocking;
 using Volo.Abp.EventBus.Distributed;
@@ -47,12 +48,13 @@ namespace EShopOnAbp.CatalogService.DbMigrations
 
             try
             {
-                Logger.LogInformation("CatalogService - Before Acquire and MigrateDatabaseSchemaAsync");
+                Log.Information("CatalogService has acquired lock for db migration...");
 
                 await using (var handle = await DistributedLockProvider.TryAcquireAsync(DatabaseName))
                 {
                     if (handle != null)
                     {
+                        Log.Information("CatalogService is migrating database...");
                         await MigrateDatabaseSchemaAsync(null);
                     }
                 }
