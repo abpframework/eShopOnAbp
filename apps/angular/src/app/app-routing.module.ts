@@ -29,6 +29,10 @@ const routes: Routes = [
     path: 'catalog',
     loadChildren: () => import('@eshoponabp/catalog').then(m => m.CatalogModule),
   },
+  {
+    path: 'ordering',
+    loadChildren: () => import('@eshoponabp/ordering').then(m => m.OrderingModule),
+  },
 ];
 
 @NgModule({
