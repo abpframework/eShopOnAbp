@@ -69,9 +69,9 @@ public class OrderApplication_Tests : OrderingServiceApplicationTestBase
 
         var cancelledMyOrder = await _orderAppService.UpdateAsync(placedOrder.Id, new UpdateOrderDto()
         {
-            OrderStatusId = OrderStatus.Cancelled.Id,
+            OrderStatusId = OrderStatus.Shipped.Id,
         });
-        //TODO - temp value - it should be Cancelled
+        //TODO - temp value - it should be Shipped
         cancelledMyOrder.OrderStatus.ShouldBe(OrderStatus.Placed.ToString());
 
 

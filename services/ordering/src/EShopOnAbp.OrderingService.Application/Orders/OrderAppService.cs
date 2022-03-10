@@ -55,10 +55,17 @@ public class OrderAppService : ApplicationService, IOrderAppService
     public async Task<OrderDto> UpdateAsync(Guid id, UpdateOrderDto input)
     {
         var order = await _orderRepository.GetAsync(id);
-        order.SetOrder(input.OrderStatusId);
-        await _orderRepository.UpdateAsync(order);
-        return CreateOrderDtoMapping(order);
+        if (input.OrderStatusId == OrderStatus.Shipped.Id)
+        {
+            order.SetOrderAsShipped(input.OrderStatusId);
+            await _orderRepository.UpdateAsync(order);
+        }
+        else if (input.OrderStatusId == OrderStatus.Cancelled.Id)
+        {
+            await _orderManager.CancelOrderAsync(id, input.PaymentRequestId, input.PaymentRequestStatus);
+        }
 
+        return CreateOrderDtoMapping(order);
     }
 
     public async Task<OrderDto> CreateAsync(OrderCreateDto input)
