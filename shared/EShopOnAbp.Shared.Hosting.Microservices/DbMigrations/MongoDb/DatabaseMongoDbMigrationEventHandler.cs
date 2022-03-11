@@ -140,28 +140,6 @@ public abstract class DatabaseMongoDbMigrationEventHandler<TDbContext> : Databas
         }
     }
 
-    protected virtual async Task HandleErrorTenantCreatedAsync(
-        TenantCreatedEto eventData,
-        Exception exception)
-    {
-        var tryCount = IncrementEventTryCount(eventData);
-        if (tryCount <= MaxEventTryCount)
-        {
-            Logger.LogWarning(
-                $"Could not perform tenant created event. Re-queueing the operation. TenantId = {eventData.Id}, TenantName = {eventData.Name}.");
-            Logger.LogException(exception, LogLevel.Warning);
-
-            await Task.Delay(RandomHelper.GetRandom(5000, 15000));
-            await DistributedEventBus.PublishAsync(eventData);
-        }
-        else
-        {
-            Logger.LogError(
-                $"Could not perform tenant created event. Canceling the operation. TenantId = {eventData.Id}, TenantName = {eventData.Name}.");
-            Logger.LogException(exception);
-        }
-    }
-
     protected virtual async Task HandleErrorTenantConnectionStringUpdatedAsync(
         TenantConnectionStringUpdatedEto eventData,
         Exception exception)

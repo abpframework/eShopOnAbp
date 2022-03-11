@@ -1,10 +1,9 @@
 ﻿using EShopOnAbp.AdministrationService.EntityFrameworkCore;
 using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations.EfCore;
-using Microsoft.Extensions.Logging;
+using Serilog;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Serilog;
 using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Data;
 using Volo.Abp.DistributedLocking;
@@ -17,7 +16,6 @@ namespace EShopOnAbp.AdministrationService.DbMigrations
 {
     public class AdministrationServiceDatabaseMigrationEventHandler
         : DatabaseEfCoreMigrationEventHandler<AdministrationServiceDbContext>,
-            IDistributedEventHandler<TenantCreatedEto>,
             IDistributedEventHandler<ApplyDatabaseMigrationsEto>
     {
         private readonly IPermissionDefinitionManager _permissionDefinitionManager;
@@ -67,20 +65,6 @@ namespace EShopOnAbp.AdministrationService.DbMigrations
             catch (Exception ex)
             {
                 await HandleErrorOnApplyDatabaseMigrationAsync(eventData, ex);
-            }
-        }
-
-        public async Task HandleEventAsync(TenantCreatedEto eventData)
-        {
-            try
-            {
-                await MigrateDatabaseSchemaAsync(eventData.Id);
-                Logger.LogInformation("Starting AdministrationService DataSeeder...");
-                await SeedDataAsync(eventData.Id);
-            }
-            catch (Exception ex)
-            {
-                await HandleErrorTenantCreatedAsync(eventData, ex);
             }
         }
 
