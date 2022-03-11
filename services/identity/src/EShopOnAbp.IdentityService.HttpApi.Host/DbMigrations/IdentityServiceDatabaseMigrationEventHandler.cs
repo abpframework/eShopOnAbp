@@ -11,82 +11,80 @@ using Volo.Abp.Identity;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.Uow;
 
-namespace EShopOnAbp.IdentityService.DbMigrations
+namespace EShopOnAbp.IdentityService.DbMigrations;
+
+public class IdentityServiceDatabaseMigrationEventHandler
+    : DatabaseEfCoreMigrationEventHandler<IdentityServiceDbContext>,
+        IDistributedEventHandler<ApplyDatabaseMigrationsEto>
 {
-    public class IdentityServiceDatabaseMigrationEventHandler
-        : DatabaseEfCoreMigrationEventHandler<IdentityServiceDbContext>,
-            IDistributedEventHandler<ApplyDatabaseMigrationsEto>
+    private readonly IIdentityDataSeeder _identityDataSeeder;
+    private readonly IdentityServerDataSeeder _identityServerDataSeeder;
+    private readonly ILocalEventBus _localEventBus;
+
+    public IdentityServiceDatabaseMigrationEventHandler(
+        ICurrentTenant currentTenant,
+        IUnitOfWorkManager unitOfWorkManager,
+        ITenantStore tenantStore,
+        IIdentityDataSeeder identityDataSeeder,
+        IdentityServerDataSeeder identityServerDataSeeder,
+        IDistributedEventBus distributedEventBus,
+        ILocalEventBus localEventBus,
+        IAbpDistributedLock distributedLockProvider
+    ) : base(
+        currentTenant,
+        unitOfWorkManager,
+        tenantStore,
+        distributedEventBus,
+        IdentityServiceDbProperties.ConnectionStringName,
+        distributedLockProvider)
     {
-        private readonly IIdentityDataSeeder _identityDataSeeder;
-        private readonly IdentityServerDataSeeder _identityServerDataSeeder;
-        private readonly ILocalEventBus _localEventBus;
+        _identityDataSeeder = identityDataSeeder;
+        _identityServerDataSeeder = identityServerDataSeeder;
+        _localEventBus = localEventBus;
+    }
 
-        public IdentityServiceDatabaseMigrationEventHandler(
-            ICurrentTenant currentTenant,
-            IUnitOfWorkManager unitOfWorkManager,
-            ITenantStore tenantStore,
-            IIdentityDataSeeder identityDataSeeder,
-            IdentityServerDataSeeder identityServerDataSeeder,
-            IDistributedEventBus distributedEventBus,
-            ILocalEventBus localEventBus,
-            IAbpDistributedLock distributedLockProvider
-        ) : base(
-            currentTenant,
-            unitOfWorkManager,
-            tenantStore,
-            distributedEventBus,
-            IdentityServiceDbProperties.ConnectionStringName,
-            distributedLockProvider)
+    public async Task HandleEventAsync(ApplyDatabaseMigrationsEto eventData)
+    {
+        if (eventData.DatabaseName != DatabaseName)
         {
-            _identityDataSeeder = identityDataSeeder;
-            _identityServerDataSeeder = identityServerDataSeeder;
-            _localEventBus = localEventBus;
+            return;
         }
 
-        public async Task HandleEventAsync(ApplyDatabaseMigrationsEto eventData)
+        try
         {
-            if (eventData.DatabaseName != DatabaseName)
+            await using (var handle = await DistributedLockProvider.TryAcquireAsync(DatabaseName))
             {
-                return;
-            }
+                Log.Information("IdentityService has acquired lock for db migration...");
 
-            try
-            {
-                await using (var handle = await DistributedLockProvider.TryAcquireAsync(DatabaseName))
+                if (handle != null)
                 {
-                    Log.Information("IdentityService has acquired lock for db migration...");
-
-                    if (handle != null)
-                    {
-                        Log.Information("IdentityService is migrating database...");
-                        await MigrateDatabaseSchemaAsync();
-                        Log.Information("IdentityService is seeding data...");
-                        await SeedDataAsync(
-                            adminEmail: IdentityServiceDbProperties.DefaultAdminEmailAddress,
-                            adminPassword: IdentityServiceDbProperties.DefaultAdminPassword
-                        );
-                    }
+                    Log.Information("IdentityService is migrating database...");
+                    await MigrateDatabaseSchemaAsync();
+                    Log.Information("IdentityService is seeding data...");
+                    await SeedDataAsync(
+                        adminEmail: IdentityServiceDbProperties.DefaultAdminEmailAddress,
+                        adminPassword: IdentityServiceDbProperties.DefaultAdminPassword
+                    );
                 }
+            }
 
-                await _localEventBus.PublishAsync(new ApplyDatabaseSeedsEto());
-            }
-            catch (Exception ex)
-            {
-                await HandleErrorOnApplyDatabaseMigrationAsync(eventData, ex);
-            }
+            await _localEventBus.PublishAsync(new ApplyDatabaseSeedsEto());
         }
-
-        private async Task SeedDataAsync(string adminEmail, string adminPassword)
+        catch (Exception ex)
         {
-            Log.Information($"Seeding IdentityServer data...");
-            await _identityServerDataSeeder.SeedAsync();
-
-            Log.Information($"Seeding user data...");
-            await _identityDataSeeder.SeedAsync(
-                adminEmail,
-                adminPassword
-            );
-
+            await HandleErrorOnApplyDatabaseMigrationAsync(eventData, ex);
         }
+    }
+
+    private async Task SeedDataAsync(string adminEmail, string adminPassword)
+    {
+        Log.Information($"Seeding IdentityServer data...");
+        await _identityServerDataSeeder.SeedAsync();
+
+        Log.Information($"Seeding user data...");
+        await _identityDataSeeder.SeedAsync(
+            adminEmail,
+            adminPassword
+        );
     }
 }

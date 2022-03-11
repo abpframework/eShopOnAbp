@@ -1,8 +1,7 @@
 ﻿using Volo.Abp.DependencyInjection;
 
-namespace EShopOnAbp.Shared.Hosting.Microservices.DbMigrations
+namespace EShopOnAbp.Shared.Hosting.Microservices.DbMigrations;
+
+public abstract class PendingMigrationsCheckerBase : ITransientDependency
 {
-    public abstract class PendingMigrationsCheckerBase : ITransientDependency
-    {
-    }
 }
