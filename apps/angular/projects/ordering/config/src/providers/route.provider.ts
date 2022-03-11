@@ -16,7 +16,6 @@ export function configureRoutes(routesService: RoutesService) {
         layout: eLayoutType.application,
         parentName: null,
         iconClass: 'bi bi-collection-fill',
-        requiredPolicy: eOrderingPolicyNames.Ordering,
       },
     ]);
   };

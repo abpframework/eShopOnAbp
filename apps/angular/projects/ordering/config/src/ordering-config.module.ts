@@ -3,10 +3,10 @@ import { ORDERING_ROUTE_PROVIDERS } from './providers/route.provider';
 
 
 @NgModule()
-export class OrderConfigModule {
-  static forRoot(): ModuleWithProviders<OrderConfigModule> {
+export class OrderingConfigModule {
+  static forRoot(): ModuleWithProviders<OrderingConfigModule> {
     return {
-      ngModule: OrderConfigModule,
+      ngModule: OrderingConfigModule,
       providers: [ORDERING_ROUTE_PROVIDERS],
     };
   }

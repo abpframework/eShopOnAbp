@@ -1,4 +1,4 @@
 export const enum eOrderingRouteNames {
-  Ordering = 'CatalogService::Menu:CatalogManagement',
+  Ordering = 'OrderingService::Menu:Orders',
   Orders = 'CatalogService::Menu:Products',
 }
