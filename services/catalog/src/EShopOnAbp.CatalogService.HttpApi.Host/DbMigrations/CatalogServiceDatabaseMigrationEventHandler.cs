@@ -1,8 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-using EShopOnAbp.CatalogService.MongoDB;
+﻿using EShopOnAbp.CatalogService.MongoDB;
 using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations.MongoDb;
+using System;
+using System.Threading.Tasks;
+using Serilog;
 using Volo.Abp.Data;
+using Volo.Abp.DistributedLocking;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.Uow;
@@ -18,13 +20,16 @@ namespace EShopOnAbp.CatalogService.DbMigrations
             IUnitOfWorkManager unitOfWorkManager,
             ITenantStore tenantStore,
             IDistributedEventBus distributedEventBus,
-            IServiceProvider serviceProvider
+            IServiceProvider serviceProvider,
+            IAbpDistributedLock distributedLockProvider
             ) : base(
                 currentTenant,
                 unitOfWorkManager,
                 tenantStore,
                 distributedEventBus,
-                CatalogServiceDbProperties.ConnectionStringName,serviceProvider)
+                CatalogServiceDbProperties.ConnectionStringName,
+                serviceProvider,
+                distributedLockProvider)
         {
         }
 
@@ -42,7 +47,16 @@ namespace EShopOnAbp.CatalogService.DbMigrations
 
             try
             {
-                await MigrateDatabaseSchemaAsync(null);
+                Log.Information("CatalogService has acquired lock for db migration...");
+
+                await using (var handle = await DistributedLockProvider.TryAcquireAsync(DatabaseName))
+                {
+                    if (handle != null)
+                    {
+                        Log.Information("CatalogService is migrating database...");
+                        await MigrateDatabaseSchemaAsync(null);
+                    }
+                }
             }
             catch (Exception ex)
             {

@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using EShopOnAbp.IdentityService.DbMigrations;
 using EShopOnAbp.IdentityService.EntityFrameworkCore;
 using EShopOnAbp.Shared.Hosting.AspNetCore;
@@ -12,9 +8,12 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Volo.Abp;
 using Volo.Abp.Modularity;
-using Volo.Abp.Threading;
 
 namespace EShopOnAbp.IdentityService;
 

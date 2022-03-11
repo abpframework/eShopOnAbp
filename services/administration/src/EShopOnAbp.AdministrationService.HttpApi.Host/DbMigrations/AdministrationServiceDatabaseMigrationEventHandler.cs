@@ -1,10 +1,13 @@
 ﻿using EShopOnAbp.AdministrationService.EntityFrameworkCore;
+using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations.EfCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations.EfCore;
+using Serilog;
 using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Data;
+using Volo.Abp.DistributedLocking;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.PermissionManagement;
@@ -13,7 +16,7 @@ using Volo.Abp.Uow;
 namespace EShopOnAbp.AdministrationService.DbMigrations
 {
     public class AdministrationServiceDatabaseMigrationEventHandler
-    : DatabaseEfCoreMigrationEventHandler<AdministrationServiceDbContext>,
+        : DatabaseEfCoreMigrationEventHandler<AdministrationServiceDbContext>,
             IDistributedEventHandler<TenantCreatedEto>,
             IDistributedEventHandler<ApplyDatabaseMigrationsEto>
     {
@@ -26,13 +29,16 @@ namespace EShopOnAbp.AdministrationService.DbMigrations
             ITenantStore tenantStore,
             IPermissionDefinitionManager permissionDefinitionManager,
             IPermissionDataSeeder permissionDataSeeder,
-            IDistributedEventBus distributedEventBus
+            IDistributedEventBus distributedEventBus,
+            IAbpDistributedLock distributedLockProvider
         ) : base(
             currentTenant,
             unitOfWorkManager,
             tenantStore,
             distributedEventBus,
-            AdministrationServiceDbProperties.ConnectionStringName)
+            AdministrationServiceDbProperties.ConnectionStringName,
+            distributedLockProvider
+        )
         {
             _permissionDefinitionManager = permissionDefinitionManager;
             _permissionDataSeeder = permissionDataSeeder;
@@ -47,8 +53,16 @@ namespace EShopOnAbp.AdministrationService.DbMigrations
 
             try
             {
-                var schemaMigrated = await MigrateDatabaseSchemaAsync(eventData.TenantId);
-                await SeedDataAsync(eventData.TenantId);
+                await using (var handle = await DistributedLockProvider.TryAcquireAsync(DatabaseName))
+                {
+                    Log.Information("AdministrationService acquired lock for db migration and seeding...");
+
+                    if (handle != null)
+                    {
+                        await MigrateDatabaseSchemaAsync(eventData.TenantId);
+                        await SeedDataAsync(eventData.TenantId);
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -61,6 +75,7 @@ namespace EShopOnAbp.AdministrationService.DbMigrations
             try
             {
                 await MigrateDatabaseSchemaAsync(eventData.Id);
+                Logger.LogInformation("Starting AdministrationService DataSeeder...");
                 await SeedDataAsync(eventData.Id);
             }
             catch (Exception ex)
@@ -82,7 +97,8 @@ namespace EShopOnAbp.AdministrationService.DbMigrations
                     var permissionNames = _permissionDefinitionManager
                         .GetPermissions()
                         .Where(p => p.MultiTenancySide.HasFlag(multiTenancySide))
-                        .Where(p => !p.Providers.Any() || p.Providers.Contains(RolePermissionValueProvider.ProviderName))
+                        .Where(p => !p.Providers.Any() ||
+                                    p.Providers.Contains(RolePermissionValueProvider.ProviderName))
                         .Select(p => p.Name)
                         .ToArray();
 

@@ -10,6 +10,7 @@ using Volo.Abp.EventBus.Local;
 using Volo.Abp.Identity;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.Uow;
+using Volo.Abp.DistributedLocking;
 
 namespace EShopOnAbp.IdentityService.DbMigrations
 {
@@ -29,13 +30,15 @@ namespace EShopOnAbp.IdentityService.DbMigrations
             IIdentityDataSeeder identityDataSeeder,
             IdentityServerDataSeeder identityServerDataSeeder,
             IDistributedEventBus distributedEventBus,
-            ILocalEventBus localEventBus
+            ILocalEventBus localEventBus,
+            IAbpDistributedLock distributedLockProvider
         ) : base(
             currentTenant,
             unitOfWorkManager,
             tenantStore,
             distributedEventBus,
-            IdentityServiceDbProperties.ConnectionStringName)
+            IdentityServiceDbProperties.ConnectionStringName,
+            distributedLockProvider)
         {
             _identityDataSeeder = identityDataSeeder;
             _identityServerDataSeeder = identityServerDataSeeder;
@@ -51,12 +54,22 @@ namespace EShopOnAbp.IdentityService.DbMigrations
 
             try
             {
-                var schemaMigrated = await MigrateDatabaseSchemaAsync(eventData.TenantId);
-                await SeedDataAsync(
-                    tenantId: eventData.TenantId,
-                    adminEmail: IdentityServiceDbProperties.DefaultAdminEmailAddress,
-                    adminPassword: IdentityServiceDbProperties.DefaultAdminPassword
-                );
+                await using (var handle = await DistributedLockProvider.TryAcquireAsync(DatabaseName))
+                {
+                    Log.Information("IdentityService has acquired lock for db migration...");
+                    
+                    if (handle != null)
+                    {
+                        Log.Information("IdentityService is migrating database...");
+                        await MigrateDatabaseSchemaAsync(eventData.TenantId);
+                        Log.Information("IdentityService is seeding data...");
+                        await SeedDataAsync(
+                            tenantId: eventData.TenantId,
+                            adminEmail: IdentityServiceDbProperties.DefaultAdminEmailAddress,
+                            adminPassword: IdentityServiceDbProperties.DefaultAdminPassword
+                        );
+                    }
+                }
 
                 await _localEventBus.PublishAsync(new ApplyDatabaseSeedsEto());
             }
@@ -64,7 +77,6 @@ namespace EShopOnAbp.IdentityService.DbMigrations
             {
                 await HandleErrorOnApplyDatabaseMigrationAsync(eventData, ex);
             }
-
         }
 
         public async Task HandleEventAsync(TenantCreatedEto eventData)

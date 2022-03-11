@@ -8,7 +8,7 @@ namespace EShopOnAbp.CatalogService.MongoDB
     [ConnectionStringName(CatalogServiceDbProperties.ConnectionStringName)]
     public class CatalogServiceMongoDbContext : AbpMongoDbContext, ICatalogServiceMongoDbContext
     {
-        public IMongoCollection<Product> Questions => Collection<Product>();
+        public IMongoCollection<Product> Products => Collection<Product>();
 
         protected override void CreateModel(IMongoModelBuilder modelBuilder)
         {
