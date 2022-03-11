@@ -57,8 +57,8 @@ namespace EShopOnAbp.AdministrationService.DbMigrations
 
                     if (handle != null)
                     {
-                        await MigrateDatabaseSchemaAsync(eventData.TenantId);
-                        await SeedDataAsync(eventData.TenantId);
+                        await MigrateDatabaseSchemaAsync();
+                        await SeedDataAsync();
                     }
                 }
             }
@@ -68,34 +68,30 @@ namespace EShopOnAbp.AdministrationService.DbMigrations
             }
         }
 
-        private async Task SeedDataAsync(Guid? tenantId)
+        private async Task SeedDataAsync()
         {
-            using (CurrentTenant.Change(tenantId))
+
+            using (var uow = UnitOfWorkManager.Begin(requiresNew: true, isTransactional: true))
             {
-                using (var uow = UnitOfWorkManager.Begin(requiresNew: true, isTransactional: true))
-                {
-                    var multiTenancySide = tenantId == null
-                        ? MultiTenancySides.Host
-                        : MultiTenancySides.Tenant;
+                var multiTenancySide = MultiTenancySides.Host;
 
-                    var permissionNames = _permissionDefinitionManager
-                        .GetPermissions()
-                        .Where(p => p.MultiTenancySide.HasFlag(multiTenancySide))
-                        .Where(p => !p.Providers.Any() ||
-                                    p.Providers.Contains(RolePermissionValueProvider.ProviderName))
-                        .Select(p => p.Name)
-                        .ToArray();
+                var permissionNames = _permissionDefinitionManager
+                    .GetPermissions()
+                    .Where(p => p.MultiTenancySide.HasFlag(multiTenancySide))
+                    .Where(p => !p.Providers.Any() ||
+                                p.Providers.Contains(RolePermissionValueProvider.ProviderName))
+                    .Select(p => p.Name)
+                    .ToArray();
 
-                    await _permissionDataSeeder.SeedAsync(
-                        RolePermissionValueProvider.ProviderName,
-                        "admin",
-                        permissionNames,
-                        tenantId
-                    );
+                await _permissionDataSeeder.SeedAsync(
+                    RolePermissionValueProvider.ProviderName,
+                    "admin",
+                    permissionNames
+                );
 
-                    await uow.CompleteAsync();
-                }
+                await uow.CompleteAsync();
             }
+
         }
     }
 }

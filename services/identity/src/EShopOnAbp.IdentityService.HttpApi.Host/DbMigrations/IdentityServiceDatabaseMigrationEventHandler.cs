@@ -59,10 +59,9 @@ namespace EShopOnAbp.IdentityService.DbMigrations
                     if (handle != null)
                     {
                         Log.Information("IdentityService is migrating database...");
-                        await MigrateDatabaseSchemaAsync(eventData.TenantId);
+                        await MigrateDatabaseSchemaAsync();
                         Log.Information("IdentityService is seeding data...");
                         await SeedDataAsync(
-                            tenantId: eventData.TenantId,
                             adminEmail: IdentityServiceDbProperties.DefaultAdminEmailAddress,
                             adminPassword: IdentityServiceDbProperties.DefaultAdminPassword
                         );
@@ -77,22 +76,17 @@ namespace EShopOnAbp.IdentityService.DbMigrations
             }
         }
 
-        private async Task SeedDataAsync(Guid? tenantId, string adminEmail, string adminPassword)
+        private async Task SeedDataAsync(string adminEmail, string adminPassword)
         {
-            using (CurrentTenant.Change(tenantId))
-            {
-                if (tenantId == null)
-                {
-                    Log.Information($"Seeding IdentityServer data...");
-                    await _identityServerDataSeeder.SeedAsync();
-                }
-                Log.Information($"Seeding user data...");
-                await _identityDataSeeder.SeedAsync(
-                    adminEmail,
-                    adminPassword,
-                    tenantId
-                );
-            }
+            Log.Information($"Seeding IdentityServer data...");
+            await _identityServerDataSeeder.SeedAsync();
+
+            Log.Information($"Seeding user data...");
+            await _identityDataSeeder.SeedAsync(
+                adminEmail,
+                adminPassword
+            );
+
         }
     }
 }

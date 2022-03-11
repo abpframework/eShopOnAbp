@@ -52,7 +52,7 @@ namespace EShopOnAbp.PaymentService.DbMigrations
                     if (handle != null)
                     {
                         Log.Information("PaymentService is migrating database...");
-                        await MigrateDatabaseSchemaAsync(null);
+                        await MigrateDatabaseSchemaAsync();
                     }
                 }
             }
