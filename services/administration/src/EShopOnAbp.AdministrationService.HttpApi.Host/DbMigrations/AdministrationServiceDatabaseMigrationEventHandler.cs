@@ -1,10 +1,9 @@
 ﻿using EShopOnAbp.AdministrationService.EntityFrameworkCore;
 using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations.EfCore;
-using Microsoft.Extensions.Logging;
+using Serilog;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Serilog;
 using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Data;
 using Volo.Abp.DistributedLocking;
@@ -17,7 +16,6 @@ namespace EShopOnAbp.AdministrationService.DbMigrations
 {
     public class AdministrationServiceDatabaseMigrationEventHandler
         : DatabaseEfCoreMigrationEventHandler<AdministrationServiceDbContext>,
-            IDistributedEventHandler<TenantCreatedEto>,
             IDistributedEventHandler<ApplyDatabaseMigrationsEto>
     {
         private readonly IPermissionDefinitionManager _permissionDefinitionManager;
@@ -59,8 +57,8 @@ namespace EShopOnAbp.AdministrationService.DbMigrations
 
                     if (handle != null)
                     {
-                        await MigrateDatabaseSchemaAsync(eventData.TenantId);
-                        await SeedDataAsync(eventData.TenantId);
+                        await MigrateDatabaseSchemaAsync();
+                        await SeedDataAsync();
                     }
                 }
             }
@@ -70,48 +68,30 @@ namespace EShopOnAbp.AdministrationService.DbMigrations
             }
         }
 
-        public async Task HandleEventAsync(TenantCreatedEto eventData)
+        private async Task SeedDataAsync()
         {
-            try
+
+            using (var uow = UnitOfWorkManager.Begin(requiresNew: true, isTransactional: true))
             {
-                await MigrateDatabaseSchemaAsync(eventData.Id);
-                Logger.LogInformation("Starting AdministrationService DataSeeder...");
-                await SeedDataAsync(eventData.Id);
+                var multiTenancySide = MultiTenancySides.Host;
+
+                var permissionNames = _permissionDefinitionManager
+                    .GetPermissions()
+                    .Where(p => p.MultiTenancySide.HasFlag(multiTenancySide))
+                    .Where(p => !p.Providers.Any() ||
+                                p.Providers.Contains(RolePermissionValueProvider.ProviderName))
+                    .Select(p => p.Name)
+                    .ToArray();
+
+                await _permissionDataSeeder.SeedAsync(
+                    RolePermissionValueProvider.ProviderName,
+                    "admin",
+                    permissionNames
+                );
+
+                await uow.CompleteAsync();
             }
-            catch (Exception ex)
-            {
-                await HandleErrorTenantCreatedAsync(eventData, ex);
-            }
-        }
 
-        private async Task SeedDataAsync(Guid? tenantId)
-        {
-            using (CurrentTenant.Change(tenantId))
-            {
-                using (var uow = UnitOfWorkManager.Begin(requiresNew: true, isTransactional: true))
-                {
-                    var multiTenancySide = tenantId == null
-                        ? MultiTenancySides.Host
-                        : MultiTenancySides.Tenant;
-
-                    var permissionNames = _permissionDefinitionManager
-                        .GetPermissions()
-                        .Where(p => p.MultiTenancySide.HasFlag(multiTenancySide))
-                        .Where(p => !p.Providers.Any() ||
-                                    p.Providers.Contains(RolePermissionValueProvider.ProviderName))
-                        .Select(p => p.Name)
-                        .ToArray();
-
-                    await _permissionDataSeeder.SeedAsync(
-                        RolePermissionValueProvider.ProviderName,
-                        "admin",
-                        permissionNames,
-                        tenantId
-                    );
-
-                    await uow.CompleteAsync();
-                }
-            }
         }
     }
 }

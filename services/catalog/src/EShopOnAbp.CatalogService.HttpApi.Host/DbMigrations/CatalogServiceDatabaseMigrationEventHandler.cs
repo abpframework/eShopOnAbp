@@ -54,7 +54,7 @@ namespace EShopOnAbp.CatalogService.DbMigrations
                     if (handle != null)
                     {
                         Log.Information("CatalogService is migrating database...");
-                        await MigrateDatabaseSchemaAsync(null);
+                        await MigrateDatabaseSchemaAsync();
                     }
                 }
             }

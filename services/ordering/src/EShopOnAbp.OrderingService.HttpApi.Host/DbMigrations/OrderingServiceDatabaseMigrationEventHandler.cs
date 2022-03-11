@@ -56,7 +56,7 @@ namespace EShopOnAbp.OrderingService.DbMigrations
                     if (handle != null)
                     {
                         Log.Information("OrderingService is migrating database...");
-                        await MigrateDatabaseSchemaAsync(null);
+                        await MigrateDatabaseSchemaAsync();
                         Log.Information("OrderingService is seeding data...");
                         await _dataSeeder.SeedAsync();
                     }
