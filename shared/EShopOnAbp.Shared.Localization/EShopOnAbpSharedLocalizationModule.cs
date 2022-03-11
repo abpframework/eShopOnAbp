@@ -5,30 +5,29 @@ using Volo.Abp.Validation;
 using Volo.Abp.Validation.Localization;
 using Volo.Abp.VirtualFileSystem;
 
-namespace EShopOnAbp
+namespace EShopOnAbp;
+
+[DependsOn(
+    typeof(AbpValidationModule)
+)]
+public class EShopOnAbpSharedLocalizationModule : AbpModule
 {
-    [DependsOn(
-        typeof(AbpValidationModule)
-    )]
-    public class EShopOnAbpSharedLocalizationModule : AbpModule
+    public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        public override void ConfigureServices(ServiceConfigurationContext context)
+        Configure<AbpVirtualFileSystemOptions>(options =>
         {
-            Configure<AbpVirtualFileSystemOptions>(options =>
-            {
-                options.FileSets.AddEmbedded<EShopOnAbpSharedLocalizationModule>();
-            });
+            options.FileSets.AddEmbedded<EShopOnAbpSharedLocalizationModule>();
+        });
 
-            Configure<AbpLocalizationOptions>(options =>
-            {
-                options.Resources
-                    .Add<EShopOnAbpResource>("en")
-                    .AddBaseTypes(
-                        typeof(AbpValidationResource)
-                    ).AddVirtualJson("/Localization/EShopOnAbp");
+        Configure<AbpLocalizationOptions>(options =>
+        {
+            options.Resources
+                .Add<EShopOnAbpResource>("en")
+                .AddBaseTypes(
+                    typeof(AbpValidationResource)
+                ).AddVirtualJson("/Localization/EShopOnAbp");
 
-                options.DefaultResourceType = typeof(EShopOnAbpResource);
-            });
-        }
+            options.DefaultResourceType = typeof(EShopOnAbpResource);
+        });
     }
 }

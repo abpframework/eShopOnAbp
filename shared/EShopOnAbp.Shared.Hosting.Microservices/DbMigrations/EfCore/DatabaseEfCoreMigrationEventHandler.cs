@@ -23,7 +23,6 @@ public abstract class DatabaseEfCoreMigrationEventHandler<TDbContext> : Database
 {
     protected const string TryCountPropertyName = "TryCount";
     protected const int MaxEventTryCount = 3;
-
     protected ICurrentTenant CurrentTenant { get; }
     protected IUnitOfWorkManager UnitOfWorkManager { get; }
     protected ITenantStore TenantStore { get; }
@@ -39,7 +38,7 @@ public abstract class DatabaseEfCoreMigrationEventHandler<TDbContext> : Database
         IDistributedEventBus distributedEventBus,
         string databaseName,
         IAbpDistributedLock distributedLockProvider
-        )
+    )
     {
         CurrentTenant = currentTenant;
         UnitOfWorkManager = unitOfWorkManager;
@@ -58,7 +57,6 @@ public abstract class DatabaseEfCoreMigrationEventHandler<TDbContext> : Database
     protected virtual async Task<bool> MigrateDatabaseSchemaAsync()
     {
         var result = false;
-
 
         using (var uow = UnitOfWorkManager.Begin(requiresNew: true, isTransactional: false))
         {
@@ -84,7 +82,6 @@ public abstract class DatabaseEfCoreMigrationEventHandler<TDbContext> : Database
             await uow.CompleteAsync();
         }
 
-
         return result;
     }
 
@@ -105,7 +102,7 @@ public abstract class DatabaseEfCoreMigrationEventHandler<TDbContext> : Database
         }
         else
         {
-            Log.Error(
+            Log.Warning(
                 $"Could not apply database migrations. Canceling the operation. TenantId = {eventData.TenantId}, DatabaseName = {eventData.DatabaseName}.");
             Log.Error(exception.ToString());
         }

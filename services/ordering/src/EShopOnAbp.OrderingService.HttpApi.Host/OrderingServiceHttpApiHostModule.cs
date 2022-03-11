@@ -21,7 +21,6 @@ namespace EShopOnAbp.OrderingService;
     typeof(OrderingServiceHttpApiModule),
     typeof(OrderingServiceApplicationModule),
     typeof(OrderingServiceEntityFrameworkCoreModule),
-    //typeof(MedallionAbpDistributedLock),
     typeof(EShopOnAbpSharedHostingMicroservicesModule)
 )]
 public class OrderingServiceHttpApiHostModule : AbpModule

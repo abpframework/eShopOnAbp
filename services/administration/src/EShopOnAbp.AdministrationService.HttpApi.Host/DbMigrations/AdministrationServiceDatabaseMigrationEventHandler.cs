@@ -12,86 +12,83 @@ using Volo.Abp.MultiTenancy;
 using Volo.Abp.PermissionManagement;
 using Volo.Abp.Uow;
 
-namespace EShopOnAbp.AdministrationService.DbMigrations
-{
-    public class AdministrationServiceDatabaseMigrationEventHandler
-        : DatabaseEfCoreMigrationEventHandler<AdministrationServiceDbContext>,
-            IDistributedEventHandler<ApplyDatabaseMigrationsEto>
-    {
-        private readonly IPermissionDefinitionManager _permissionDefinitionManager;
-        private readonly IPermissionDataSeeder _permissionDataSeeder;
+namespace EShopOnAbp.AdministrationService.DbMigrations;
 
-        public AdministrationServiceDatabaseMigrationEventHandler(
-            ICurrentTenant currentTenant,
-            IUnitOfWorkManager unitOfWorkManager,
-            ITenantStore tenantStore,
-            IPermissionDefinitionManager permissionDefinitionManager,
-            IPermissionDataSeeder permissionDataSeeder,
-            IDistributedEventBus distributedEventBus,
-            IAbpDistributedLock distributedLockProvider
-        ) : base(
-            currentTenant,
-            unitOfWorkManager,
-            tenantStore,
-            distributedEventBus,
-            AdministrationServiceDbProperties.ConnectionStringName,
-            distributedLockProvider
-        )
+public class AdministrationServiceDatabaseMigrationEventHandler
+    : DatabaseEfCoreMigrationEventHandler<AdministrationServiceDbContext>,
+        IDistributedEventHandler<ApplyDatabaseMigrationsEto>
+{
+    private readonly IPermissionDefinitionManager _permissionDefinitionManager;
+    private readonly IPermissionDataSeeder _permissionDataSeeder;
+
+    public AdministrationServiceDatabaseMigrationEventHandler(
+        ICurrentTenant currentTenant,
+        IUnitOfWorkManager unitOfWorkManager,
+        ITenantStore tenantStore,
+        IPermissionDefinitionManager permissionDefinitionManager,
+        IPermissionDataSeeder permissionDataSeeder,
+        IDistributedEventBus distributedEventBus,
+        IAbpDistributedLock distributedLockProvider
+    ) : base(
+        currentTenant,
+        unitOfWorkManager,
+        tenantStore,
+        distributedEventBus,
+        AdministrationServiceDbProperties.ConnectionStringName,
+        distributedLockProvider
+    )
+    {
+        _permissionDefinitionManager = permissionDefinitionManager;
+        _permissionDataSeeder = permissionDataSeeder;
+    }
+
+    public async Task HandleEventAsync(ApplyDatabaseMigrationsEto eventData)
+    {
+        if (eventData.DatabaseName != DatabaseName)
         {
-            _permissionDefinitionManager = permissionDefinitionManager;
-            _permissionDataSeeder = permissionDataSeeder;
+            return;
         }
 
-        public async Task HandleEventAsync(ApplyDatabaseMigrationsEto eventData)
+        try
         {
-            if (eventData.DatabaseName != DatabaseName)
+            await using (var handle = await DistributedLockProvider.TryAcquireAsync(DatabaseName))
             {
-                return;
-            }
+                Log.Information("AdministrationService acquired lock for db migration and seeding...");
 
-            try
-            {
-                await using (var handle = await DistributedLockProvider.TryAcquireAsync(DatabaseName))
+                if (handle != null)
                 {
-                    Log.Information("AdministrationService acquired lock for db migration and seeding...");
-
-                    if (handle != null)
-                    {
-                        await MigrateDatabaseSchemaAsync();
-                        await SeedDataAsync();
-                    }
+                    await MigrateDatabaseSchemaAsync();
+                    await SeedDataAsync();
                 }
             }
-            catch (Exception ex)
-            {
-                await HandleErrorOnApplyDatabaseMigrationAsync(eventData, ex);
-            }
         }
-
-        private async Task SeedDataAsync()
+        catch (Exception ex)
         {
+            await HandleErrorOnApplyDatabaseMigrationAsync(eventData, ex);
+        }
+    }
 
-            using (var uow = UnitOfWorkManager.Begin(requiresNew: true, isTransactional: true))
-            {
-                var multiTenancySide = MultiTenancySides.Host;
+    private async Task SeedDataAsync()
+    {
+        using (var uow = UnitOfWorkManager.Begin(requiresNew: true, isTransactional: true))
+        {
+            var multiTenancySide = MultiTenancySides.Host;
 
-                var permissionNames = _permissionDefinitionManager
-                    .GetPermissions()
-                    .Where(p => p.MultiTenancySide.HasFlag(multiTenancySide))
-                    .Where(p => !p.Providers.Any() ||
-                                p.Providers.Contains(RolePermissionValueProvider.ProviderName))
-                    .Select(p => p.Name)
-                    .ToArray();
+            var permissionNames = _permissionDefinitionManager
+                .GetPermissions()
+                .Where(p => p.MultiTenancySide.HasFlag(multiTenancySide))
+                .Where(p => !p.Providers.Any() ||
+                            p.Providers.Contains(RolePermissionValueProvider.ProviderName))
+                .Select(p => p.Name)
+                .ToArray();
 
-                await _permissionDataSeeder.SeedAsync(
-                    RolePermissionValueProvider.ProviderName,
-                    "admin",
-                    permissionNames
-                );
+            await _permissionDataSeeder.SeedAsync(
+                RolePermissionValueProvider.ProviderName,
+                "admin",
+                permissionNames
+            );
 
-                await uow.CompleteAsync();
-            }
-
+            await uow.CompleteAsync();
         }
     }
 }
