@@ -5,7 +5,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
+using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Specifications;
 using Volo.Abp.Users;
@@ -48,6 +51,26 @@ public class OrderAppService : ApplicationService, IOrderAppService
         return CreateOrderDtoMapping(orders);
     }
 
+    [Authorize(OrderingServicePermissions.Orders.Default)]
+    public async Task<PagedResultDto<OrderDto>> GetListPagedAsync(PagedAndSortedResultRequestDto input)
+    {
+        var queryable = await _orderRepository.GetQueryableAsync();
+
+        var orders = await AsyncExecuter.ToListAsync(
+            queryable
+                .OrderBy(input.Sorting ?? "OrderDate")
+                .Skip(input.SkipCount)
+                .Take(input.MaxResultCount)
+        );
+
+        var totalCount = await _orderRepository.GetCountAsync();
+        //TODO Refactor Order Status
+        return new PagedResultDto<OrderDto>(
+            totalCount,
+            CreateOrderDtoMapping(orders)
+        );
+    }
+
     public async Task<OrderDto> GetByOrderNoAsync(int orderNo)
     {
         var order = await _orderRepository.GetByOrderNoAsync(orderNo);
@@ -55,20 +78,18 @@ public class OrderAppService : ApplicationService, IOrderAppService
         return CreateOrderDtoMapping(order);
     }
 
-    public async Task<OrderDto> UpdateAsync(Guid id, UpdateOrderDto input)
+    [Authorize(OrderingServicePermissions.Orders.SetAsCancelled)]
+    public async Task SetAsCancelledAsync(Guid id, SetAsCancelledDto input)
+    {
+        await _orderManager.CancelOrderAsync(id, input.PaymentRequestId, input.PaymentRequestStatus);
+    }
+
+    [Authorize(OrderingServicePermissions.Orders.SetAsShipped)]
+    public async Task SetAsShippedAsync(Guid id, SetAsShippedDto input)
     {
         var order = await _orderRepository.GetAsync(id);
-        if (input.OrderStatusId == OrderStatus.Shipped.Id)
-        {
-            order.SetOrderAsShipped(input.OrderStatusId);
-            await _orderRepository.UpdateAsync(order);
-        }
-        else if (input.OrderStatusId == OrderStatus.Cancelled.Id)
-        {
-            await _orderManager.CancelOrderAsync(id, input.PaymentRequestId, input.PaymentRequestStatus);
-        }
-
-        return CreateOrderDtoMapping(order);
+        order.SetOrderAsShipped(input.OrderStatusId);
+        await _orderRepository.UpdateAsync(order);
     }
 
     public async Task<OrderDto> CreateAsync(OrderCreateDto input)
@@ -130,8 +151,8 @@ public class OrderAppService : ApplicationService, IOrderAppService
             Id = order.Id,
             OrderNo = order.OrderNo,
             OrderDate = order.OrderDate,
-            OrderStatus = order.OrderStatus.Name,
-            OrderStatusId = order.OrderStatus.Id,
+            OrderStatus = order.OrderStatus?.Name,
+            OrderStatusId = order.OrderStatus?.Id ?? 0,
             PaymentMethod = order.PaymentMethod
         };
     }

@@ -40,6 +40,14 @@ public partial class OrderClientProxy : ClientProxyBase<IOrderAppService>, IOrde
         });
     }
 
+    public virtual async Task<PagedResultDto<OrderDto>> GetListPagedAsync(PagedAndSortedResultRequestDto input)
+    {
+        return await RequestAsync<PagedResultDto<OrderDto>>(nameof(GetListPagedAsync), new ClientProxyRequestTypeValue
+        {
+            { typeof(PagedAndSortedResultRequestDto), input }
+        });
+    }
+
     public virtual async Task<OrderDto> GetByOrderNoAsync(int orderNo)
     {
         return await RequestAsync<OrderDto>(nameof(GetByOrderNoAsync), new ClientProxyRequestTypeValue
@@ -48,12 +56,21 @@ public partial class OrderClientProxy : ClientProxyBase<IOrderAppService>, IOrde
         });
     }
 
-    public virtual async Task<OrderDto> UpdateAsync(Guid id, UpdateOrderDto input)
+    public virtual async Task SetAsCancelledAsync(Guid id, SetAsCancelledDto input)
     {
-        return await RequestAsync<OrderDto>(nameof(UpdateAsync), new ClientProxyRequestTypeValue
+        await RequestAsync(nameof(SetAsCancelledAsync), new ClientProxyRequestTypeValue
         {
             { typeof(Guid), id },
-            { typeof(UpdateOrderDto), input }
+            { typeof(SetAsCancelledDto), input }
+        });
+    }
+
+    public virtual async Task SetAsShippedAsync(Guid id, SetAsShippedDto input)
+    {
+        await RequestAsync(nameof(SetAsShippedAsync), new ClientProxyRequestTypeValue
+        {
+            { typeof(Guid), id },
+            { typeof(SetAsShippedDto), input }
         });
     }
 

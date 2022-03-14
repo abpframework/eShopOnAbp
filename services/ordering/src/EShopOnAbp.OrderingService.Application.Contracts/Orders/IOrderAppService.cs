@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 
 namespace EShopOnAbp.OrderingService.Orders;
@@ -12,5 +13,8 @@ public interface IOrderAppService : IApplicationService
     Task<List<OrderDto>> GetMyOrdersAsync(GetMyOrdersInput input);
     Task<List<OrderDto>> GetOrdersAsync(GetOrdersInput input);
     Task<OrderDto> GetByOrderNoAsync(int orderNo);
-    Task<OrderDto> UpdateAsync(Guid id, UpdateOrderDto input);
+    Task SetAsCancelledAsync(Guid id, SetAsCancelledDto input);
+    Task SetAsShippedAsync(Guid id, SetAsShippedDto input);
+    Task<PagedResultDto<OrderDto>> GetListPagedAsync(PagedAndSortedResultRequestDto input);
+
 }

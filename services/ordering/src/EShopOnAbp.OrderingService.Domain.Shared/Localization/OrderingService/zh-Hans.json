@@ -12,6 +12,8 @@
     "Permission:Orders": "命令",
     "Permission:OrderingService": "订购服务",
     "Menu:Orders": "命令",
-    "Menu:OrderManagement": "订单管理"
+    "Menu:OrderManagement": "订单管理",
+    "Permission:Orders.SetAsCancelled": "设置为取消",
+    "Permission:Orders.SetAsShipped": "设置为发货"
   }
 }

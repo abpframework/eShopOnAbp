@@ -11,6 +11,8 @@
     "Permission:Orders": "Orders",
     "Permission:OrderingService": "Ordering Service",
     "Menu:Orders": "Orders",
-    "Menu:OrderManagement": "Ordering Service"
+    "Menu:OrderManagement": "Ordering Service",
+    "Permission:Orders.SetAsCancelled": "Set As Cancelled",
+    "Permission:Orders.SetAsShipped": "Set As Shipped"
   }
 }
