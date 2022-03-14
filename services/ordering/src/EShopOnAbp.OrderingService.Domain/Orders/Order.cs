@@ -59,6 +59,15 @@ public class Order : AggregateRoot<Guid>
         return this;
     }
 
+    public Order SetOrderCancelled(Guid paymentRequestId, string paymentRequestStatus)
+    {
+        PaymentRequestId = paymentRequestId;
+        PaymentStatus = paymentRequestStatus;
+        OrderStatus = OrderStatus.Cancelled;
+
+        return this;
+    }
+
     public Order AddOrderItem(Guid id, Guid productId, string productName, string productCode, decimal unitPrice,
         decimal discount, string pictureUrl, int units = 1)
     {
@@ -88,14 +97,14 @@ public class Order : AggregateRoot<Guid>
         return OrderItems.Sum(o => o.Units * o.UnitPrice);
     }
 
-    public Order SetOrder(int orderStatus)
+    public Order SetOrderAsShipped(int orderStatus)
     {
         if (orderStatus == OrderStatus.Cancelled.Id)
         {
             return this;
         }
         //TODO no enough to update the object.
-        _orderStatusId = orderStatus;
+        _orderStatusId = OrderStatus.Shipped.Id;
         return this;
     }
 }

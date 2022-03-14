@@ -91,6 +91,30 @@ public class OrderManager : DomainService
         return await _orderRepository.UpdateAsync(order, autoSave: true);
     }
 
+    public async Task<Order> CancelOrderAsync(Guid orderId, Guid paymentRequestId, string paymentRequestStatus)
+    {
+        var order = await _orderRepository.GetAsync(orderId);
+        if (order == null)
+        {
+            throw new BusinessException(OrderingServiceErrorCodes.OrderWithIdNotFound)
+                .WithData("OrderId", orderId);
+        }
+
+        order.SetOrderCancelled(paymentRequestId, paymentRequestStatus);
+
+        // Publish order cancelled event
+        await _distributedEventBus.PublishAsync(new OrderCancelledEto
+        {
+            OrderId = order.Id,
+            OrderDate = order.OrderDate,
+            OrderNo = order.OrderNo,
+            Buyer = GetBuyerEto(order.Buyer),
+            Items = GetProductItemEtoList(order.OrderItems)
+        });
+
+        return await _orderRepository.UpdateAsync(order, autoSave: true);
+    }
+
     private BuyerEto GetBuyerEto(Buyer buyer)
     {
         return new BuyerEto

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Medallion.Threading;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Serilog;
 using Volo.Abp;
 using Volo.Abp.Data;
+using Volo.Abp.DistributedLocking;
 using Volo.Abp.Domain.Entities.Events.Distributed;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.EventBus.Distributed;
@@ -29,19 +31,23 @@ public abstract class DatabaseEfCoreMigrationEventHandler<TDbContext> : Database
     protected IDistributedEventBus DistributedEventBus { get; }
     protected ILogger<DatabaseEfCoreMigrationEventHandler<TDbContext>> Logger { get; set; }
     protected string DatabaseName { get; }
+    protected IAbpDistributedLock DistributedLockProvider { get; }
 
     protected DatabaseEfCoreMigrationEventHandler(
         ICurrentTenant currentTenant,
         IUnitOfWorkManager unitOfWorkManager,
         ITenantStore tenantStore,
         IDistributedEventBus distributedEventBus,
-        string databaseName)
+        string databaseName,
+        IAbpDistributedLock distributedLockProvider
+        )
     {
         CurrentTenant = currentTenant;
         UnitOfWorkManager = unitOfWorkManager;
         TenantStore = tenantStore;
         DatabaseName = databaseName;
         DistributedEventBus = distributedEventBus;
+        DistributedLockProvider = distributedLockProvider;
 
         Logger = NullLogger<DatabaseEfCoreMigrationEventHandler<TDbContext>>.Instance;
     }
@@ -76,6 +82,7 @@ public abstract class DatabaseEfCoreMigrationEventHandler<TDbContext> : Database
                 if (tenantId == null)
                 {
                     //Migrating the host database
+                    Log.Information($"There is no tenant. Migrating {DatabaseName}...");
                     result = await MigrateDatabaseSchemaWithDbContextAsync();
                 }
                 else
@@ -85,6 +92,7 @@ public abstract class DatabaseEfCoreMigrationEventHandler<TDbContext> : Database
                         !tenantConfiguration.ConnectionStrings.GetOrDefault(DatabaseName).IsNullOrWhiteSpace())
                     {
                         //Migrating the tenant database (only if tenant has a separate database)
+                        Log.Information($"Migrating tenant database:{DatabaseName} with tenantId:{tenantId}...");
                         result = await MigrateDatabaseSchemaWithDbContextAsync();
                     }
                 }
@@ -126,7 +134,7 @@ public abstract class DatabaseEfCoreMigrationEventHandler<TDbContext> : Database
         var tryCount = IncrementEventTryCount(eventData);
         if (tryCount <= MaxEventTryCount)
         {
-            Logger.LogWarning(
+            Log.Warning(
                 $"Could not perform tenant created event. Re-queueing the operation. TenantId = {eventData.Id}, TenantName = {eventData.Name}.");
             Logger.LogException(exception, LogLevel.Warning);
 

@@ -1,8 +1,10 @@
 ﻿using EShopOnAbp.PaymentService.EntityFrameworkCore;
+using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations.EfCore;
 using System;
 using System.Threading.Tasks;
-using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations.EfCore;
+using Serilog;
 using Volo.Abp.Data;
+using Volo.Abp.DistributedLocking;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.Uow;
@@ -17,13 +19,15 @@ namespace EShopOnAbp.PaymentService.DbMigrations
             ICurrentTenant currentTenant,
             IUnitOfWorkManager unitOfWorkManager,
             ITenantStore tenantStore,
-            IDistributedEventBus distributedEventBus) 
+            IDistributedEventBus distributedEventBus,
+            IAbpDistributedLock distributedLockProvider)
             : base(
                 currentTenant,
                 unitOfWorkManager,
                 tenantStore,
                 distributedEventBus,
-                PaymentServiceDbProperties.ConnectionStringName)
+                PaymentServiceDbProperties.ConnectionStringName,
+                distributedLockProvider)
         {
         }
 
@@ -41,7 +45,16 @@ namespace EShopOnAbp.PaymentService.DbMigrations
 
             try
             {
-                await MigrateDatabaseSchemaAsync(null);
+                Log.Information("PaymentService has acquired lock for db migration...");
+
+                await using (var handle = await DistributedLockProvider.TryAcquireAsync(DatabaseName))
+                {
+                    if (handle != null)
+                    {
+                        Log.Information("PaymentService is migrating database...");
+                        await MigrateDatabaseSchemaAsync(null);
+                    }
+                }
             }
             catch (Exception ex)
             {
