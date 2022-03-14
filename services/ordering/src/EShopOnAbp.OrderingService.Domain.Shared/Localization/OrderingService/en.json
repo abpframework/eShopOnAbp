@@ -1,12 +1,14 @@
 {
   "culture": "en",
   "texts": {
-    "MyAccount":  "My account",
+    "MyAccount": "My account",
     "SamplePageMessage": "A sample page for the OrderingService module",
     "Ordering:00001": "Possible values for Order status: {OrderStatus}",
     "Ordering:00002": "Invalid number of units",
     "Ordering:00003": "Invalid discount",
     "Ordering:00004": "The total of order item is lower than applied discount",
-    "Ordering:01001": "Order with {0} id could not be found!"
+    "Ordering:01001": "Order with {0} id could not be found!",
+    "Permission:Orders": "Orders",
+    "Permission:OrderingService": "Ordering Service"
   }
 }

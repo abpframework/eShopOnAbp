@@ -8,7 +8,8 @@ namespace EShopOnAbp.OrderingService.Permissions
     {
         public override void Define(IPermissionDefinitionContext context)
         {
-            var myGroup = context.AddGroup(OrderingServicePermissions.GroupName, L("Permission:OrderingService"));
+            var orderManagmentGroup = context.AddGroup(OrderingServicePermissions.GroupName, L("Permission:OrderingService"));
+            orderManagmentGroup.AddPermission(OrderingServicePermissions.Orders.Default, L("Permission:Orders"));
         }
 
         private static LocalizableString L(string name)

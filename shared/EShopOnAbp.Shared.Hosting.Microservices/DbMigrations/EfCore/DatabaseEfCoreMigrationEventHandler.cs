@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Medallion.Threading;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Serilog;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Volo.Abp;
 using Volo.Abp.Data;
 using Volo.Abp.DistributedLocking;
@@ -24,7 +23,6 @@ public abstract class DatabaseEfCoreMigrationEventHandler<TDbContext> : Database
 {
     protected const string TryCountPropertyName = "TryCount";
     protected const int MaxEventTryCount = 3;
-
     protected ICurrentTenant CurrentTenant { get; }
     protected IUnitOfWorkManager UnitOfWorkManager { get; }
     protected ITenantStore TenantStore { get; }
@@ -40,7 +38,7 @@ public abstract class DatabaseEfCoreMigrationEventHandler<TDbContext> : Database
         IDistributedEventBus distributedEventBus,
         string databaseName,
         IAbpDistributedLock distributedLockProvider
-        )
+    )
     {
         CurrentTenant = currentTenant;
         UnitOfWorkManager = unitOfWorkManager;
@@ -56,49 +54,32 @@ public abstract class DatabaseEfCoreMigrationEventHandler<TDbContext> : Database
     /// Apply pending EF Core schema migrations to the database.
     /// Returns true if any migration has applied.
     /// </summary>
-    protected virtual async Task<bool> MigrateDatabaseSchemaAsync(Guid? tenantId)
+    protected virtual async Task<bool> MigrateDatabaseSchemaAsync()
     {
         var result = false;
 
-        using (CurrentTenant.Change(tenantId))
+        using (var uow = UnitOfWorkManager.Begin(requiresNew: true, isTransactional: false))
         {
-            using (var uow = UnitOfWorkManager.Begin(requiresNew: true, isTransactional: false))
+            async Task<bool> MigrateDatabaseSchemaWithDbContextAsync()
             {
-                async Task<bool> MigrateDatabaseSchemaWithDbContextAsync()
+                var dbContext = await uow.ServiceProvider
+                    .GetRequiredService<IDbContextProvider<TDbContext>>()
+                    .GetDbContextAsync();
+
+                if ((await dbContext.Database.GetPendingMigrationsAsync()).Any())
                 {
-                    var dbContext = await uow.ServiceProvider
-                        .GetRequiredService<IDbContextProvider<TDbContext>>()
-                        .GetDbContextAsync();
-
-                    if ((await dbContext.Database.GetPendingMigrationsAsync()).Any())
-                    {
-                        await dbContext.Database.MigrateAsync();
-                        return true;
-                    }
-
-                    return false;
+                    await dbContext.Database.MigrateAsync();
+                    return true;
                 }
 
-                if (tenantId == null)
-                {
-                    //Migrating the host database
-                    Log.Information($"There is no tenant. Migrating {DatabaseName}...");
-                    result = await MigrateDatabaseSchemaWithDbContextAsync();
-                }
-                else
-                {
-                    var tenantConfiguration = await TenantStore.FindAsync(tenantId.Value);
-                    if (!tenantConfiguration.ConnectionStrings.Default.IsNullOrWhiteSpace() ||
-                        !tenantConfiguration.ConnectionStrings.GetOrDefault(DatabaseName).IsNullOrWhiteSpace())
-                    {
-                        //Migrating the tenant database (only if tenant has a separate database)
-                        Log.Information($"Migrating tenant database:{DatabaseName} with tenantId:{tenantId}...");
-                        result = await MigrateDatabaseSchemaWithDbContextAsync();
-                    }
-                }
-
-                await uow.CompleteAsync();
+                return false;
             }
+
+            //Migrating the host database
+            Log.Information($"There is no tenant. Migrating {DatabaseName}...");
+            result = await MigrateDatabaseSchemaWithDbContextAsync();
+
+            await uow.CompleteAsync();
         }
 
         return result;
@@ -121,53 +102,9 @@ public abstract class DatabaseEfCoreMigrationEventHandler<TDbContext> : Database
         }
         else
         {
-            Log.Error(
+            Log.Warning(
                 $"Could not apply database migrations. Canceling the operation. TenantId = {eventData.TenantId}, DatabaseName = {eventData.DatabaseName}.");
             Log.Error(exception.ToString());
-        }
-    }
-
-    protected virtual async Task HandleErrorTenantCreatedAsync(
-        TenantCreatedEto eventData,
-        Exception exception)
-    {
-        var tryCount = IncrementEventTryCount(eventData);
-        if (tryCount <= MaxEventTryCount)
-        {
-            Log.Warning(
-                $"Could not perform tenant created event. Re-queueing the operation. TenantId = {eventData.Id}, TenantName = {eventData.Name}.");
-            Logger.LogException(exception, LogLevel.Warning);
-
-            await Task.Delay(RandomHelper.GetRandom(5000, 15000));
-            await DistributedEventBus.PublishAsync(eventData);
-        }
-        else
-        {
-            Logger.LogError(
-                $"Could not perform tenant created event. Canceling the operation. TenantId = {eventData.Id}, TenantName = {eventData.Name}.");
-            Logger.LogException(exception);
-        }
-    }
-
-    protected virtual async Task HandleErrorTenantConnectionStringUpdatedAsync(
-        TenantConnectionStringUpdatedEto eventData,
-        Exception exception)
-    {
-        var tryCount = IncrementEventTryCount(eventData);
-        if (tryCount <= MaxEventTryCount)
-        {
-            Logger.LogWarning(
-                $"Could not perform tenant connection string updated event. Re-queueing the operation. TenantId = {eventData.Id}, TenantName = {eventData.Name}.");
-            Logger.LogException(exception, LogLevel.Warning);
-
-            await Task.Delay(RandomHelper.GetRandom(5000, 15000));
-            await DistributedEventBus.PublishAsync(eventData);
-        }
-        else
-        {
-            Logger.LogError(
-                $"Could not perform tenant connection string updated event. Canceling the operation. TenantId = {eventData.Id}, TenantName = {eventData.Name}.");
-            Logger.LogException(exception);
         }
     }
 

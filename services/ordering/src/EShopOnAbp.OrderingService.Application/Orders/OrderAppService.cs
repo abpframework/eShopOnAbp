@@ -1,5 +1,7 @@
 ﻿using EShopOnAbp.OrderingService.Localization;
 using EShopOnAbp.OrderingService.Orders.Specifications;
+using EShopOnAbp.OrderingService.Permissions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -38,6 +40,7 @@ public class OrderAppService : ApplicationService, IOrderAppService
         return CreateOrderDtoMapping(orders);
     }
 
+    [Authorize(OrderingServicePermissions.Orders.Default)]
     public async Task<List<OrderDto>> GetOrdersAsync(GetOrdersInput input)
     {
         ISpecification<Order> specification = SpecificationFactory.Create(input.Filter);

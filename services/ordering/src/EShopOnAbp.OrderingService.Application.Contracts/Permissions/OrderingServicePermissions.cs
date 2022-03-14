@@ -2,9 +2,14 @@
 
 namespace EShopOnAbp.OrderingService.Permissions
 {
-    public class OrderingServicePermissions
+    public static class OrderingServicePermissions
     {
         public const string GroupName = "OrderingService";
+
+        public static class Orders
+        {
+            public const string Default = GroupName + ".Orders";
+        }
 
         public static string[] GetAll()
         {
