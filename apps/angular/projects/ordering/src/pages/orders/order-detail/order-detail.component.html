@@ -1,0 +1,17 @@
+
+
+<abp-modal [visible]="visible && !!order" (visibleChange)='visibleChange.emit($event)'  >
+  <ng-template #abpHeader>
+    <h3>Modal Title</h3>
+  </ng-template>
+
+  <ng-template #abpBody>
+    <p>Modal content</p>
+  </ng-template>
+
+  <ng-template #abpFooter>
+    <button type="button" class="btn btn-secondary" abpClose>{{
+      'AbpUi::Close' | abpLocalization
+      }}</button>
+  </ng-template>
+</abp-modal>

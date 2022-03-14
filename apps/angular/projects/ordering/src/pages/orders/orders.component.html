@@ -1,1 +1,39 @@
-<p>orders works!</p>
+
+
+<div class="card">
+  <div class="card-header">
+    <div class="row">
+      <div class="col col-md-6">
+        <h5 class="card-title">{{ 'AbpCatalog::Products' | abpLocalization }}</h5>
+      </div>
+      <div class="text-end col col-md-6">
+        <button class="btn btn-primary">{{ 'AbpCatalog::NewProduct' | abpLocalization }}</button>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <ngx-datatable [rows]="(list$ | async)" default>
+      <!-- TODO: localize column headers -->
+      <ngx-datatable-column name="OrderNo" prop="orderNo"></ngx-datatable-column>
+      <ngx-datatable-column name="OrderStatus" prop="orderStatus"></ngx-datatable-column>
+      <ngx-datatable-column name="OrderDate" prop="orderDate" >
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          <span>{{ value | date }}</span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Id" prop="id" >
+        <ng-template let-id="value" let-row="row" ngx-datatable-cell-template>
+          <abp-button (click)='openModal(id)'>
+              {{ 'AbpCatalog::Detail' | abpLocalization }}
+          </abp-button>
+        </ng-template>
+      </ngx-datatable-column>
+
+    </ngx-datatable>
+
+
+    <lib-order-detail  [(visible)]='isModalVisible' [order]='selectedOrder'>
+    </lib-order-detail>
+  </div>
+</div>
