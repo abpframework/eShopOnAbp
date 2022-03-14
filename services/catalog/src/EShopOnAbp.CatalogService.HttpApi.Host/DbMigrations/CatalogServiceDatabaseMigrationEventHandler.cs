@@ -9,59 +9,58 @@ using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.Uow;
 
-namespace EShopOnAbp.CatalogService.DbMigrations
-{
-    public class CatalogServiceDatabaseMigrationEventHandler
-        : DatabaseMongoDbMigrationEventHandler<CatalogServiceMongoDbContext>,
+namespace EShopOnAbp.CatalogService.DbMigrations;
+
+public class CatalogServiceDatabaseMigrationEventHandler
+    : DatabaseMongoDbMigrationEventHandler<CatalogServiceMongoDbContext>,
         IDistributedEventHandler<ApplyDatabaseMigrationsEto>
+{
+    public CatalogServiceDatabaseMigrationEventHandler(
+        ICurrentTenant currentTenant,
+        IUnitOfWorkManager unitOfWorkManager,
+        ITenantStore tenantStore,
+        IDistributedEventBus distributedEventBus,
+        IServiceProvider serviceProvider,
+        IAbpDistributedLock distributedLockProvider
+    ) : base(
+        currentTenant,
+        unitOfWorkManager,
+        tenantStore,
+        distributedEventBus,
+        CatalogServiceDbProperties.ConnectionStringName,
+        serviceProvider,
+        distributedLockProvider)
     {
-        public CatalogServiceDatabaseMigrationEventHandler(
-            ICurrentTenant currentTenant,
-            IUnitOfWorkManager unitOfWorkManager,
-            ITenantStore tenantStore,
-            IDistributedEventBus distributedEventBus,
-            IServiceProvider serviceProvider,
-            IAbpDistributedLock distributedLockProvider
-            ) : base(
-                currentTenant,
-                unitOfWorkManager,
-                tenantStore,
-                distributedEventBus,
-                CatalogServiceDbProperties.ConnectionStringName,
-                serviceProvider,
-                distributedLockProvider)
+    }
+
+    public async Task HandleEventAsync(ApplyDatabaseMigrationsEto eventData)
+    {
+        if (eventData.DatabaseName != DatabaseName)
         {
+            return;
         }
 
-        public async Task HandleEventAsync(ApplyDatabaseMigrationsEto eventData)
+        if (eventData.TenantId != null)
         {
-            if (eventData.DatabaseName != DatabaseName)
-            {
-                return;
-            }
+            return;
+        }
 
-            if (eventData.TenantId != null)
-            {
-                return;
-            }
+        try
+        {
+            Log.Information("CatalogService has acquired lock for db migration...");
 
-            try
+            await using (var handle = await DistributedLockProvider.TryAcquireAsync(DatabaseName))
             {
-                Log.Information("CatalogService has acquired lock for db migration...");
-
-                await using (var handle = await DistributedLockProvider.TryAcquireAsync(DatabaseName))
+                if (handle != null)
                 {
-                    if (handle != null)
-                    {
-                        Log.Information("CatalogService is migrating database...");
-                        await MigrateDatabaseSchemaAsync(null);
-                    }
+                    Log.Information("CatalogService is migrating database...");
+                    await MigrateDatabaseSchemaAsync();
                 }
             }
-            catch (Exception ex)
-            {
-                await HandleErrorOnApplyDatabaseMigrationAsync(eventData, ex);
-            }
+        }
+        catch (Exception ex)
+        {
+            await HandleErrorOnApplyDatabaseMigrationAsync(eventData, ex);
         }
     }
 }
