@@ -108,9 +108,13 @@ public class IdentityServerDataSeeder : IDataSeedContributor, ITransientDependen
         await CreateWebGatewaySwaggerClientAsync("WebGateway",
             new[]
             {
-                "AccountService", "IdentityService", "AdministrationService",
-                "CatalogService", "BasketService",
-                "PaymentService", "OrderingService"
+                "AccountService",
+                "IdentityService",
+                "AdministrationService",
+                "CatalogService",
+                "BasketService",
+                "PaymentService",
+                "OrderingService"
             });
     }
 
@@ -125,7 +129,7 @@ public class IdentityServerDataSeeder : IDataSeedContributor, ITransientDependen
             "phone",
             "address"
         };
-        scopes ??= new[] {name};
+        scopes ??= new[] { name };
 
         // Swagger Client
         var swaggerClientId = $"{name}_Swagger";
@@ -144,7 +148,7 @@ public class IdentityServerDataSeeder : IDataSeedContributor, ITransientDependen
             await CreateClientAsync(
                 name: swaggerClientId,
                 scopes: commonScopes.Union(scopes),
-                grantTypes: new[] {"authorization_code"},
+                grantTypes: new[] { "authorization_code" },
                 secret: "1q2w3e*".Sha256(),
                 requireClientSecret: false,
                 redirectUris: new List<string>
@@ -245,12 +249,12 @@ public class IdentityServerDataSeeder : IDataSeedContributor, ITransientDependen
                 "PaymentService",
                 "OrderingService"
             }),
-            grantTypes: new[] {"hybrid"},
+            grantTypes: new[] { "hybrid" },
             secret: "1q2w3e*".Sha256(),
-            redirectUris: new List<string>{ $"{publicWebClientRootUrl}signin-oidc" },
+            redirectUris: new List<string> { $"{publicWebClientRootUrl}signin-oidc" },
             postLogoutRedirectUri: $"{publicWebClientRootUrl}signout-callback-oidc",
             frontChannelLogoutUri: $"{publicWebClientRootUrl}Account/FrontChannelLogout",
-            corsOrigins: new[] {publicWebClientRootUrl.RemovePostFix("/")}
+            corsOrigins: new[] { publicWebClientRootUrl.RemovePostFix("/") }
         );
 
         //Angular Client
@@ -263,15 +267,16 @@ public class IdentityServerDataSeeder : IDataSeedContributor, ITransientDependen
                 "AccountService",
                 "IdentityService",
                 "AdministrationService",
-                "CatalogService"
+                "CatalogService",
+                "OrderingService"
             }),
-            grantTypes: new[] {"authorization_code", "LinkLogin", "password"},
+            grantTypes: new[] { "authorization_code", "LinkLogin", "password" },
             secret: "1q2w3e*".Sha256(),
             requirePkce: true,
             requireClientSecret: false,
-            redirectUris: new List<string>{ $"{angularClientRootUrl}" },
+            redirectUris: new List<string> { $"{angularClientRootUrl}" },
             postLogoutRedirectUri: $"{angularClientRootUrl}",
-            corsOrigins: new[] {angularClientRootUrl}
+            corsOrigins: new[] { angularClientRootUrl }
         );
 
         //Administration Service Client
@@ -281,9 +286,9 @@ public class IdentityServerDataSeeder : IDataSeedContributor, ITransientDependen
             {
                 "IdentityService"
             }),
-            grantTypes: new[] {"client_credentials"},
+            grantTypes: new[] { "client_credentials" },
             secret: "1q2w3e*".Sha256(),
-            permissions: new[] {IdentityPermissions.Users.Default}
+            permissions: new[] { IdentityPermissions.Users.Default }
         );
     }
 

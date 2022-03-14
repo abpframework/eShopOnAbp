@@ -9,6 +9,8 @@
     "Ordering:00004": "The total of order item is lower than applied discount",
     "Ordering:01001": "Order with {0} id could not be found!",
     "Permission:Orders": "Orders",
-    "Permission:OrderingService": "Ordering Service"
+    "Permission:OrderingService": "Ordering Service",
+    "Menu:Orders": "Orders",
+    "Menu:OrderManagement": "Ordering Service"
   }
 }

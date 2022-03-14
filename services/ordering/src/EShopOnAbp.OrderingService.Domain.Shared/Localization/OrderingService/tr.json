@@ -9,6 +9,8 @@
     "Ordering:00004": "Ürünlerin toplam bedeli, uygulanan indirimden daha az olamaz",
     "Ordering:01001": "{0} ID numaralı ürün bulunamadı!",
     "Permission:Orders": "Siparişler",
-    "Permission:OrderingService": "Sipariş Servisi"
+    "Permission:OrderingService": "Sipariş Servisi",
+    "Menu:Orders": "Siparişler",
+    "Menu:OrderManagement": "Sipariş Yönetimi"
   }
 }

@@ -10,6 +10,8 @@
     "Ordering:00004": "订单项的总额低于申请的折扣",
     "Ordering:01001": "无法找到 id 为 {0} 的订单！",
     "Permission:Orders": "命令",
-    "Permission:OrderingService": "订购服务"
+    "Permission:OrderingService": "订购服务",
+    "Menu:Orders": "命令",
+    "Menu:OrderManagement": "订单管理"
   }
 }
