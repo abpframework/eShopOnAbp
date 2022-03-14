@@ -1,12 +1,14 @@
 {
   "culture": "tr",
   "texts": {
-    "MyAccount":  "Hesabım",
+    "MyAccount": "Hesabım",
     "SamplePageMessage": "OrderingService modulünden örnek bir sayfa",
     "Ordering:00001": "Muhtemel Sipariş durum değerleri: {OrderStatus}",
     "Ordering:00002": "Ürün adedi negatif olamaz",
     "Ordering:00003": "Geçersiz indirim",
     "Ordering:00004": "Ürünlerin toplam bedeli, uygulanan indirimden daha az olamaz",
-    "Ordering:01001": "{0} ID numaralı ürün bulunamadı!"
+    "Ordering:01001": "{0} ID numaralı ürün bulunamadı!",
+    "Permission:Orders": "Siparişler",
+    "Permission:OrderingService": "Sipariş Servisi"
   }
 }
