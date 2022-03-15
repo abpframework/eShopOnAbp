@@ -97,12 +97,8 @@ public class Order : AggregateRoot<Guid>
         return OrderItems.Sum(o => o.Units * o.UnitPrice);
     }
 
-    public Order SetOrderAsShipped(int orderStatus)
+    public Order SetOrderAsShipped()
     {
-        if (orderStatus == OrderStatus.Cancelled.Id)
-        {
-            return this;
-        }
         //TODO no enough to update the object.
         _orderStatusId = OrderStatus.Shipped.Id;
         return this;

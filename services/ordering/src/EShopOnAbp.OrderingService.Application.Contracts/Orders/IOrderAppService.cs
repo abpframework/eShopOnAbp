@@ -14,7 +14,7 @@ public interface IOrderAppService : IApplicationService
     Task<List<OrderDto>> GetOrdersAsync(GetOrdersInput input);
     Task<OrderDto> GetByOrderNoAsync(int orderNo);
     Task SetAsCancelledAsync(Guid id, SetAsCancelledDto input);
-    Task SetAsShippedAsync(Guid id, SetAsShippedDto input);
+    Task SetAsShippedAsync(Guid id);
     Task<PagedResultDto<OrderDto>> GetListPagedAsync(PagedAndSortedResultRequestDto input);
 
 }

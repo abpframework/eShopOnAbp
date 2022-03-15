@@ -289,8 +289,8 @@
               "allowAnonymous": false,
               "implementFrom": "EShopOnAbp.OrderingService.Orders.IOrderAppService"
             },
-            "SetAsShippedAsyncByIdAndInput": {
-              "uniqueName": "SetAsShippedAsyncByIdAndInput",
+            "SetAsShippedAsyncById": {
+              "uniqueName": "SetAsShippedAsyncById",
               "name": "SetAsShippedAsync",
               "httpMethod": "POST",
               "url": "api/ordering/order/{id}/set-as-shipped",
@@ -301,14 +301,6 @@
                   "typeAsString": "System.Guid, System.Private.CoreLib",
                   "type": "System.Guid",
                   "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
-                  "name": "input",
-                  "typeAsString": "EShopOnAbp.OrderingService.Orders.SetAsShippedDto, EShopOnAbp.OrderingService.Application.Contracts",
-                  "type": "EShopOnAbp.OrderingService.Orders.SetAsShippedDto",
-                  "typeSimple": "EShopOnAbp.OrderingService.Orders.SetAsShippedDto",
                   "isOptional": false,
                   "defaultValue": null
                 }
@@ -324,18 +316,6 @@
                   "defaultValue": null,
                   "constraintTypes": [],
                   "bindingSourceId": "Path",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "input",
-                  "name": "input",
-                  "jsonName": null,
-                  "type": "EShopOnAbp.OrderingService.Orders.SetAsShippedDto",
-                  "typeSimple": "EShopOnAbp.OrderingService.Orders.SetAsShippedDto",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
                   "descriptorName": ""
                 }
               ],

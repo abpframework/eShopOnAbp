@@ -65,12 +65,11 @@ public partial class OrderClientProxy : ClientProxyBase<IOrderAppService>, IOrde
         });
     }
 
-    public virtual async Task SetAsShippedAsync(Guid id, SetAsShippedDto input)
+    public virtual async Task SetAsShippedAsync(Guid id)
     {
         await RequestAsync(nameof(SetAsShippedAsync), new ClientProxyRequestTypeValue
         {
-            { typeof(Guid), id },
-            { typeof(SetAsShippedDto), input }
+            { typeof(Guid), id }
         });
     }
 
