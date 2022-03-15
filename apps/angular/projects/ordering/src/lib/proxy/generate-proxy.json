@@ -215,6 +215,67 @@
               "allowAnonymous": null,
               "implementFrom": "EShopOnAbp.OrderingService.Orders.IOrderAppService"
             },
+            "GetListPagedAsyncByInput": {
+              "uniqueName": "GetListPagedAsyncByInput",
+              "name": "GetListPagedAsync",
+              "httpMethod": "GET",
+              "url": "api/ordering/order/paged",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto, Volo.Abp.Ddd.Application.Contracts",
+                  "type": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
+                  "typeSimple": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "Sorting",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "SkipCount",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "MaxResultCount",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                }
+              ],
+              "returnValue": {
+                "type": "Volo.Abp.Application.Dtos.PagedResultDto<EShopOnAbp.OrderingService.Orders.OrderDto>",
+                "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<EShopOnAbp.OrderingService.Orders.OrderDto>"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "EShopOnAbp.OrderingService.Orders.IOrderAppService"
+            },
             "GetByOrderNoAsyncByOrderNo": {
               "uniqueName": "GetByOrderNoAsyncByOrderNo",
               "name": "GetByOrderNoAsync",
@@ -252,11 +313,11 @@
               "allowAnonymous": null,
               "implementFrom": "EShopOnAbp.OrderingService.Orders.IOrderAppService"
             },
-            "UpdateAsyncByIdAndInput": {
-              "uniqueName": "UpdateAsyncByIdAndInput",
-              "name": "UpdateAsync",
-              "httpMethod": "PUT",
-              "url": "api/ordering/order/{id}",
+            "SetAsCancelledAsyncByIdAndInput": {
+              "uniqueName": "SetAsCancelledAsyncByIdAndInput",
+              "name": "SetAsCancelledAsync",
+              "httpMethod": "POST",
+              "url": "api/ordering/order/{id}/set-as-cancelled",
               "supportedVersions": [],
               "parametersOnMethod": [
                 {
@@ -269,9 +330,9 @@
                 },
                 {
                   "name": "input",
-                  "typeAsString": "EShopOnAbp.OrderingService.Orders.UpdateOrderDto, EShopOnAbp.OrderingService.Application.Contracts",
-                  "type": "EShopOnAbp.OrderingService.Orders.UpdateOrderDto",
-                  "typeSimple": "EShopOnAbp.OrderingService.Orders.UpdateOrderDto",
+                  "typeAsString": "EShopOnAbp.OrderingService.Orders.SetAsCancelledDto, EShopOnAbp.OrderingService.Application.Contracts",
+                  "type": "EShopOnAbp.OrderingService.Orders.SetAsCancelledDto",
+                  "typeSimple": "EShopOnAbp.OrderingService.Orders.SetAsCancelledDto",
                   "isOptional": false,
                   "defaultValue": null
                 }
@@ -293,8 +354,8 @@
                   "nameOnMethod": "input",
                   "name": "input",
                   "jsonName": null,
-                  "type": "EShopOnAbp.OrderingService.Orders.UpdateOrderDto",
-                  "typeSimple": "EShopOnAbp.OrderingService.Orders.UpdateOrderDto",
+                  "type": "EShopOnAbp.OrderingService.Orders.SetAsCancelledDto",
+                  "typeSimple": "EShopOnAbp.OrderingService.Orders.SetAsCancelledDto",
                   "isOptional": false,
                   "defaultValue": null,
                   "constraintTypes": null,
@@ -303,10 +364,47 @@
                 }
               ],
               "returnValue": {
-                "type": "EShopOnAbp.OrderingService.Orders.OrderDto",
-                "typeSimple": "EShopOnAbp.OrderingService.Orders.OrderDto"
+                "type": "System.Void",
+                "typeSimple": "System.Void"
               },
-              "allowAnonymous": null,
+              "allowAnonymous": false,
+              "implementFrom": "EShopOnAbp.OrderingService.Orders.IOrderAppService"
+            },
+            "SetAsShippedAsyncById": {
+              "uniqueName": "SetAsShippedAsyncById",
+              "name": "SetAsShippedAsync",
+              "httpMethod": "POST",
+              "url": "api/ordering/order/{id}/set-as-shipped",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Void",
+                "typeSimple": "System.Void"
+              },
+              "allowAnonymous": false,
               "implementFrom": "EShopOnAbp.OrderingService.Orders.IOrderAppService"
             },
             "CreateAsyncByInput": {
@@ -2098,7 +2196,39 @@
         }
       ]
     },
-    "EShopOnAbp.OrderingService.Orders.UpdateOrderDto": {
+    "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto": {
+      "baseType": "Volo.Abp.Application.Dtos.PagedResultRequestDto",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "Sorting",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false
+        }
+      ]
+    },
+    "Volo.Abp.Application.Dtos.PagedResultRequestDto": {
+      "baseType": "Volo.Abp.Application.Dtos.LimitedResultRequestDto",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "SkipCount",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false
+        }
+      ]
+    },
+    "Volo.Abp.Application.Dtos.LimitedResultRequestDto": {
       "baseType": null,
       "isEnum": false,
       "enumNames": null,
@@ -2106,10 +2236,83 @@
       "genericArguments": null,
       "properties": [
         {
-          "name": "OrderStatusId",
+          "name": "DefaultMaxResultCount",
           "jsonName": null,
           "type": "System.Int32",
           "typeSimple": "number",
+          "isRequired": false
+        },
+        {
+          "name": "MaxMaxResultCount",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false
+        },
+        {
+          "name": "MaxResultCount",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false
+        }
+      ]
+    },
+    "Volo.Abp.Application.Dtos.PagedResultDto<T0>": {
+      "baseType": "Volo.Abp.Application.Dtos.ListResultDto<T>",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": [
+        "T"
+      ],
+      "properties": [
+        {
+          "name": "TotalCount",
+          "jsonName": null,
+          "type": "System.Int64",
+          "typeSimple": "number",
+          "isRequired": false
+        }
+      ]
+    },
+    "Volo.Abp.Application.Dtos.ListResultDto<T0>": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": [
+        "T"
+      ],
+      "properties": [
+        {
+          "name": "Items",
+          "jsonName": null,
+          "type": "[T]",
+          "typeSimple": "[T]",
+          "isRequired": false
+        }
+      ]
+    },
+    "EShopOnAbp.OrderingService.Orders.SetAsCancelledDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "PaymentRequestId",
+          "jsonName": null,
+          "type": "System.Guid",
+          "typeSimple": "string",
+          "isRequired": false
+        },
+        {
+          "name": "PaymentRequestStatus",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
           "isRequired": false
         }
       ]

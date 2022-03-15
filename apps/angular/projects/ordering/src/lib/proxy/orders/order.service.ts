@@ -1,5 +1,6 @@
-import type { GetMyOrdersInput, GetOrdersInput, OrderCreateDto, OrderDto, UpdateOrderDto } from './models';
+import type { GetMyOrdersInput, GetOrdersInput, OrderCreateDto, OrderDto, SetAsCancelledDto } from './models';
 import { RestService } from '@abp/ng.core';
+import type { PagedAndSortedResultRequestDto, PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -31,6 +32,14 @@ export class OrderService {
     },
     { apiName: this.apiName });
 
+  getListPaged = (input: PagedAndSortedResultRequestDto) =>
+    this.restService.request<any, PagedResultDto<OrderDto>>({
+      method: 'GET',
+      url: '/api/ordering/order/paged',
+      params: { sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+    },
+    { apiName: this.apiName });
+
   getMyOrders = (input: GetMyOrdersInput) =>
     this.restService.request<any, OrderDto[]>({
       method: 'GET',
@@ -47,11 +56,18 @@ export class OrderService {
     },
     { apiName: this.apiName });
 
-  update = (id: string, input: UpdateOrderDto) =>
-    this.restService.request<any, OrderDto>({
-      method: 'PUT',
-      url: `/api/ordering/order/${id}`,
+  setAsCancelled = (id: string, input: SetAsCancelledDto) =>
+    this.restService.request<any, void>({
+      method: 'POST',
+      url: `/api/ordering/order/${id}/set-as-cancelled`,
       body: input,
+    },
+    { apiName: this.apiName });
+
+  setAsShipped = (id: string) =>
+    this.restService.request<any, void>({
+      method: 'POST',
+      url: `/api/ordering/order/${id}/set-as-shipped`,
     },
     { apiName: this.apiName });
 

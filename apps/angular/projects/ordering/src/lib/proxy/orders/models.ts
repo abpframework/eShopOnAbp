@@ -57,6 +57,7 @@ export interface OrderItemDto extends EntityDto<string> {
   units: number;
 }
 
-export interface UpdateOrderDto {
-  orderStatusId: number;
+export interface SetAsCancelledDto {
+  paymentRequestId?: string;
+  paymentRequestStatus?: string;
 }

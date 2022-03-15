@@ -10,7 +10,7 @@
     </div>
   </div>
   <div class="card-body">
-    <ngx-datatable [rows]="(list$ | async)" default>
+    <ngx-datatable [rows]="items" [count]="count" [list]="list" default>
       <!-- TODO: localize column headers -->
       <ngx-datatable-column name="" [sortable]='false' prop="id" >
         <ng-template let-id="value" let-row="row" ngx-datatable-cell-template>
@@ -27,16 +27,22 @@
               <button
                 class="dropdown-item"
                 (click)='openModal(row)'
-
               >
                 {{ 'AbpOrdering::Detail' | abpLocalization }}
               </button>
               <button
                 class="dropdown-item"
-                (click)='openModal(row)'
+                (click)='setAsShipped(row)'
               >
-                {{ 'AbpUi::Delete' | abpLocalization }}
+                {{ 'AbpOrdering::SetAsShipped' | abpLocalization }}
               </button>
+              <!-- Todo: Add permissions -->
+              <button
+              class="dropdown-item"
+              (click)='setAsCancelled(row)'
+            >
+              {{ 'AbpOrdering::SetAsCancelled' | abpLocalization }}
+            </button>
             </div>
           </div>
         </ng-template>
@@ -53,9 +59,6 @@
         </ng-template>
       </ngx-datatable-column>
       <ngx-datatable-column name="OrderStatus" prop="orderStatus"></ngx-datatable-column>
-
-
-      <ngx-datatable-column name="OrderStatus" prop="orderStatus"></ngx-datatable-column>
     </ngx-datatable>
   </div>
 </div>
@@ -63,4 +66,4 @@
 
   <lib-order-detail  [visible]='isModalVisible' (visibleChange)='closeModal($event)'  [order]='selectedOrder' >
   </lib-order-detail>
- 
+

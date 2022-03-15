@@ -29,6 +29,7 @@ export class OrdersComponent implements OnInit {
     });
   }
 
+
   openModal(order: OrderViewModel) {
     if (!order){
       return;
@@ -60,7 +61,7 @@ export class OrdersComponent implements OnInit {
   setAsCancelled(row: OrderViewModel){
     this.confirmationService
       .warn('AbpOrdering::WillSetAsCancelled', { key: '::AreYouSure', defaultValue: 'Are you sure?' })
-      .subscribe((status``) => {
+      .subscribe((status) => {
         if (status !== Confirmation.Status.confirm) {
           return;
         }
