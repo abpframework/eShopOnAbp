@@ -54,7 +54,7 @@ public class OrderAppService : ApplicationService, IOrderAppService
     [Authorize(OrderingServicePermissions.Orders.Default)]
     public async Task<PagedResultDto<OrderDto>> GetListPagedAsync(PagedAndSortedResultRequestDto input)
     {
-        var queryable = await _orderRepository.GetQueryableAsync();
+        var queryable = await _orderRepository.WithDetailsAsync();
 
         var orders = await AsyncExecuter.ToListAsync(
             queryable
@@ -64,7 +64,6 @@ public class OrderAppService : ApplicationService, IOrderAppService
         );
 
         var totalCount = await _orderRepository.GetCountAsync();
-        //TODO Refactor Order Status
         return new PagedResultDto<OrderDto>(
             totalCount,
             CreateOrderDtoMapping(orders)
@@ -151,8 +150,8 @@ public class OrderAppService : ApplicationService, IOrderAppService
             Id = order.Id,
             OrderNo = order.OrderNo,
             OrderDate = order.OrderDate,
-            OrderStatus = order.OrderStatus?.Name,
-            OrderStatusId = order.OrderStatus?.Id ?? 0,
+            OrderStatus = order.OrderStatus.Name,
+            OrderStatusId = order.OrderStatus.Id,
             PaymentMethod = order.PaymentMethod
         };
     }
