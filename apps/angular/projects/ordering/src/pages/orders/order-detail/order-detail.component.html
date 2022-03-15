@@ -1,16 +1,67 @@
-
-
-<abp-modal [visible]="visible && !!order" (visibleChange)='visibleChange.emit($event)'  >
+<abp-modal [visible]='visible' (visibleChange)='visibleChange.emit($event)' [options]='modalOption'>
   <ng-template #abpHeader>
-    <h3>Modal Title</h3>
+    <h3>Order Detail</h3>
   </ng-template>
 
   <ng-template #abpBody>
-    <p>Modal content</p>
+
+    <div *ngIf='order'>
+      <div class='container'>
+        <lib-order-detail-item label='Order Number'>#{{order.orderNo}}</lib-order-detail-item>
+        <lib-order-detail-item label='Order Status'>{{order.orderStatus}}</lib-order-detail-item>
+        <lib-order-detail-item label='Buyer Name'>{{order.buyer.name}}</lib-order-detail-item>
+        <lib-order-detail-item label='Buyer Email'>{{order.buyer.email}}</lib-order-detail-item>
+
+        <lib-order-detail-item label='Address'>
+        <span *ngIf='order.address as address'>
+          {{address.description}} <br />
+          {{address.street}}  <br />
+          {{address.zipCode}} <br />
+          {{address.city}} / {{address.country}} <br />
+        </span>
+        </lib-order-detail-item>
+        <lib-order-detail-item label='Payment Method'>{{order.paymentMethod}}</lib-order-detail-item>
+        <lib-order-detail-item label='Total'>{{order.orderTotal | currency}}</lib-order-detail-item>
+
+      </div>
+      <br><br><br>
+
+      <ngx-datatable [rows]='(order.items)' default>
+        <!-- TODO: localize column headers -->
+        <ngx-datatable-column name='ProductId' prop='productId'></ngx-datatable-column>
+        <ngx-datatable-column name='PictureUrl' prop='pictureUrl'>
+          <ng-template let-value='value' ngx-datatable-cell-template>
+            <img [src]="mediaServerUrl + '/product-images/' + value" width='80' />
+          </ng-template>
+
+        </ngx-datatable-column>
+        <ngx-datatable-column name='ProductName' prop='productName'></ngx-datatable-column>
+        <ngx-datatable-column name='UnitPrice' prop='unitPrice'>
+          <ng-template let-value='value' ngx-datatable-cell-template>
+            {{value | currency }}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name='Units' prop='units'></ngx-datatable-column>
+        <ngx-datatable-column name='Discount' prop='discount'>
+
+          <ng-template let-value='value' ngx-datatable-cell-template>
+            {{value }} %
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name='Total Price'>
+          <ng-template let-row='row' ngx-datatable-cell-template>
+            {{(row.units * row.unitPrice) | currency }}
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+
+
+    </div>
   </ng-template>
 
+
   <ng-template #abpFooter>
-    <button type="button" class="btn btn-secondary" abpClose>{{
+    <button type='button' class='btn btn-secondary' abpClose>{{
       'AbpUi::Close' | abpLocalization
       }}</button>
   </ng-template>

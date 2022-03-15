@@ -1,4 +1,4 @@
-import { Environment } from '@abp/ng.core';
+import { MyEnvironment } from './my-environment';
 
 const baseUrl = 'http://localhost:4200';
 
@@ -25,9 +25,12 @@ export const environment = {
       url: 'https://localhost:44354',
       rootNamespace: 'EShopOnAbp.CatalogService',
     },
-    Ordering:{
+    Ordering: {
       url: "https://localhost:44356",
       rootNamespace: 'EShopOnAbp.OrderingService',
     }
   },
-} as Environment;
+  mediaServerUrl:'https://localhost:44335'
+} as MyEnvironment;
+
+
