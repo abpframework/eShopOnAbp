@@ -263,7 +263,8 @@ public class IdentityServerDataSeeder : IDataSeedContributor, ITransientDependen
                 "AccountService",
                 "IdentityService",
                 "AdministrationService",
-                "CatalogService"
+                "CatalogService",
+                "OrderingService"
             }),
             grantTypes: new[] {"authorization_code", "LinkLogin", "password"},
             secret: "1q2w3e*".Sha256(),
