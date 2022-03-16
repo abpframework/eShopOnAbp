@@ -11,7 +11,12 @@
     "Permission:Orders": "Orders",
     "Permission:OrderingService": "Ordering Service",
     "Menu:Orders": "Orders",
-    "Menu:OrderManagement": "Ordering Service",
+    "Menu:OrderManagement": "Order Management",
+
+    "DisplayName:OrderNo": "Order No",
+    "DisplayName:OrderDate": "Order Date",
+    "DisplayName:OrderTotal": "Total",
+    "DisplayName:OrderStatus": "Order Status", 
     "Permission:Orders.SetAsCancelled": "Set As Cancelled",
     "Permission:Orders.SetAsShipped": "Set As Shipped"
   }
