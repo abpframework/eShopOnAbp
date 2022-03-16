@@ -12,7 +12,8 @@
     "Permission:OrderingService": "Ordering Service",
     "Menu:Orders": "Orders",
     "Menu:OrderManagement": "Order Management",
-
+    "ModalTitle":"Order Detail",
+    
     "DisplayName:OrderNo": "Order No",
     "DisplayName:OrderDate": "Order Date",
     "DisplayName:OrderTotal": "Order Total",

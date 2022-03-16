@@ -43,7 +43,7 @@ public class OrderAppService : ApplicationService, IOrderAppService
         return CreateOrderDtoMapping(orders);
     }
 
-    //[Authorize(OrderingServicePermissions.Orders.Default)]
+    [Authorize(OrderingServicePermissions.Orders.Default)]
     public async Task<List<OrderDto>> GetOrdersAsync(GetOrdersInput input)
     {
         ISpecification<Order> specification = SpecificationFactory.Create(input.Filter);
