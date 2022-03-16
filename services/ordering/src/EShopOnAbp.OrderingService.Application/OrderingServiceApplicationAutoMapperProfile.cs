@@ -11,9 +11,10 @@ namespace EShopOnAbp.OrderingService
         {
             CreateMap<Address, OrderAddressDto>();
             CreateMap<Buyer, BuyerDto>();
-            
+
             CreateMap<OrderItem, OrderItemDto>();
-            CreateMap<OrderItem, TopSellingDto > ();
+            CreateMap<OrderItem, TopSellingDto>();
+            CreateMap<Order, PaymentDto>();
 
             CreateMap<Order, OrderDto>()
                 .Ignore(q => q.Address)

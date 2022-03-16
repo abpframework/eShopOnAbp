@@ -232,6 +232,43 @@
               "allowAnonymous": null,
               "implementFrom": "EShopOnAbp.OrderingService.Orders.IOrderAppService"
             },
+            "GetPercentOfTotalPaymentAsyncByInput": {
+              "uniqueName": "GetPercentOfTotalPaymentAsyncByInput",
+              "name": "GetPercentOfTotalPaymentAsync",
+              "httpMethod": "GET",
+              "url": "api/ordering/order/percent-of-total-payment",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "EShopOnAbp.OrderingService.Orders.PaymentInput, EShopOnAbp.OrderingService.Application.Contracts",
+                  "type": "EShopOnAbp.OrderingService.Orders.PaymentInput",
+                  "typeSimple": "EShopOnAbp.OrderingService.Orders.PaymentInput",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "Filter",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                }
+              ],
+              "returnValue": {
+                "type": "System.Collections.Generic.List<EShopOnAbp.OrderingService.Orders.PaymentDto>",
+                "typeSimple": "[EShopOnAbp.OrderingService.Orders.PaymentDto]"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "EShopOnAbp.OrderingService.Orders.IOrderAppService"
+            },
             "GetByOrderNoAsyncByOrderNo": {
               "uniqueName": "GetByOrderNoAsyncByOrderNo",
               "name": "GetByOrderNoAsync",

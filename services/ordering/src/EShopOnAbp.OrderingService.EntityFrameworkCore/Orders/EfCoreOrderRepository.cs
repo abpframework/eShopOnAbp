@@ -72,6 +72,21 @@ public class EfCoreOrderRepository : EfCoreRepository<OrderingServiceDbContext, 
         .ToList();
     }
 
+    public async Task<List<Order>> GetPercentOfTotalPayment(
+        ISpecification<Order> spec,
+        CancellationToken cancellationToken = default)
+    {
+        return await (await GetDbSetAsync())
+        .Where(spec.ToExpression())
+        .GroupBy(p => p.PaymentMethod)
+        .Select(p=>p.OrderBy(p=>p.Id).FirstOrDefault())//TODO list
+        //TODO
+        //.SelectMany(p=>p)
+        //.Select(p => new PaymentDto { CountOfPaymentMethod = p.Count(), PaymentMethod = p.Key })
+        //.OrderBy(p => p.CountOfPaymentMethod)
+        .ToListAsync();
+    }
+
     public async Task<Order> GetByOrderNoAsync(
         int orderNo,
         bool includeDetails = true,

@@ -78,6 +78,18 @@ public class OrderAppService : ApplicationService, IOrderAppService
         return ObjectMapper.Map<List<OrderItem>, List<TopSellingDto>>(orderItems);
     }
 
+    public async Task<List<PaymentDto>> GetPercentOfTotalPaymentAsync(PaymentInput input)
+    {
+        ISpecification<Order> specification = SpecificationFactory.Create(input.Filter);
+        var orderItems = await _orderRepository.GetPercentOfTotalPayment(specification);
+        var paymentList = new List<PaymentDto>();
+        foreach (var item in orderItems)
+        {
+            paymentList.Add(new PaymentDto() { PaymentMethod = item.PaymentMethod, CountOfPaymentMethod = orderItems.Count });
+        }
+        return paymentList;//TODO ObjectMapper.Map<List<Order>, List<PaymentDto>>(orderItems);
+    }
+
     public async Task<OrderDto> GetByOrderNoAsync(int orderNo)
     {
         var order = await _orderRepository.GetByOrderNoAsync(orderNo);

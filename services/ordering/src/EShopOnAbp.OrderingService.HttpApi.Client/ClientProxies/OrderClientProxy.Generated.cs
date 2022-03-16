@@ -57,6 +57,14 @@ public partial class OrderClientProxy : ClientProxyBase<IOrderAppService>, IOrde
         });
     }
 
+    public virtual async Task<List<PaymentDto>> GetPercentOfTotalPaymentAsync(PaymentInput input)
+    {
+        return await RequestAsync<List<PaymentDto>>(nameof(GetPercentOfTotalPaymentAsync), new ClientProxyRequestTypeValue
+        {
+            { typeof(PaymentInput), input }
+        });
+    }
+
     public virtual async Task<OrderDto> GetByOrderNoAsync(int orderNo)
     {
         return await RequestAsync<OrderDto>(nameof(GetByOrderNoAsync), new ClientProxyRequestTypeValue
