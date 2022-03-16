@@ -54,6 +54,24 @@ public class EfCoreOrderRepository : EfCoreRepository<OrderingServiceDbContext, 
             .ToListAsync(GetCancellationToken(cancellationToken));
     }
 
+    public async Task<List<OrderItem>> GetTopSelling(
+        ISpecification<Order> spec,
+        bool includeDetails = true,
+        CancellationToken cancellationToken = default)
+    {
+        return (await (await GetDbSetAsync())
+        .IncludeDetails(includeDetails)
+        .Where(spec.ToExpression())
+        .SelectMany(oi => oi.OrderItems)
+            .GroupBy(p => p.ProductCode)
+            .OrderByDescending(o => o.Sum(p => p.Units))
+            .Select(o => o.ToList())
+        .ToListAsync())
+        .SelectMany(t => t)
+        .Take(OrderingServiceRemoteServiceConsts.Top10)
+        .ToList();
+    }
+
     public async Task<Order> GetByOrderNoAsync(
         int orderNo,
         bool includeDetails = true,

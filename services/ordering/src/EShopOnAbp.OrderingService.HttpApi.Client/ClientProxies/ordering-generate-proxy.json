@@ -195,6 +195,43 @@
               "allowAnonymous": false,
               "implementFrom": "EShopOnAbp.OrderingService.Orders.IOrderAppService"
             },
+            "GetTopSellingAsyncByInput": {
+              "uniqueName": "GetTopSellingAsyncByInput",
+              "name": "GetTopSellingAsync",
+              "httpMethod": "GET",
+              "url": "api/ordering/order/top-selling",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "EShopOnAbp.OrderingService.OrderItems.TopSellingInput, EShopOnAbp.OrderingService.Application.Contracts",
+                  "type": "EShopOnAbp.OrderingService.OrderItems.TopSellingInput",
+                  "typeSimple": "EShopOnAbp.OrderingService.OrderItems.TopSellingInput",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "Filter",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                }
+              ],
+              "returnValue": {
+                "type": "System.Collections.Generic.List<EShopOnAbp.OrderingService.OrderItems.TopSellingDto>",
+                "typeSimple": "[EShopOnAbp.OrderingService.OrderItems.TopSellingDto]"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "EShopOnAbp.OrderingService.Orders.IOrderAppService"
+            },
             "GetByOrderNoAsyncByOrderNo": {
               "uniqueName": "GetByOrderNoAsyncByOrderNo",
               "name": "GetByOrderNoAsync",

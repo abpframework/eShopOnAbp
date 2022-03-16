@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EShopOnAbp.OrderingService.Orders;
+using EShopOnAbp.OrderingService.OrderItems;
 using Volo.Abp.AutoMapper;
 
 namespace EShopOnAbp.OrderingService
@@ -12,7 +13,8 @@ namespace EShopOnAbp.OrderingService
             CreateMap<Buyer, BuyerDto>();
             
             CreateMap<OrderItem, OrderItemDto>();
-            
+            CreateMap<OrderItem, TopSellingDto > ();
+
             CreateMap<Order, OrderDto>()
                 .Ignore(q => q.Address)
                 .Ignore(q => q.Items)

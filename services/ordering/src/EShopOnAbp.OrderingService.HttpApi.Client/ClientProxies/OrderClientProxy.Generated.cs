@@ -8,6 +8,7 @@ using Volo.Abp.DependencyInjection;
 using Volo.Abp.Http.Client.ClientProxying;
 using EShopOnAbp.OrderingService.Orders;
 using System.Collections.Generic;
+using EShopOnAbp.OrderingService.OrderItems;
 
 // ReSharper disable once CheckNamespace
 namespace EShopOnAbp.OrderingService.Orders.ClientProxies;
@@ -45,6 +46,14 @@ public partial class OrderClientProxy : ClientProxyBase<IOrderAppService>, IOrde
         return await RequestAsync<PagedResultDto<OrderDto>>(nameof(GetListPagedAsync), new ClientProxyRequestTypeValue
         {
             { typeof(PagedAndSortedResultRequestDto), input }
+        });
+    }
+
+    public virtual async Task<List<TopSellingDto>> GetTopSellingAsync(TopSellingInput input)
+    {
+        return await RequestAsync<List<TopSellingDto>>(nameof(GetTopSellingAsync), new ClientProxyRequestTypeValue
+        {
+            { typeof(TopSellingInput), input }
         });
     }
 

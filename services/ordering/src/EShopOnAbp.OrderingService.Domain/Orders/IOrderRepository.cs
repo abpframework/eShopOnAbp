@@ -20,6 +20,11 @@ public interface IOrderRepository : IRepository<Order, Guid>
         bool includeDetails = true,
         CancellationToken cancellationToken = default);
 
+    Task<List<OrderItem>> GetTopSelling(
+        ISpecification<Order> spec,
+        bool includeDetails = true,
+        CancellationToken cancellationToken = default);
+
     Task<Order> GetByOrderNoAsync(int orderNo,
         bool includeDetails = true,
         CancellationToken cancellationToken = default);

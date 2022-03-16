@@ -66,15 +66,6 @@ public class OrderApplication_Tests : OrderingServiceApplicationTestBase
         var myOrder = await _orderAppService.GetByOrderNoAsync(placedOrder.OrderNo);
         myOrder.ShouldNotBeNull();
 
-
-        var cancelledMyOrder = await _orderAppService.SetAsCancelledAsync(placedOrder.Id, new SetAsCancelledDto()
-        {
-            OrderStatusId = OrderStatus.Shipped.Id,
-        });
-        //TODO - temp value - it should be Shipped
-        cancelledMyOrder.OrderStatus.ShouldBe(OrderStatus.Placed.ToString());
-
-
         // Get all orders
         var orders = await _orderAppService.GetOrdersAsync(new GetOrdersInput()
         {

@@ -1,4 +1,5 @@
 ﻿using EShopOnAbp.OrderingService.Localization;
+using EShopOnAbp.OrderingService.OrderItems;
 using EShopOnAbp.OrderingService.Orders.Specifications;
 using EShopOnAbp.OrderingService.Permissions;
 using Microsoft.AspNetCore.Authorization;
@@ -43,7 +44,7 @@ public class OrderAppService : ApplicationService, IOrderAppService
         return CreateOrderDtoMapping(orders);
     }
 
-    //[Authorize(OrderingServicePermissions.Orders.Default)]
+    [Authorize(OrderingServicePermissions.Orders.Default)]
     public async Task<List<OrderDto>> GetOrdersAsync(GetOrdersInput input)
     {
         ISpecification<Order> specification = SpecificationFactory.Create(input.Filter);
@@ -68,6 +69,13 @@ public class OrderAppService : ApplicationService, IOrderAppService
             totalCount,
             CreateOrderDtoMapping(orders)
         );
+    }
+
+    public async Task<List<TopSellingDto>> GetTopSellingAsync(TopSellingInput input)
+    {
+        ISpecification<Order> specification = SpecificationFactory.Create(input.Filter);
+        var orderItems = await _orderRepository.GetTopSelling(specification, true);
+        return ObjectMapper.Map<List<OrderItem>, List<TopSellingDto>>(orderItems);
     }
 
     public async Task<OrderDto> GetByOrderNoAsync(int orderNo)
