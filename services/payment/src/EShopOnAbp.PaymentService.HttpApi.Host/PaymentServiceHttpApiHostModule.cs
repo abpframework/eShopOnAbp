@@ -100,6 +100,6 @@ public class PaymentServiceHttpApiHostModule : AbpModule
     {
         await context.ServiceProvider
             .GetRequiredService<PaymentServiceDatabaseMigrationChecker>()
-            .CheckAsync();
+            .CheckAndApplyDatabaseMigrations();
     }
 }

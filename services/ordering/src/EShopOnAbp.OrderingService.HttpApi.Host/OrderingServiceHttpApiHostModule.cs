@@ -109,6 +109,6 @@ public class OrderingServiceHttpApiHostModule : AbpModule
     {
         await context.ServiceProvider
             .GetRequiredService<OrderingServiceDatabaseMigrationChecker>()
-            .CheckAsync();
+            .CheckAndApplyDatabaseMigrations();
     }
 }

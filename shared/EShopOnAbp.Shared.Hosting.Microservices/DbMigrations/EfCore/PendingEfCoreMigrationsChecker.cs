@@ -3,7 +3,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 using Volo.Abp.Data;
+using Volo.Abp.DistributedLocking;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.Uow;
@@ -17,6 +19,7 @@ public abstract class PendingEfCoreMigrationsChecker<TDbContext> : PendingMigrat
     protected IServiceProvider ServiceProvider { get; }
     protected ICurrentTenant CurrentTenant { get; }
     protected IDistributedEventBus DistributedEventBus { get; }
+    protected IAbpDistributedLock DistributedLockProvider { get; }
     protected string DatabaseName { get; }
 
     protected PendingEfCoreMigrationsChecker(
@@ -24,44 +27,45 @@ public abstract class PendingEfCoreMigrationsChecker<TDbContext> : PendingMigrat
         IServiceProvider serviceProvider,
         ICurrentTenant currentTenant,
         IDistributedEventBus distributedEventBus,
+        IAbpDistributedLock abpDistributedLock,
         string databaseName)
     {
         UnitOfWorkManager = unitOfWorkManager;
         ServiceProvider = serviceProvider;
         CurrentTenant = currentTenant;
         DistributedEventBus = distributedEventBus;
+        DistributedLockProvider = abpDistributedLock;
         DatabaseName = databaseName;
     }
 
-    public virtual async Task<bool> CheckAsync()
+    public virtual async Task CheckAndApplyDatabaseMigrations()
     {
-        var isMigrationRequired = false;
-
-        using (CurrentTenant.Change(null))
+        await using (var handle = await DistributedLockProvider.TryAcquireAsync("Migration_" + DatabaseName))
         {
-            // Create database tables if needed
-            using (var uow = UnitOfWorkManager.Begin(requiresNew: true, isTransactional: false))
-            {
-                var pendingMigrations = await ServiceProvider
-                    .GetRequiredService<TDbContext>()
-                    .Database
-                    .GetPendingMigrationsAsync();
+            Log.Information($"Lock is acquired for db migration and seeding on database named: {DatabaseName}...");
 
-                if (pendingMigrations.Any())
+            using (CurrentTenant.Change(null))
+            {
+                // Create database tables if needed
+                using (var uow = UnitOfWorkManager.Begin(requiresNew: true, isTransactional: false))
                 {
-                    await DistributedEventBus.PublishAsync(
-                        new ApplyDatabaseMigrationsEto
-                        {
-                            DatabaseName = DatabaseName
-                        }
-                    );
-                    isMigrationRequired = true;
+                    var dbContext = ServiceProvider.GetRequiredService<TDbContext>();
+
+                    var pendingMigrations = await dbContext
+                        .Database
+                        .GetPendingMigrationsAsync();
+
+                    if (pendingMigrations.Any())
+                    {
+                        await dbContext.Database.MigrateAsync();
+                    }
+
+                    await uow.CompleteAsync();
                 }
 
-                await uow.CompleteAsync();
+                await ServiceProvider.GetRequiredService<IDataSeeder>()
+                    .SeedAsync();
             }
-
-            return isMigrationRequired;
         }
     }
 }
