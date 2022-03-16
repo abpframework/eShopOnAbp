@@ -1,9 +1,10 @@
 ﻿using EShopOnAbp.OrderingService.Orders;
 using EShopOnAbp.PaymentService.PaymentRequests;
+using Serilog;
 using System.Threading.Tasks;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.EventBus.Distributed;
-using Volo.Abp.Uow;
+
 
 namespace EShopOnAbp.PaymentService.EventHandlers
 {
@@ -16,11 +17,10 @@ namespace EShopOnAbp.PaymentService.EventHandlers
             _paymentRepository = paymenRepository;
         }
 
-        [UnitOfWork]
         public async Task HandleEventAsync(OrderCancelledEto eventData)
         {
             var payment = await _paymentRepository.GetAsync(eventData.Buyer.BuyerId.GetValueOrDefault());
-            await _paymentRepository.DeleteAsync(payment);
+            Log.Information($"Cancelled the order: {payment.OrderId} payment:{payment.Id}");
         }
     }
 }
