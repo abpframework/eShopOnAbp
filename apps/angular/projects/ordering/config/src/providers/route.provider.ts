@@ -12,8 +12,9 @@ export function configureRoutes(routesService: RoutesService) {
     routesService.add([
       {
         path: '/ordering',
-        name: eOrderingRouteNames.Ordering,
+        name: eOrderingRouteNames.ordering,
         layout: eLayoutType.application,
+        requiredPolicy:  eOrderingPolicyNames.ordering,
         parentName: null,
         iconClass: 'bi bi-collection-fill',
       },

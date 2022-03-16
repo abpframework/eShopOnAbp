@@ -27,21 +27,24 @@
               <button
                 class="dropdown-item"
                 (click)='openModal(row)'
+                *abpPermission='permissions.detail'
               >
-                {{ 'AbpUi::Edit' | abpLocalization }}
+                {{ 'AbpUi::Detail' | abpLocalization }}
               </button>
               <button
                 class="dropdown-item"
                 (click)='setAsShipped(row)'
+                *abpPermission='permissions.setAsCancelled'
               >
-                {{ 'AbpOrdering::Permission:Orders.SetAsCancelled' | abpLocalization }}
+                {{ 'OrderingService::Permission:Orders.SetAsCancelled' | abpLocalization }}
               </button>
               <!-- Todo: Add permissions -->
               <button
               class="dropdown-item"
+              *abpPermission='permissions.setAsShipped'
               (click)='setAsCancelled(row)'
             >
-              {{ 'AbpOrdering::Permission:Orders.SetAsShipped' | abpLocalization }}
+              {{ 'OrderingService::Permission:Orders.SetAsShipped' | abpLocalization }}
             </button>
             </div>
           </div>

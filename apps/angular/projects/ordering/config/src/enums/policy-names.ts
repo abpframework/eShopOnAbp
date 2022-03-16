@@ -1,7 +1,6 @@
 export const enum eOrderingPolicyNames {
-  Ordering = 'CatalogService.Products',
- 
-  ProductManagementCreate = 'CatalogService.Products.Create',
-  ProductManagementUpdate = 'CatalogService.Products.Update',
-  ProductManagementDelete = 'CatalogService.Products.Delete',
+  ordering = 'OrderingService.Orders',
+  detail = 'OrderingService.Orders.Orders',
+  setAsShipped = 'OrderingService.Orders.SetAsShipped',
+  setAsCancelled = 'OrderingService.Products.SetAsCancelled',
 }

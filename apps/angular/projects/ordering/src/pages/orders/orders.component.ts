@@ -3,6 +3,7 @@ import {  OrderService } from '../../lib/proxy/orders';
 import { OrderViewModel, toOrderViewModel } from '../../lib';
 import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
 import { ListService } from '@abp/ng.core';
+import { eOrderingPolicyNames } from '@eshoponabp/ordering/config';
 
 @Component({
   selector: 'lib-orders',
@@ -18,6 +19,11 @@ export class OrdersComponent implements OnInit {
   isModalVisible = false;
   items: OrderViewModel[];
   count = 0;
+  permissions = {
+    detail: eOrderingPolicyNames.ordering,
+    setAsShipped: eOrderingPolicyNames.setAsShipped,
+    setAsCancelled: eOrderingPolicyNames.setAsCancelled,
+  };
 
   ngOnInit(): void {
 
