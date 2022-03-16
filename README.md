@@ -45,6 +45,19 @@ You can either run in Visual Studio, or using [Microsoft Tye](https://github.com
   yarn start
   ```
 
+### Certificate Expiration
+If the cerficiate is expired you'll see following error:
+
+<!-- Make it smaller with 320px height  -->
+<img src="docs/images/ssl-error.png" height="320"/>
+
+Generating a new certificate will fix that issue. To generate new one,
+
+- Remove `etc/dev-cert/localhost.pfx`
+
+- Manually execute `create-certificate.ps1` **or** re-run solution with `run-tye.ps1`
+
+
 ## Roadmap
 
 - [x] New blank micro-service solution ✔️
