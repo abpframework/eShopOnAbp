@@ -71,7 +71,7 @@ public class OrderAppService : ApplicationService, IOrderAppService
         );
     }
 
-
+    [Authorize(OrderingServicePermissions.Orders.Dashboard)]
     public async Task<DashboardDto> GetDashboardAsync(DashboardInput input)
     {
         return new DashboardDto()
@@ -80,7 +80,6 @@ public class OrderAppService : ApplicationService, IOrderAppService
             OrderStatusDto = await GetCountOfTotalOrderStatusAsync(input.Filter),
             Payments = await GetPercentOfTotalPaymentAsync(input.Filter)
         };
-
     }
     private async Task<List<TopSellingDto>> GetTopSellingAsync(string filter)
     {

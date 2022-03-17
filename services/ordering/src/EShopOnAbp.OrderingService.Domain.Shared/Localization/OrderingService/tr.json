@@ -13,6 +13,7 @@
     "Menu:Orders": "Siparişler",
     "Menu:OrderManagement": "Sipariş Yönetimi",
     "Permission:Orders.SetAsCancelled": "İptal Edildi Olarak İşaretle",
-    "Permission:Orders.SetAsShipped": "Sevk Edildi Olarak İşaretle"
+    "Permission:Orders.SetAsShipped": "Sevk Edildi Olarak İşaretle",
+    "Permission:Dashboard": "Gösterge Paneli"
   }
 }

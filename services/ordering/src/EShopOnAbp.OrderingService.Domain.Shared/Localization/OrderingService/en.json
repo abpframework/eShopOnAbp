@@ -13,6 +13,7 @@
     "Menu:Orders": "Orders",
     "Menu:OrderManagement": "Ordering Service",
     "Permission:Orders.SetAsCancelled": "Set As Cancelled",
-    "Permission:Orders.SetAsShipped": "Set As Shipped"
+    "Permission:Orders.SetAsShipped": "Set As Shipped",
+    "Permission:Dashboard": "Dashboard"
   }
 }

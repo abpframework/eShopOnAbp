@@ -14,6 +14,7 @@
     "Menu:Orders": "命令",
     "Menu:OrderManagement": "订单管理",
     "Permission:Orders.SetAsCancelled": "设置为取消",
-    "Permission:Orders.SetAsShipped": "设置为发货"
+    "Permission:Orders.SetAsShipped": "设置为发货",
+    "Permission:Dashboard": "仪表板"
   }
 }

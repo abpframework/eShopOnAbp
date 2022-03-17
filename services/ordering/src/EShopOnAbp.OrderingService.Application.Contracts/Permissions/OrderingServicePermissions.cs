@@ -11,6 +11,7 @@ namespace EShopOnAbp.OrderingService.Permissions
             public const string Default = GroupName + ".Orders";
             public const string SetAsCancelled = GroupName + ".SetAsCancelled";
             public const string SetAsShipped = GroupName + ".SetAsShipped";
+            public const string Dashboard = GroupName + ".Dashboard";
         }
 
         public static string[] GetAll()
