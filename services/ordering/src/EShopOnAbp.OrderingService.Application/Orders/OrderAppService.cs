@@ -199,6 +199,10 @@ public class OrderAppService : ApplicationService, IOrderAppService
                     .OrderBy(p => p.CountOfStatusOrder)
                     .ToList();
 
+        decimal totalIncome = orders.Sum(p => p.OrderItems.Sum(p => p.Units * p.UnitPrice));
+
+        orderStatus.Add(new OrderStatusDto() { OrderStatus = "Total Income", TotalIncome = totalIncome });
+
         return orderStatus;
     }
 }
