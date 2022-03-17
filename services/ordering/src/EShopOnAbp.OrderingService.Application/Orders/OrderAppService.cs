@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using EShopOnAbp.OrderingService.Localization;
+﻿using EShopOnAbp.OrderingService.Localization;
 using EShopOnAbp.OrderingService.Orders.Specifications;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Specifications;
 using Volo.Abp.Users;
@@ -34,9 +34,9 @@ public class OrderAppService : ApplicationService, IOrderAppService
     public async Task<List<OrderDto>> GetMyOrdersAsync(GetMyOrdersInput input)
     {
         ISpecification<Order> specification = SpecificationFactory.Create(input.Filter);
-        
+
         var orders = await _orderRepository.GetOrdersByUserId(CurrentUser.GetId(), specification, true);
-        
+
         return CreateOrderDtoMapping(orders);
     }
 
@@ -106,8 +106,7 @@ public class OrderAppService : ApplicationService, IOrderAppService
             Id = order.Id,
             OrderNo = order.OrderNo,
             OrderDate = order.OrderDate,
-            OrderStatus = order.OrderStatus.Name,
-            OrderStatusId = order.OrderStatus.Id,
+            OrderStatus = order.OrderStatus.ToString(),
             PaymentMethod = order.PaymentMethod
         };
     }
