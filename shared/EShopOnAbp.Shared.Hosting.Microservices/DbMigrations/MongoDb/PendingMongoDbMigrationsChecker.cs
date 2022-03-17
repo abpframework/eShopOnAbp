@@ -39,18 +39,21 @@ public class PendingMongoDbMigrationsChecker<TDbContext> : PendingMigrationsChec
 
     public virtual async Task CheckAndApplyDatabaseMigrationsAsync()
     {
-        using (CurrentTenant.Change(null))
+        await TryAsync(async () =>
         {
-            // Create database tables if needed
-            using (var uow = UnitOfWorkManager.Begin(requiresNew: true, isTransactional: false))
+            using (CurrentTenant.Change(null))
             {
-                await MigrateDatabaseSchemaAsync();
+                // Create database tables if needed
+                using (var uow = UnitOfWorkManager.Begin(requiresNew: true, isTransactional: false))
+                {
+                    await MigrateDatabaseSchemaAsync();
 
-                await DataSeeder.SeedAsync();
+                    await DataSeeder.SeedAsync();
 
-                await uow.CompleteAsync();
+                    await uow.CompleteAsync();
+                }
             }
-        }
+        });
     }
 
     /// <summary>

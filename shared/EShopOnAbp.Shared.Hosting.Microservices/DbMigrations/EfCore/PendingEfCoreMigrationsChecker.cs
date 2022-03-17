@@ -9,6 +9,7 @@ using Volo.Abp.DistributedLocking;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.Uow;
+using Volo.Abp.VirtualFileSystem;
 
 namespace EShopOnAbp.Shared.Hosting.Microservices.DbMigrations.EfCore;
 
@@ -38,7 +39,12 @@ public abstract class PendingEfCoreMigrationsChecker<TDbContext> : PendingMigrat
         DatabaseName = databaseName;
     }
 
-    public virtual async Task CheckAndApplyDatabaseMigrations()
+    public virtual async Task CheckAndApplyDatabaseMigrationsAsync()
+    {
+        await TryAsync(LockAndApplyDatabaseMigrationsAsync); 
+    }
+
+    protected virtual async Task LockAndApplyDatabaseMigrationsAsync()
     {
         await using (var handle = await DistributedLockProvider.TryAcquireAsync("Migration_" + DatabaseName))
         {

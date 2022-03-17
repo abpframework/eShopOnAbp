@@ -38,11 +38,11 @@ public class AdministrationServiceDatabaseMigrationChecker
         _permissionDataSeeder = permissionDataSeeder;
     }
 
-    public override async Task CheckAndApplyDatabaseMigrations()
+    public override async Task CheckAndApplyDatabaseMigrationsAsync()
     {
-        await base.CheckAndApplyDatabaseMigrations();
+        await base.CheckAndApplyDatabaseMigrationsAsync();
 
-        await SeedDataAsync();
+        await TryAsync(async () => await SeedDataAsync());
     }
 
     private async Task SeedDataAsync()
