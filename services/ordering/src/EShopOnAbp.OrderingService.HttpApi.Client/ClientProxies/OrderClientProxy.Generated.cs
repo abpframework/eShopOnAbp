@@ -8,7 +8,6 @@ using Volo.Abp.DependencyInjection;
 using Volo.Abp.Http.Client.ClientProxying;
 using EShopOnAbp.OrderingService.Orders;
 using System.Collections.Generic;
-using EShopOnAbp.OrderingService.OrderItems;
 
 // ReSharper disable once CheckNamespace
 namespace EShopOnAbp.OrderingService.Orders.ClientProxies;
@@ -49,27 +48,11 @@ public partial class OrderClientProxy : ClientProxyBase<IOrderAppService>, IOrde
         });
     }
 
-    public virtual async Task<List<TopSellingDto>> GetTopSellingAsync(TopSellingInput input)
+    public virtual async Task<DashboardDto> GetDashboardAsync(DashboardInput input)
     {
-        return await RequestAsync<List<TopSellingDto>>(nameof(GetTopSellingAsync), new ClientProxyRequestTypeValue
+        return await RequestAsync<DashboardDto>(nameof(GetDashboardAsync), new ClientProxyRequestTypeValue
         {
-            { typeof(TopSellingInput), input }
-        });
-    }
-
-    public virtual async Task<List<PaymentDto>> GetPercentOfTotalPaymentAsync(PaymentInput input)
-    {
-        return await RequestAsync<List<PaymentDto>>(nameof(GetPercentOfTotalPaymentAsync), new ClientProxyRequestTypeValue
-        {
-            { typeof(PaymentInput), input }
-        });
-    }
-
-    public virtual async Task<List<OrderStatusDto>> GetCountOfTotalOrderStatusAsync(OrderStatusInput input)
-    {
-        return await RequestAsync<List<OrderStatusDto>>(nameof(GetCountOfTotalOrderStatusAsync), new ClientProxyRequestTypeValue
-        {
-            { typeof(OrderStatusInput), input }
+            { typeof(DashboardInput), input }
         });
     }
 

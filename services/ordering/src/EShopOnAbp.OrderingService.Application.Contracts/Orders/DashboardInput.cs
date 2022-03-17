@@ -1,6 +1,6 @@
 ﻿namespace EShopOnAbp.OrderingService.Orders
 {
-    public class OrderStatusInput
+    public class DashboardInput
     {
         public string Filter { get; set; }
     }

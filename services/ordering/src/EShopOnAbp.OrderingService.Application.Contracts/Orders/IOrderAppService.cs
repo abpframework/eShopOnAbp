@@ -1,5 +1,4 @@
-﻿using EShopOnAbp.OrderingService.OrderItems;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
@@ -17,8 +16,6 @@ public interface IOrderAppService : IApplicationService
     Task SetAsCancelledAsync(Guid id, SetAsCancelledDto input);
     Task SetAsShippedAsync(Guid id);
     Task<PagedResultDto<OrderDto>> GetListPagedAsync(PagedAndSortedResultRequestDto input);
-    Task<List<TopSellingDto>> GetTopSellingAsync(TopSellingInput input);
-    Task<List<PaymentDto>> GetPercentOfTotalPaymentAsync(PaymentInput input);
-    Task<List<OrderStatusDto>> GetCountOfTotalOrderStatusAsync(OrderStatusInput input);
+    Task<DashboardDto> GetDashboardAsync(DashboardInput input);
 
 }

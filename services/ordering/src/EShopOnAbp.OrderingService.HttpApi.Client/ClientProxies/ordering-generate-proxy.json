@@ -195,18 +195,18 @@
               "allowAnonymous": false,
               "implementFrom": "EShopOnAbp.OrderingService.Orders.IOrderAppService"
             },
-            "GetTopSellingAsyncByInput": {
-              "uniqueName": "GetTopSellingAsyncByInput",
-              "name": "GetTopSellingAsync",
+            "GetDashboardAsyncByInput": {
+              "uniqueName": "GetDashboardAsyncByInput",
+              "name": "GetDashboardAsync",
               "httpMethod": "GET",
-              "url": "api/ordering/order/top-selling",
+              "url": "api/ordering/order/dashboard",
               "supportedVersions": [],
               "parametersOnMethod": [
                 {
                   "name": "input",
-                  "typeAsString": "EShopOnAbp.OrderingService.OrderItems.TopSellingInput, EShopOnAbp.OrderingService.Application.Contracts",
-                  "type": "EShopOnAbp.OrderingService.OrderItems.TopSellingInput",
-                  "typeSimple": "EShopOnAbp.OrderingService.OrderItems.TopSellingInput",
+                  "typeAsString": "EShopOnAbp.OrderingService.Orders.DashboardInput, EShopOnAbp.OrderingService.Application.Contracts",
+                  "type": "EShopOnAbp.OrderingService.Orders.DashboardInput",
+                  "typeSimple": "EShopOnAbp.OrderingService.Orders.DashboardInput",
                   "isOptional": false,
                   "defaultValue": null
                 }
@@ -226,82 +226,8 @@
                 }
               ],
               "returnValue": {
-                "type": "System.Collections.Generic.List<EShopOnAbp.OrderingService.OrderItems.TopSellingDto>",
-                "typeSimple": "[EShopOnAbp.OrderingService.OrderItems.TopSellingDto]"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "EShopOnAbp.OrderingService.Orders.IOrderAppService"
-            },
-            "GetPercentOfTotalPaymentAsyncByInput": {
-              "uniqueName": "GetPercentOfTotalPaymentAsyncByInput",
-              "name": "GetPercentOfTotalPaymentAsync",
-              "httpMethod": "GET",
-              "url": "api/ordering/order/percent-of-total-payment",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "input",
-                  "typeAsString": "EShopOnAbp.OrderingService.Orders.PaymentInput, EShopOnAbp.OrderingService.Application.Contracts",
-                  "type": "EShopOnAbp.OrderingService.Orders.PaymentInput",
-                  "typeSimple": "EShopOnAbp.OrderingService.Orders.PaymentInput",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "input",
-                  "name": "Filter",
-                  "jsonName": null,
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": "input"
-                }
-              ],
-              "returnValue": {
-                "type": "System.Collections.Generic.List<EShopOnAbp.OrderingService.Orders.PaymentDto>",
-                "typeSimple": "[EShopOnAbp.OrderingService.Orders.PaymentDto]"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "EShopOnAbp.OrderingService.Orders.IOrderAppService"
-            },
-            "GetCountOfTotalOrderStatusAsyncByInput": {
-              "uniqueName": "GetCountOfTotalOrderStatusAsyncByInput",
-              "name": "GetCountOfTotalOrderStatusAsync",
-              "httpMethod": "GET",
-              "url": "api/ordering/order/count-of-total-order-status",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "input",
-                  "typeAsString": "EShopOnAbp.OrderingService.Orders.OrderStatusInput, EShopOnAbp.OrderingService.Application.Contracts",
-                  "type": "EShopOnAbp.OrderingService.Orders.OrderStatusInput",
-                  "typeSimple": "EShopOnAbp.OrderingService.Orders.OrderStatusInput",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "input",
-                  "name": "Filter",
-                  "jsonName": null,
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": "input"
-                }
-              ],
-              "returnValue": {
-                "type": "System.Collections.Generic.List<EShopOnAbp.OrderingService.Orders.OrderStatusDto>",
-                "typeSimple": "[EShopOnAbp.OrderingService.Orders.OrderStatusDto]"
+                "type": "EShopOnAbp.OrderingService.Orders.DashboardDto",
+                "typeSimple": "EShopOnAbp.OrderingService.Orders.DashboardDto"
               },
               "allowAnonymous": null,
               "implementFrom": "EShopOnAbp.OrderingService.Orders.IOrderAppService"

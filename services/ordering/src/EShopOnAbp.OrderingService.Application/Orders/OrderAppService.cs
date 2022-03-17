@@ -71,23 +71,34 @@ public class OrderAppService : ApplicationService, IOrderAppService
         );
     }
 
-    public async Task<List<TopSellingDto>> GetTopSellingAsync(TopSellingInput input)
+
+    public async Task<DashboardDto> GetDashboardAsync(DashboardInput input)
     {
-        ISpecification<Order> specification = SpecificationFactory.Create(input.Filter);
+        return new DashboardDto()
+        {
+            TopSellings = await GetTopSellingAsync(input.Filter),
+            OrderStatusDto = await GetCountOfTotalOrderStatusAsync(input.Filter),
+            Payments = await GetPercentOfTotalPaymentAsync(input.Filter)
+        };
+
+    }
+    private async Task<List<TopSellingDto>> GetTopSellingAsync(string filter)
+    {
+        ISpecification<Order> specification = SpecificationFactory.Create(filter);
         var orderItems = await _orderRepository.GetTopSelling(specification, true);
         return ObjectMapper.Map<List<OrderItem>, List<TopSellingDto>>(orderItems);
     }
 
-    public async Task<List<PaymentDto>> GetPercentOfTotalPaymentAsync(PaymentInput input)
+    private async Task<List<PaymentDto>> GetPercentOfTotalPaymentAsync(string filter)
     {
-        ISpecification<Order> specification = SpecificationFactory.Create(input.Filter);
+        ISpecification<Order> specification = SpecificationFactory.Create(filter);
         var orders = await _orderRepository.GetPercentOfTotalPayment(specification);
         return CreatePaymentDtoMapping(orders);
     }
 
-    public async Task<List<OrderStatusDto>> GetCountOfTotalOrderStatusAsync(OrderStatusInput input)
+    private async Task<List<OrderStatusDto>> GetCountOfTotalOrderStatusAsync(string filter)
     {
-        ISpecification<Order> specification = SpecificationFactory.Create(input.Filter);
+        ISpecification<Order> specification = SpecificationFactory.Create(filter);
         var orders = await _orderRepository.GetCountOfTotalOrderStatus(specification, true);
         return CreateOrderStatusDtoMapping(orders);
     }
