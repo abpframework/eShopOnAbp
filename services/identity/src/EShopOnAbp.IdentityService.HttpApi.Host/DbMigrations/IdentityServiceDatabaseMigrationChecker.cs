@@ -12,14 +12,11 @@ namespace EShopOnAbp.IdentityService.DbMigrations;
 
 public class IdentityServiceDatabaseMigrationChecker : PendingEfCoreMigrationsChecker<IdentityServiceDbContext>
 {
-    protected ILocalEventBus LocalEventBus { get; }
-
     public IdentityServiceDatabaseMigrationChecker(
         IUnitOfWorkManager unitOfWorkManager,
         IServiceProvider serviceProvider,
         ICurrentTenant currentTenant,
         IDistributedEventBus distributedEventBus,
-        ILocalEventBus localEventBus,
         IAbpDistributedLock abpDistributedLock)
         : base(
             unitOfWorkManager,
@@ -29,6 +26,5 @@ public class IdentityServiceDatabaseMigrationChecker : PendingEfCoreMigrationsCh
             abpDistributedLock,
             IdentityServiceDbProperties.ConnectionStringName)
     {
-        LocalEventBus = localEventBus;
     }
 }
