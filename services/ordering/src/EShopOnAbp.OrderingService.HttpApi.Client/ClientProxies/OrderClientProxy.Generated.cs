@@ -65,6 +65,14 @@ public partial class OrderClientProxy : ClientProxyBase<IOrderAppService>, IOrde
         });
     }
 
+    public virtual async Task<List<OrderStatusDto>> GetCountOfTotalOrderStatusAsync(OrderStatusInput input)
+    {
+        return await RequestAsync<List<OrderStatusDto>>(nameof(GetCountOfTotalOrderStatusAsync), new ClientProxyRequestTypeValue
+        {
+            { typeof(OrderStatusInput), input }
+        });
+    }
+
     public virtual async Task<OrderDto> GetByOrderNoAsync(int orderNo)
     {
         return await RequestAsync<OrderDto>(nameof(GetByOrderNoAsync), new ClientProxyRequestTypeValue

@@ -29,6 +29,11 @@ public interface IOrderRepository : IRepository<Order, Guid>
         ISpecification<Order> spec,
         CancellationToken cancellationToken = default);
 
+    Task<List<Order>> GetCountOfTotalOrderStatus(
+        ISpecification<Order> spec,
+        bool includeDetails = true,
+        CancellationToken cancellationToken = default);
+    
     Task<Order> GetByOrderNoAsync(int orderNo,
         bool includeDetails = true,
         CancellationToken cancellationToken = default);

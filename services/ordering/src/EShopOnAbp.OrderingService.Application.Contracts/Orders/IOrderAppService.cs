@@ -19,5 +19,6 @@ public interface IOrderAppService : IApplicationService
     Task<PagedResultDto<OrderDto>> GetListPagedAsync(PagedAndSortedResultRequestDto input);
     Task<List<TopSellingDto>> GetTopSellingAsync(TopSellingInput input);
     Task<List<PaymentDto>> GetPercentOfTotalPaymentAsync(PaymentInput input);
+    Task<List<OrderStatusDto>> GetCountOfTotalOrderStatusAsync(OrderStatusInput input);
 
 }

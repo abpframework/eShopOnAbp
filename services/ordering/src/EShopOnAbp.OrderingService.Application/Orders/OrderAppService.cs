@@ -85,6 +85,13 @@ public class OrderAppService : ApplicationService, IOrderAppService
         return CreatePaymentDtoMapping(orders);
     }
 
+    public async Task<List<OrderStatusDto>> GetCountOfTotalOrderStatusAsync(OrderStatusInput input)
+    {
+        ISpecification<Order> specification = SpecificationFactory.Create(input.Filter);
+        var orders = await _orderRepository.GetCountOfTotalOrderStatus(specification, true);
+        return CreateOrderStatusDtoMapping(orders);
+    }
+
     public async Task<OrderDto> GetByOrderNoAsync(int orderNo)
     {
         var order = await _orderRepository.GetByOrderNoAsync(orderNo);
@@ -182,5 +189,16 @@ public class OrderAppService : ApplicationService, IOrderAppService
         decimal rate = 100 / payments.Sum(p => p.RateOfPaymentMethod);
         payments.ForEach(p => p.RateOfPaymentMethod *= rate);
         return payments;
+    }
+
+    private List<OrderStatusDto> CreateOrderStatusDtoMapping(List<Order> orders)
+    {
+        var orderStatus = orders
+                    .GroupBy(p => p.OrderStatus.Name)
+                    .Select(p => new OrderStatusDto { CountOfStatusOrder = p.Count(), OrderStatus = p.Key, OrderStatusId = OrderStatus.FromName(p.Key).Id })
+                    .OrderBy(p => p.CountOfStatusOrder)
+                    .ToList();
+
+        return orderStatus;
     }
 }
