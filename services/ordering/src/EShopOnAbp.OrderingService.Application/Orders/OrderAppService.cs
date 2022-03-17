@@ -106,7 +106,7 @@ public class OrderAppService : ApplicationService, IOrderAppService
             Id = order.Id,
             OrderNo = order.OrderNo,
             OrderDate = order.OrderDate,
-            OrderStatus = order.OrderStatus.ToString(),
+            OrderStatus = order.OrderStatus,
             PaymentMethod = order.PaymentMethod
         };
     }

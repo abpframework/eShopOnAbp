@@ -2,8 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System;
-using System.Data;
-using System.Reflection.Emit;
 using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore.Modeling;
@@ -20,17 +18,17 @@ public class OrderingServiceDbContext : AbpDbContext<OrderingServiceDbContext>, 
     {
     }
 
-    protected override void OnModelCreating(ModelBuilder builder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(builder);
+        base.OnModelCreating(modelBuilder);
 
         /* Include modules to your migration db context */
 
-        builder.ConfigureOrderingService();
+        modelBuilder.ConfigureOrderingService();
         /* Configure your own tables/entities inside here */
 
 
-        builder.Entity<Order>(b =>
+        modelBuilder.Entity<Order>(b =>
         {
             b.ToTable(OrderingServiceDbProperties.DbTablePrefix + "Orders", OrderingServiceDbProperties.DbSchema);
             b.ConfigureByConvention(); //auto configure for the base class props
@@ -43,16 +41,10 @@ public class OrderingServiceDbContext : AbpDbContext<OrderingServiceDbContext>, 
 
             b.Navigation(q => q.OrderItems).UsePropertyAccessMode(PropertyAccessMode.Property);
 
-            b.Property(q => q.OrderStatus).HasConversion<string>();
-            
-            //b.Property(e => e.OrderStatus).HasConversion(
-            //    v => v.ToString(),
-            //    v => (OrderStatus)Enum.Parse(typeof(OrderStatus), v));
+            b.Property(q => q.OrderStatus).HasConversion(new EnumToStringConverter<OrderStatus>());
         });
 
-       
-
-        builder.Entity<OrderItem>(b =>
+        modelBuilder.Entity<OrderItem>(b =>
         {
             b.ToTable(OrderingServiceDbProperties.DbTablePrefix + "OrderItems",
                 OrderingServiceDbProperties.DbSchema);
