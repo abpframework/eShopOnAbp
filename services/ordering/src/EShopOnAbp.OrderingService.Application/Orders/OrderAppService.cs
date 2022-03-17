@@ -81,13 +81,8 @@ public class OrderAppService : ApplicationService, IOrderAppService
     public async Task<List<PaymentDto>> GetPercentOfTotalPaymentAsync(PaymentInput input)
     {
         ISpecification<Order> specification = SpecificationFactory.Create(input.Filter);
-        var orderItems = await _orderRepository.GetPercentOfTotalPayment(specification);
-        var paymentList = new List<PaymentDto>();
-        foreach (var item in orderItems)
-        {
-            paymentList.Add(new PaymentDto() { PaymentMethod = item.PaymentMethod, CountOfPaymentMethod = orderItems.Count });
-        }
-        return paymentList;//TODO ObjectMapper.Map<List<Order>, List<PaymentDto>>(orderItems);
+        var orders = await _orderRepository.GetPercentOfTotalPayment(specification);
+        return CreatePaymentDtoMapping(orders);
     }
 
     public async Task<OrderDto> GetByOrderNoAsync(int orderNo)
@@ -174,5 +169,18 @@ public class OrderAppService : ApplicationService, IOrderAppService
             OrderStatusId = order.OrderStatus.Id,
             PaymentMethod = order.PaymentMethod
         };
+    }
+
+    private List<PaymentDto> CreatePaymentDtoMapping(List<Order> orders)
+    {
+        var payments = orders
+                    .GroupBy(p => p.PaymentMethod)
+                    .Select(p => new PaymentDto { RateOfPaymentMethod = p.Count(), PaymentMethod = p.Key })
+                    .OrderBy(p => p.RateOfPaymentMethod)
+                    .ToList();
+
+        decimal rate = 100 / payments.Sum(p => p.RateOfPaymentMethod);
+        payments.ForEach(p => p.RateOfPaymentMethod *= rate);
+        return payments;
     }
 }

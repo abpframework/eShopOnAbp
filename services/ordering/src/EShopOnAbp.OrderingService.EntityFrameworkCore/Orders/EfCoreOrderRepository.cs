@@ -1,11 +1,11 @@
-﻿using System;
+﻿using EShopOnAbp.OrderingService.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading;
 using System.Threading.Tasks;
-using EShopOnAbp.OrderingService.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
@@ -78,13 +78,7 @@ public class EfCoreOrderRepository : EfCoreRepository<OrderingServiceDbContext, 
     {
         return await (await GetDbSetAsync())
         .Where(spec.ToExpression())
-        .GroupBy(p => p.PaymentMethod)
-        .Select(p=>p.OrderBy(p=>p.Id).FirstOrDefault())//TODO list
-        //TODO
-        //.SelectMany(p=>p)
-        //.Select(p => new PaymentDto { CountOfPaymentMethod = p.Count(), PaymentMethod = p.Key })
-        //.OrderBy(p => p.CountOfPaymentMethod)
-        .ToListAsync();
+        .ToListAsync(GetCancellationToken(cancellationToken));
     }
 
     public async Task<Order> GetByOrderNoAsync(

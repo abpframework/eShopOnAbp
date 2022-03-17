@@ -5,6 +5,6 @@ namespace EShopOnAbp.OrderingService.Orders;
 
 public class PaymentDto : EntityDto<Guid>
 {
-    public int CountOfPaymentMethod { get; set; }
+    public decimal RateOfPaymentMethod { get; set; }
     public string PaymentMethod { get; set; }
 }
