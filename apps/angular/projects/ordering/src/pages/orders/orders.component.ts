@@ -25,8 +25,10 @@ export class OrdersComponent implements OnInit {
     setAsCancelled: eOrderingPolicyNames.setAsCancelled,
   };
 
+
   ngOnInit(): void {
 
+    console.log(this.permissions)
     const ordersStreamCreator = query => this.service.getListPaged(query);
 
     this.list.hookToQuery(ordersStreamCreator).subscribe(response => {

@@ -212,7 +212,7 @@
                 "type": "System.Collections.Generic.List<EShopOnAbp.OrderingService.Orders.OrderDto>",
                 "typeSimple": "[EShopOnAbp.OrderingService.Orders.OrderDto]"
               },
-              "allowAnonymous": null,
+              "allowAnonymous": false,
               "implementFrom": "EShopOnAbp.OrderingService.Orders.IOrderAppService"
             },
             "GetListPagedAsyncByInput": {
@@ -1977,17 +1977,10 @@
           "isRequired": false
         },
         {
-          "name": "OrderStatusId",
-          "jsonName": null,
-          "type": "System.Int32",
-          "typeSimple": "number",
-          "isRequired": false
-        },
-        {
           "name": "OrderStatus",
           "jsonName": null,
-          "type": "System.String",
-          "typeSimple": "string",
+          "type": "EShopOnAbp.OrderingService.Orders.OrderStatus",
+          "typeSimple": "EShopOnAbp.OrderingService.Orders.OrderStatus",
           "isRequired": false
         },
         {
@@ -2045,6 +2038,24 @@
       "enumValues": null,
       "genericArguments": null,
       "properties": []
+    },
+    "EShopOnAbp.OrderingService.Orders.OrderStatus": {
+      "baseType": "System.Enum",
+      "isEnum": true,
+      "enumNames": [
+        "Placed",
+        "Paid",
+        "Shipped",
+        "Cancelled"
+      ],
+      "enumValues": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "genericArguments": null,
+      "properties": null
     },
     "EShopOnAbp.OrderingService.Orders.BuyerDto": {
       "baseType": "Volo.Abp.Application.Dtos.EntityDto<System.Guid>",

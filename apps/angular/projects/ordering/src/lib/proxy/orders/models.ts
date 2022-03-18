@@ -1,4 +1,5 @@
 import type { EntityDto } from '@abp/ng.core';
+import type { OrderStatus } from './order-status.enum';
 
 export interface BuyerDto extends EntityDto<string> {
   name?: string;
@@ -30,8 +31,7 @@ export interface OrderCreateDto {
 export interface OrderDto extends EntityDto<string> {
   orderDate?: string;
   orderNo: number;
-  orderStatusId: number;
-  orderStatus?: string;
+  orderStatus: OrderStatus;
   paymentMethod?: string;
   buyer: BuyerDto;
   address: OrderAddressDto;
