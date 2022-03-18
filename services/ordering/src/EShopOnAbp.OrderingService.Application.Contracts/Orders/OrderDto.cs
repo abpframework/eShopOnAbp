@@ -6,7 +6,7 @@ namespace EShopOnAbp.OrderingService.Orders;
 
 public class OrderDto : EntityDto<Guid>
 {
-    public DateTime OrderDate { get; set; }
+    public DateTime OrderDate { get; set; } 
     public int OrderNo { get; set; }
     public OrderStatus OrderStatus { get; set; }
     public string PaymentMethod { get; set; }
