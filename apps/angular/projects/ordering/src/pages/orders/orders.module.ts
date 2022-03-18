@@ -8,7 +8,6 @@ import { CoreModule } from '@abp/ng.core';
 import { OrderDetailComponent } from './order-detail/order-detail.component';
 import { OrderDetailItemComponent } from './order-detail/order-detail-item/order-detail-item.component';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import {OrderingModule} from "../../ordering.module";
 
 
 @NgModule({
@@ -23,7 +22,6 @@ import {OrderingModule} from "../../ordering.module";
         OrdersRoutingModule,
         ThemeSharedModule,
         CoreModule,
-        OrderingModule,
     ]
 })
 export class OrdersModule { }

@@ -63,7 +63,7 @@
       </ngx-datatable-column>
       <ngx-datatable-column [name]="'OrderingService::DisplayName:OrderStatus' | abpLocalization" prop="orderStatus">
         <ng-template let-value="value" ngx-datatable-cell-template>
-            <lib-order-status [id]="value"></lib-order-status>
+             {{ "OrderingService::Enum:OrderStatus:" + value | abpLocalization }}
         </ng-template>
       </ngx-datatable-column>
     </ngx-datatable>

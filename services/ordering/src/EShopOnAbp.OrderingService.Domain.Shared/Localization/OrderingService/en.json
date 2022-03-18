@@ -32,6 +32,10 @@
     "DisplayName:PaymentMethod": "Payment Method", 
     "DisplayName:Total": "Total", 
     "Permission:Orders.SetAsCancelled": "Set As Cancelled",
-    "Permission:Orders.SetAsShipped": "Set As Shipped"
+    "Permission:Orders.SetAsShipped": "Set As Shipped",
+    "Enum:OrderStatus:0":"Placed",
+    "Enum:OrderStatus:1":"Paid",
+    "Enum:OrderStatus:2":"Shipped",
+    "Enum:OrderStatus:3":"Cancelled"
   }
 }
