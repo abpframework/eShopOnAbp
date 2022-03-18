@@ -86,6 +86,7 @@ public class OrderAppService : ApplicationService, IOrderAppService
     [Authorize(OrderingServicePermissions.Orders.SetAsShipped)]
     public async Task SetAsShippedAsync(Guid id)
     {
+
         var order = await _orderRepository.GetAsync(id);
         order.SetOrderAsShipped();
         await _orderRepository.UpdateAsync(order);
@@ -150,8 +151,7 @@ public class OrderAppService : ApplicationService, IOrderAppService
             Id = order.Id,
             OrderNo = order.OrderNo,
             OrderDate = order.OrderDate,
-            OrderStatus = order.OrderStatus.Name,
-            OrderStatusId = order.OrderStatus.Id,
+            OrderStatus = order.OrderStatus,
             PaymentMethod = order.PaymentMethod
         };
     }

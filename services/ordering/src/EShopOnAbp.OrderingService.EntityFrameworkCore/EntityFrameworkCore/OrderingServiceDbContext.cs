@@ -1,6 +1,7 @@
-﻿using System;
-using EShopOnAbp.OrderingService.Orders;
+﻿using EShopOnAbp.OrderingService.Orders;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using System;
 using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore.Modeling;
@@ -17,17 +18,17 @@ public class OrderingServiceDbContext : AbpDbContext<OrderingServiceDbContext>, 
     {
     }
 
-    protected override void OnModelCreating(ModelBuilder builder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        base.OnModelCreating(builder);
+        base.OnModelCreating(modelBuilder);
 
         /* Include modules to your migration db context */
 
-        builder.ConfigureOrderingService();
+        modelBuilder.ConfigureOrderingService();
         /* Configure your own tables/entities inside here */
 
 
-        builder.Entity<Order>(b =>
+        modelBuilder.Entity<Order>(b =>
         {
             b.ToTable(OrderingServiceDbProperties.DbTablePrefix + "Orders", OrderingServiceDbProperties.DbSchema);
             b.ConfigureByConvention(); //auto configure for the base class props
@@ -38,16 +39,12 @@ public class OrderingServiceDbContext : AbpDbContext<OrderingServiceDbContext>, 
             b.OwnsOne(o => o.Address, a => { a.WithOwner(); });
             b.OwnsOne(o => o.Buyer, a => { a.WithOwner(); });
 
-            b.Property<int>("_orderStatusId").UsePropertyAccessMode(PropertyAccessMode.Field)
-                .HasColumnName("OrderStatusId")
-                .IsRequired();
-
-            b.HasOne(q => q.OrderStatus).WithMany().HasForeignKey("_orderStatusId");
-
             b.Navigation(q => q.OrderItems).UsePropertyAccessMode(PropertyAccessMode.Property);
+
+            b.Property(q => q.OrderStatus).HasConversion(new EnumToStringConverter<OrderStatus>());
         });
 
-        builder.Entity<OrderItem>(b =>
+        modelBuilder.Entity<OrderItem>(b =>
         {
             b.ToTable(OrderingServiceDbProperties.DbTablePrefix + "OrderItems",
                 OrderingServiceDbProperties.DbSchema);
@@ -61,24 +58,6 @@ public class OrderingServiceDbContext : AbpDbContext<OrderingServiceDbContext>, 
             b.Property(q => q.UnitPrice).IsRequired();
             b.Property(q => q.Units).IsRequired();
             b.Property(q => q.PictureUrl).IsRequired(false);
-        });
-
-        builder.Entity<OrderStatus>(b =>
-        {
-            b.ToTable(OrderingServiceDbProperties.DbTablePrefix + "OrderStatus",
-                OrderingServiceDbProperties.DbSchema);
-            b.ConfigureByConvention(); //auto configure for the base class props
-
-            b.HasKey(q => q.Id);
-
-            b.Property(q => q.Id)
-                .HasDefaultValue(1)
-                .ValueGeneratedNever()
-                .IsRequired();
-
-            b.Property(o => o.Name)
-                .HasMaxLength(OrderConstants.OrderStatusNameMaxLength)
-                .IsRequired();
         });
     }
 }

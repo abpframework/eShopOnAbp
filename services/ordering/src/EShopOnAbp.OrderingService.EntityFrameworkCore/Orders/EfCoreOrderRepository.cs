@@ -1,11 +1,11 @@
-﻿using System;
+﻿using EShopOnAbp.OrderingService.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading;
 using System.Threading.Tasks;
-using EShopOnAbp.OrderingService.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
@@ -18,14 +18,6 @@ public class EfCoreOrderRepository : EfCoreRepository<OrderingServiceDbContext, 
     public EfCoreOrderRepository(IDbContextProvider<OrderingServiceDbContext> dbContextProvider) : base(
         dbContextProvider)
     {
-    }
-
-    public override async Task<Order> InsertAsync(Order entity, bool autoSave = false,
-        CancellationToken cancellationToken = default)
-    {
-        var newEntity = await base.InsertAsync(entity, autoSave, GetCancellationToken(cancellationToken));
-        await EnsurePropertyLoadedAsync(newEntity, o => o.OrderStatus, GetCancellationToken(cancellationToken));
-        return newEntity;
     }
 
     public async Task<List<Order>> GetOrdersByUserId(
