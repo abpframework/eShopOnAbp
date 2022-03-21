@@ -7,6 +7,7 @@ using Ocelot.Middleware;
 using System.Collections.Generic;
 using System.Linq;
 using EShopOnAbp.Shared.Hosting.AspNetCore;
+using Microsoft.AspNetCore.Http;
 using Volo.Abp;
 using Volo.Abp.Modularity;
 using Microsoft.AspNetCore.Rewrite;
@@ -23,21 +24,24 @@ public class EShopOnAbpWebPublicGatewayModule : AbpModule
         var configuration = context.Services.GetConfiguration();
         var hostingEnvironment = context.Services.GetHostingEnvironment();
 
-        SwaggerConfigurationHelper.ConfigureWithAuth(
-            context: context,
-            authority: configuration["AuthServer:Authority"],
-            scopes: new Dictionary<string, string> /* Requested scopes for authorization code request and descriptions for swagger UI only */
-            {
-                { "AccountService", "Account Service API" },
-                { "IdentityService", "Identity Service API" },
-                { "AdministrationService", "Administration Service API" },
-                { "CatalogService", "Catalog Service API" },
-                { "BasketService", "Basket Service API" },
-                { "PaymentService", "Payment Service API" },
-                { "OrderingService", "Ordering Service API" },
-            },
-            apiTitle: "WebPublic Gateway"
-        );
+        // SwaggerConfigurationHelper.ConfigureWithAuth(
+        //     context: context,
+        //     authority: configuration["AuthServer:Authority"],
+        //     scopes: new Dictionary<string, string> /* Requested scopes for authorization code request and descriptions for swagger UI only */
+        //     {
+        //         { "AccountService", "Account Service API" },
+        //         { "IdentityService", "Identity Service API" },
+        //         { "AdministrationService", "Administration Service API" },
+        //         { "CatalogService", "Catalog Service API" },
+        //         { "BasketService", "Basket Service API" },
+        //         { "PaymentService", "Payment Service API" },
+        //         { "OrderingService", "Ordering Service API" },
+        //     },
+        //     apiTitle: "WebPublic Gateway"
+        // );
+
+        context.Services.AddReverseProxy()
+            .LoadFromConfig(configuration.GetSection("ReverseProxy"));
     }
 
     public override void OnApplicationInitialization(ApplicationInitializationContext context)
@@ -52,35 +56,50 @@ public class EShopOnAbpWebPublicGatewayModule : AbpModule
 
         app.UseCorrelationId();
         app.UseAbpSerilogEnrichers();
-        app.UseSwagger();
-        app.UseSwaggerUI(options =>
+        // app.UseSwagger();
+        // app.UseSwaggerUI(options =>
+        // {
+        //     var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
+        //     var routes = configuration.GetSection("Routes").Get<List<OcelotConfiguration>>();
+        //     var routedServices = routes
+        //         .GroupBy(t => t.ServiceKey)
+        //         .Select(r => r.First())
+        //         .Distinct();
+        //         
+        //     foreach (var config in routedServices)
+        //     {
+        //         var url =
+        //             $"{config.DownstreamScheme}://{config.DownstreamHostAndPorts.FirstOrDefault()?.Host}:{config.DownstreamHostAndPorts.FirstOrDefault()?.Port}";
+        //         if (!env.IsDevelopment())
+        //         {
+        //             url = $"https://{config.DownstreamHostAndPorts.FirstOrDefault()?.Host}";
+        //         }
+        //
+        //         options.SwaggerEndpoint($"{url}/swagger/v1/swagger.json", $"{config.ServiceKey} API");
+        //         options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
+        //         options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
+        //     }
+        // });
+        //
+        // app.UseRewriter(new RewriteOptions()
+        //     // Regex for "", "/" and "" (whitespace)
+        //     .AddRedirect("^(|\\|\\s+)$", "/swagger"));
+        //
+        // app.UseOcelot().Wait();
+        // app.MapWhen(
+        //     ctx => ctx.Request.Path.ToString().TrimEnd('/').Equals(""),
+        //     app2 =>
+        //     {
+        //         app2.UseRouting();
+        //         // app2.UseConfiguredEndpoints();
+        //         app2.UseEndpoints(endpoints => endpoints.MapReverseProxy());
+        //     }
+        // );
+        app.UseRouting();
+        app.UseEndpoints(endpoints =>
         {
-            var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
-            var routes = configuration.GetSection("Routes").Get<List<OcelotConfiguration>>();
-            var routedServices = routes
-                .GroupBy(t => t.ServiceKey)
-                .Select(r => r.First())
-                .Distinct();
-                
-            foreach (var config in routedServices)
-            {
-                var url =
-                    $"{config.DownstreamScheme}://{config.DownstreamHostAndPorts.FirstOrDefault()?.Host}:{config.DownstreamHostAndPorts.FirstOrDefault()?.Port}";
-                if (!env.IsDevelopment())
-                {
-                    url = $"https://{config.DownstreamHostAndPorts.FirstOrDefault()?.Host}";
-                }
-
-                options.SwaggerEndpoint($"{url}/swagger/v1/swagger.json", $"{config.ServiceKey} API");
-                options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
-                options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
-            }
+            endpoints.MapGet("", ctx => ctx.Response.WriteAsync("YAG"));
+            endpoints.MapReverseProxy();
         });
-
-        app.UseRewriter(new RewriteOptions()
-            // Regex for "", "/" and "" (whitespace)
-            .AddRedirect("^(|\\|\\s+)$", "/swagger"));
-
-        app.UseOcelot().Wait();
     }
 }
