@@ -1,58 +1,70 @@
 ﻿using EShopOnAbp.OrderingService.EntityFrameworkCore;
+using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations.EfCore;
 using System;
 using System.Threading.Tasks;
-using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations.EfCore;
-using Microsoft.Extensions.Logging;
+using Serilog;
 using Volo.Abp.Data;
+using Volo.Abp.DistributedLocking;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.Uow;
 
-namespace EShopOnAbp.OrderingService.DbMigrations
-{
-    public class OrderingServiceDatabaseMigrationEventHandler
-        : DatabaseEfCoreMigrationEventHandler<OrderingServiceDbContext>,
+namespace EShopOnAbp.OrderingService.DbMigrations;
+
+public class OrderingServiceDatabaseMigrationEventHandler
+    : DatabaseEfCoreMigrationEventHandler<OrderingServiceDbContext>,
         IDistributedEventHandler<ApplyDatabaseMigrationsEto>
+{
+    private readonly IDataSeeder _dataSeeder;
+
+    public OrderingServiceDatabaseMigrationEventHandler(
+        ICurrentTenant currentTenant,
+        IUnitOfWorkManager unitOfWorkManager,
+        ITenantStore tenantStore,
+        IDistributedEventBus distributedEventBus,
+        IDataSeeder dataSeeder,
+        IAbpDistributedLock distributedLockProvider)
+        : base(
+            currentTenant,
+            unitOfWorkManager,
+            tenantStore,
+            distributedEventBus,
+            OrderingServiceDbProperties.ConnectionStringName,
+            distributedLockProvider)
     {
-        private readonly IDataSeeder _dataSeeder;
-        public OrderingServiceDatabaseMigrationEventHandler(
-            ICurrentTenant currentTenant,
-            IUnitOfWorkManager unitOfWorkManager,
-            ITenantStore tenantStore,
-            IDistributedEventBus distributedEventBus, 
-            IDataSeeder dataSeeder) 
-            : base(
-                currentTenant,
-                unitOfWorkManager,
-                tenantStore,
-                distributedEventBus,
-                OrderingServiceDbProperties.ConnectionStringName)
+        _dataSeeder = dataSeeder;
+    }
+
+    public async Task HandleEventAsync(ApplyDatabaseMigrationsEto eventData)
+    {
+        if (eventData.DatabaseName != DatabaseName)
         {
-            _dataSeeder = dataSeeder;
+            return;
         }
 
-        public async Task HandleEventAsync(ApplyDatabaseMigrationsEto eventData)
+        if (eventData.TenantId != null)
         {
-            if (eventData.DatabaseName != DatabaseName)
-            {
-                return;
-            }
+            return;
+        }
 
-            if (eventData.TenantId != null)
+        try
+        {
+            await using (var handle = await DistributedLockProvider.TryAcquireAsync(DatabaseName))
             {
-                return;
-            }
+                Log.Information("OrderingService has acquired lock for db migration...");
 
-            try
-            {
-                await MigrateDatabaseSchemaAsync(null);
-                Logger.LogInformation("Starting OrderingService DataSeeder...");
-                await _dataSeeder.SeedAsync();
+                if (handle != null)
+                {
+                    Log.Information("OrderingService is migrating database...");
+                    await MigrateDatabaseSchemaAsync();
+                    Log.Information("OrderingService is seeding data...");
+                    await _dataSeeder.SeedAsync();
+                }
             }
-            catch (Exception ex)
-            {
-                await HandleErrorOnApplyDatabaseMigrationAsync(eventData, ex);
-            }
+        }
+        catch (Exception ex)
+        {
+            await HandleErrorOnApplyDatabaseMigrationAsync(eventData, ex);
         }
     }
 }

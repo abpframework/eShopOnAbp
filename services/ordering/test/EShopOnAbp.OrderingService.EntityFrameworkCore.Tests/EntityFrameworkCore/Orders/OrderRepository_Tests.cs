@@ -1,12 +1,11 @@
-﻿using System;
+﻿using EShopOnAbp.OrderingService.Orders;
+using EShopOnAbp.OrderingService.Orders.Specifications;
+using EShopOnAbp.OrderingService.Samples;
+using Shouldly;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using EShopOnAbp.OrderingService.Orders;
-using EShopOnAbp.OrderingService.Orders.Specifications;
-using EShopOnAbp.OrderingService.Samples;
-using Microsoft.EntityFrameworkCore;
-using Shouldly;
 using Xunit;
 
 namespace EShopOnAbp.OrderingService.EntityFrameworkCore.Orders;
@@ -26,14 +25,6 @@ public class OrderRepository_Tests : SampleRepository_Tests<OrderingServiceEntit
         _testData = GetRequiredService<TestData>();
     }
 
-    [Fact]
-    public async Task Should_Get_OrderStatus()
-    {
-        var dbSet = _dbContext.Set<OrderStatus>();
-        var statusList = await dbSet.ToListAsync();
-        statusList.Count.ShouldNotBe(0);
-    }
-    
     [Fact]
     public async Task Should_Get_User_Orders()
     {

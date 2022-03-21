@@ -15,7 +15,6 @@ public static class OrderEfCoreQueryableExtensions
         return queryable
             .Include(x => x.Address)
             .Include(x => x.Buyer)
-            .Include(x => x.OrderItems)
-            .Include(x => x.OrderStatus);
+            .Include(x => x.OrderItems);
     }
 }

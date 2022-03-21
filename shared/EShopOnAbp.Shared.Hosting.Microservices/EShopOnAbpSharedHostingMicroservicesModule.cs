@@ -1,5 +1,7 @@
 ﻿using EShopOnAbp.AdministrationService.EntityFrameworkCore;
 using EShopOnAbp.Shared.Hosting.AspNetCore;
+using Medallion.Threading;
+using Medallion.Threading.Redis;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Redis;
@@ -11,37 +13,42 @@ using Volo.Abp.EventBus.RabbitMq;
 using Volo.Abp.Modularity;
 using Volo.Abp.MultiTenancy;
 
-namespace EShopOnAbp.Shared.Hosting.Microservices
+namespace EShopOnAbp.Shared.Hosting.Microservices;
+
+[DependsOn(
+    typeof(EShopOnAbpSharedHostingAspNetCoreModule),
+    typeof(AbpBackgroundJobsRabbitMqModule),
+    typeof(AbpAspNetCoreMultiTenancyModule),
+    typeof(AbpEventBusRabbitMqModule),
+    typeof(AbpCachingStackExchangeRedisModule),
+    typeof(AdministrationServiceEntityFrameworkCoreModule)
+)]
+public class EShopOnAbpSharedHostingMicroservicesModule : AbpModule
 {
-    [DependsOn(
-        typeof(EShopOnAbpSharedHostingAspNetCoreModule),
-        typeof(AbpBackgroundJobsRabbitMqModule),
-        typeof(AbpAspNetCoreMultiTenancyModule),
-        typeof(AbpEventBusRabbitMqModule),
-        typeof(AbpCachingStackExchangeRedisModule),
-        typeof(AdministrationServiceEntityFrameworkCoreModule)
-    )]
-    public class EShopOnAbpSharedHostingMicroservicesModule : AbpModule
+    public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        public override void ConfigureServices(ServiceConfigurationContext context)
+        var configuration = context.Services.GetConfiguration();
+
+        Configure<AbpMultiTenancyOptions>(options =>
         {
-            var configuration = context.Services.GetConfiguration();
-            var hostingEnvironment = context.Services.GetHostingEnvironment();
+            options.IsEnabled = true;
+        });
 
-            Configure<AbpMultiTenancyOptions>(options =>
-            {
-                options.IsEnabled = true;
-            });
+        Configure<AbpDistributedCacheOptions>(options =>
+        {
+            options.KeyPrefix = "EShopOnAbp:";
+        });
 
-            Configure<AbpDistributedCacheOptions>(options =>
-            {
-                options.KeyPrefix = "EShopOnAbp:";
-            });
+        var redis = ConnectionMultiplexer.Connect(configuration["Redis:Configuration"]);
+        context.Services
+            .AddDataProtection()
+            .PersistKeysToStackExchangeRedis(redis, "EShopOnAbp-Protection-Keys");
 
-            var redis = ConnectionMultiplexer.Connect(configuration["Redis:Configuration"]);
-            context.Services
-                .AddDataProtection()
-                .PersistKeysToStackExchangeRedis(redis, "EShopOnAbp-Protection-Keys");
-        }
+
+        context.Services.AddSingleton<IDistributedLockProvider>(sp =>
+        {
+            var connection = ConnectionMultiplexer.Connect(configuration["Redis:Configuration"]);
+            return new RedisDistributedSynchronizationProvider(connection.GetDatabase());
+        });
     }
 }
