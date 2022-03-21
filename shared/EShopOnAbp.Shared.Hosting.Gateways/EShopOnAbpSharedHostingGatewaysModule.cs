@@ -17,8 +17,8 @@ namespace EShopOnAbp.Shared.Hosting.Gateways
         {
             var configuration = context.Services.GetConfiguration();
 
-            context.Services.AddOcelot(configuration)
-                .AddPolly();
+            // context.Services.AddOcelot(configuration)
+            //     .AddPolly();
         }
     }
 }
