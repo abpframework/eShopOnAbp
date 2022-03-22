@@ -75,14 +75,9 @@ export class OrdersComponent implements OnInit {
         if (status !== Confirmation.Status.confirm) {
           return;
         }
-        this.service
-          .setAsCancelled(row.id, {
-            paymentRequestId: undefined,
-            paymentRequestStatus: undefined,
-          })
-          .subscribe(() => {
-            this.list.get();
-          });
+        this.service.setAsCancelled(row.id).subscribe(() => {
+          this.list.get();
+        });
       });
   }
 }
