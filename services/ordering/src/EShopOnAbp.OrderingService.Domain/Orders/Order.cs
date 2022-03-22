@@ -57,6 +57,12 @@ public class Order : AggregateRoot<Guid>
         return this;
     }
 
+    public Order SetOrderCancelled()
+    {
+        OrderStatus = OrderStatus.Cancelled;
+        return this;
+    }
+
     public Order AddOrderItem(Guid id, Guid productId, string productName, string productCode, decimal unitPrice,
         decimal discount, string pictureUrl, int units = 1)
     {
@@ -84,5 +90,15 @@ public class Order : AggregateRoot<Guid>
     public decimal GetTotal()
     {
         return OrderItems.Sum(o => o.Units * o.UnitPrice);
+    }
+
+    public Order SetOrderAsShipped()
+    {
+        if (OrderStatus == OrderStatus.Cancelled)
+        {
+            return this;
+        }
+        OrderStatus = OrderStatus.Shipped;
+        return this;
     }
 }

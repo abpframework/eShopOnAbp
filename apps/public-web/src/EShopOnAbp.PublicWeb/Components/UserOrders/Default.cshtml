@@ -13,7 +13,7 @@
 </abp-row>
 @foreach (var order in Model.UserOrders)
 {
-    var orderTotalString = order.Items.Sum(q => q.UnitPrice).ToString("C", new CultureInfo("en-US"));
+    var orderTotalString = order.Items.Sum(q => q.UnitPrice * q.Units).ToString("C", new CultureInfo("en-US"));
     string addressString = $"{order.Address.Street} {order.Address.ZipCode} \n {order.Address.City}/{order.Address.Country}";
     <div class="card">
         <div class="card-header">
