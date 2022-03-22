@@ -97,6 +97,104 @@
               "allowAnonymous": null,
               "implementFrom": "EShopOnAbp.OrderingService.Orders.IOrderAppService"
             },
+            "GetOrdersAsyncByInput": {
+              "uniqueName": "GetOrdersAsyncByInput",
+              "name": "GetOrdersAsync",
+              "httpMethod": "GET",
+              "url": "api/ordering/order/orders",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "EShopOnAbp.OrderingService.Orders.GetOrdersInput, EShopOnAbp.OrderingService.Application.Contracts",
+                  "type": "EShopOnAbp.OrderingService.Orders.GetOrdersInput",
+                  "typeSimple": "EShopOnAbp.OrderingService.Orders.GetOrdersInput",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "Filter",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                }
+              ],
+              "returnValue": {
+                "type": "System.Collections.Generic.List<EShopOnAbp.OrderingService.Orders.OrderDto>",
+                "typeSimple": "[EShopOnAbp.OrderingService.Orders.OrderDto]"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "EShopOnAbp.OrderingService.Orders.IOrderAppService"
+            },
+            "GetListPagedAsyncByInput": {
+              "uniqueName": "GetListPagedAsyncByInput",
+              "name": "GetListPagedAsync",
+              "httpMethod": "GET",
+              "url": "api/ordering/order/paged",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto, Volo.Abp.Ddd.Application.Contracts",
+                  "type": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
+                  "typeSimple": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "Sorting",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "SkipCount",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "MaxResultCount",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                }
+              ],
+              "returnValue": {
+                "type": "Volo.Abp.Application.Dtos.PagedResultDto<EShopOnAbp.OrderingService.Orders.OrderDto>",
+                "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<EShopOnAbp.OrderingService.Orders.OrderDto>"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "EShopOnAbp.OrderingService.Orders.IOrderAppService"
+            },
             "GetByOrderNoAsyncByOrderNo": {
               "uniqueName": "GetByOrderNoAsyncByOrderNo",
               "name": "GetByOrderNoAsync",
@@ -132,6 +230,80 @@
                 "typeSimple": "EShopOnAbp.OrderingService.Orders.OrderDto"
               },
               "allowAnonymous": null,
+              "implementFrom": "EShopOnAbp.OrderingService.Orders.IOrderAppService"
+            },
+            "SetAsCancelledAsyncById": {
+              "uniqueName": "SetAsCancelledAsyncById",
+              "name": "SetAsCancelledAsync",
+              "httpMethod": "POST",
+              "url": "api/ordering/order/{id}/set-as-cancelled",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Void",
+                "typeSimple": "System.Void"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "EShopOnAbp.OrderingService.Orders.IOrderAppService"
+            },
+            "SetAsShippedAsyncById": {
+              "uniqueName": "SetAsShippedAsyncById",
+              "name": "SetAsShippedAsync",
+              "httpMethod": "POST",
+              "url": "api/ordering/order/{id}/set-as-shipped",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Void",
+                "typeSimple": "System.Void"
+              },
+              "allowAnonymous": false,
               "implementFrom": "EShopOnAbp.OrderingService.Orders.IOrderAppService"
             },
             "CreateAsyncByInput": {

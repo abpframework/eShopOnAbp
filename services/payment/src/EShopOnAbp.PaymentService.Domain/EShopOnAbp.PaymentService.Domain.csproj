@@ -12,4 +12,9 @@
     <ProjectReference Include="..\EShopOnAbp.PaymentService.Domain.Shared\EShopOnAbp.PaymentService.Domain.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\ordering\src\EShopOnAbp.OrderingService.Domain.Shared\EShopOnAbp.OrderingService.Domain.Shared.csproj" />
+    <ProjectReference Include="..\..\..\..\shared\EShopOnAbp.Shared.Hosting\EShopOnAbp.Shared.Hosting.csproj" />
+  </ItemGroup>
+
 </Project>
