@@ -8,7 +8,6 @@ import { eOrderingPolicyNames } from '@eshoponabp/ordering/config';
 @Component({
   selector: 'lib-orders',
   templateUrl: './orders.component.html',
-  styleUrls: ['./orders.component.css'],
   providers: [ListService],
 })
 export class OrdersComponent implements OnInit {
