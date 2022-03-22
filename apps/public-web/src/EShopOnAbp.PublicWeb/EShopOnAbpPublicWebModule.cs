@@ -41,6 +41,7 @@ using EShopOnAbp.PaymentService.PaymentMethods;
 using EShopOnAbp.PublicWeb.AnonymousUser;
 using Microsoft.Extensions.Configuration;
 using Volo.Abp.VirtualFileSystem;
+using EShopOnAbp.PublicWeb.Options;
 
 namespace EShopOnAbp.PublicWeb;
 
@@ -92,6 +93,8 @@ public class EShopOnAbpPublicWebModule : AbpModule
                 bundle => { bundle.AddContributors(typeof(CartWidgetStyleContributor)); }
             );
         });
+
+        Configure<RemoteServices>(options => { options.Default.BaseUrl = configuration["RemoteServices:Default:BaseUrl"]; });
 
         Configure<AbpMultiTenancyOptions>(options => { options.IsEnabled = true; });
 
@@ -167,7 +170,7 @@ public class EShopOnAbpPublicWebModule : AbpModule
         context.Services.AddStaticHttpClientProxies(
             typeof(BasketServiceContractsModule).Assembly, remoteServiceConfigurationName: BasketServiceConstants.RemoteServiceName
         );
-        
+
         Configure<AbpVirtualFileSystemOptions>(options =>
         {
             options.FileSets.AddEmbedded<EShopOnAbpPublicWebModule>();

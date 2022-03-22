@@ -1,9 +1,12 @@
 ﻿@page
 @using EShopOnAbp.Localization
+@using EShopOnAbp.PublicWeb.Options
 @using Microsoft.Extensions.Localization
 @using System.Globalization
+@using Microsoft.Extensions.Options
 @model EShopOnAbp.PublicWeb.Pages.IndexModel
 @inject IStringLocalizer<EShopOnAbpResource> L
+@inject IOptions<RemoteServices> options
 
 @{
     const int productsColumnSize = 4; // TODO: update abp-column helper to plain html for proper row and columns css
@@ -38,7 +41,7 @@
                             {
                                 var product = Model.Products[(i * productsColumnSize) + j];
                                 var productPrice = product.Price.ToString("C", new CultureInfo("en-US"));
-                                string productImage = !product.ImageName.IsNullOrEmpty() ? $"/product-images/{product.ImageName}" : "/product-images/@product.ImageName";
+                                string productImage = !product.ImageName.IsNullOrEmpty() ? $"{options.Value.Default.BaseUrl}product-images/{product.ImageName}" : $"{options.Value.Default.BaseUrl}product-images/@product.ImageName";
                                 string buyText = L["Index:AddToBasket"];
                                 <div class="product-list-item" data-product-id="@product.Id.ToString()">
                                     <div class="col">
