@@ -1,5 +1,5 @@
 import { Environment } from '@abp/ng.core';
 
-export interface MyEnvironment extends  Environment{
+export interface MyEnvironment extends Environment {
   mediaServerUrl?: string;
 }

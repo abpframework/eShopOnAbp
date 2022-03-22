@@ -1,4 +1,4 @@
-import type { GetMyOrdersInput, GetOrdersInput, OrderCreateDto, OrderDto, SetAsCancelledDto } from './models';
+import type { GetMyOrdersInput, GetOrdersInput, OrderCreateDto, OrderDto } from './models';
 import { RestService } from '@abp/ng.core';
 import type { PagedAndSortedResultRequestDto, PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
@@ -56,11 +56,10 @@ export class OrderService {
     },
     { apiName: this.apiName });
 
-  setAsCancelled = (id: string, input: SetAsCancelledDto) =>
+  setAsCancelled = (id: string) =>
     this.restService.request<any, void>({
       method: 'POST',
       url: `/api/ordering/order/${id}/set-as-cancelled`,
-      body: input,
     },
     { apiName: this.apiName });
 

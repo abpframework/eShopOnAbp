@@ -1,66 +1,78 @@
-<abp-modal [visible]='visible' (visibleChange)='visibleChange.emit($event)' [options]='modalOption'>
+<abp-modal [visible]="visible" (visibleChange)="visibleChange.emit($event)" [options]="modalOption">
   <ng-template #abpHeader>
-    <h3>{{"OrderingService::ModalTitle" | abpLocalization }}</h3>
+    <h3>{{ 'OrderingService::ModalTitle' }}</h3>
   </ng-template>
 
   <ng-template #abpBody>
+    <div *ngIf="order">
+      <div class="container">
+        <lib-order-detail-item label="OrderingService::DisplayName:OrderNo"
+          >#{{ order.orderNo }}</lib-order-detail-item
+        >
+        <lib-order-detail-item label="OrderingService::DisplayName:OrderStatus">{{
+          order.orderStatus
+        }}</lib-order-detail-item>
+        <lib-order-detail-item label="OrderingService::DisplayName:BuyerName">{{
+          order.buyer.name
+        }}</lib-order-detail-item>
+        <lib-order-detail-item label="OrderingService::DisplayName:BuyerEmail">{{
+          order.buyer.email
+        }}</lib-order-detail-item>
 
-    <div *ngIf='order'>
-      <div class='container'>
-        <lib-order-detail-item [label]="'OrderingService::DisplayName:OrderNo' | abpLocalization">#{{order.orderNo}}</lib-order-detail-item>
-        <lib-order-detail-item [label]="'OrderingService::DisplayName:OrderStatus' | abpLocalization">{{order.orderStatus}}</lib-order-detail-item>
-        <lib-order-detail-item [label]="'OrderingService::DisplayName:BuyerName' | abpLocalization">{{order.buyer.name}}</lib-order-detail-item>
-        <lib-order-detail-item [label]="'OrderingService::DisplayName:BuyerEmail' | abpLocalization">{{order.buyer.email}}</lib-order-detail-item>
-
-        <lib-order-detail-item  [label]="'OrderingService::DisplayName:Address' | abpLocalization">
-        <span *ngIf='order.address as address'>
-          {{address.description}} <br />
-          {{address.street}}  <br />
-          {{address.zipCode}} <br />
-          {{address.city}} / {{address.country}} <br />
-        </span>
+        <lib-order-detail-item label="OrderingService::DisplayName:Address">
+          <span *ngIf="order.address as address">
+            {{ address.description }} <br />
+            {{ address.street }} <br />
+            {{ address.zipCode }} <br />
+            {{ address.city }} / {{ address.country }} <br />
+          </span>
         </lib-order-detail-item>
-        <lib-order-detail-item [label]="'OrderingService::DisplayName:PaymentMethod' | abpLocalization">{{order.paymentMethod}}</lib-order-detail-item>
-        <lib-order-detail-item [label]="'OrderingService::DisplayName:Total' | abpLocalization">{{order.orderTotal | currency}}</lib-order-detail-item>
+        <lib-order-detail-item label="OrderingService::DisplayName:PaymentMethod">{{
+          order.paymentMethod
+        }}</lib-order-detail-item>
+        <lib-order-detail-item label="OrderingService::DisplayName:Total">{{
+          order.orderTotal | currency
+        }}</lib-order-detail-item>
       </div>
-      <br><br><br>
+      <br /><br /><br />
 
-      <ngx-datatable [rows]='(order.items)' default>
+      <ngx-datatable [rows]="order.items" default>
         <!-- TODO: localize column headers -->
-        <ngx-datatable-column [name]="'OrderingService::DisplayName:ProductId' | abpLocalization"  prop='productId'></ngx-datatable-column>
-        <ngx-datatable-column [name]="'OrderingService::DisplayName:PictureUrl' | abpLocalization" prop='pictureUrl'>
-          <ng-template let-value='value' ngx-datatable-cell-template>
-            <img [src]="mediaServerUrl + '/product-images/' + value" width='80' alt='' />
-          </ng-template>
-
-        </ngx-datatable-column>
-        <ngx-datatable-column [name]="'OrderingService::DisplayName:ProductName' | abpLocalization" prop='productName'></ngx-datatable-column>
-        <ngx-datatable-column [name]="'OrderingService::DisplayName:UnitPrice' | abpLocalization" prop='unitPrice'>
-          <ng-template let-value='value' ngx-datatable-cell-template>
-            {{value | currency }}
+        <ngx-datatable-column
+          [name]="'OrderingService::DisplayName:ProductId'"
+          prop="productId"
+        ></ngx-datatable-column>
+        <ngx-datatable-column [name]="'OrderingService::DisplayName:PictureUrl'" prop="pictureUrl">
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            <img [src]="mediaServerUrl + '/product-images/' + value" width="80" alt="" />
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column [name]="'OrderingService::DisplayName:Units' | abpLocalization" prop='units'></ngx-datatable-column>
-        <ngx-datatable-column  [name]="'OrderingService::DisplayName:Discount' | abpLocalization" prop='discount'>
-          <ng-template let-value='value' ngx-datatable-cell-template>
-            {{value }} %
+        <ngx-datatable-column
+          [name]="'OrderingService::DisplayName:ProductName'"
+          prop="productName"
+        ></ngx-datatable-column>
+        <ngx-datatable-column [name]="'OrderingService::DisplayName:UnitPrice'" prop="unitPrice">
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            {{ value | currency }}
           </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column [name]="'OrderingService::DisplayName:TotalPrice' | abpLocalization">
-          <ng-template let-row='row' ngx-datatable-cell-template>
-            {{(row.units * row.unitPrice) | currency }}
+        <ngx-datatable-column
+          [name]="'OrderingService::DisplayName:Units'"
+          prop="units"
+        ></ngx-datatable-column>
+        <ngx-datatable-column [name]="'OrderingService::DisplayName:Discount'" prop="discount">
+          <ng-template let-value="value" ngx-datatable-cell-template> {{ value }} % </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [name]="'OrderingService::DisplayName:TotalPrice'">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{ row.units * row.unitPrice | currency }}
           </ng-template>
         </ngx-datatable-column>
       </ngx-datatable>
-
-
     </div>
   </ng-template>
 
-
   <ng-template #abpFooter>
-    <button type='button' class='btn btn-secondary' abpClose>{{
-      'AbpUi::Close' | abpLocalization
-      }}</button>
+    <button type="button" class="btn btn-secondary" abpClose>{{ 'AbpUi::Close' }}</button>
   </ng-template>
 </abp-modal>
