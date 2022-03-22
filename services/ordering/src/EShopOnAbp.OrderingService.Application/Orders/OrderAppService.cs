@@ -5,8 +5,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
@@ -15,6 +13,7 @@ using Volo.Abp.Users;
 
 namespace EShopOnAbp.OrderingService.Orders;
 
+[Authorize(OrderingServicePermissions.Orders.Default)]
 public class OrderAppService : ApplicationService, IOrderAppService
 {
     private readonly OrderManager _orderManager;
@@ -36,6 +35,7 @@ public class OrderAppService : ApplicationService, IOrderAppService
         return CreateOrderDtoMapping(order);
     }
 
+    [AllowAnonymous]
     public async Task<List<OrderDto>> GetMyOrdersAsync(GetMyOrdersInput input)
     {
         ISpecification<Order> specification = SpecificationFactory.Create(input.Filter);
@@ -43,7 +43,6 @@ public class OrderAppService : ApplicationService, IOrderAppService
         return CreateOrderDtoMapping(orders);
     }
 
-    [Authorize(OrderingServicePermissions.Orders.Default)]
     public async Task<List<OrderDto>> GetOrdersAsync(GetOrdersInput input)
     {
         ISpecification<Order> specification = SpecificationFactory.Create(input.Filter);
@@ -51,17 +50,9 @@ public class OrderAppService : ApplicationService, IOrderAppService
         return CreateOrderDtoMapping(orders);
     }
 
-    [Authorize(OrderingServicePermissions.Orders.Default)]
     public async Task<PagedResultDto<OrderDto>> GetListPagedAsync(PagedAndSortedResultRequestDto input)
     {
-        var queryable = await _orderRepository.WithDetailsAsync();
-
-        var orders = await AsyncExecuter.ToListAsync(
-            queryable
-                .OrderBy(input.Sorting ?? "OrderDate")
-                .Skip(input.SkipCount)
-                .Take(input.MaxResultCount)
-        );
+        var orders = await _orderRepository.GetPagedListAsync(input.SkipCount, input.MaxResultCount, input.Sorting ?? "OrderDate", true);
 
         var totalCount = await _orderRepository.GetCountAsync();
         return new PagedResultDto<OrderDto>(
@@ -70,6 +61,7 @@ public class OrderAppService : ApplicationService, IOrderAppService
         );
     }
 
+    [AllowAnonymous]
     public async Task<OrderDto> GetByOrderNoAsync(int orderNo)
     {
         var order = await _orderRepository.GetByOrderNoAsync(orderNo);
@@ -92,6 +84,7 @@ public class OrderAppService : ApplicationService, IOrderAppService
         await _orderRepository.UpdateAsync(order);
     }
 
+    [AllowAnonymous]
     public async Task<OrderDto> CreateAsync(OrderCreateDto input)
     {
         var orderItems = GetProductListTuple(input.Products);
@@ -112,6 +105,7 @@ public class OrderAppService : ApplicationService, IOrderAppService
 
         return CreateOrderDtoMapping(placedOrder);
     }
+
 
     private List<(Guid productId, string productName, string productCode, decimal unitPrice, decimal discount, string
         pictureUrl, int units
