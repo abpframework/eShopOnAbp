@@ -47,7 +47,7 @@ public class OrderAppService : ApplicationService, IOrderAppService
     public async Task<List<OrderDto>> GetOrdersAsync(GetOrdersInput input)
     {
         ISpecification<Order> specification = SpecificationFactory.Create(input.Filter);
-        var orders = await _orderRepository.GetOrders(specification, true);
+        var orders = await _orderRepository.GetOrdersAsync(specification, true);
         return CreateOrderDtoMapping(orders);
     }
 
@@ -78,9 +78,9 @@ public class OrderAppService : ApplicationService, IOrderAppService
     }
 
     [Authorize(OrderingServicePermissions.Orders.SetAsCancelled)]
-    public async Task SetAsCancelledAsync(Guid id, SetAsCancelledDto input)
+    public async Task SetAsCancelledAsync(Guid id)
     {
-        await _orderManager.CancelOrderAsync(id, input.PaymentRequestId, input.PaymentRequestStatus);
+        await _orderManager.CancelOrderAsync(id);
     }
 
     [Authorize(OrderingServicePermissions.Orders.SetAsShipped)]

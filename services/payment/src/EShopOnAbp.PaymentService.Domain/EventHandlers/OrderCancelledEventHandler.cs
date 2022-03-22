@@ -19,7 +19,7 @@ namespace EShopOnAbp.PaymentService.EventHandlers
 
         public async Task HandleEventAsync(OrderCancelledEto eventData)
         {
-            var payment = await _paymentRepository.GetAsync(eventData.Buyer.BuyerId.GetValueOrDefault());
+            var payment = await _paymentRepository.GetAsync(eventData.PaymentRequestId);
             Log.Information($"Cancelled the order: {payment.OrderId} payment:{payment.Id}");
         }
     }

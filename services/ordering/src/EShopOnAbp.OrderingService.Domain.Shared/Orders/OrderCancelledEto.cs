@@ -8,6 +8,7 @@ namespace EShopOnAbp.OrderingService.Orders;
 [EventName("EShopOnAbp.Order.Cancelled")]
 public class OrderCancelledEto : EtoBase
 {
+    public Guid PaymentRequestId { get; set; }
     public Guid OrderId { get; set; }
     public int OrderNo { get; set; }
     public DateTime OrderDate { get; set; }

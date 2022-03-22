@@ -34,7 +34,7 @@ public class EfCoreOrderRepository : EfCoreRepository<OrderingServiceDbContext, 
             .ToListAsync(GetCancellationToken(cancellationToken));
     }
 
-    public async Task<List<Order>> GetOrders(
+    public async Task<List<Order>> GetOrdersAsync(
         ISpecification<Order> spec,
         bool includeDetails = false,
         CancellationToken cancellationToken = default)

@@ -57,12 +57,9 @@ public class Order : AggregateRoot<Guid>
         return this;
     }
 
-    public Order SetOrderCancelled(Guid paymentRequestId, string paymentRequestStatus)
+    public Order SetOrderCancelled()
     {
-        PaymentRequestId = paymentRequestId;
-        PaymentStatus = paymentRequestStatus;
         OrderStatus = OrderStatus.Cancelled;
-
         return this;
     }
 
@@ -97,7 +94,7 @@ public class Order : AggregateRoot<Guid>
 
     public Order SetOrderAsShipped()
     {
-        if(OrderStatus == OrderStatus.Cancelled)
+        if (OrderStatus == OrderStatus.Cancelled)
         {
             return this;
         }
