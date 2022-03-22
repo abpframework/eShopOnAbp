@@ -29,7 +29,6 @@ export class OrdersComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    console.log(this.permissions);
     const ordersStreamCreator = query => this.service.getListPaged(query);
 
     this.list.hookToQuery(ordersStreamCreator).subscribe(response => {
