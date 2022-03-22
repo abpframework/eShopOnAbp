@@ -53,6 +53,19 @@
       }
     },
     {
+      "ServiceKey": "Catalog Service",
+      "DownstreamPathTemplate": "/product-images/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44354
+        }
+      ],
+      "UpstreamPathTemplate": "/product-images/{everything}",
+      "UpstreamHttpMethod": [ "Get" ]
+    },
+    {
       "ServiceKey": "Basket Service",
       "DownstreamPathTemplate": "/api/basket/{everything}",
       "DownstreamScheme": "https",
