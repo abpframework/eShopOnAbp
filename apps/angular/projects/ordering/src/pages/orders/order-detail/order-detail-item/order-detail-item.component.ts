@@ -5,7 +5,7 @@ import { Component, Input } from '@angular/core';
   template: `
     <div class="row">
       <div class="col-3">
-        {{ label }}
+        {{ label | abpLocalization }}
       </div>
       <b class="col-9">
         <ng-content></ng-content>
