@@ -3,75 +3,104 @@ kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-{{ .Chart.Name }}-configmap
 data:
-  ocelot.json: |-
+  yarp.json: |-
     {
-      "GlobalConfiguration": {
-      "BaseUrl": "{{ .Values.config.globalConfigurationBaseUrl }}"
-    },
-      "Routes": [   
-    {
-      "ServiceKey": "Account Service",
-      "DownstreamPathTemplate": "/api/account/{everything}",
-      "DownstreamScheme": "{{ .Values.reRoutes.accountService.schema }}",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "{{ .Values.reRoutes.accountService.host }}",
-          "Port": {{ .Values.reRoutes.accountService.port }}
+    "ReverseProxy": {
+      "Routes": {
+        "Account Service": {
+          "ClusterId": "account-cluster",
+          "Match": {
+            "Path": "/api/account/{**everything}"
+          }
+        },
+        "Administration Service": {
+          "ClusterId": "administration-cluster",
+          "Match": {
+            "Path": "/api/abp/{**everything}"
+          }
+        },
+        "Catalog Service": {
+          "ClusterId": "catalog-cluster",
+          "Match": {
+            "Path": "/api/catalog/{**everything}"
+          }
+        },      
+        "Basket Service": {
+          "ClusterId": "basket-cluster",
+          "Match": {
+            "Path": "/api/basket/{**everything}"
+          }
+        },
+        "Ordering Service": {
+          "ClusterId": "ordering-cluster",
+          "Match": {
+            "Path": "/api/ordering/{**everything}"
+          }
+        },
+        "Payment Service": {
+          "ClusterId": "payment-cluster",
+          "Match": {
+            "Path": "/api/payment/{**everything}"
+          }
+        },
+        "product-picture-route": {
+          "ClusterId": "product-picture-cluster",
+          "Match": {
+            "Path": "/product-images/{**everything}",
+            "Methods" : [ "GET" ]
+          }
         }
-      ],
-      "UpstreamPathTemplate": "/api/account/{everything}",
-      "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ]
-    },
-    {
-      "ServiceKey": "Administration Service",
-      "DownstreamPathTemplate": "/api/abp/{everything}",
-      "DownstreamScheme": "{{ .Values.reRoutes.administrationService.schema }}",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "{{ .Values.reRoutes.administrationService.host }}",
-          "Port": "{{ .Values.reRoutes.administrationService.port }}",
+      },
+      "Clusters": {
+        "account-cluster": {
+          "Destinations": {
+            "destination1": {
+              "Address": "{{ .Values.reRoutes.accountService.url }}"
+            }
+          }
+        },
+        "administration-cluster": {
+          "Destinations": {
+            "destination1": {
+              "Address": "{{ .Values.reRoutes.administrationService.url }}"
+            }
+          }
+        },
+        "catalog-cluster": {
+          "Destinations": {
+            "destination1": {
+              "Address": "{{ .Values.reRoutes.catalogService.url }}"
+            }
+          }
+        },
+        "product-picture-cluster": {
+          "Destinations": {
+            "destination1": {
+              "Address": "{{ .Values.reRoutes.catalogService.url }}"
+            }
+          }
+        },
+        "basket-cluster": {
+          "Destinations": {
+            "destination1": {
+              "Address": "{{ .Values.reRoutes.basketService.url }}"
+            }
+          }
+        },
+        "ordering-cluster": {
+          "Destinations": {
+            "destination1": {
+              "Address": "{{ .Values.reRoutes.orderingService.url }}"
+            }
+          }
+        },
+        "payment-cluster": {
+          "Destinations": {
+            "destination1": {
+              "Address": "{{ .Values.reRoutes.paymentService.url }}"
+            }
+          }
         }
-      ],
-      "UpstreamPathTemplate": "/api/abp/{everything}",
-      "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ]
-    },
-    {
-      "ServiceKey": "Catalog Service",
-      "DownstreamPathTemplate": "/api/catalog/{everything}",
-      "DownstreamScheme": "{{ .Values.reRoutes.catalogService.schema }}",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "{{ .Values.reRoutes.catalogService.host }}",
-          "Port": "{{ .Values.reRoutes.catalogService.port }}",
-        }
-      ],
-      "UpstreamPathTemplate": "/api/c/catalog/{everything}",
-      "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ]
-    },
-    {
-      "ServiceKey": "Basket Service",
-      "DownstreamPathTemplate": "/api/basket/{everything}",
-      "DownstreamScheme": "{{ .Values.reRoutes.basketService.schema }}",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "{{ .Values.reRoutes.basketService.host }}",
-          "Port": "{{ .Values.reRoutes.basketService.port }}",
-        }
-      ],
-      "UpstreamPathTemplate": "/api/basket/{everything}",
-      "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ]
-    },
-    {
-      "ServiceKey": "Ordering Service",
-      "DownstreamPathTemplate": "/api/ordering/{everything}",
-      "DownstreamScheme": "{{ .Values.reRoutes.orderingService.schema }}",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "{{ .Values.reRoutes.orderingService.host }}",
-          "Port": "{{ .Values.reRoutes.orderingService.port }}",
-        }
-      ],
-      "UpstreamPathTemplate": "/api/ordering/{everything}",
-      "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ]
-    }]
+      }
+    }
     }
