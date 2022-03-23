@@ -1,25 +1,32 @@
 ﻿using EShopOnAbp.BasketService;
 using EShopOnAbp.CatalogService;
 using EShopOnAbp.Localization;
+using EShopOnAbp.OrderingService;
 using EShopOnAbp.PaymentService;
+using EShopOnAbp.PaymentService.PaymentMethods;
+using EShopOnAbp.PublicWeb.AnonymousUser;
+using EShopOnAbp.PublicWeb.Components.Toolbar.Cart;
 using EShopOnAbp.PublicWeb.Menus;
+using EShopOnAbp.PublicWeb.PaymentMethods;
 using EShopOnAbp.Shared.Hosting.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using StackExchange.Redis;
 using System;
 using System.Net.Http.Headers;
-using EShopOnAbp.OrderingService;
 using Volo.Abp;
 using Volo.Abp.Account;
 using Volo.Abp.AspNetCore.Authentication.OpenIdConnect;
 using Volo.Abp.AspNetCore.Mvc.Client;
 using Volo.Abp.AspNetCore.Mvc.Localization;
+using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic;
+using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared.Toolbars;
 using Volo.Abp.AspNetCore.SignalR;
@@ -27,21 +34,14 @@ using Volo.Abp.AutoMapper;
 using Volo.Abp.Caching;
 using Volo.Abp.Caching.StackExchangeRedis;
 using Volo.Abp.EventBus.RabbitMq;
+using Volo.Abp.Http.Client;
 using Volo.Abp.Http.Client.IdentityModel.Web;
 using Volo.Abp.Modularity;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.UI.Navigation.Urls;
-using Yarp.ReverseProxy.Transforms;
-using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
-using Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic.Bundling;
-using EShopOnAbp.PublicWeb.Components.Toolbar.Cart;
-using EShopOnAbp.PublicWeb.PaymentMethods;
-using EShopOnAbp.PaymentService.PaymentMethods;
-using EShopOnAbp.PublicWeb.AnonymousUser;
-using Microsoft.Extensions.Configuration;
 using Volo.Abp.VirtualFileSystem;
-using EShopOnAbp.PublicWeb.Options;
+using Yarp.ReverseProxy.Transforms;
 
 namespace EShopOnAbp.PublicWeb;
 
@@ -78,7 +78,6 @@ public class EShopOnAbpPublicWebModule : AbpModule
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
-        var hostingEnvironment = context.Services.GetHostingEnvironment();
         var configuration = context.Services.GetConfiguration();
 
         ConfigureBasketHttpClient(context);
@@ -94,7 +93,11 @@ public class EShopOnAbpPublicWebModule : AbpModule
             );
         });
 
-        Configure<RemoteServices>(options => { options.Default.BaseUrl = configuration["RemoteServices:Default:BaseUrl"]; });
+        context.Services.Configure<AbpRemoteServiceOptions>(options =>
+        {
+            options.RemoteServices.Default =
+                new RemoteServiceConfiguration(configuration["RemoteServices:Default:BaseUrl"]);
+        });
 
         Configure<AbpMultiTenancyOptions>(options => { options.IsEnabled = true; });
 
