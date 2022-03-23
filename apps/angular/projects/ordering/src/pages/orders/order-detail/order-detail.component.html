@@ -1,6 +1,6 @@
 <abp-modal [visible]="visible" (visibleChange)="visibleChange.emit($event)" [options]="modalOption">
   <ng-template #abpHeader>
-    <h3>{{ 'OrderingService::ModalTitle' }}</h3>
+    <h3>{{ 'OrderingService::ModalTitle' | abpLocalization }}</h3>
   </ng-template>
 
   <ng-template #abpBody>
@@ -37,12 +37,14 @@
       <br /><br /><br />
 
       <ngx-datatable [rows]="order.items" default>
-        <!-- TODO: localize column headers -->
         <ngx-datatable-column
-          [name]="'OrderingService::DisplayName:ProductId'"
+          [name]="'OrderingService::DisplayName:ProductId' | abpLocalization"
           prop="productId"
         ></ngx-datatable-column>
-        <ngx-datatable-column [name]="'OrderingService::DisplayName:PictureUrl'" prop="pictureUrl">
+        <ngx-datatable-column
+          [name]="'OrderingService::DisplayName:PictureUrl' | abpLocalization"
+          prop="pictureUrl"
+        >
           <ng-template let-value="value" ngx-datatable-cell-template>
             <img [src]="mediaServerUrl + '/product-images/' + value" width="80" alt="" />
           </ng-template>
@@ -51,19 +53,25 @@
           [name]="'OrderingService::DisplayName:ProductName'"
           prop="productName"
         ></ngx-datatable-column>
-        <ngx-datatable-column [name]="'OrderingService::DisplayName:UnitPrice'" prop="unitPrice">
+        <ngx-datatable-column
+          [name]="'OrderingService::DisplayName:UnitPrice' | abpLocalization"
+          prop="unitPrice"
+        >
           <ng-template let-value="value" ngx-datatable-cell-template>
             {{ value | currency }}
           </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column
-          [name]="'OrderingService::DisplayName:Units'"
+          [name]="'OrderingService::DisplayName:Units' | abpLocalization"
           prop="units"
         ></ngx-datatable-column>
-        <ngx-datatable-column [name]="'OrderingService::DisplayName:Discount'" prop="discount">
+        <ngx-datatable-column
+          [name]="'OrderingService::DisplayName:Discount' | abpLocalization"
+          prop="discount"
+        >
           <ng-template let-value="value" ngx-datatable-cell-template> {{ value }} % </ng-template>
         </ngx-datatable-column>
-        <ngx-datatable-column [name]="'OrderingService::DisplayName:TotalPrice'">
+        <ngx-datatable-column [name]="'OrderingService::DisplayName:TotalPrice' | abpLocalization">
           <ng-template let-row="row" ngx-datatable-cell-template>
             {{ row.units * row.unitPrice | currency }}
           </ng-template>
