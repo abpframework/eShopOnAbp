@@ -1,12 +1,10 @@
 ﻿using EShopOnAbp.Shared.Hosting.Gateways;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Ocelot.Middleware;
 using System.Collections.Generic;
-using System.Linq;
 using EShopOnAbp.Shared.Hosting.AspNetCore;
+using Microsoft.AspNetCore.Http;
 using Volo.Abp;
 using Volo.Abp.Modularity;
 using Microsoft.AspNetCore.Rewrite;
@@ -38,6 +36,9 @@ public class EShopOnAbpWebPublicGatewayModule : AbpModule
             },
             apiTitle: "WebPublic Gateway"
         );
+
+        // context.Services.AddReverseProxy()
+        //     .LoadFromConfig(configuration.GetSection("ReverseProxy"));
     }
 
     public override void OnApplicationInitialization(ApplicationInitializationContext context)
@@ -52,35 +53,17 @@ public class EShopOnAbpWebPublicGatewayModule : AbpModule
 
         app.UseCorrelationId();
         app.UseAbpSerilogEnrichers();
-        app.UseSwagger();
-        app.UseSwaggerUI(options =>
-        {
-            var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
-            var routes = configuration.GetSection("Routes").Get<List<OcelotConfiguration>>();
-            var routedServices = routes
-                .GroupBy(t => t.ServiceKey)
-                .Select(r => r.First())
-                .Distinct();
-                
-            foreach (var config in routedServices)
-            {
-                var url =
-                    $"{config.DownstreamScheme}://{config.DownstreamHostAndPorts.FirstOrDefault()?.Host}:{config.DownstreamHostAndPorts.FirstOrDefault()?.Port}";
-                if (!env.IsDevelopment())
-                {
-                    url = $"https://{config.DownstreamHostAndPorts.FirstOrDefault()?.Host}";
-                }
-
-                options.SwaggerEndpoint($"{url}/swagger/v1/swagger.json", $"{config.ServiceKey} API");
-                options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
-                options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
-            }
-        });
-
+        app.ConfigureSwaggerUIWithYarp(context);
+        
         app.UseRewriter(new RewriteOptions()
             // Regex for "", "/" and "" (whitespace)
             .AddRedirect("^(|\\|\\s+)$", "/swagger"));
-
-        app.UseOcelot().Wait();
+        
+        app.UseRouting();
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapGet("", ctx => ctx.Response.WriteAsync("YAG"));
+            endpoints.MapReverseProxy();
+        });
     }
 }

@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using Shouldly;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Volo.Abp.Users;
 using Xunit;
 
 namespace EShopOnAbp.OrderingService.Orders;
 
-public class OrderApplication_Tests:OrderingServiceApplicationTestBase
+public class OrderApplication_Tests : OrderingServiceApplicationTestBase
 {
     private readonly IOrderAppService _orderAppService;
     private readonly TestData _testData;
@@ -38,8 +38,13 @@ public class OrderApplication_Tests:OrderingServiceApplicationTestBase
         {
             new OrderItemCreateDto()
             {
-                Discount = 0, Units = 2, PictureUrl = "", ProductCode = "Test-001", ProductId = Guid.NewGuid(),
-                ProductName = "Test product", UnitPrice = 150
+                Discount = 0,
+                Units = 2,
+                PictureUrl = string.Empty,
+                ProductCode = "Test-001",
+                ProductId = Guid.NewGuid(),
+                ProductName = "Test product",
+                UnitPrice = 150
             }
         };
 
@@ -48,14 +53,24 @@ public class OrderApplication_Tests:OrderingServiceApplicationTestBase
             PaymentMethod = "paypal",
             Address = new OrderAddressDto()
             {
-                City = "Test City", Country = "Test Country", Description = "No Description", Street = "Test Street",
+                City = "Test City",
+                Country = "Test Country",
+                Description = "No Description",
+                Street = "Test Street",
                 ZipCode = "Test ZipCode"
             },
             Products = orderItems
         });
-        
+
         // Get Order by OrderNo;
         var myOrder = await _orderAppService.GetByOrderNoAsync(placedOrder.OrderNo);
         myOrder.ShouldNotBeNull();
+
+        // Get all orders
+        var orders = await _orderAppService.GetOrdersAsync(new GetOrdersInput()
+        {
+            Filter = string.Empty,
+        });
+        orders.ShouldNotBeNull();
     }
 }
