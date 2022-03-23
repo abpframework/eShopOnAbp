@@ -28,18 +28,18 @@ namespace EShopOnAbp.BasketService;
     typeof(BasketServiceContractsModule),
     typeof(EShopOnAbpSharedHostingMicroservicesModule)
 )]
-public class BasketServiceModule : AbpModule 
+public class BasketServiceModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         var hostingEnvironment = context.Services.GetHostingEnvironment();
 
         Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = hostingEnvironment.IsDevelopment();
-            
+
         var configuration = context.Services.GetConfiguration();
 
         ConfigureAutoMapper();
-        ConfigureAspNetCoreRouting(context);
+        ConfigureAspNetCoreRouting();
         ConfigureGrpc(context);
         ConfigureDistributedCache();
         ConfigureVirtualFileSystem();
@@ -48,7 +48,7 @@ public class BasketServiceModule : AbpModule
         ConfigureAutoApiControllers();
     }
 
-    private void ConfigureAspNetCoreRouting(ServiceConfigurationContext context)
+    private void ConfigureAspNetCoreRouting()
     {
         Configure<AbpAspNetCoreMvcOptions>(options =>
         {
@@ -91,7 +91,7 @@ public class BasketServiceModule : AbpModule
         app.UseUnitOfWork();
         app.UseConfiguredEndpoints();
     }
-        
+
     private void ConfigureSwagger(ServiceConfigurationContext context, IConfiguration configuration)
     {
         SwaggerConfigurationHelper.ConfigureWithAuth(
@@ -105,7 +105,7 @@ public class BasketServiceModule : AbpModule
             apiTitle: "Basket Service API"
         );
     }
-        
+
     private void ConfigureAuthentication(ServiceConfigurationContext context, IConfiguration configuration)
     {
         JwtBearerConfigurationHelper.Configure(context, "BasketService");
@@ -128,7 +128,7 @@ public class BasketServiceModule : AbpModule
                     .AllowCredentials();
             });
         });
-            
+
         Configure<AbpAntiForgeryOptions>(options => { options.AutoValidate = false; });
     }
 
@@ -142,12 +142,12 @@ public class BasketServiceModule : AbpModule
 
     private void ConfigureGrpc(ServiceConfigurationContext context)
     {
-        context.Services.AddGrpcClient<ProductPublic.ProductPublicClient>((services, options) => 
+        context.Services.AddGrpcClient<ProductPublic.ProductPublicClient>((services, options) =>
         {
             var remoteServiceOptions = services.GetRequiredService<IOptionsMonitor<AbpRemoteServiceOptions>>().CurrentValue;
             var catalogServiceConfiguration = remoteServiceOptions.RemoteServices.GetConfigurationOrDefault("Catalog");
             var catalogGrpcUrl = catalogServiceConfiguration.GetOrDefault("GrpcUrl");
-                
+
             options.Address = new Uri(catalogGrpcUrl);
         });
     }
