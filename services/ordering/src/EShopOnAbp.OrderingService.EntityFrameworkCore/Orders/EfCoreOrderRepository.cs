@@ -1,11 +1,11 @@
-﻿using System;
+﻿using EShopOnAbp.OrderingService.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading;
 using System.Threading.Tasks;
-using EShopOnAbp.OrderingService.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
@@ -20,14 +20,6 @@ public class EfCoreOrderRepository : EfCoreRepository<OrderingServiceDbContext, 
     {
     }
 
-    public override async Task<Order> InsertAsync(Order entity, bool autoSave = false,
-        CancellationToken cancellationToken = default)
-    {
-        var newEntity = await base.InsertAsync(entity, autoSave, GetCancellationToken(cancellationToken));
-        await EnsurePropertyLoadedAsync(newEntity, o => o.OrderStatus, GetCancellationToken(cancellationToken));
-        return newEntity;
-    }
-
     public async Task<List<Order>> GetOrdersByUserId(
         Guid userId,
         ISpecification<Order> spec,
@@ -37,6 +29,18 @@ public class EfCoreOrderRepository : EfCoreRepository<OrderingServiceDbContext, 
         return await (await GetDbSetAsync())
             .IncludeDetails(includeDetails)
             .Where(q => q.Buyer.Id == userId)
+            .Where(spec.ToExpression())
+            .OrderByDescending(o => o.OrderDate)
+            .ToListAsync(GetCancellationToken(cancellationToken));
+    }
+
+    public async Task<List<Order>> GetOrdersAsync(
+        ISpecification<Order> spec,
+        bool includeDetails = false,
+        CancellationToken cancellationToken = default)
+    {
+        return await (await GetDbSetAsync())
+            .IncludeDetails(includeDetails)
             .Where(spec.ToExpression())
             .OrderByDescending(o => o.OrderDate)
             .ToListAsync(GetCancellationToken(cancellationToken));

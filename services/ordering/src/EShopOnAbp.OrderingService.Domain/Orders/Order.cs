@@ -1,8 +1,8 @@
-﻿using System;
+﻿using EShopOnAbp.PaymentService.PaymentRequests;
+using JetBrains.Annotations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using EShopOnAbp.PaymentService.PaymentRequests;
-using JetBrains.Annotations;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities;
 
@@ -10,7 +10,6 @@ namespace EShopOnAbp.OrderingService.Orders;
 
 public class Order : AggregateRoot<Guid>
 {
-    private int _orderStatusId;
     public DateTime OrderDate { get; private set; }
     public int OrderNo { get; private set; }
     public string PaymentMethod { get; private set; }
@@ -25,15 +24,14 @@ public class Order : AggregateRoot<Guid>
     {
     }
 
-    internal Order(Guid id, Buyer buyer, Address address, [NotNull]string paymentMethod, Guid? paymentRequestId = null) : base(id)
+    internal Order(Guid id, Buyer buyer, Address address, [NotNull] string paymentMethod, Guid? paymentRequestId = null) : base(id)
     {
-        _orderStatusId = OrderStatus.Placed.Id;
         OrderDate = DateTime.UtcNow;
         OrderNo = GenerateOrderNo(id);
         Buyer = buyer;
         Address = address;
         PaymentRequestId = paymentRequestId;
-        PaymentMethod = Check.NotNullOrEmpty(paymentMethod,nameof(paymentMethod),maxLength:OrderConstants.OrderPaymentMethodNameMaxLength);
+        PaymentMethod = Check.NotNullOrEmpty(paymentMethod, nameof(paymentMethod), maxLength: OrderConstants.OrderPaymentMethodNameMaxLength);
         PaymentStatus = PaymentRequestState.Waiting.ToString(); // From PaymentService.Domain.Shared
         OrderItems = new List<OrderItem>();
     }
@@ -56,6 +54,12 @@ public class Order : AggregateRoot<Guid>
         PaymentStatus = paymentRequestStatus;
         OrderStatus = OrderStatus.Paid;
 
+        return this;
+    }
+
+    public Order SetOrderCancelled()
+    {
+        OrderStatus = OrderStatus.Cancelled;
         return this;
     }
 
@@ -86,5 +90,15 @@ public class Order : AggregateRoot<Guid>
     public decimal GetTotal()
     {
         return OrderItems.Sum(o => o.Units * o.UnitPrice);
+    }
+
+    public Order SetOrderAsShipped()
+    {
+        if (OrderStatus == OrderStatus.Cancelled)
+        {
+            return this;
+        }
+        OrderStatus = OrderStatus.Shipped;
+        return this;
     }
 }

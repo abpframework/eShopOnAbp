@@ -1,0 +1,86 @@
+﻿{
+  "ReverseProxy": {
+    "Routes": {
+      "Account Service": {
+        "ClusterId": "account-cluster",
+        "Match": {
+          "Path": "/api/account/{**everything}"
+        }
+      },
+      "Identity Service": {
+        "ClusterId": "identity-cluster",
+        "Match": {
+          "Path": "/api/identity/{**everything}"
+        }
+      },
+      "Administration Service": {
+        "ClusterId": "administration-cluster",
+        "Match": {
+          "Path": "/api/abp/{**everything}"
+        }
+      },
+      "feature-management-route": {
+        "ClusterId": "feature-management-cluster",
+        "Match": {
+          "Path": "/api/feature-management/{**everything}"
+        }
+      },
+      "permission-management-route": {
+        "ClusterId": "permission-management-cluster",
+        "Match": {
+          "Path": "/api/permission-management/{**everything}"
+        }
+      },
+      "setting-management-route": {
+        "ClusterId": "setting-management-cluster",
+        "Match": {
+          "Path": "/api/setting-management/{**everything}"
+        }
+      }
+    },
+    "Clusters": {
+      "account-cluster": {
+        "Destinations": {
+          "destination1": {
+            "Address": "https://localhost:44330"
+          }
+        }
+      },
+      "identity-cluster": {
+        "Destinations": {
+          "destination1": {
+            "Address": "https://localhost:44351"
+          }
+        }
+      },
+      "administration-cluster": {
+        "Destinations": {
+          "destination1": {
+            "Address": "https://localhost:44353"
+          }
+        }
+      },
+      "feature-management-cluster": {
+        "Destinations": {
+          "destination1": {
+            "Address": "https://localhost:44353"
+          }
+        }
+      },
+      "permission-management-cluster": {
+        "Destinations": {
+          "destination1": {
+            "Address": "https://localhost:44353"
+          }
+        }
+      },
+      "setting-management-cluster": {
+        "Destinations": {
+          "destination1": {
+            "Address": "https://localhost:44353"
+          }
+        }
+      }
+    }
+  }
+}

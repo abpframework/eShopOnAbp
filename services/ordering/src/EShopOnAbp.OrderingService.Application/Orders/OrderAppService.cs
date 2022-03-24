@@ -1,15 +1,19 @@
-﻿using System;
+﻿using EShopOnAbp.OrderingService.Localization;
+using EShopOnAbp.OrderingService.Orders.Specifications;
+using EShopOnAbp.OrderingService.Permissions;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using EShopOnAbp.OrderingService.Localization;
-using EShopOnAbp.OrderingService.Orders.Specifications;
-using Microsoft.Extensions.Logging;
+using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Specifications;
 using Volo.Abp.Users;
 
 namespace EShopOnAbp.OrderingService.Orders;
 
+[Authorize(OrderingServicePermissions.Orders.Default)]
 public class OrderAppService : ApplicationService, IOrderAppService
 {
     private readonly OrderManager _orderManager;
@@ -31,15 +35,33 @@ public class OrderAppService : ApplicationService, IOrderAppService
         return CreateOrderDtoMapping(order);
     }
 
+    [AllowAnonymous]
     public async Task<List<OrderDto>> GetMyOrdersAsync(GetMyOrdersInput input)
     {
         ISpecification<Order> specification = SpecificationFactory.Create(input.Filter);
-        
         var orders = await _orderRepository.GetOrdersByUserId(CurrentUser.GetId(), specification, true);
-        
         return CreateOrderDtoMapping(orders);
     }
 
+    public async Task<List<OrderDto>> GetOrdersAsync(GetOrdersInput input)
+    {
+        ISpecification<Order> specification = SpecificationFactory.Create(input.Filter);
+        var orders = await _orderRepository.GetOrdersAsync(specification, true);
+        return CreateOrderDtoMapping(orders);
+    }
+
+    public async Task<PagedResultDto<OrderDto>> GetListPagedAsync(PagedAndSortedResultRequestDto input)
+    {
+        var orders = await _orderRepository.GetPagedListAsync(input.SkipCount, input.MaxResultCount, input.Sorting ?? "OrderDate", true);
+
+        var totalCount = await _orderRepository.GetCountAsync();
+        return new PagedResultDto<OrderDto>(
+            totalCount,
+            CreateOrderDtoMapping(orders)
+        );
+    }
+
+    [AllowAnonymous]
     public async Task<OrderDto> GetByOrderNoAsync(int orderNo)
     {
         var order = await _orderRepository.GetByOrderNoAsync(orderNo);
@@ -47,6 +69,22 @@ public class OrderAppService : ApplicationService, IOrderAppService
         return CreateOrderDtoMapping(order);
     }
 
+    [Authorize(OrderingServicePermissions.Orders.SetAsCancelled)]
+    public async Task SetAsCancelledAsync(Guid id)
+    {
+        await _orderManager.CancelOrderAsync(id);
+    }
+
+    [Authorize(OrderingServicePermissions.Orders.SetAsShipped)]
+    public async Task SetAsShippedAsync(Guid id)
+    {
+
+        var order = await _orderRepository.GetAsync(id);
+        order.SetOrderAsShipped();
+        await _orderRepository.UpdateAsync(order);
+    }
+
+    [AllowAnonymous]
     public async Task<OrderDto> CreateAsync(OrderCreateDto input)
     {
         var orderItems = GetProductListTuple(input.Products);
@@ -67,6 +105,7 @@ public class OrderAppService : ApplicationService, IOrderAppService
 
         return CreateOrderDtoMapping(placedOrder);
     }
+
 
     private List<(Guid productId, string productName, string productCode, decimal unitPrice, decimal discount, string
         pictureUrl, int units
@@ -106,8 +145,7 @@ public class OrderAppService : ApplicationService, IOrderAppService
             Id = order.Id,
             OrderNo = order.OrderNo,
             OrderDate = order.OrderDate,
-            OrderStatus = order.OrderStatus.Name,
-            OrderStatusId = order.OrderStatus.Id,
+            OrderStatus = order.OrderStatus,
             PaymentMethod = order.PaymentMethod
         };
     }

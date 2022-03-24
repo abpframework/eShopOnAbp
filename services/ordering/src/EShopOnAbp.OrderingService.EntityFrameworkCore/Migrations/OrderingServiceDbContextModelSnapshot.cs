@@ -19,7 +19,7 @@ namespace EShopOnAbp.OrderingService.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("_Abp_DatabaseProvider", EfCoreDatabaseProvider.PostgreSql)
-                .HasAnnotation("ProductVersion", "6.0.0")
+                .HasAnnotation("ProductVersion", "6.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -45,6 +45,10 @@ namespace EShopOnAbp.OrderingService.Migrations
                     b.Property<int>("OrderNo")
                         .HasColumnType("integer");
 
+                    b.Property<string>("OrderStatus")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("PaymentMethod")
                         .IsRequired()
                         .HasMaxLength(128)
@@ -57,13 +61,7 @@ namespace EShopOnAbp.OrderingService.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
-                    b.Property<int>("_orderStatusId")
-                        .HasColumnType("integer")
-                        .HasColumnName("OrderStatusId");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("_orderStatusId");
 
                     b.ToTable("Orders", (string)null);
                 });
@@ -106,30 +104,8 @@ namespace EShopOnAbp.OrderingService.Migrations
                     b.ToTable("OrderItems", (string)null);
                 });
 
-            modelBuilder.Entity("EShopOnAbp.OrderingService.Orders.OrderStatus", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("integer")
-                        .HasDefaultValue(1);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("OrderStatus", (string)null);
-                });
-
             modelBuilder.Entity("EShopOnAbp.OrderingService.Orders.Order", b =>
                 {
-                    b.HasOne("EShopOnAbp.OrderingService.Orders.OrderStatus", "OrderStatus")
-                        .WithMany()
-                        .HasForeignKey("_orderStatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.OwnsOne("EShopOnAbp.OrderingService.Orders.Address", "Address", b1 =>
                         {
                             b1.Property<Guid>("OrderId")
@@ -183,8 +159,6 @@ namespace EShopOnAbp.OrderingService.Migrations
                     b.Navigation("Address");
 
                     b.Navigation("Buyer");
-
-                    b.Navigation("OrderStatus");
                 });
 
             modelBuilder.Entity("EShopOnAbp.OrderingService.Orders.OrderItem", b =>

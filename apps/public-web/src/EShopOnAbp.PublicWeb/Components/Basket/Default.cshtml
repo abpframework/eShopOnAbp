@@ -1,8 +1,11 @@
 @using EShopOnAbp.Localization
 @using EShopOnAbp.PublicWeb.Components.Purchase
 @using Microsoft.Extensions.Localization
+@using Microsoft.Extensions.Options
+@using Volo.Abp.Http.Client
 @model EShopOnAbp.BasketService.Services.BasketDto
 @inject IStringLocalizer<EShopOnAbpResource> L
+@inject IOptions<AbpRemoteServiceOptions> options
 
 <div>
     @if (!Model.Items.Any())
@@ -31,7 +34,7 @@
                 <div class="basket-list flex-container vertical">
                     @foreach (var item in Model.Items)
                     {
-                        string imageName = item.ImageName.IsNullOrEmpty() ? "/product-images/noimage.jpg" : $"/product-images/{item.ImageName}";
+                        string imageName = item.ImageName.IsNullOrEmpty() ? $"{options.Value.RemoteServices.Default.BaseUrl}product-images/noimage.jpg" : $"{options.Value.RemoteServices.Default.BaseUrl}product-images/{item.ImageName}";
                         var price = item.TotalPrice.ToString("0.00");
                         <div class="card basket-list-item" data-product-id="@item.ProductId">
                             <div class="card-body">
