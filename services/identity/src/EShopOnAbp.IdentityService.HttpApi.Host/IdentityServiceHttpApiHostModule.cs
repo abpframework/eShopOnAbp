@@ -100,6 +100,6 @@ public class IdentityServiceHttpApiHostModule : AbpModule
     {
         await context.ServiceProvider
             .GetRequiredService<IdentityServiceDatabaseMigrationChecker>()
-            .CheckAsync();
+            .CheckAndApplyDatabaseMigrationsAsync();
     }
 }

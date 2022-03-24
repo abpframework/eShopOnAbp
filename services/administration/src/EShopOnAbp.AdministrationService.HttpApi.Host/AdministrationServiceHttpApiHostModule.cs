@@ -103,6 +103,6 @@ public class AdministrationServiceHttpApiHostModule : AbpModule
     {
         await context.ServiceProvider
             .GetRequiredService<AdministrationServiceDatabaseMigrationChecker>()
-            .CheckAsync();
+            .CheckAndApplyDatabaseMigrationsAsync();
     }
 }
