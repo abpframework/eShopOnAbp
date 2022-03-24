@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
 using EShopOnAbp.CatalogService.Products;
+using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Uow;
 
 namespace EShopOnAbp.CatalogService.DbMigrations;
 
-public class ProductServiceDataSeeder : ITransientDependency
+public class ProductServiceDataSeeder : IDataSeedContributor, ITransientDependency
 {
     private readonly ProductManager _productManager;
     private readonly IRepository<Product, Guid> _productRepository;
@@ -20,8 +21,7 @@ public class ProductServiceDataSeeder : ITransientDependency
         _productManager = productManager;
     }
 
-    [UnitOfWork]
-    public virtual async Task SeedAsync()
+    public async Task SeedAsync(DataSeedContext context)
     {
         await AddProductsAsync();
     }
