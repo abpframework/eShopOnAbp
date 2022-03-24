@@ -64,10 +64,16 @@ public class PendingMongoDbMigrationsChecker<TDbContext> : PendingMigrationsChec
         var result = false;
         await using (var handle = await DistributedLockProvider.TryAcquireAsync("Migration_" + DatabaseName))
         {
-            Log.Information($"Lock is acquired for db migration and seeding on database named: {DatabaseName}...");
-
             using (var uow = UnitOfWorkManager.Begin(requiresNew: true, isTransactional: false))
             {
+                Log.Information($"Lock is acquired for db migration and seeding on database named: {DatabaseName}...");
+
+                if (handle is null)
+                {
+                    Log.Information($"Handle is null because of the locking for : {DatabaseName}");
+                    return false;
+                }
+
                 async Task<bool> MigrateDatabaseSchemaWithDbContextAsync()
                 {
                     var dbContexts = ServiceProvider.GetServices<IAbpMongoDbContext>();
