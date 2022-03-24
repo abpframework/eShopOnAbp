@@ -49,7 +49,6 @@ public abstract class PendingEfCoreMigrationsChecker<TDbContext> : PendingMigrat
         await using (var handle = await DistributedLockProvider.TryAcquireAsync("Migration_" + DatabaseName))
         {
             Log.Information($"Lock is acquired for db migration and seeding on database named: {DatabaseName}...");
-
             using (CurrentTenant.Change(null))
             {
                 // Create database tables if needed
@@ -72,6 +71,7 @@ public abstract class PendingEfCoreMigrationsChecker<TDbContext> : PendingMigrat
                 await ServiceProvider.GetRequiredService<IDataSeeder>()
                     .SeedAsync();
             }
+            Log.Information($"Lock is released for db migration and seeding on database named: {DatabaseName}...");
         }
     }
 }
