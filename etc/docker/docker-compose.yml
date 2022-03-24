@@ -71,7 +71,7 @@ services:
       - ASPNETCORE_URLS=https://+:443;http://+:81;
       - Kestrel__Certificates__Default__Path=/root/certificate/localhost.pfx
       - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49
-      - Kestrel__EndPoints__Http__Url=https://docker.host.internal:44354
+      - Kestrel__EndPoints__Http__Url=https://docker.host.internal:443
       - Kestrel__EndPoints__gRPC__Url=http://docker.host.internal:81
       - Redis__Configuration=redis
       - RabbitMQ__Connections__Default__HostName=rabbitmq
