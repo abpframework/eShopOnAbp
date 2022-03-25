@@ -125,6 +125,6 @@ public class CatalogServiceHttpApiHostModule : AbpModule
     {
         await context.ServiceProvider
             .GetRequiredService<CatalogServiceDatabaseMigrationChecker>()
-            .CheckAsync();
+            .CheckAndApplyDatabaseMigrationsAsync();
     }
 }

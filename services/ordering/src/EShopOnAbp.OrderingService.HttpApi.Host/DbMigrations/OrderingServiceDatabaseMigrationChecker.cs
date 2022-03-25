@@ -4,6 +4,7 @@ using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations.EfCore;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.Uow;
+using Volo.Abp.DistributedLocking;
 
 namespace EShopOnAbp.OrderingService.DbMigrations;
 
@@ -14,12 +15,14 @@ public class OrderingServiceDatabaseMigrationChecker
         IUnitOfWorkManager unitOfWorkManager,
         IServiceProvider serviceProvider,
         ICurrentTenant currentTenant,
-        IDistributedEventBus distributedEventBus)
+        IDistributedEventBus distributedEventBus,
+        IAbpDistributedLock abpDistributedLock)
         : base(
             unitOfWorkManager,
             serviceProvider,
             currentTenant,
             distributedEventBus,
+            abpDistributedLock,
             OrderingServiceDbProperties.ConnectionStringName)
     {
     }
