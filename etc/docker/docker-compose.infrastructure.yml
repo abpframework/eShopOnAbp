@@ -4,6 +4,11 @@ services:
   rabbitmq:
     container_name: rabbitmq
     image: rabbitmq:management-alpine
+    healthcheck:
+        test: rabbitmq-diagnostics -q ping
+        interval: 30s
+        timeout: 30s
+        retries: 3
     networks: 
       - eshoponabp-network
 
@@ -12,11 +17,18 @@ services:
     image: mongo:4.2
     volumes:
        - mongodb_data:/data/db
+    healthcheck:
+      test: echo 'db.stats().ok' | mongo localhost:27017/test --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 10   
     networks: 
       - eshoponabp-network  
   redis:
     container_name: redis
     image: redis:alpine
+    healthcheck:
+      test: ["CMD", "redis-cli","ping"]
     networks: 
       - eshoponabp-network
     
@@ -25,6 +37,11 @@ services:
     image: postgres:14.1
     volumes:
       - postgres_data:/var/opt/postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5  
     networks: 
       - eshoponabp-network
   
