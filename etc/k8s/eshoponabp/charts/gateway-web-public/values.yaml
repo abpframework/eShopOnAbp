@@ -14,29 +14,19 @@ config:
 
 reRoutes:
   accountService:
-    schema: http
-    host: eshop-st-authserver
-    port: 80
+    url: http://eshop-st-authserver
   identityService:
-    schema: http
-    host: eshop-st-identity
-    port: 80
+    url: http://eshop-st-identity
   administrationService:
-    schema: http
-    host: eshop-st-administration
-    port: 80
+    url: http://eshop-st-administration
   catalogService:
-    schema: http
-    host: eshop-st-catalog
-    port: 80
+    url: http://eshop-st-catalog
   basketService:
-    schema: http
-    host: eshop-st-basket
-    port: 80
+    url: http://eshop-st-basket
   orderingService:
-    schema: http
-    host: eshop-st-ordering
-    port: 80     
+    url: http://eshop-st-ordering
+  paymentService:
+    url: http://eshop-st-payment  
 
 ingress:
   host: eshop-st-gateway-web-public
