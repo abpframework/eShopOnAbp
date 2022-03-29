@@ -29,7 +29,6 @@ services:
       - eshoponabp-network
     volumes:
       - ../dev-cert:/root/certificate
-  
   identity-service:
     image: eshoponabp/service-identity:latest
     container_name: identity-service-container
@@ -93,7 +92,6 @@ services:
       - eshoponabp-network
     volumes:
       - ../dev-cert:/root/certificate
-
   basket-service:
     image: eshoponabp/service-basket:latest
     container_name: basket-service-container
@@ -124,7 +122,6 @@ services:
       - eshoponabp-network
     volumes:
       - ../dev-cert:/root/certificate
-
   ordering-service:
     image: eshoponabp/service-ordering:latest
     container_name: ordering-service-container
@@ -154,7 +151,6 @@ services:
       - eshoponabp-network
     volumes:
       - ../dev-cert:/root/certificate
-
   payment-service:
     image: eshoponabp/service-payment:latest
     container_name: payment-service-container
@@ -187,7 +183,6 @@ services:
       - eshoponabp-network
     volumes:
       - ../dev-cert:/root/certificate
-
   app-web:
     image: eshoponabp/app-web:latest
     container_name: app-web-container
@@ -216,7 +211,7 @@ services:
       context: ../../
       dockerfile: apps/auth-server/src/EShopOnAbp.AuthServer/Dockerfile
     environment:
-      - ASPNETCORE_ENVIRONMENT=Staging
+      - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80;
       - Kestrel__Certificates__Default__Path=/root/certificate/localhost.pfx
       - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49
@@ -225,11 +220,13 @@ services:
       - App__SelfUrl=https://app-authserver
       - App__CorsOrigins=http://app-web,https://identity-service,https://administration-service,https://catalog-service,https://basket-service,https://ordering-service,https://payment-service
       - App__RedirectAllowedUrls=http://app-web
-      - AuthServer__Authority=https://app-authserver
+      - AuthServer__Authority=http://app-authserver
+      - AuthServer__RequireHttpsMetadata=false
       - ConnectionStrings__IdentityService=User ID=postgres;Password=myPassw0rd;Host=postgres-db;Port=5432;Database=EShopOnAbp_Identity;Pooling=false;
       - ConnectionStrings__AdministrationService=User ID=postgres;Password=myPassw0rd;Host=postgres-db;Port=5432;Database=EShopOnAbp_Administration;Pooling=false;      
     ports:
       - "44330:443"
+      - "5001:80"
     depends_on:
       redis:
         condition: service_healthy
@@ -255,7 +252,11 @@ services:
       - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49
       - Redis__Configuration=redis
       - RabbitMQ__Connections__Default__HostName=rabbitmq
+      - App__SelfUrl=https://app-publicweb
+      - AuthServer__Authority=http://app-authserver
+      - AuthServer__RequireHttpsMetadata=false
       - RemoteServices__Default__BaseUrl=http://gateway-web-public
+      - ReverseProxy__Clusters__cluster1__Destinations__destination1__Address=http://gateway-web-public
     ports:
       - "44335:443"
     depends_on:
@@ -268,7 +269,6 @@ services:
       - eshoponabp-network
     volumes:
       - ../dev-cert:/root/certificate
-
   gateway-web:
     image: eshoponabp/gateway-web:latest
     container_name: gateway-web-container
@@ -332,7 +332,6 @@ services:
       - eshoponabp-network
     volumes:
       - ../dev-cert:/root/certificate 
-
 
 networks:
   eshoponabp-network:
