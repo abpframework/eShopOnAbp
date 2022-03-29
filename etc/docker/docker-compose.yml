@@ -59,38 +59,6 @@ services:
       - eshoponabp-network
     volumes:
       - ../dev-cert:/root/certificate
-
-  basket-service:
-    image: eshoponabp/service-basket:latest
-    container_name: basket-service-container
-    build:
-      context: ../../
-      dockerfile: services/basket/src/EShopOnAbp.BasketService.HttpApi.Host/Dockerfile
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Staging
-      - ASPNETCORE_URLS=https://+:443;http://+:80;
-      - Kestrel__Certificates__Default__Path=/root/certificate/localhost.pfx
-      - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49
-      - Redis__Configuration=redis
-      - RabbitMQ__Connections__Default__HostName=rabbitmq
-      - RemoteServices__Catalog__BaseUrl=https://catalog-service
-      - RemoteServices__Catalog__GrpcUrl=http://catalog-service
-      - ConnectionStrings__AdministrationService=User ID=postgres;Password=myPassw0rd;Host=postgres-db;Port=5432;Database=EShopOnAbp_Administration;Pooling=false;      
-    ports:
-      - "44355:443"
-    depends_on:
-      redis:
-        condition: service_healthy
-      mongodb:
-        condition: service_healthy
-      rabbitmq:
-        condition: service_healthy
-    restart: on-failure  
-    networks: 
-      - eshoponabp-network
-    volumes:
-      - ../dev-cert:/root/certificate
-
   catalog-service:
     image: eshoponabp/service-catalog:latest
     container_name: catalog-service-container
@@ -113,6 +81,37 @@ services:
       - "44354:443"
       - "5000:80"
       - "81:81"
+    depends_on:
+      redis:
+        condition: service_healthy
+      mongodb:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    restart: on-failure  
+    networks: 
+      - eshoponabp-network
+    volumes:
+      - ../dev-cert:/root/certificate
+
+  basket-service:
+    image: eshoponabp/service-basket:latest
+    container_name: basket-service-container
+    build:
+      context: ../../
+      dockerfile: services/basket/src/EShopOnAbp.BasketService.HttpApi.Host/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Staging
+      - ASPNETCORE_URLS=https://+:443;http://+:80;
+      - Kestrel__Certificates__Default__Path=/root/certificate/localhost.pfx
+      - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49
+      - Redis__Configuration=redis
+      - RabbitMQ__Connections__Default__HostName=rabbitmq
+      - RemoteServices__Catalog__BaseUrl=https://catalog-service
+      - RemoteServices__Catalog__GrpcUrl=http://catalog-service
+      - ConnectionStrings__AdministrationService=User ID=postgres;Password=myPassw0rd;Host=postgres-db;Port=5432;Database=EShopOnAbp_Administration;Pooling=false;      
+    ports:
+      - "44355:443"
     depends_on:
       redis:
         condition: service_healthy
@@ -174,7 +173,6 @@ services:
       - Payment__PayPal__ClientId=PAYPAL_CLIENT_ID
       - Payment__PayPal__Secret=PAYPAL_SECRET
       - Payment__PayPal__Environment=Sandbox
-
     ports:
       - "44357:443"
     depends_on:
@@ -190,6 +188,60 @@ services:
     volumes:
       - ../dev-cert:/root/certificate
 
+  app-web:
+    image: eshoponabp/app-web:latest
+    container_name: app-web-container
+    build:
+      context: ../../
+      dockerfile: apps/angular/Dockerfile
+    environment:
+      - RabbitMQ__Connections__Default__HostName=rabbitmq
+      - RemoteServices__Default__BaseUrl=http://gateway-web-public
+    ports:
+      - "4200:80"
+    depends_on:
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    restart: on-failure  
+    networks: 
+      - eshoponabp-network
+    volumes:
+      - ../dev-cert:/root/certificate  
+  app-authserver:
+    image: eshoponabp/app-authserver:latest
+    container_name: app-authserver-container
+    build:
+      context: ../../
+      dockerfile: apps/auth-server/src/EShopOnAbp.AuthServer/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Staging
+      - ASPNETCORE_URLS=https://+:443;http://+:80;
+      - Kestrel__Certificates__Default__Path=/root/certificate/localhost.pfx
+      - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49
+      - Redis__Configuration=redis
+      - RabbitMQ__Connections__Default__HostName=rabbitmq
+      - App__SelfUrl=https://app-authserver
+      - App__CorsOrigins=http://app-web,https://identity-service,https://administration-service,https://catalog-service,https://basket-service,https://ordering-service,https://payment-service
+      - App__RedirectAllowedUrls=http://app-web
+      - AuthServer__Authority=https://app-authserver
+      - ConnectionStrings__IdentityService=User ID=postgres;Password=myPassw0rd;Host=postgres-db;Port=5432;Database=EShopOnAbp_Identity;Pooling=false;
+      - ConnectionStrings__AdministrationService=User ID=postgres;Password=myPassw0rd;Host=postgres-db;Port=5432;Database=EShopOnAbp_Administration;Pooling=false;      
+    ports:
+      - "44330:443"
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres-db:
+        condition: service_healthy  
+      rabbitmq:
+        condition: service_healthy
+    restart: on-failure  
+    networks: 
+      - eshoponabp-network
+    volumes:
+      - ../dev-cert:/root/certificate
   app-publicweb:
     image: eshoponabp/app-publicweb:latest
     container_name: app-publicweb-container
@@ -204,13 +256,10 @@ services:
       - Redis__Configuration=redis
       - RabbitMQ__Connections__Default__HostName=rabbitmq
       - RemoteServices__Default__BaseUrl=http://gateway-web-public
-
     ports:
       - "44335:443"
     depends_on:
       redis:
-        condition: service_healthy
-      mongodb:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
@@ -220,25 +269,57 @@ services:
     volumes:
       - ../dev-cert:/root/certificate
 
-  gateway-web-public:
-    image: eshoponabp/gateway-web-public:latest
-    container_name: gateway-web-public-container
+  gateway-web:
+    image: eshoponabp/gateway-web:latest
+    container_name: gateway-web-container
     build:
       context: ../../
-      dockerfile: apps/public-web/src/EShopOnAbp.PublicWeb/Dockerfile
+      dockerfile: gateways/web/src/EShopOnAbp.WebGateway/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Staging
       - ASPNETCORE_URLS=https://+:443;http://+:80;
       - Kestrel__Certificates__Default__Path=/root/certificate/localhost.pfx
       - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49
       - Redis__Configuration=redis
-      # - ReverseProxy__Clusters__account-cluster__Destinations__destination1__Address=
-      - ReverseProxy__Clusters__administration_cluster__Destinations__destination1__Address=http://administration-service
-      - ReverseProxy__Clusters__catalog_cluster__Destinations__destination1__Address=http://catalog-service
-      - ReverseProxy__Clusters__basket_cluster__Destinations__destination1__Address=http://basket-service
-      - ReverseProxy__Clusters__ordering_cluster__Destinations__destination1__Address=http://ordering-service
-      - ReverseProxy__Clusters__payment_cluster__Destinations__destination1__Address=http://payment-service
-
+      - ReverseProxy__Clusters__accountCluster__Destinations__destination1__Address=http://app-authserver
+      - ReverseProxy__Clusters__identityCluster__Destinations__destination1__Address=http://identity-service
+      - ReverseProxy__Clusters__administrationCluster__Destinations__destination1__Address=http://administration-service
+      - ReverseProxy__Clusters__catalogCluster__Destinations__destination1__Address=http://catalog-service
+      - ReverseProxy__Clusters__orderingCluster__Destinations__destination1__Address=http://ordering-service
+      - ReverseProxy__Clusters__feature-management-cluster__Destinations__destination1__Address=http://administration-service
+      - ReverseProxy__Clusters__permission-management-cluster__Destinations__destination1__Address=http://administration-service
+      - ReverseProxy__Clusters__setting-management-cluster__Destinations__destination1__Address=http://administration-service
+    ports:
+      - "44372:443"
+    depends_on:
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    restart: on-failure  
+    networks: 
+      - eshoponabp-network
+    volumes:
+      - ../dev-cert:/root/certificate 
+  gateway-web-public:
+    image: eshoponabp/gateway-web-public:latest
+    container_name: gateway-web-public-container
+    build:
+      context: ../../
+      dockerfile: gateways/web-public/src/EShopOnAbp.WebPublicGateway/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Staging #Or use Docker ASPNETCORE_ENVIRONMENT and remove env override - decide
+      - ASPNETCORE_URLS=https://+:443;http://+:80;
+      - Kestrel__Certificates__Default__Path=/root/certificate/localhost.pfx
+      - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49
+      - Redis__Configuration=redis
+      - ReverseProxy__Clusters__accountCluster__Destinations__destination1__Address=http://app-authserver
+      - ReverseProxy__Clusters__administrationCluster__Destinations__destination1__Address=http://administration-service
+      - ReverseProxy__Clusters__catalogCluster__Destinations__destination1__Address=http://catalog-service
+      - ReverseProxy__Clusters__basketCluster__Destinations__destination1__Address=http://basket-service
+      - ReverseProxy__Clusters__orderingCluster__Destinations__destination1__Address=http://ordering-service
+      - ReverseProxy__Clusters__paymentCluster__Destinations__destination1__Address=http://payment-service
+      - ReverseProxy__Clusters__productPictureCluster__Destinations__destination1__Address=http://catalog-service
     ports:
       - "44373:443"
     depends_on:

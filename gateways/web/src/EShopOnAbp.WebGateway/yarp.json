@@ -2,19 +2,19 @@
   "ReverseProxy": {
     "Routes": {
       "Account Service": {
-        "ClusterId": "account-cluster",
+        "ClusterId": "accountCluster",
         "Match": {
           "Path": "/api/account/{**everything}"
         }
       },
       "Identity Service": {
-        "ClusterId": "identity-cluster",
+        "ClusterId": "identityCluster",
         "Match": {
           "Path": "/api/identity/{**everything}"
         }
       },
       "Administration Service": {
-        "ClusterId": "administration-cluster",
+        "ClusterId": "administrationCluster",
         "Match": {
           "Path": "/api/abp/{**everything}"
         }
@@ -36,24 +36,36 @@
         "Match": {
           "Path": "/api/setting-management/{**everything}"
         }
+      },
+      "Catalog Service": {
+        "ClusterId": "catalogCluster",
+        "Match": {
+          "Path": "/api/catalog/{**everything}"
+        }
+      },
+      "Ordering Service": {
+        "ClusterId": "orderingCluster",
+        "Match": {
+          "Path": "/api/ordering/{**everything}"
+        }
       }
     },
     "Clusters": {
-      "account-cluster": {
+      "accountCluster": {
         "Destinations": {
           "destination1": {
             "Address": "https://localhost:44330"
           }
         }
       },
-      "identity-cluster": {
+      "identityCluster": {
         "Destinations": {
           "destination1": {
             "Address": "https://localhost:44351"
           }
         }
       },
-      "administration-cluster": {
+      "administrationCluster": {
         "Destinations": {
           "destination1": {
             "Address": "https://localhost:44353"
@@ -78,6 +90,20 @@
         "Destinations": {
           "destination1": {
             "Address": "https://localhost:44353"
+          }
+        }
+      },
+      "catalogCluster": {
+        "Destinations": {
+          "destination1": {
+            "Address": "https://localhost:44354"
+          }
+        }
+      },
+      "orderingCluster": {
+        "Destinations": {
+          "destination1": {
+            "Address": "https://localhost:44356"
           }
         }
       }
