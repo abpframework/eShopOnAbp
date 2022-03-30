@@ -185,6 +185,7 @@ public class EShopOnAbpAuthServerModule : AbpModule
         app.UseJwtTokenMiddleware();
         app.UseAbpSerilogEnrichers();
         app.UseUnitOfWork();
+        app.UseForwardedHeaders();
         app.UseIdentityServer();
         app.UseAuthorization();
         app.UseSwagger();
