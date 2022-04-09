@@ -32,7 +32,7 @@ identityServerClients:
 
 ingress:
   host: eshop-st-identity
-  tlsSecret: eshop-demo-tls
+  tlsSecret: eshop-staging-tls
 
 image:
   repository: eshoponabp/service-identity

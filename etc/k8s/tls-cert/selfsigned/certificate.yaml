@@ -1,0 +1,21 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: selfsigned-cert
+  namespace: eshop
+spec:
+  dnsNames:
+    - "*.eshop-st-web"
+    - "*.eshop-st-public-web"
+    - "*.eshop-st-authserver"
+    - "*.eshop-st-identity"
+    - "*.eshop-st-administration"
+    - "*.eshop-st-basket"
+    - "*.eshop-st-catalog"
+    - "*.eshop-st-ordering"
+    - "*.eshop-st-payment"
+    - "*.eshop-st-gateway-web"
+    - "*.eshop-st-gateway-web-public"
+  secretName: eshop-single-tls
+  issuerRef:
+    name: eshop-issuer

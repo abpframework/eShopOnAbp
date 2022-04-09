@@ -8,14 +8,20 @@ metadata:
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     nginx.ingress.kubernetes.io/proxy-buffer-size: 32k
     nginx.ingress.kubernetes.io/proxy-buffers-number: "8"
-    cert-manager.io/cluster-issuer: letsencrypt
     nginx.ingress.kubernetes.io/configuration-snippet: |
       more_set_input_headers "from-ingress: true";
+    # cert-manager.io/cluster-issuer: selfsigned-issuer  
+  # {{- if eq .Release.Name "es-st" }}
+  #   cert-manager.io/cluster-issuer: eshop-issuer
+  # {{- end }}
+  # {{- if eq .Release.Name "es-az" }}
+  #   cert-manager.io/issuer: letsencrypt
+  # {{- end }}  
 spec:
   tls:
   - hosts:
-      - {{ .Values.ingress.host }}
-    secretName: {{ .Values.ingress.tlsSecret }}
+      - "eshop-st-authserver"
+    secretName: "eshop-test-tls"
   rules:
   - host: "{{ .Values.ingress.host }}"
     http:

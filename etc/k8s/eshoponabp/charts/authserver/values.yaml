@@ -17,8 +17,8 @@ config:
   stringEncryptionDefaultPassPhrase: gsKnGZ041HLL4IM8
 
 ingress:
-  host: # eshop-st-authserver
-  tlsSecret: eshop-demo-tls
+  host: eshop-st-authserver
+  tlsSecret: eshop-staging-tls
 
 image:
   repository: eshoponabp/app-authserver
@@ -26,4 +26,3 @@ image:
   pullPolicy: IfNotPresent
 
 env: {}
-    

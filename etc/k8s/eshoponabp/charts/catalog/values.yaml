@@ -16,20 +16,21 @@ config:
   stringEncryptionDefaultPassPhrase: gsKnGZ041HLL4IM8
   grpcPort: 81
   kestrel:
-    httpUrl: #
+    httpUrl: http://eshop-st-catalog:80
     httpProtocols: Http1AndHttp2
-    grpcUrl: #
+    grpcUrl: http://eshop-st-catalog:81
     grpcProtocols: Http2
-
 
 ingress:
   host: eshop-st-catalog
-  tlsSecret: eshop-demo-tls
+  tlsSecret: eshop-staging-tls
 
 image:
   repository: eshoponabp/service-catalog
   tag: latest
   pullPolicy: IfNotPresent
 
-env: {}
+env: {
+  # ASPNETCORE_URLS=http://+:80;http://+:81
+}
     
