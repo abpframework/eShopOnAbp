@@ -10,7 +10,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_URLS=https://+:443;http://+:80;
-      - Kestrel__Certificates__Default__Path=/root/certificate/localhost.pfx
+      - Kestrel__Certificates__Default__Path=/root/certificate/eshop-dk.pfx
       - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49
       # - Redis__Configuration=redis
       # - RabbitMQ__Connections__Default__HostName=rabbitmq
@@ -28,7 +28,7 @@ services:
     networks: 
       - eshoponabp-network
     volumes:
-      - ../dev-cert:/root/certificate
+      - ./certs:/root/certificate
   identity-service:
     image: eshoponabp/service-identity:latest
     container_name: identity-service-container
@@ -38,7 +38,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_URLS=https://+:443;http://+:80
-      - Kestrel__Certificates__Default__Path=/root/certificate/localhost.pfx
+      - Kestrel__Certificates__Default__Path=/root/certificate/eshop-dk.pfx
       - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49
       - Redis__Configuration=redis
       - RabbitMQ__Connections__Default__HostName=rabbitmq
@@ -57,7 +57,7 @@ services:
     networks: 
       - eshoponabp-network
     volumes:
-      - ../dev-cert:/root/certificate
+      - ./certs:/root/certificate
   catalog-service:
     image: eshoponabp/service-catalog:latest
     container_name: catalog-service-container
@@ -67,7 +67,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_URLS=https://+:443;http://+:80;http://+:81;
-      - Kestrel__Certificates__Default__Path=/root/certificate/localhost.pfx
+      - Kestrel__Certificates__Default__Path=/root/certificate/eshop-dk.pfx
       - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49
       - Kestrel__EndPoints__Http__Url=http://docker.host.internal:80
       - Kestrel__EndPoints__Https__Url=https://docker.host.internal:443
@@ -91,7 +91,7 @@ services:
     networks: 
       - eshoponabp-network
     volumes:
-      - ../dev-cert:/root/certificate
+      - ./certs:/root/certificate
   basket-service:
     image: eshoponabp/service-basket:latest
     container_name: basket-service-container
@@ -101,7 +101,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_URLS=https://+:443;http://+:80;
-      - Kestrel__Certificates__Default__Path=/root/certificate/localhost.pfx
+      - Kestrel__Certificates__Default__Path=/root/certificate/eshop-dk.pfx
       - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49
       # - Redis__Configuration=redis
       # - RabbitMQ__Connections__Default__HostName=rabbitmq
@@ -121,7 +121,7 @@ services:
     networks: 
       - eshoponabp-network
     volumes:
-      - ../dev-cert:/root/certificate
+      - ./certs:/root/certificate
   ordering-service:
     image: eshoponabp/service-ordering:latest
     container_name: ordering-service-container
@@ -131,7 +131,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_URLS=https://+:443;http://+:80;
-      - Kestrel__Certificates__Default__Path=/root/certificate/localhost.pfx
+      - Kestrel__Certificates__Default__Path=/root/certificate/eshop-dk.pfx
       - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49
       - Redis__Configuration=redis
       - RabbitMQ__Connections__Default__HostName=rabbitmq
@@ -150,7 +150,7 @@ services:
     networks: 
       - eshoponabp-network
     volumes:
-      - ../dev-cert:/root/certificate
+      - ./certs:/root/certificate
   payment-service:
     image: eshoponabp/service-payment:latest
     container_name: payment-service-container
@@ -160,7 +160,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_URLS=https://+:443;http://+:80;
-      - Kestrel__Certificates__Default__Path=/root/certificate/localhost.pfx
+      - Kestrel__Certificates__Default__Path=/root/certificate/eshop-dk.pfx
       - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49
       - Redis__Configuration=redis
       - RabbitMQ__Connections__Default__HostName=rabbitmq
@@ -182,7 +182,7 @@ services:
     networks: 
       - eshoponabp-network
     volumes:
-      - ../dev-cert:/root/certificate
+      - ./certs:/root/certificate
   app-web:
     image: eshoponabp/app-web:latest
     container_name: app-web-container
@@ -203,7 +203,7 @@ services:
     networks: 
       - eshoponabp-network
     volumes:
-      - ../dev-cert:/root/certificate  
+      - ./certs:/root/certificate  
   app-authserver:
     image: eshoponabp/app-authserver:latest
     container_name: app-authserver-container
@@ -214,7 +214,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_URLS=https://+:443;http://+:80;
       - ASPNETCORE_HTTPS_PORT=44330
-      - Kestrel__Certificates__Default__Path=/root/certificate/localhost.pfx
+      - Kestrel__Certificates__Default__Path=/root/certificate/eshop-dk.pfx
       - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49
       # - Redis__Configuration=redis
       # - RabbitMQ__Connections__Default__HostName=rabbitmq
@@ -238,7 +238,7 @@ services:
     networks: 
       - eshoponabp-network
     volumes:
-      - ../dev-cert:/root/certificate
+      - ./certs:/root/certificate
   app-publicweb:
     image: eshoponabp/app-publicweb:latest
     container_name: app-publicweb-container
@@ -248,7 +248,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_URLS=https://+:443;http://+:80;
-      - Kestrel__Certificates__Default__Path=/root/certificate/localhost.pfx
+      - Kestrel__Certificates__Default__Path=/root/certificate/eshop-dk.pfx
       - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49
       # - Redis__Configuration=redis
       # - RabbitMQ__Connections__Default__HostName=rabbitmq
@@ -268,7 +268,7 @@ services:
     networks: 
       - eshoponabp-network
     volumes:
-      - ../dev-cert:/root/certificate
+      - ./certs:/root/certificate
   gateway-web:
     image: eshoponabp/gateway-web:latest
     container_name: gateway-web-container
@@ -278,7 +278,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker # Yarp can't resolve dns, needs to be overridden
       - ASPNETCORE_URLS=https://+:443;http://+:80;
-      - Kestrel__Certificates__Default__Path=/root/certificate/localhost.pfx
+      - Kestrel__Certificates__Default__Path=/root/certificate/eshop-dk.pfx
       - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49
       - Redis__Configuration=redis
       - ReverseProxy__Clusters__accountCluster__Destinations__destination1__Address=http://app-authserver
@@ -300,7 +300,7 @@ services:
     networks: 
       - eshoponabp-network
     volumes:
-      - ../dev-cert:/root/certificate 
+      - ./certs:/root/certificate 
   gateway-web-public:
     image: eshoponabp/gateway-web-public:latest
     container_name: gateway-web-public-container
@@ -310,7 +310,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker # Yarp can't resolve dns, needs to be overridden
       - ASPNETCORE_URLS=https://+:443;http://+:80;
-      - Kestrel__Certificates__Default__Path=/root/certificate/localhost.pfx
+      - Kestrel__Certificates__Default__Path=/root/certificate/eshop-dk.pfx
       - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49
       - Redis__Configuration=redis
       - ReverseProxy__Clusters__accountCluster__Destinations__destination1__Address=http://app-authserver
@@ -331,7 +331,7 @@ services:
     networks: 
       - eshoponabp-network
     volumes:
-      - ../dev-cert:/root/certificate 
+      - ./certs:/root/certificate 
 
 networks:
   eshoponabp-network:
