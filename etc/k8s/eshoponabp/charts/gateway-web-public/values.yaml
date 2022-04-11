@@ -28,7 +28,7 @@ reRoutes:
 
 ingress:
   host: eshop-st-gateway-web-public
-  tlsSecret: eshop-staging-tls
+  tlsSecret: eshop-wildcard-tls
 
 image:
   repository: eshoponabp/gateway-web-public

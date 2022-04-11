@@ -23,7 +23,7 @@ config:
 
 ingress:
   host: eshop-st-catalog
-  tlsSecret: eshop-staging-tls
+  tlsSecret: eshop-wildcard-tls
 
 image:
   repository: eshoponabp/service-catalog

@@ -8,7 +8,7 @@ OR
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 helm repo update
 
-helm install ingress-nginx ingress-nginx/ingress-nginx
+helm upgrade --install --version=4.0.19 ingress-nginx ingress-nginx/ingress-nginx
 ```
 * Install [Helm](https://helm.sh/docs/intro/install/) for running helm charts
 

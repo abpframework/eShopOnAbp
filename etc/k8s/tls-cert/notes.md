@@ -1,49 +1,26 @@
 # Notes
 
-## Creating demo tls cert
+## TODO: - section on mkcert
 
-```
-kubectl create secret tls eshop-demo-tls \
-  --cert=eshop-st-cert.pem \
-  --key=eshop-st-key.pem
-```
-
-# Install cert-manager
-
-`kubectl create namespace eshop`
-
-Next, use the **`kubectl apply`** command and the **`yaml`** file available online to install the add-on:
+### Install mkcert root ca
 
 ```powershell
-kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.7.0/cert-manager.yaml
+mkcert -install
 ```
 
-Now deploy the issuer:
+### Run mkcert
 
 ```powershell
-kubectl apply -f .\selfsigned\issuer.yaml
+mkcert "eshop-st-web" "eshop-st-public-web" "eshop-st-authserver" "eshop-st-identity" "eshop-st-administration" "eshop-st-basket" "eshop-st-catalog" "eshop-st-ordering" "eshop-st-payment" "eshop-st-gateway-web" "eshop-st-gateway-web-public"
 ```
 
-Now deploy the certificate:
+At the end of the output you will see something like
+
+The certificate is at "./eshop-st-web+10.pem" and the key at "./eshop-st-web+10-key.pem"
+
+Copy the cert name and key name below to create tls secret
 
 ```powershell
-kubectl apply -f .\selfsigned\certificate.yaml
+kubectl create namespace eshop
+kubectl create secret tls -n eshop eshop-wildcard-tls --cert=./eshop-st-web+10.pem  --key=./eshop-st-web+10-key.pem
 ```
-
-Check the certificate:
-
-```powershell
-kubectl describe certificate -n=eshop
-```
-
-Check the secrets:
-
-```powershell
-kubectl get secrets -n=eshop
-```
-
-You should be seeing `eshop-staging-tls`
-
-To view information about the Secret, use the **`get secret`** command:
-
-`kubectl get secret eshop-staging-tls -n cert-manager`

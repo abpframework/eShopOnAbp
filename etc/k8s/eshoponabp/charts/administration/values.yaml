@@ -26,7 +26,7 @@ synchedCommunication:
 
 ingress:
   host: eshop-st-administration
-  tlsSecret: eshop-staging-tls
+  tlsSecret: eshop-wildcard-tls
 
 image:
   repository: eshoponabp/service-administration
