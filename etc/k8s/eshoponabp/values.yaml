@@ -13,7 +13,7 @@ authserver:
     elasticsearchHost: es-st-elasticsearch
   ingress:
     host: eshop-st-authserver
-    tlsSecret: eshop-staging-tls
+    tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/app-authserver"
     tag: latest

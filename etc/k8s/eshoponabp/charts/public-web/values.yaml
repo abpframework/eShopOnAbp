@@ -12,7 +12,7 @@ config:
 
 ingress:
   host: eshop-st-public-web
-  tlsSecret: eshop-staging-tls
+  tlsSecret: eshop-wildcard-tls
 
 image:
   repository: eshoponabp/app-publicweb

@@ -17,7 +17,7 @@ config:
 
 ingress:
   host: eshop-st-payment
-  tlsSecret: eshop-staging-tls
+  tlsSecret: eshop-wildcard-tls
 
 image:
   repository: eshoponabp/service-payment
