@@ -13,6 +13,9 @@
 *.tye
 *.env
 .env
+*.pem
+*.crt
+*.key
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
