@@ -1,4 +1,4 @@
- ### Pre-requirements
+ # Pre-requirements
 
 * Docker Desktop with Kubernetes enabled
 * Install [NGINX ingress](https://kubernetes.github.io/ingress-nginx/deploy/) for k8s
@@ -13,7 +13,7 @@ helm upgrade --install --version=4.0.19 ingress-nginx ingress-nginx/ingress-ngin
 * Install [Helm](https://helm.sh/docs/intro/install/) for running helm charts
 
 
-### How to run?
+# How to run?
 
 * Add entries to the hosts file (in Windows: `C:\Windows\System32\drivers\etc\hosts`):
 
@@ -36,3 +36,38 @@ helm upgrade --install --version=4.0.19 ingress-nginx ingress-nginx/ingress-ngin
 * *You may wait ~30 seconds on first run for preparing the database*.
 * Browse https://eshop-st-public-web for public and https://eshop-st-web for web application
 * Username: `admin`, password: `1q2w3E*`.
+
+# Running on HTTPS
+
+You can also run the staging solution on your local kubernetes kluster with https. There are various ways to create self-signed certificate. 
+
+## Installing mkcert
+This guide will use mkcert to create self-signed certificates.
+
+Follow the [installation guide](https://github.com/FiloSottile/mkcert#installation) to install mkcert.
+
+## Creating mkcert Root CA
+Use the command to create root (local) certificate authority for your certificates:
+```powershell
+mkcert -install
+```
+
+**Note:** all the certificates created by mkcert certificate creation will be trusted by local machine
+
+## Run mkcert
+
+Create certificate for the eshopOnAbp domains using the mkcert command below:
+```powershell
+mkcert "eshop-st-web" "eshop-st-public-web" "eshop-st-authserver" "eshop-st-identity" "eshop-st-administration" "eshop-st-basket" "eshop-st-catalog" "eshop-st-ordering" "eshop-st-payment" "eshop-st-gateway-web" "eshop-st-gateway-web-public"
+```
+
+At the end of the output you will see something like
+
+The certificate is at "./eshop-st-web+10.pem" and the key at "./eshop-st-web+10-key.pem"
+
+Copy the cert name and key name below to create tls secret
+
+```powershell
+kubectl create namespace eshop
+kubectl create secret tls -n eshop eshop-wildcard-tls --cert=./eshop-st-web+10.pem  --key=./eshop-st-web+10-key.pem
+```
