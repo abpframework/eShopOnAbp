@@ -13,6 +13,7 @@ authserver:
     elasticsearchHost: es-st-elasticsearch
   ingress:
     host: eshop-st-authserver
+    tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/app-authserver"
     tag: latest
@@ -32,7 +33,7 @@ web:
 public-web:
   config:
     selfUrl: https://eshop-st-public-web
-    gatewayUrl: "http://eshop-st-gateway-web-public/"
+    gatewayUrl: http://eshop-st-gateway-web-public
     authServer:
       authority: http://eshop-st-authserver
       requireHttpsMetadata: "false"
@@ -123,7 +124,6 @@ gateway-web:
     redisHost: es-st-redis
     rabbitmqHost: es-st-rabbitmq
     elasticsearchHost: es-st-elasticsearch
-    stringEncryptionDefaultPassPhrase: gsKnGZ041HLL4IM8
   ingress:
     host: eshop-st-gateway-web
   image:
@@ -141,7 +141,6 @@ gateway-web:
 gateway-web-public:
   config:
     selfUrl: https://eshop-st-gateway-web-public
-    globalConfigurationBaseUrl: http://eshop-st-gateway-public-web
     authServer:
       authority: http://eshop-st-authserver
       requireHttpsMetadata: "false"
@@ -151,7 +150,6 @@ gateway-web-public:
     redisHost: es-st-redis
     rabbitmqHost: es-st-rabbitmq
     elasticsearchHost: es-st-elasticsearch
-    stringEncryptionDefaultPassPhrase: gsKnGZ041HLL4IM8
   ingress:
     host: eshop-st-gateway-web-public
   image:

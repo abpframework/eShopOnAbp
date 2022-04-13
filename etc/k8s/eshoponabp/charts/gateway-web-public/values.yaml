@@ -1,6 +1,5 @@
 config:
   selfUrl: https://eshop-st-gateway-public-web
-  globalConfigurationBaseUrl: http://eshop-st-gateway-public-web
   authServer:
     authority: http://eshop-st-authserver
     requireHttpsMetadata: "false"
@@ -9,28 +8,27 @@ config:
   dotnetEnv: Staging 
   redisHost: es-st-redis
   rabbitmqHost: es-st-rabbitmq
-  elasticsearchHost: #
-  stringEncryptionDefaultPassPhrase: gsKnGZ041HLL4IM8
+  elasticsearchHost: es-st-elasticsearch
 
 reRoutes:
   accountService:
-    url: http://eshop-st-authserver
+    url: https://eshop-st-authserver
   identityService:
-    url: http://eshop-st-identity
+    url: https://eshop-st-identity
   administrationService:
-    url: http://eshop-st-administration
+    url: https://eshop-st-administration
   catalogService:
-    url: http://eshop-st-catalog
+    url: https://eshop-st-catalog
   basketService:
-    url: http://eshop-st-basket
+    url: https://eshop-st-basket
   orderingService:
-    url: http://eshop-st-ordering
+    url: https://eshop-st-ordering
   paymentService:
-    url: http://eshop-st-payment  
+    url: https://eshop-st-payment  
 
 ingress:
   host: eshop-st-gateway-web-public
-  tlsSecret: eshop-demo-tls
+  tlsSecret: eshop-wildcard-tls
 
 image:
   repository: eshoponabp/gateway-web-public
@@ -38,4 +36,3 @@ image:
   pullPolicy: IfNotPresent
 
 env: {}
-    

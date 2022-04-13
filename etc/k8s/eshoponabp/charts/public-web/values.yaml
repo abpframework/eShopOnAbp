@@ -1,6 +1,6 @@
 config:
   selfUrl: https://eshop-st-public-web
-  gatewayUrl: "http://eshop-st-gateway-web-public/"
+  gatewayUrl: https://eshop-st-gateway-web-public
   authServer:
     authority: http://eshop-st-authserver
     requireHttpsMetadata: "false"
@@ -11,8 +11,8 @@ config:
   stringEncryptionDefaultPassPhrase: gsKnGZ041HLL4IM8
 
 ingress:
-  host: # eshop-st-public-web
-  tlsSecret: eshop-demo-tls
+  host: eshop-st-public-web
+  tlsSecret: eshop-wildcard-tls
 
 image:
   repository: eshoponabp/app-publicweb

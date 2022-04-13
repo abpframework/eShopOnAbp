@@ -6,7 +6,7 @@ public static class AbpHostingHostBuilderExtensions
 {
     public const string AppYarpJsonPath = "yarp.json";
 
-    public static IHostBuilder AddOcelotJson(
+    public static IHostBuilder AddYarpJson(
         this IHostBuilder hostBuilder,
         bool optional = true,
         bool reloadOnChange = true,
@@ -15,10 +15,11 @@ public static class AbpHostingHostBuilderExtensions
         return hostBuilder.ConfigureAppConfiguration((_, builder) =>
         {
             builder.AddJsonFile(
-                path: AppYarpJsonPath,
-                optional: optional,
-                reloadOnChange: reloadOnChange
-            );
+                    path: AppYarpJsonPath,
+                    optional: optional,
+                    reloadOnChange: reloadOnChange
+                )
+                .AddEnvironmentVariables();
         });
     }
 }

@@ -22,7 +22,7 @@ public class Program
             var builder = WebApplication.CreateBuilder(args);
             builder.Host
                 .AddAppSettingsSecretsJson()
-                .AddOcelotJson()
+                .AddYarpJson()
                 .UseAutofac()
                 .UseSerilog();
 

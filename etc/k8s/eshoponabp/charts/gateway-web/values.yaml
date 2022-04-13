@@ -21,7 +21,7 @@ reRoutes:
     url: http://eshop-st-administration
 ingress:
   host: # eshop-st-gateway-web
-  tlsSecret: eshop-demo-tls
+  tlsSecret: eshop-wildcard-tls
 
 image:
   repository: eshoponabp/gateway-web

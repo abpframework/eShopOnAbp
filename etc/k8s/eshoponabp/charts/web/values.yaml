@@ -7,7 +7,7 @@ config:
 
 ingress:
   host: eshop-st-web
-  tlsSecret: eshop-demo-tls
+  tlsSecret: eshop-wildcard-tls
 
 image:
   repository: eshoponabp/app-web

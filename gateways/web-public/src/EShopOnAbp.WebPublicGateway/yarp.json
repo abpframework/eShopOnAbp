@@ -2,43 +2,43 @@
   "ReverseProxy": {
     "Routes": {
       "Account Service": {
-        "ClusterId": "account-cluster",
+        "ClusterId": "accountCluster",
         "Match": {
           "Path": "/api/account/{**everything}"
         }
       },
       "Administration Service": {
-        "ClusterId": "administration-cluster",
+        "ClusterId": "administrationCluster",
         "Match": {
           "Path": "/api/abp/{**everything}"
         }
       },
       "Catalog Service": {
-        "ClusterId": "catalog-cluster",
+        "ClusterId": "catalogCluster",
         "Match": {
           "Path": "/api/catalog/{**everything}"
         }
-      },      
+      },
       "Basket Service": {
-        "ClusterId": "basket-cluster",
+        "ClusterId": "basketCluster",
         "Match": {
           "Path": "/api/basket/{**everything}"
         }
       },
       "Ordering Service": {
-        "ClusterId": "ordering-cluster",
+        "ClusterId": "orderingCluster",
         "Match": {
           "Path": "/api/ordering/{**everything}"
         }
       },
       "Payment Service": {
-        "ClusterId": "payment-cluster",
+        "ClusterId": "paymentCluster",
         "Match": {
           "Path": "/api/payment/{**everything}"
         }
       },
       "product-picture-route": {
-        "ClusterId": "product-picture-cluster",
+        "ClusterId": "productPictureCluster",
         "Match": {
           "Path": "/product-images/{**everything}",
           "Methods" : [ "GET" ]
@@ -46,52 +46,52 @@
       }
     },
     "Clusters": {
-      "account-cluster": {
+      "accountCluster": {
         "Destinations": {
           "destination1": {
             "Address": "https://localhost:44330"
           }
         }
       },
-      "administration-cluster": {
+      "administrationCluster": {
         "Destinations": {
           "destination1": {
-            "Address": "https://localhost:44353"
+            "Address": "http://localhost:44353"
           }
         }
       },
-      "catalog-cluster": {
-        "Destinations": {
-          "destination1": {
-            "Address": "https://localhost:44354"
-          }
-        }
-      },
-      "product-picture-cluster": {
+      "catalogCluster": {
         "Destinations": {
           "destination1": {
             "Address": "https://localhost:44354"
           }
         }
       },
-      "basket-cluster": {
+      "basketCluster": {
         "Destinations": {
           "destination1": {
             "Address": "https://localhost:44355"
           }
         }
-      },
-      "ordering-cluster": {
+      },            
+      "orderingCluster": {
         "Destinations": {
           "destination1": {
             "Address": "https://localhost:44356"
           }
         }
       },
-      "payment-cluster": {
+      "paymentCluster": {
         "Destinations": {
           "destination1": {
             "Address": "https://localhost:44357"
+          }
+        }
+      },
+      "productPictureCluster": {
+        "Destinations": {
+          "destination1": {
+            "Address": "https://localhost:44354"
           }
         }
       }
