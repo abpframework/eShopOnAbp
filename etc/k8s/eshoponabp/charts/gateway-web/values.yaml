@@ -14,20 +14,14 @@ config:
   stringEncryptionDefaultPassPhrase: gsKnGZ041HLL4IM8
 reRoutes:
   accountService:
-    schema: http
-    host: eshop-st-authserver
-    port: 80
+    url: http://eshop-st-authserver
   identityService:
-    schema: http
-    host: eshop-st-identity
-    port: 80
+    url: http://eshop-st-identity
   administrationService:
-    schema: http
-    host: eshop-st-administration
-    port: 80
+    url: http://eshop-st-administration
 ingress:
   host: # eshop-st-gateway-web
-  tlsSecret: eshop-demo-tls
+  tlsSecret: eshop-wildcard-tls
 
 image:
   repository: eshoponabp/gateway-web

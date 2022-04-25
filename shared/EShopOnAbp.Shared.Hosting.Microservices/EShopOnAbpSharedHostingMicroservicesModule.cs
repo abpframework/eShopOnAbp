@@ -9,6 +9,7 @@ using Volo.Abp.AspNetCore.MultiTenancy;
 using Volo.Abp.BackgroundJobs.RabbitMQ;
 using Volo.Abp.Caching;
 using Volo.Abp.Caching.StackExchangeRedis;
+using Volo.Abp.DistributedLocking;
 using Volo.Abp.EventBus.RabbitMq;
 using Volo.Abp.Modularity;
 using Volo.Abp.MultiTenancy;
@@ -21,7 +22,8 @@ namespace EShopOnAbp.Shared.Hosting.Microservices;
     typeof(AbpAspNetCoreMultiTenancyModule),
     typeof(AbpEventBusRabbitMqModule),
     typeof(AbpCachingStackExchangeRedisModule),
-    typeof(AdministrationServiceEntityFrameworkCoreModule)
+    typeof(AdministrationServiceEntityFrameworkCoreModule),
+    typeof(AbpDistributedLockingModule)
 )]
 public class EShopOnAbpSharedHostingMicroservicesModule : AbpModule
 {
@@ -43,8 +45,7 @@ public class EShopOnAbpSharedHostingMicroservicesModule : AbpModule
         context.Services
             .AddDataProtection()
             .PersistKeysToStackExchangeRedis(redis, "EShopOnAbp-Protection-Keys");
-
-
+            
         context.Services.AddSingleton<IDistributedLockProvider>(sp =>
         {
             var connection = ConnectionMultiplexer.Connect(configuration["Redis:Configuration"]);

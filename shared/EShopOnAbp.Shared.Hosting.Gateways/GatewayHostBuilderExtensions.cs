@@ -4,21 +4,22 @@ namespace Microsoft.Extensions.Hosting;
 
 public static class AbpHostingHostBuilderExtensions
 {
-    public const string AppOcelotJsonPath = "ocelot.json";
+    public const string AppYarpJsonPath = "yarp.json";
 
-    public static IHostBuilder AddOcelotJson(
+    public static IHostBuilder AddYarpJson(
         this IHostBuilder hostBuilder,
         bool optional = true,
         bool reloadOnChange = true,
-        string path = AppOcelotJsonPath)
+        string path = AppYarpJsonPath)
     {
         return hostBuilder.ConfigureAppConfiguration((_, builder) =>
         {
             builder.AddJsonFile(
-                path: AppOcelotJsonPath,
-                optional: optional,
-                reloadOnChange: reloadOnChange
-            );
+                    path: AppYarpJsonPath,
+                    optional: optional,
+                    reloadOnChange: reloadOnChange
+                )
+                .AddEnvironmentVariables();
         });
     }
 }

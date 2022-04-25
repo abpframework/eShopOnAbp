@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Ocelot.Middleware;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,39 +70,19 @@ public class EShopOnAbpWebGatewayModule : AbpModule
         {
             app.UseDeveloperExceptionPage();
         }
-
         app.UseCorrelationId();
         app.UseAbpSerilogEnrichers();
         app.UseCors();
-        app.UseSwagger();
-        app.UseSwaggerUI(options =>
-        {
-            var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
-            var routes = configuration.GetSection("Routes").Get<List<OcelotConfiguration>>();
-            var routedServices = routes
-                .GroupBy(t => t.ServiceKey)
-                .Select(r => r.First())
-                .Distinct();
-
-            foreach (var config in routedServices)
-            {
-                var url =
-                    $"{config.DownstreamScheme}://{config.DownstreamHostAndPorts.FirstOrDefault()?.Host}:{config.DownstreamHostAndPorts.FirstOrDefault()?.Port}";
-                if (!env.IsDevelopment())
-                {
-                    url = $"https://{config.DownstreamHostAndPorts.FirstOrDefault()?.Host}";
-                }
-
-                options.SwaggerEndpoint($"{url}/swagger/v1/swagger.json", $"{config.ServiceKey} API");
-                options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
-                options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
-            }
-        });
+        app.ConfigureSwaggerUIWithYarp(context);
 
         app.UseRewriter(new RewriteOptions()
             // Regex for "", "/" and "" (whitespace)
             .AddRedirect("^(|\\|\\s+)$", "/swagger"));
 
-        app.UseOcelot().Wait();
+        app.UseRouting();
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapReverseProxy();
+        });
     }
 }

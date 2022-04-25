@@ -13,6 +13,7 @@ authserver:
     elasticsearchHost: es-st-elasticsearch
   ingress:
     host: eshop-st-authserver
+    tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/app-authserver"
     tag: latest
@@ -32,7 +33,7 @@ web:
 public-web:
   config:
     selfUrl: https://eshop-st-public-web
-    gatewayUrl: "http://eshop-st-gateway-web-public/"
+    gatewayUrl: http://eshop-st-gateway-web-public
     authServer:
       authority: http://eshop-st-authserver
       requireHttpsMetadata: "false"
@@ -123,27 +124,23 @@ gateway-web:
     redisHost: es-st-redis
     rabbitmqHost: es-st-rabbitmq
     elasticsearchHost: es-st-elasticsearch
-    stringEncryptionDefaultPassPhrase: gsKnGZ041HLL4IM8
   ingress:
     host: eshop-st-gateway-web
   image:
     repository: "eshoponabp/gateway-web"
     tag: latest
   reRoutes:
+    accountService:
+      url: http://eshop-st-authserver
     identityService:
-      schema: http
-      host: eshop-st-identity
-      port: 80
+      url: http://eshop-st-identity
     administrationService:
-      schema: http
-      host: eshop-st-administration
-      port: 80
+      url: http://eshop-st-administration
 
 # gateway-web-public sub-chart override
 gateway-web-public:
   config:
     selfUrl: https://eshop-st-gateway-web-public
-    globalConfigurationBaseUrl: http://eshop-st-gateway-public-web
     authServer:
       authority: http://eshop-st-authserver
       requireHttpsMetadata: "false"
@@ -153,7 +150,6 @@ gateway-web-public:
     redisHost: es-st-redis
     rabbitmqHost: es-st-rabbitmq
     elasticsearchHost: es-st-elasticsearch
-    stringEncryptionDefaultPassPhrase: gsKnGZ041HLL4IM8
   ingress:
     host: eshop-st-gateway-web-public
   image:
@@ -161,29 +157,19 @@ gateway-web-public:
     tag: latest
   reRoutes:
     accountService:
-      schema: http
-      host: eshop-st-authserver
-      port: 80
+      url: http://eshop-st-authserver
     identityService:
-      schema: http
-      host: eshop-st-identity
-      port: 80
+      url: http://eshop-st-identity
     administrationService:
-      schema: http
-      host: eshop-st-administration
-      port: 80
+      url: http://eshop-st-administration
     catalogService:
-      schema: http
-      host: eshop-st-catalog
-      port: 80
+      url: http://eshop-st-catalog
     basketService:
-      schema: http
-      host: eshop-st-basket
-      port: 80
+      url: http://eshop-st-basket
     orderingService:
-      schema: http
-      host: eshop-st-ordering
-      port: 80
+      url: http://eshop-st-ordering
+    paymentService:
+      url: http://eshop-st-payment  
 
 # basket-service sub-chart override
 basket:

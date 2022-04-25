@@ -12,7 +12,7 @@ export const environment = {
     issuer: 'https://localhost:44330',
     redirectUri: baseUrl,
     clientId: 'Web',
-    //responseType: 'code',
+    responseType: 'code',
     scope: 'offline_access openid profile email phone AccountService IdentityService AdministrationService CatalogService OrderingService',
     //requireHttps: true,
   },

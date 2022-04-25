@@ -6,13 +6,11 @@ metadata:
   name: {{ .Release.Name }}-{{ .Chart.Name }}
 spec:
   ports:
-    - name: "80"
+    - name: "http"
       port: 80
-    - name: "443"
-      port: 443
-    - port: {{ .Values.config.grpcPort }}
+    - name: grpc
       targetPort: grpc
       protocol: TCP
-      name: grpc
+      port: {{ .Values.config.grpcPort }}
   selector:
     app: {{ .Release.Name }}-{{ .Chart.Name }}

@@ -1,9 +1,11 @@
 @using System.Globalization
 @using EShopOnAbp.Localization
 @using Microsoft.Extensions.Localization
+@using Microsoft.Extensions.Options
+@using Volo.Abp.Http.Client
 @model EShopOnAbp.PublicWeb.Components.UserOrders.UserOrderWidgetViewComponent.UserOrderViewModel
 @inject IStringLocalizer<EShopOnAbpResource> L
-
+@inject IOptions<AbpRemoteServiceOptions> options
 @if (Model.ServiceError)
 {
     <div>SERVICE ERROR</div>
@@ -49,7 +51,10 @@
                         </div>
                         <abp-row>
                             <abp-column size="_2">
-                                <img class="img-size" src="/product-images/@item.PictureUrl"/>
+                                @{
+                                    string imageUrl = $"{options.Value.RemoteServices.Default.BaseUrl}product-images/{item.PictureUrl}";
+                                    <img class="img-size" src="@imageUrl" />
+                                }
                             </abp-column>
                             <abp-column size-lg="_4">
                                 <div><strong>@item.ProductName</strong></div>
@@ -72,5 +77,5 @@
             }
         </div>
     </div>
-    <hr/>
+    <hr />
 }

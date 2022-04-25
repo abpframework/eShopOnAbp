@@ -22,23 +22,23 @@ spec:
           containerPort: 443
         env:
         - name: App__SelfUrl
-          value: {{ .Values.config.selfUrl}} 
+          value: "{{ .Values.config.selfUrl }}" 
         - name: RemoteServices__Default__BaseUrl
-          value: {{ .Values.config.gatewayUrl}}
+          value: "{{ .Values.config.gatewayUrl }}"
         - name: "AuthServer__Authority"
-          value: {{ .Values.config.authServer.authority }}
+          value: "{{ .Values.config.authServer.authority }}"
         - name: "AuthServer__RequireHttpsMetadata"
           value: "{{ .Values.config.authServer.requireHttpsMetadata }}"
         - name: "DOTNET_ENVIRONMENT"
-          value: {{ .Values.config.dotnetEnv }}
+          value: "{{ .Values.config.dotnetEnv }}"
         - name: "Redis__Configuration"
-          value: {{ .Values.config.redisHost }}       
+          value: "{{ .Values.config.redisHost }}"     
         - name: "StringEncryption__DefaultPassPhrase"
-          value: {{ .Values.config.stringEncryptionDefaultPassPhrase }}
+          value: "{{ .Values.config.stringEncryptionDefaultPassPhrase }}"
         - name: "RabbitMQ__Connections__Default__HostName"
-          value: {{ .Values.config.rabbitmqHost }}
+          value: "{{ .Values.config.rabbitmqHost }}"
         - name: "ElasticSearch__Url"
-          value: {{ .Values.config.elasticsearchHost }}
+          value: "{{ .Values.config.elasticsearchHost }}"
           {{- if .Values.env }}
 {{ toYaml .Values.env | indent 8 }}
           {{- end }}

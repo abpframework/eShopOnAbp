@@ -1,19 +1,16 @@
-
-
 <div class="card">
   <div class="card-header">
     <div class="row">
       <div class="col col-md-6">
         <h5 class="card-title">{{ 'AbpOrdering::Orders' | abpLocalization }}</h5>
       </div>
-
     </div>
   </div>
   <div class="card-body">
     <ngx-datatable [rows]="items" [count]="count" [list]="list" default>
       <!-- TODO: localize column headers -->
-      <ngx-datatable-column name="" [sortable]='false' prop="id" >
-        <ng-template let-id="value" let-row="row" ngx-datatable-cell-template>
+      <ngx-datatable-column name="" [sortable]="false" prop="id">
+        <ng-template let-row="row" ngx-datatable-cell-template>
           <div ngbDropdown container="body" class="d-inline-block">
             <button
               class="btn btn-primary btn-sm dropdown-toggle"
@@ -26,44 +23,65 @@
             <div ngbDropdownMenu>
               <button
                 class="dropdown-item"
-                (click)='openModal(row)'
+                (click)="openModal(row)"
+                *abpPermission="permissions.detail"
               >
-                {{ 'AbpOrdering::Detail' | abpLocalization }}
+                {{ 'AbpUi::Detail' | abpLocalization }}
               </button>
               <button
                 class="dropdown-item"
-                (click)='setAsShipped(row)'
+                (click)="setAsShipped(row)"
+                *abpPermission="permissions.setAsShipped"
               >
-                {{ 'AbpOrdering::SetAsShipped' | abpLocalization }}
+                {{ 'OrderingService::Permission:Orders.SetAsShipped' | abpLocalization }}
               </button>
               <!-- Todo: Add permissions -->
               <button
-              class="dropdown-item"
-              (click)='setAsCancelled(row)'
-            >
-              {{ 'AbpOrdering::SetAsCancelled' | abpLocalization }}
-            </button>
+                class="dropdown-item"
+                *abpPermission="permissions.setAsCancelled"
+                (click)="setAsCancelled(row)"
+              >
+                {{ 'OrderingService::Permission:Orders.SetAsCancelled' | abpLocalization }}
+              </button>
             </div>
           </div>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="OrderNo" prop="orderNo"></ngx-datatable-column>
-      <ngx-datatable-column name="OrderDate" prop="orderDate" >
+      <ngx-datatable-column
+        [name]="'OrderingService::DisplayName:OrderNo' | abpLocalization"
+        prop="orderNo"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
+        [name]="'OrderingService::DisplayName:OrderDate' | abpLocalization"
+        prop="orderDate"
+      >
         <ng-template let-value="value" ngx-datatable-cell-template>
-          <span>{{ value | date }}</span >
+          <span>{{ value | date }}</span>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="OrderTotal" prop="orderTotal" >
+      <ngx-datatable-column
+        [name]="'OrderingService::DisplayName:OrderTotal' | abpLocalization"
+        prop="orderTotal"
+      >
         <ng-template let-value="value" ngx-datatable-cell-template>
-          <span>{{ value  | currency  }}</span >
+          <span>{{ value | currency }}</span>
         </ng-template>
       </ngx-datatable-column>
-      <ngx-datatable-column name="OrderStatus" prop="orderStatus"></ngx-datatable-column>
+      <ngx-datatable-column
+        [name]="'OrderingService::DisplayName:OrderStatus' | abpLocalization"
+        prop="orderStatus"
+      >
+        <ng-template let-value="value" ngx-datatable-cell-template>
+          {{ 'OrderingService::Enum:OrderStatus:' + value | abpLocalization }}
+        </ng-template>
+      </ngx-datatable-column>
     </ngx-datatable>
   </div>
 </div>
 
-
-  <lib-order-detail  [visible]='isModalVisible' (visibleChange)='closeModal($event)'  [order]='selectedOrder' >
-  </lib-order-detail>
-
+<lib-order-detail
+  [visible]="isModalVisible"
+  (visibleChange)="closeModal($event)"
+  [order]="selectedOrder"
+>
+</lib-order-detail>

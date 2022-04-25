@@ -19,7 +19,7 @@ config:
 
 ingress:
   host: eshop-st-basket
-  tlsSecret: eshop-demo-tls
+  tlsSecret: eshop-wildcard-tls
 
 image:
   repository: eshoponabp/service-basket

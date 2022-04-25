@@ -22,13 +22,11 @@ spec:
           containerPort: 443
         volumeMounts:
         - name: config-volume
-          mountPath: /app/ocelot.json
-          subPath: ocelot.json
+          mountPath: /app/yarp.json
+          subPath: yarp.json
         env:
         - name: App__SelfUrl
           value: "{{ .Values.config.selfUrl }}"
-        - name: GlobalConfiguration__BaseUrl
-          value: "{{ .Values.config.globalConfigurationBaseUrl }}"
         - name: "DOTNET_ENVIRONMENT"
           value: "{{ .Values.config.dotnetEnv }}"
         - name: "Redis__Configuration"
@@ -44,9 +42,7 @@ spec:
         - name: "AuthServer__SwaggerClientSecret"
           value: "{{ .Values.config.authServer.swaggerClientSecret }}"
         - name: "ElasticSearch__Url"
-          value: "{{ .Values.config.elasticsearchHost }}"          
-        - name: "StringEncryption__DefaultPassPhrase"
-          value: "{{ .Values.config.stringEncryptionDefaultPassPhrase }}"
+          value: "{{ .Values.config.elasticsearchHost }}"
           {{- if .Values.env }}
 {{ toYaml .Values.env | indent 8 }}
           {{- end }}

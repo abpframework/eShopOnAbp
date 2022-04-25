@@ -25,8 +25,8 @@ synchedCommunication:
   scope: # "IdentityService"
 
 ingress:
-  host: # eshop-st-administration
-  tlsSecret: eshop-demo-tls
+  host: eshop-st-administration
+  tlsSecret: eshop-wildcard-tls
 
 image:
   repository: eshoponabp/service-administration

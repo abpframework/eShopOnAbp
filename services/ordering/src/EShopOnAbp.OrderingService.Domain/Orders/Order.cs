@@ -10,7 +10,6 @@ namespace EShopOnAbp.OrderingService.Orders;
 
 public class Order : AggregateRoot<Guid>
 {
-    private int _orderStatusId;
     public DateTime OrderDate { get; private set; }
     public int OrderNo { get; private set; }
     public string PaymentMethod { get; private set; }
@@ -27,7 +26,6 @@ public class Order : AggregateRoot<Guid>
 
     internal Order(Guid id, Buyer buyer, Address address, [NotNull] string paymentMethod, Guid? paymentRequestId = null) : base(id)
     {
-        _orderStatusId = OrderStatus.Placed.Id;
         OrderDate = DateTime.UtcNow;
         OrderNo = GenerateOrderNo(id);
         Buyer = buyer;
@@ -59,12 +57,9 @@ public class Order : AggregateRoot<Guid>
         return this;
     }
 
-    public Order SetOrderCancelled(Guid paymentRequestId, string paymentRequestStatus)
+    public Order SetOrderCancelled()
     {
-        PaymentRequestId = paymentRequestId;
-        PaymentStatus = paymentRequestStatus;
         OrderStatus = OrderStatus.Cancelled;
-
         return this;
     }
 
@@ -99,8 +94,11 @@ public class Order : AggregateRoot<Guid>
 
     public Order SetOrderAsShipped()
     {
-        //TODO no enough to update the object.
-        _orderStatusId = OrderStatus.Shipped.Id;
+        if (OrderStatus == OrderStatus.Cancelled)
+        {
+            return this;
+        }
+        OrderStatus = OrderStatus.Shipped;
         return this;
     }
 }

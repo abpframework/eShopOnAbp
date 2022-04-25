@@ -3,88 +3,90 @@ kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-{{ .Chart.Name }}-configmap
 data:
-  ocelot.json: |-
+  yarp.json: |-
     {
-      "GlobalConfiguration": {
-      "BaseUrl": "{{ .Values.config.globalConfigurationBaseUrl }}"
-    },
-      "Routes": [   
-    {
-      "ServiceKey": "Identity Service",
-      "DownstreamPathTemplate": "/api/identity/{everything}",
-      "DownstreamScheme": "{{ .Values.reRoutes.identityService.schema }}",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "{{ .Values.reRoutes.identityService.host }}",
-          "Port": {{ .Values.reRoutes.identityService.port }}
+    "ReverseProxy": {
+      "Routes": {
+        "Account Service": {
+          "ClusterId": "account-cluster",
+          "Match": {
+            "Path": "/api/account/{**everything}"
+          }
+        },
+        "Identity Service": {
+          "ClusterId": "identity-cluster",
+          "Match": {
+            "Path": "/api/identity/{**everything}"
+          }
+        },
+        "Administration Service": {
+          "ClusterId": "administration-cluster",
+          "Match": {
+            "Path": "/api/abp/{**everything}"
+          }
+        },
+        "feature-management-route": {
+          "ClusterId": "feature-management-cluster",
+          "Match": {
+            "Path": "/api/feature-management/{**everything}"
+          }
+        },
+        "permission-management-route": {
+          "ClusterId": "permission-management-cluster",
+          "Match": {
+            "Path": "/api/permission-management/{**everything}"
+          }
+        },
+        "setting-management-route": {
+          "ClusterId": "setting-management-cluster",
+          "Match": {
+            "Path": "/api/setting-management/{**everything}"
+          }
         }
-      ],
-      "UpstreamPathTemplate": "/api/identity/{everything}",
-      "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ]
-    },
-    {
-      "ServiceKey": "Account Service",
-      "DownstreamPathTemplate": "/api/account/{everything}",
-      "DownstreamScheme": "{{ .Values.reRoutes.accountService.schema }}",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "{{ .Values.reRoutes.accountService.host }}",
-          "Port": {{ .Values.reRoutes.accountService.port }}
+      },
+      "Clusters": {
+        "account-cluster": {
+          "Destinations": {
+            "destination1": {
+              "Address": "{{ .Values.reRoutes.accountService.url }}"
+            }
+          }
+        },
+        "identity-cluster": {
+          "Destinations": {
+            "destination1": {
+              "Address": "{{ .Values.reRoutes.identityService.url }}"
+            }
+          }
+        },
+        "administration-cluster": {
+          "Destinations": {
+            "destination1": {
+              "Address": "{{ .Values.reRoutes.administrationService.url }}"
+            }
+          }
+        },
+        "feature-management-cluster": {
+          "Destinations": {
+            "destination1": {
+              "Address": "{{ .Values.reRoutes.administrationService.url }}"
+            }
+          }
+        },
+        "permission-management-cluster": {
+          "Destinations": {
+            "destination1": {
+              "Address": "{{ .Values.reRoutes.administrationService.url }}"
+            }
+          }
+        },
+        "setting-management-cluster": {
+          "Destinations": {
+            "destination1": {
+              "Address": "{{ .Values.reRoutes.administrationService.url }}"
+            }
+          }
         }
-      ],
-      "UpstreamPathTemplate": "/api/account/{everything}",
-      "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ]
-    },
-    {
-      "ServiceKey": "Administration Service",
-      "DownstreamPathTemplate": "/api/abp/{everything}",
-      "DownstreamScheme": "{{ .Values.reRoutes.administrationService.schema }}",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "{{ .Values.reRoutes.administrationService.host }}",
-          "Port": "{{ .Values.reRoutes.administrationService.port }}",
-        }
-      ],
-      "UpstreamPathTemplate": "/api/abp/{everything}",
-      "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ]
-    },
-    {
-      "ServiceKey": "Administration Service",
-      "DownstreamPathTemplate": "/api/feature-management/{everything}",
-      "DownstreamScheme": "{{ .Values.reRoutes.administrationService.schema }}",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "{{ .Values.reRoutes.administrationService.host }}",
-          "Port": "{{ .Values.reRoutes.administrationService.port }}",
-        }
-      ],
-      "UpstreamPathTemplate": "/api/feature-management/{everything}",
-      "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ]
-    },
-    {
-      "ServiceKey": "Administration Service",
-      "DownstreamPathTemplate": "/api/permission-management/{everything}",
-      "DownstreamScheme": "{{ .Values.reRoutes.administrationService.schema }}",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "{{ .Values.reRoutes.administrationService.host }}",
-          "Port": "{{ .Values.reRoutes.administrationService.port }}",
-        }
-      ],
-      "UpstreamPathTemplate": "/api/permission-management/{everything}",
-      "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ]
-    },
-    {
-      "ServiceKey": "Administration Service",
-      "DownstreamPathTemplate": "/api/setting-management/{everything}",
-      "DownstreamScheme": "{{ .Values.reRoutes.administrationService.schema }}",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "{{ .Values.reRoutes.administrationService.host }}",
-          "Port": "{{ .Values.reRoutes.administrationService.port }}",
-        }
-      ],
-      "UpstreamPathTemplate": "/api/setting-management/{everything}",
-      "UpstreamHttpMethod": [ "Put", "Delete", "Get", "Post" ]
-    }]
+      }
+    }
     }

@@ -64,12 +64,11 @@ public partial class OrderClientProxy : ClientProxyBase<IOrderAppService>, IOrde
         });
     }
 
-    public virtual async Task SetAsCancelledAsync(Guid id, SetAsCancelledDto input)
+    public virtual async Task SetAsCancelledAsync(Guid id)
     {
         await RequestAsync(nameof(SetAsCancelledAsync), new ClientProxyRequestTypeValue
         {
-            { typeof(Guid), id },
-            { typeof(SetAsCancelledDto), input }
+            { typeof(Guid), id }
         });
     }
 

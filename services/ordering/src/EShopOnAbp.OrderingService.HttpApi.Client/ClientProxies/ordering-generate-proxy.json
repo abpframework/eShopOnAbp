@@ -269,8 +269,8 @@
               "allowAnonymous": null,
               "implementFrom": "EShopOnAbp.OrderingService.Orders.IOrderAppService"
             },
-            "SetAsCancelledAsyncByIdAndInput": {
-              "uniqueName": "SetAsCancelledAsyncByIdAndInput",
+            "SetAsCancelledAsyncById": {
+              "uniqueName": "SetAsCancelledAsyncById",
               "name": "SetAsCancelledAsync",
               "httpMethod": "POST",
               "url": "api/ordering/order/{id}/set-as-cancelled",
@@ -281,14 +281,6 @@
                   "typeAsString": "System.Guid, System.Private.CoreLib",
                   "type": "System.Guid",
                   "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
-                  "name": "input",
-                  "typeAsString": "EShopOnAbp.OrderingService.Orders.SetAsCancelledDto, EShopOnAbp.OrderingService.Application.Contracts",
-                  "type": "EShopOnAbp.OrderingService.Orders.SetAsCancelledDto",
-                  "typeSimple": "EShopOnAbp.OrderingService.Orders.SetAsCancelledDto",
                   "isOptional": false,
                   "defaultValue": null
                 }
@@ -304,18 +296,6 @@
                   "defaultValue": null,
                   "constraintTypes": [],
                   "bindingSourceId": "Path",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "input",
-                  "name": "input",
-                  "jsonName": null,
-                  "type": "EShopOnAbp.OrderingService.Orders.SetAsCancelledDto",
-                  "typeSimple": "EShopOnAbp.OrderingService.Orders.SetAsCancelledDto",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
                   "descriptorName": ""
                 }
               ],

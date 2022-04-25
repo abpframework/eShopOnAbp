@@ -4,10 +4,10 @@ import { environment } from '../../../../../../src/environments/environment';
 
 @Component({
   selector: 'lib-order-detail',
-  templateUrl: './order-detail.component.html'
+  templateUrl: './order-detail.component.html',
 })
-export class OrderDetailComponent   {
-  modalOption  =  { size: 'xl' }
+export class OrderDetailComponent {
+  modalOption = { size: 'xl' };
   @Input()
   visible: boolean;
   @Input()

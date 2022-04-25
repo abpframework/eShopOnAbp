@@ -91,7 +91,7 @@ public class OrderManager : DomainService
         return await _orderRepository.UpdateAsync(order, autoSave: true);
     }
 
-    public async Task<Order> CancelOrderAsync(Guid orderId, Guid paymentRequestId, string paymentRequestStatus)
+    public async Task<Order> CancelOrderAsync(Guid orderId)
     {
         var order = await _orderRepository.GetAsync(orderId);
         if (order == null)
@@ -100,11 +100,12 @@ public class OrderManager : DomainService
                 .WithData("OrderId", orderId);
         }
 
-        order.SetOrderCancelled(paymentRequestId, paymentRequestStatus);
+        order.SetOrderCancelled();
 
         // Publish order cancelled event
         await _distributedEventBus.PublishAsync(new OrderCancelledEto
         {
+            PaymentRequestId = order.PaymentRequestId.GetValueOrDefault(),
             OrderId = order.Id,
             OrderDate = order.OrderDate,
             OrderNo = order.OrderNo,
