@@ -63,9 +63,7 @@ public class OrderAppService : ApplicationService, IOrderAppService
         );
     }
 
-    //[Authorize(OrderingServicePermissions.Orders.Dashboard)]
-    [AllowAnonymous]
-
+    [Authorize(OrderingServicePermissions.Orders.Dashboard)]
     public async Task<DashboardDto> GetDashboardAsync(DashboardInput input)
     {
         return new DashboardDto()
