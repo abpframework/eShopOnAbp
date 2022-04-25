@@ -38,7 +38,7 @@
     "Enum:OrderStatus:0":"Placed",
     "Enum:OrderStatus:1":"Paid",
     "Enum:OrderStatus:2":"Shipped",
-    "Enum:OrderStatus:3":"Cancelled"
+    "Enum:OrderStatus:3":"Cancelled",
     "Permission:Dashboard": "Dashboard"
   }
 }
