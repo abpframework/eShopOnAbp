@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'lib-order-detail-item',
+  selector: 'app-order-detail-item',
   template: `
     <div class="row">
       <div class="col-3">

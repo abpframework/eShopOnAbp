@@ -6,7 +6,7 @@ import { ListService } from '@abp/ng.core';
 import { eOrderingPolicyNames } from '@eshoponabp/ordering/config';
 
 @Component({
-  selector: 'lib-orders',
+  selector: 'app-orders',
   templateUrl: './orders.component.html',
   providers: [ListService],
 })

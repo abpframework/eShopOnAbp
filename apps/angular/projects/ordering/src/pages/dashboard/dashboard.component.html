@@ -1,0 +1,7 @@
+<p>dashboard works!</p>
+
+
+<div *ngIf="dashboard$ |async as dashboard">
+  <app-top-selling [topSellingProducts]="dashboard.topSellings">
+  </app-top-selling>
+</div>

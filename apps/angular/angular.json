@@ -161,7 +161,7 @@
       "projectType": "library",
       "root": "projects/catalog",
       "sourceRoot": "projects/catalog/src",
-      "prefix": "lib",
+      "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
@@ -192,7 +192,7 @@
       "projectType": "library",
       "root": "projects/ordering",
       "sourceRoot": "projects/ordering/src",
-      "prefix": "lib",
+      "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",

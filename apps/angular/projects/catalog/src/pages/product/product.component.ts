@@ -8,7 +8,7 @@ import { ProductDto } from '../../lib/proxy/products/models';
 import { ProductService } from '../../lib/proxy/products/product.service';
 
 @Component({
-  selector: 'lib-product',
+  selector: 'app-product',
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.css'],
   providers: [ListService],
@@ -86,7 +86,9 @@ export class ProductComponent implements OnInit {
   }
 
   save() {
-    if (!this.form.valid || this.modalBusy) return;
+    if (!this.form.valid || this.modalBusy) {
+      return;
+    }
     this.modalBusy = true;
 
     const { id } = this.selected;
