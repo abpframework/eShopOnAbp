@@ -1,7 +1,19 @@
 <p>dashboard works!</p>
 
 
-<div *ngIf="dashboard$ |async as dashboard">
-  <app-top-selling [topSellingProducts]="dashboard.topSellings">
-  </app-top-selling>
+<div *ngIf="dashboard$ | async as dashboard">
+    <div class="row">
+      <div class="col col-md-9">
+        <app-top-selling [topSellingProducts]="dashboard.topSellings">
+        </app-top-selling>
+      </div>
+      <div class="col col-md-3">
+        <app-order-status-chart [data]="dashboard.orderStatusDto">
+        </app-order-status-chart>
+      </div>
+      <div class="col col-md-3">
+        <app-payments-chart [data]="dashboard.payments">
+        </app-payments-chart>
+      </div>
+    </div>
 </div>
