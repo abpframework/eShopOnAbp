@@ -56,7 +56,7 @@
       "administrationCluster": {
         "Destinations": {
           "destination1": {
-            "Address": "http://localhost:44353"
+            "Address": "https://localhost:44353"
           }
         }
       },
