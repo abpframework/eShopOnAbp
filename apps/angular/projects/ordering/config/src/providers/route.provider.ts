@@ -18,6 +18,20 @@ export function configureRoutes(routesService: RoutesService) {
         parentName: null,
         iconClass: 'bi bi-collection-fill',
       },
+      {
+        path: '/ordering',
+        name: eOrderingRouteNames.dashboard,
+        parentName: eOrderingRouteNames.ordering,
+        order: 1,
+        requiredPolicy: eOrderingPolicyNames.ordering,
+      },
+      {
+        path: '/ordering/orders',
+        name: eOrderingRouteNames.orders,
+        parentName: eOrderingRouteNames.ordering,
+        order: 2,
+        requiredPolicy: eOrderingPolicyNames.ordering,
+      },
     ]);
   };
 }
