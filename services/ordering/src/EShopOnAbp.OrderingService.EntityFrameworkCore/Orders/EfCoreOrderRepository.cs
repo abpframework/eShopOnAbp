@@ -60,7 +60,7 @@ public class EfCoreOrderRepository : EfCoreRepository<OrderingServiceDbContext, 
             .Select(o => o.ToList())
         .ToListAsync())
         .SelectMany(t => t)
-        .Take(OrderingServiceRemoteServiceConsts.Top10)
+        .Take(OrderConstants.Top10)
         .ToList();
     }
 

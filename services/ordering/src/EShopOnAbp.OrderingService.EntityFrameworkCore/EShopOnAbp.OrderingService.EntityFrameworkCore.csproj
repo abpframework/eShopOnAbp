@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EShopOnAbp.OrderingService.Domain\EShopOnAbp.OrderingService.Domain.csproj" />
-    <ProjectReference Include="..\EShopOnAbp.OrderingService.Application.Contracts\EShopOnAbp.OrderingService.Application.Contracts.csproj" />
     <PackageReference Include="Volo.Abp.EntityFrameworkCore.PostgreSql" Version="5.1.2" />
   </ItemGroup>
 
