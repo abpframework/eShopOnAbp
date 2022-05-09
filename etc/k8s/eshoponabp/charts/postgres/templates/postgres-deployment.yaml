@@ -14,7 +14,7 @@ spec:
         app: {{ .Release.Name }}-{{ .Chart.Name }}
     spec:
       containers:
-        - image: postgres
+        - image: "postgres:14.1"
           name: {{ .Release.Name }}-{{ .Chart.Name }}
 {{- if eq .Release.Name "es-az" }}
           volumeMounts:

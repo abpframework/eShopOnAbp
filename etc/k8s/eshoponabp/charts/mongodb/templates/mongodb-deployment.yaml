@@ -14,7 +14,7 @@ spec:
         app: {{ .Release.Name }}-{{ .Chart.Name }}
     spec:
       containers:
-        - image: mongo
+        - image: "mongo:4.2"
           name: {{ .Release.Name }}-{{ .Chart.Name }}
 {{- if eq .Release.Name "es-az" }}
           volumeMounts:
