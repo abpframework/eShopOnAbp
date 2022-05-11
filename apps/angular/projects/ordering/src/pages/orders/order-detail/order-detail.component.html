@@ -1,3 +1,4 @@
+
 <abp-modal [visible]="visible" (visibleChange)="visibleChange.emit($event)" [options]="modalOption">
   <ng-template #abpHeader>
     <h3>{{ 'OrderingService::ModalTitle' | abpLocalization }}</h3>
@@ -50,7 +51,7 @@
           </ng-template>
         </ngx-datatable-column>
         <ngx-datatable-column
-          [name]="'OrderingService::DisplayName:ProductName'"
+          [name]="'OrderingService::DisplayName:ProductName' | abpLocalization"
           prop="productName"
         ></ngx-datatable-column>
         <ngx-datatable-column
