@@ -16,5 +16,6 @@ public interface IOrderAppService : IApplicationService
     Task SetAsCancelledAsync(Guid id);
     Task SetAsShippedAsync(Guid id);
     Task<PagedResultDto<OrderDto>> GetListPagedAsync(PagedAndSortedResultRequestDto input);
+    Task<DashboardDto> GetDashboardAsync(DashboardInput input);
 
 }

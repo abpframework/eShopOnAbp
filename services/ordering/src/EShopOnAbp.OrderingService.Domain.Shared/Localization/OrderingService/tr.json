@@ -38,6 +38,8 @@
     "Enum:OrderStatus:0": "Oluşturuldu",
     "Enum:OrderStatus:1": "Ödendi",
     "Enum:OrderStatus:2": "Sevk Edildi",
-    "Enum:OrderStatus:3": "İptal Edildi"
+    "Enum:OrderStatus:3": "İptal Edildi",
+
+    "Permission:Dashboard": "Gösterge Paneli"
   }
 }

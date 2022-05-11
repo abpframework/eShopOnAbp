@@ -1,4 +1,4 @@
-import type { GetMyOrdersInput, GetOrdersInput, OrderCreateDto, OrderDto } from './models';
+import type { DashboardDto, DashboardInput, GetMyOrdersInput, GetOrdersInput, OrderCreateDto, OrderDto } from './models';
 import { RestService } from '@abp/ng.core';
 import type { PagedAndSortedResultRequestDto, PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
@@ -29,6 +29,14 @@ export class OrderService {
       method: 'GET',
       url: '/api/ordering/order/by-order-no',
       params: { orderNo },
+    },
+    { apiName: this.apiName });
+
+  getDashboard = (input: DashboardInput) =>
+    this.restService.request<any, DashboardDto>({
+      method: 'GET',
+      url: '/api/ordering/order/dashboard',
+      params: { filter: input.filter },
     },
     { apiName: this.apiName });
 

@@ -1,9 +1,20 @@
 import type { EntityDto } from '@abp/ng.core';
+import type { TopSellingDto } from '../order-items/models';
 import type { OrderStatus } from './order-status.enum';
 
 export interface BuyerDto extends EntityDto<string> {
   name?: string;
   email?: string;
+}
+
+export interface DashboardDto extends EntityDto {
+  topSellings: TopSellingDto[];
+  payments: PaymentDto[];
+  orderStatusDto: OrderStatusDto[];
+}
+
+export interface DashboardInput {
+  filter?: string;
 }
 
 export interface GetMyOrdersInput {
@@ -55,4 +66,15 @@ export interface OrderItemDto extends EntityDto<string> {
   unitPrice: number;
   discount: number;
   units: number;
+}
+
+export interface OrderStatusDto extends EntityDto {
+  countOfStatusOrder: number;
+  orderStatus?: string;
+  totalIncome: number;
+}
+
+export interface PaymentDto extends EntityDto {
+  rateOfPaymentMethod: number;
+  paymentMethod?: string;
 }

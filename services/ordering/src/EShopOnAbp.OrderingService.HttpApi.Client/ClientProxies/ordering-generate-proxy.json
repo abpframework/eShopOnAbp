@@ -195,6 +195,43 @@
               "allowAnonymous": false,
               "implementFrom": "EShopOnAbp.OrderingService.Orders.IOrderAppService"
             },
+            "GetDashboardAsyncByInput": {
+              "uniqueName": "GetDashboardAsyncByInput",
+              "name": "GetDashboardAsync",
+              "httpMethod": "GET",
+              "url": "api/ordering/order/dashboard",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "EShopOnAbp.OrderingService.Orders.DashboardInput, EShopOnAbp.OrderingService.Application.Contracts",
+                  "type": "EShopOnAbp.OrderingService.Orders.DashboardInput",
+                  "typeSimple": "EShopOnAbp.OrderingService.Orders.DashboardInput",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "Filter",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                }
+              ],
+              "returnValue": {
+                "type": "EShopOnAbp.OrderingService.Orders.DashboardDto",
+                "typeSimple": "EShopOnAbp.OrderingService.Orders.DashboardDto"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "EShopOnAbp.OrderingService.Orders.IOrderAppService"
+            },
             "GetByOrderNoAsyncByOrderNo": {
               "uniqueName": "GetByOrderNoAsyncByOrderNo",
               "name": "GetByOrderNoAsync",

@@ -3,7 +3,7 @@ import { OrderViewModel } from '../../../lib/order-view-model';
 import { environment } from '../../../../../../src/environments/environment';
 
 @Component({
-  selector: 'lib-order-detail',
+  selector: 'app-order-detail',
   templateUrl: './order-detail.component.html',
 })
 export class OrderDetailComponent {

@@ -48,6 +48,14 @@ public partial class OrderClientProxy : ClientProxyBase<IOrderAppService>, IOrde
         });
     }
 
+    public virtual async Task<DashboardDto> GetDashboardAsync(DashboardInput input)
+    {
+        return await RequestAsync<DashboardDto>(nameof(GetDashboardAsync), new ClientProxyRequestTypeValue
+        {
+            { typeof(DashboardInput), input }
+        });
+    }
+
     public virtual async Task<OrderDto> GetByOrderNoAsync(int orderNo)
     {
         return await RequestAsync<OrderDto>(nameof(GetByOrderNoAsync), new ClientProxyRequestTypeValue

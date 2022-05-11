@@ -1,10 +1,12 @@
 ﻿using EShopOnAbp.OrderingService.Localization;
+using EShopOnAbp.OrderingService.OrderItems;
 using EShopOnAbp.OrderingService.Orders.Specifications;
 using EShopOnAbp.OrderingService.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
@@ -61,7 +63,37 @@ public class OrderAppService : ApplicationService, IOrderAppService
         );
     }
 
-    [AllowAnonymous]
+    [Authorize(OrderingServicePermissions.Orders.Dashboard)]
+    public async Task<DashboardDto> GetDashboardAsync(DashboardInput input)
+    {
+        return new DashboardDto()
+        {
+            TopSellings = await GetTopSellingAsync(input.Filter),
+            OrderStatusDto = await GetCountOfTotalOrderStatusAsync(input.Filter),
+            Payments = await GetPercentOfTotalPaymentAsync(input.Filter)
+        };
+    }
+    private async Task<List<TopSellingDto>> GetTopSellingAsync(string filter)
+    {
+        ISpecification<Order> specification = SpecificationFactory.Create(filter);
+        var orderItems = await _orderRepository.GetTopSelling(specification, true);
+        return ObjectMapper.Map<List<OrderItem>, List<TopSellingDto>>(orderItems);
+    }
+
+    private async Task<List<PaymentDto>> GetPercentOfTotalPaymentAsync(string filter)
+    {
+        ISpecification<Order> specification = SpecificationFactory.Create(filter);
+        var orders = await _orderRepository.GetPercentOfTotalPayment(specification);
+        return CreatePaymentDtoMapping(orders);
+    }
+
+    private async Task<List<OrderStatusDto>> GetCountOfTotalOrderStatusAsync(string filter)
+    {
+        ISpecification<Order> specification = SpecificationFactory.Create(filter);
+        var orders = await _orderRepository.GetCountOfTotalOrderStatus(specification, true);
+        return CreateOrderStatusDtoMapping(orders);
+    }
+
     public async Task<OrderDto> GetByOrderNoAsync(int orderNo)
     {
         var order = await _orderRepository.GetByOrderNoAsync(orderNo);
@@ -148,5 +180,37 @@ public class OrderAppService : ApplicationService, IOrderAppService
             OrderStatus = order.OrderStatus,
             PaymentMethod = order.PaymentMethod
         };
+    }
+
+    private List<PaymentDto> CreatePaymentDtoMapping(List<Order> orders)
+    {
+        var payments = orders
+                    .GroupBy(p => p.PaymentMethod)
+                    .Select(p => new PaymentDto { RateOfPaymentMethod = p.Count(), PaymentMethod = p.Key })
+                    .OrderBy(p => p.RateOfPaymentMethod)
+                    .ToList();
+
+        var denominator = payments.Sum(p => p.RateOfPaymentMethod);
+        if (denominator != 0)
+        {
+            decimal rate = 100 / payments.Sum(p => p.RateOfPaymentMethod);
+            payments.ForEach(p => p.RateOfPaymentMethod *= rate);
+        }
+        return payments;
+    }
+
+    private List<OrderStatusDto> CreateOrderStatusDtoMapping(List<Order> orders)
+    {
+        var orderStatus = orders
+                    .GroupBy(p => p.OrderStatus)
+                    .Select(p => new OrderStatusDto { CountOfStatusOrder = p.Count(), OrderStatus = p.Key.ToString(), })
+                    .OrderBy(p => p.CountOfStatusOrder)
+                    .ToList();
+
+        decimal totalIncome = orders.Sum(p => p.OrderItems.Sum(p => p.Units * p.UnitPrice));
+
+        orderStatus.Add(new OrderStatusDto() { OrderStatus = "Total Income", TotalIncome = totalIncome });
+
+        return orderStatus;
     }
 }

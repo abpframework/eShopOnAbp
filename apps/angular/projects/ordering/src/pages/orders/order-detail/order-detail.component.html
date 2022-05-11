@@ -7,33 +7,33 @@
   <ng-template #abpBody>
     <div *ngIf="order">
       <div class="container">
-        <lib-order-detail-item label="OrderingService::DisplayName:OrderNo"
-          >#{{ order.orderNo }}</lib-order-detail-item
+        <app-order-detail-item label="OrderingService::DisplayName:OrderNo"
+          >#{{ order.orderNo }}</app-order-detail-item
         >
-        <lib-order-detail-item label="OrderingService::DisplayName:OrderStatus">{{
+        <app-order-detail-item label="OrderingService::DisplayName:OrderStatus">{{
           order.orderStatus
-        }}</lib-order-detail-item>
-        <lib-order-detail-item label="OrderingService::DisplayName:BuyerName">{{
+        }}</app-order-detail-item>
+        <app-order-detail-item label="OrderingService::DisplayName:BuyerName">{{
           order.buyer.name
-        }}</lib-order-detail-item>
-        <lib-order-detail-item label="OrderingService::DisplayName:BuyerEmail">{{
+        }}</app-order-detail-item>
+        <app-order-detail-item label="OrderingService::DisplayName:BuyerEmail">{{
           order.buyer.email
-        }}</lib-order-detail-item>
+        }}</app-order-detail-item>
 
-        <lib-order-detail-item label="OrderingService::DisplayName:Address">
+        <app-order-detail-item label="OrderingService::DisplayName:Address">
           <span *ngIf="order.address as address">
             {{ address.description }} <br />
             {{ address.street }} <br />
             {{ address.zipCode }} <br />
             {{ address.city }} / {{ address.country }} <br />
           </span>
-        </lib-order-detail-item>
-        <lib-order-detail-item label="OrderingService::DisplayName:PaymentMethod">{{
+        </app-order-detail-item>
+        <app-order-detail-item label="OrderingService::DisplayName:PaymentMethod">{{
           order.paymentMethod
-        }}</lib-order-detail-item>
-        <lib-order-detail-item label="OrderingService::DisplayName:Total">{{
+        }}</app-order-detail-item>
+        <app-order-detail-item label="OrderingService::DisplayName:Total">{{
           order.orderTotal | currency
-        }}</lib-order-detail-item>
+        }}</app-order-detail-item>
       </div>
       <br /><br /><br />
 
