@@ -8,18 +8,31 @@ import { OrderStatusDto } from '../../../../lib/proxy/orders';
 export class OrderStatusChartComponent {
   @Input()
   set data(value: OrderStatusDto[]) {
-    this.chartData.labels = [...value.map(x => x.orderStatus)];
+    const filtered = value.filter(x => x.countOfStatusOrder > 0);
     this.chartData.datasets = [
       {
-        label: 'Order Statuses',
-        data: [...value.map(x => x.countOfStatusOrder)],
+        data: [...filtered.map(x => x.countOfStatusOrder)],
         backgroundColor: ['#fdcb6e', '#0984e3', '#ff7675'],
       },
     ];
+    this.chartData.labels = [...filtered.map(x => x.orderStatus)];
   }
 
   chartData = {
     labels: [],
     datasets: [],
+  };
+
+  options = {
+    plugins: {
+      title: {
+        display: false,
+        text: '',
+        fontSize: 16,
+      },
+      legend: {
+        position: 'bottom',
+      },
+    },
   };
 }

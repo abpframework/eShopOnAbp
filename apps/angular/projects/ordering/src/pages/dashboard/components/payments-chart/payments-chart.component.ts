@@ -10,7 +10,6 @@ export class PaymentsChartComponent {
   set data(value: PaymentDto[]) {
     this.chartData.datasets = [
       {
-        label: 'Order Statuses',
         data: [...value.map(x => x.rateOfPaymentMethod)],
         backgroundColor: ['#fdcb6e', '#0984e3', '#ff7675'],
       },
@@ -26,9 +25,7 @@ export class PaymentsChartComponent {
   options = {
     plugins: {
       title: {
-        display: true,
-        text: 'Payment Methods',
-        fontSize: 16,
+        display: false,
       },
       legend: {
         position: 'bottom',
