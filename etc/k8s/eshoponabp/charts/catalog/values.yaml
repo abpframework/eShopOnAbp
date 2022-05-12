@@ -10,9 +10,9 @@ config:
     swaggerClientId: WebGateway_Swagger
     swaggerClientSecret: "1q2w3e*"
   dotnetEnv: Staging
-  redisHost: es-st-redis
-  rabbitmqHost: es-st-rabbitmq
-  elasticsearchHost: es-st-elasticsearch
+  redisHost: eshop-st-redis
+  rabbitmqHost: eshop-st-rabbitmq
+  elasticsearchHost: eshop-st-elasticsearch
   stringEncryptionDefaultPassPhrase: gsKnGZ041HLL4IM8
   grpcPort: 81
   kestrel:

@@ -73,7 +73,7 @@ public class EShopOnAbpWebGatewayModule : AbpModule
         app.UseCorrelationId();
         app.UseAbpSerilogEnrichers();
         app.UseCors();
-        app.ConfigureSwaggerUIWithYarp(context);
+        app.UseSwaggerUIWithYarp(context);
 
         app.UseRewriter(new RewriteOptions()
             // Regex for "", "/" and "" (whitespace)

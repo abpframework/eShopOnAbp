@@ -10,7 +10,7 @@ namespace EShopOnAbp.Shared.Hosting.Gateways;
 
 public static class YarpSwaggerUIBuilderExtensions
 {
-    public static IApplicationBuilder ConfigureSwaggerUIWithYarp(this IApplicationBuilder app,
+    public static IApplicationBuilder UseSwaggerUIWithYarp(this IApplicationBuilder app,
         ApplicationInitializationContext context)
     {
         app.UseSwagger();

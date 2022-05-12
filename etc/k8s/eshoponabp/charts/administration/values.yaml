@@ -12,8 +12,8 @@ config:
     abpIdentityBaseUrl: #
     useCurrentToken: "false"
   dotnetEnv: Staging
-  redisHost: es-st-redis
-  rabbitmqHost: es-st-rabbitmq
+  redisHost: eshop-st-redis
+  rabbitmqHost: eshop-st-rabbitmq
   elasticsearchHost: #
   stringEncryptionDefaultPassPhrase: gsKnGZ041HLL4IM8
 

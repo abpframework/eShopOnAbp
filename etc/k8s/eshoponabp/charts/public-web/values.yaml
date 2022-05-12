@@ -5,9 +5,9 @@ config:
     authority: http://eshop-st-authserver
     requireHttpsMetadata: "false"
   dotnetEnv: Staging
-  redisHost: es-st-redis
-  rabbitmqHost: es-st-rabbitmq
-  elasticsearchHost: es-st-elasticsearch
+  redisHost: eshop-st-redis
+  rabbitmqHost: eshop-st-rabbitmq
+  elasticsearchHost: eshop-st-elasticsearch
   stringEncryptionDefaultPassPhrase: gsKnGZ041HLL4IM8
 
 ingress:
