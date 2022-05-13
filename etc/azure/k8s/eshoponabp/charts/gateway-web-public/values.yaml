@@ -1,0 +1,38 @@
+config:
+  selfUrl: https://gateway-public.eshoponabp.com
+  authServer:
+    authority: https://auth.eshoponabp.com
+    requireHttpsMetadata: "false"
+    swaggerClientId: WebGateway_Swagger
+    swaggerClientSecret: "1q2w3e*"
+  dotnetEnv: Staging 
+  redisHost: es-st-redis
+  rabbitmqHost: es-st-rabbitmq
+  elasticsearchHost: es-st-elasticsearch
+
+reRoutes:
+  accountService:
+    url: https://auth.eshoponabp.com
+  identityService:
+    url: https://identity.eshoponabp.com
+  administrationService:
+    url: https://administration.eshoponabp.com
+  catalogService:
+    url: https://catalog.eshoponabp.com
+  basketService:
+    url: https://basket.eshoponabp.com
+  orderingService:
+    url: https://order.eshoponabp.com
+  paymentService:
+    url: https://payment.eshoponabp.com 
+
+ingress:
+  host: eshop-st-gateway-web-public
+  tlsSecret: eshop-wildcard-tls
+
+image:
+  repository: eshoponabp/gateway-web-public
+  tag: latest
+  pullPolicy: IfNotPresent
+
+env: {}
