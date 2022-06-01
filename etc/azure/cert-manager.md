@@ -3,7 +3,7 @@
   * Create the namespace for ingress-basic
 
   ```bash
-    kubectl create namespace cert-ingress-basic
+    kubectl create namespace ingress-basic
   ```
 
   * Add the Jetstack Helm repository.
@@ -39,7 +39,7 @@
   kubectl get pods --namespace ingress-basic -o wide
   ```
 
-* Create `ClusterIssuer` with name of `tls-cluster-issuer-prod.yml` for the production certificate through `Let's Encrypt ACME` (Automated Certificate Management Environment) with following content by importing YAML file on Ranhcer and save it under `k8s` folder. *Note that certificate will only be created after annotating and updating the `Ingress` resource.*
+* Create `ClusterIssuer` with name of `cluster-issuer.yml` for the production certificate through `Let's Encrypt ACME` (Automated Certificate Management Environment) with following content and save it under `azure/k8s` folder. *Note that certificate will only be created after annotating and updating the `Ingress` resource.*
 
 ```yaml
 apiVersion: cert-manager.io/v1
@@ -69,4 +69,3 @@ kubectl apply -f etc/azure/cluster-issuer.yaml
 kubectl get clusterissuers letsencrypt -n ingress-basic -o wide
 ```
 
-* Issue production Let’s Encrypt Certificate by annotating and adding ingress resource

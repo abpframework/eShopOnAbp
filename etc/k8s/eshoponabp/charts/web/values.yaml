@@ -1,8 +1,8 @@
 config:
-  selfUrl: https://eshop-st-web
-  gatewayUrl: "https://eshop-st-gateway-web/"
+  selfUrl: https://www.admin.eshoponabp.com
+  gatewayUrl: "https://www.gateway.eshoponabp.com/"
   authServer:
-    authority: http://eshop-st-authserver
+    authority: https://auth.eshoponabp.com
     requireHttpsMetadata: "false"
 
 ingress:

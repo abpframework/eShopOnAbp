@@ -10,6 +10,7 @@ metadata:
 {{- if eq .Release.Name "es-az" }}
     nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
 {{- end }}
+    cert-manager.io/cluster-issuer: letsencrypt
 spec:
   ingressClassName: nginx
   tls:
@@ -18,7 +19,7 @@ spec:
 {{- if eq .Release.Name "es-az" }}
       - {{ print "www." .Values.ingress.host }}
 {{- end }}
-    secretName: {{ .Values.ingress.tlsSecret }}
+    secretName: {{ .Release.Name }}-{{ .Chart.Name }}-tls
   rules:
 {{- if eq .Release.Name "es-az" }}
   - host: "{{ print "www." .Values.ingress.host }}"

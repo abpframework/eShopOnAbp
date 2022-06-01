@@ -1,18 +1,18 @@
 config:
-  selfUrl: https://www.admin.eshoponabp.com
+  selfUrl: https://www.eshoponabp.com
   gatewayUrl: "https://gateway.eshoponabp.com/"
   authServer:
     authority: https://auth.eshoponabp.com
     requireHttpsMetadata: "false"
 
 ingress:
-  host: admin.eshoponabp.com
+  host: eshop-st-web
   tlsSecret: eshop-wildcard-tls
 
 image:
-  repository: "volocr.azurecr.io/eshoponabp/app-web"
+  repository: eshoponabp/app-web
   tag: latest
-
+  pullPolicy: IfNotPresent
 
 # Extra environment variables or configurations
 env: {}
