@@ -3,12 +3,13 @@ version: '3.7'
 services:
   lb:
     image: nginx:1.21
+    container_name: load-balancer-container
     ports:
       - 80:80
       - 443:443
     volumes:
-      - ./nginx/certs/app-publicweb+2.pem:/etc/nginx/certs/app-cert.pem:ro
-      - ./nginx/certs/app-publicweb+2-key.pem:/etc/nginx/certs/app-key.pem:ro
+      - ./nginx/certs/app-cert.pem:/etc/nginx/certs/app-cert.pem:ro
+      - ./nginx/certs/app-key.pem:/etc/nginx/certs/app-key.pem:ro
       - ./nginx/conf.d:/etc/nginx/conf.d:ro
     networks:
       - eshoponabp-network
