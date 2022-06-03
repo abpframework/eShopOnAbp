@@ -175,7 +175,7 @@ gateway-web-public:
 basket:
   config:
     selfUrl: https://basket.eshoponabp.com
-    corsOrigins: https://www.gateway.eshoponabp.com,https://www.gateway-public.eshoponabp.com,https://publicweb.eshoponabp.com
+    corsOrigins: https://www.gateway.eshoponabp.com,https://www.gateway-public.eshoponabp.com,https://www.eshoponabp.com
     connectionStrings:
       administrationService: "Host=es-az-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
     authServer:
@@ -200,7 +200,7 @@ basket:
 catalog:
   config:
     selfUrl: https://catalog.eshoponabp.com
-    corsOrigins: https://www.gateway.eshoponabp.com,https://www.gateway-public.eshoponabp.com,https://publicweb.eshoponabp.com,https://admin.eshoponabp.com
+    corsOrigins: https://www.gateway.eshoponabp.com,https://www.gateway-public.eshoponabp.com,https://www.eshoponabp.com,https://admin.eshoponabp.com
     connectionStrings:
       catalogService: "mongodb://es-az-mongodb/EShopOnAbp_Catalog"
       administrationService: "Host=es-az-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
