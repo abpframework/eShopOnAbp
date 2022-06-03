@@ -8,8 +8,8 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - ./nginx/certs/eshop-st-web+10.pem:/etc/nginx/certs/eshop-st-web+10.pem:ro
-      - ./nginx/certs/eshop-st-web+10-key.pem:/etc/nginx/certs/eshop-st-web+10-key.pem:ro
+      - ./nginx/certs/eshop-st-web+10.pem:/etc/nginx/certs/app-cert.pem:ro
+      - ./nginx/certs/eshop-st-web+10-key.pem:/etc/nginx/certs/app-cert-key.pem:ro
       - ./nginx/conf.d:/etc/nginx/conf.d:ro
     depends_on:
       - eshop-st-administration
@@ -17,8 +17,12 @@ services:
       - eshop-st-identity
       - eshop-st-basket
       - eshop-st-catalog
+      - eshop-st-ordering
+      - eshop-st-payment
+      - eshop-st-web
       - eshop-st-public-web
       - eshop-st-gateway-web-public
+      - eshop-st-gateway-web 
     networks:
       - eshoponabp-network
 
@@ -41,8 +45,6 @@ services:
       - IdentityClients__Default__Authority=http://eshop-st-identity
       - Redis__Configuration=redis
       - RabbitMQ__Connections__Default__HostName=rabbitmq
-      # - AuthServer__SwaggerClientId=WebGateway_Swagger
-      # - AuthServer__SwaggerClientSecret=1q2w3e*
     depends_on:
       redis:
         condition: service_healthy
@@ -53,8 +55,6 @@ services:
     restart: on-failure  
     networks: 
       - eshoponabp-network
-    # volumes:
-    #   - ./certs:/root/certificate
   eshop-st-identity:
     image: eshoponabp/service-identity:latest
     container_name: identity-service-container
@@ -72,8 +72,6 @@ services:
       - ConnectionStrings__AdministrationService=User ID=postgres;Password=myPassw0rd;Host=postgres-db;Port=5432;Database=EShopOnAbp_Administration;Pooling=false;      
       - Redis__Configuration=redis
       - RabbitMQ__Connections__Default__HostName=rabbitmq
-      # - AuthServer__SwaggerClientId=WebGateway_Swagger
-      # - AuthServer__SwaggerClientSecret=1q2w3e*
       - IdentityServerClients__Web__RootUrl=http://localhost:4200
       - IdentityServerClients__PublicWeb__RootUrl=https://eshop-st-public-web
       - IdentityServerClients__WebGateway__RootUrl=https://localhost:44372
@@ -95,8 +93,6 @@ services:
     restart: on-failure
     networks: 
       - eshoponabp-network
-    # volumes:
-    #   - ./certs:/root/certificate
   eshop-st-catalog:
     image: eshoponabp/service-catalog:latest
     container_name: catalog-service-container
@@ -127,8 +123,6 @@ services:
     restart: on-failure  
     networks: 
       - eshoponabp-network
-    # volumes:
-    #   - ./certs:/root/certificate
   eshop-st-basket:
     image: eshoponabp/service-basket:latest
     container_name: basket-service-container
@@ -157,25 +151,23 @@ services:
     restart: on-failure  
     networks: 
       - eshoponabp-network
-    # volumes:
-    #   - ./certs:/root/certificate
-  ordering-service:
+  eshop-st-ordering:
     image: eshoponabp/service-ordering:latest
     container_name: ordering-service-container
     build:
       context: ../../
       dockerfile: services/ordering/src/EShopOnAbp.OrderingService.HttpApi.Host/Dockerfile
     environment:
-      - ASPNETCORE_ENVIRONMENT=Docker
-      - ASPNETCORE_URLS=https://+:443;http://+:80;
-      # - Kestrel__Certificates__Default__Path=/root/certificate/eshop-dk.pfx
-      # - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49
+      # - ASPNETCORE_ENVIRONMENT=Docker
+      - ASPNETCORE_URLS=http://+:80;
+      - App__SelfUrl=https://eshop-st-ordering
+      - App__CorsOrigins=https://eshop-st-gateway-web,https://eshop-st-gateway-web-public,https://eshop-st-web
+      - ConnectionStrings__OrderingService=User ID=postgres;Password=myPassw0rd;Host=postgres-db;Port=5432;Database=EShopOnAbp_Ordering;Pooling=false;
+      - ConnectionStrings__AdministrationService=User ID=postgres;Password=myPassw0rd;Host=postgres-db;Port=5432;Database=EShopOnAbp_Administration;Pooling=false;
+      - AuthServer__Authority=http://eshop-st-authserver
+      - AuthServer__RequireHttpsMetadata=false
       - Redis__Configuration=redis
       - RabbitMQ__Connections__Default__HostName=rabbitmq
-      - ConnectionStrings__OrderingService=User ID=postgres;Password=myPassw0rd;Host=postgres-db;Port=5432;Database=EShopOnAbp_Ordering;Pooling=false;
-      - ConnectionStrings__AdministrationService=User ID=postgres;Password=myPassw0rd;Host=postgres-db;Port=5432;Database=EShopOnAbp_Administration;Pooling=false;      
-    # ports:
-    #   - "44356:443"
     depends_on:
       redis:
         condition: service_healthy
@@ -188,26 +180,26 @@ services:
       - eshoponabp-network
     # volumes:
     #   - ./certs:/root/certificate
-  payment-service:
+  eshop-st-payment:
     image: eshoponabp/service-payment:latest
     container_name: payment-service-container
     build:
       context: ../../
       dockerfile: services/payment/src/EShopOnAbp.PaymentService.HttpApi.Host/Dockerfile
     environment:
-      - ASPNETCORE_ENVIRONMENT=Docker
-      - ASPNETCORE_URLS=https://+:443;http://+:80;
-      # - Kestrel__Certificates__Default__Path=/root/certificate/eshop-dk.pfx
-      # - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49
-      - Redis__Configuration=redis
-      - RabbitMQ__Connections__Default__HostName=rabbitmq
+      # - ASPNETCORE_ENVIRONMENT=Docker
+      - ASPNETCORE_URLS=http://+:80;
+      - App__SelfUrl=https://eshop-st-payment
+      - App__CorsOrigins=https://eshop-st-gateway-web,https://eshop-st-gateway-web-public      
       - ConnectionStrings__PaymentService=User ID=postgres;Password=myPassw0rd;Host=postgres-db;Port=5432;Database=EShopOnAbp_Payment;Pooling=false;
       - ConnectionStrings__AdministrationService=User ID=postgres;Password=myPassw0rd;Host=postgres-db;Port=5432;Database=EShopOnAbp_Administration;Pooling=false;
+      - AuthServer__Authority=http://eshop-st-authserver
+      - AuthServer__RequireHttpsMetadata=false
+      - Redis__Configuration=redis
+      - RabbitMQ__Connections__Default__HostName=rabbitmq
       - Payment__PayPal__ClientId=PAYPAL_CLIENT_ID
       - Payment__PayPal__Secret=PAYPAL_SECRET
       - Payment__PayPal__Environment=Sandbox
-    # ports:
-    #   - "44357:443"
     depends_on:
       redis:
         condition: service_healthy
@@ -218,29 +210,6 @@ services:
     restart: on-failure  
     networks: 
       - eshoponabp-network
-    # volumes:
-    #   - ./certs:/root/certificate
-  app-web:
-    image: eshoponabp/app-web:latest
-    container_name: app-web-container
-    build:
-      context: ../../
-      dockerfile: apps/angular/Dockerfile
-    environment:
-      - RabbitMQ__Connections__Default__HostName=rabbitmq
-      - RemoteServices__Default__BaseUrl=http://gateway-web-public
-    # ports:
-    #   - "4200:80"
-    depends_on:
-      redis:
-        condition: service_healthy
-      rabbitmq:
-        condition: service_healthy
-    restart: on-failure  
-    networks: 
-      - eshoponabp-network
-    # volumes:
-    #   - ./certs:/root/certificate  
   eshop-st-authserver:
     image: eshoponabp/app-authserver:latest
     container_name: app-authserver-container
@@ -251,16 +220,14 @@ services:
       # - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_URLS=http://+:80;
       - App__SelfUrl=https://eshop-st-authserver
-      - App__CorsOrigins=http://app-web,https://eshop-st-public-web,https://identity-service,http://eshop-st-administration,https://eshop-st-administration,https://catalog-service,https://basket-service,https://ordering-service,https://payment-service
-      # - App__RedirectAllowedUrls=http://app-web
+      - App__CorsOrigins=https://eshop-st-web,https://eshop-st-public-web,https://eshop-st-identity,http://eshop-st-administration,https://eshop-st-administration,https://eshop-st-catalog,https://eshop-st-basket,https://eshop-st-ordering,https://eshop-st-payment
+      - App__RedirectAllowedUrls=http://eshop-st-web
       - AuthServer__Authority=http://eshop-st-authserver
       - AuthServer__RequireHttpsMetadata=false
       - ConnectionStrings__IdentityService=User ID=postgres;Password=myPassw0rd;Host=postgres-db;Port=5432;Database=EShopOnAbp_Identity;Pooling=false;
       - ConnectionStrings__AdministrationService=User ID=postgres;Password=myPassw0rd;Host=postgres-db;Port=5432;Database=EShopOnAbp_Administration;Pooling=false;   
       - Redis__Configuration=redis
-      - RabbitMQ__Connections__Default__HostName=rabbitmq   
-      # - AuthServer__SwaggerClientId=WebGateway_Swagger
-      # - AuthServer__SwaggerClientSecret=1q2w3e*
+      - RabbitMQ__Connections__Default__HostName=rabbitmq
     depends_on:
       redis:
         condition: service_healthy
@@ -271,8 +238,22 @@ services:
     restart: on-failure  
     networks: 
       - eshoponabp-network
-    # volumes:
-    #   - ./certs:/root/certificate
+  eshop-st-web:
+    image: eshoponabp/app-web:latest
+    container_name: app-web-container
+    build:
+      context: ../../
+      dockerfile: apps/angular/Dockerfile
+    volumes:
+      - ./nginx/dynamic-env.json://usr/share/nginx/html/dynamic-env.json
+    depends_on:
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    restart: on-failure  
+    networks: 
+      - eshoponabp-network
   eshop-st-public-web:
     image: eshoponabp/app-publicweb:latest
     container_name: app-publicweb-container
@@ -297,7 +278,7 @@ services:
     restart: on-failure  
     networks: 
       - eshoponabp-network
-  gateway-web:
+  eshop-st-gateway-web:
     image: eshoponabp/gateway-web:latest
     container_name: gateway-web-container
     build:
@@ -305,18 +286,20 @@ services:
       dockerfile: gateways/web/src/EShopOnAbp.WebGateway/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker # Yarp can't resolve dns, needs to be overridden
-      - ASPNETCORE_URLS=https://+:443;http://+:80;
-      # - Kestrel__Certificates__Default__Path=/root/certificate/eshop-dk.pfx
-      # - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49
+      - ASPNETCORE_URLS=http://+:80;
+      - App__SelfUrl=https://eshop-st-gateway-web
+      - App__CorsOrigins=https://eshop-st-web
+      - AuthServer__Authority=http://eshop-st-authserver
+      - AuthServer__RequireHttpsMetadata=false
       - Redis__Configuration=redis
-      - ReverseProxy__Clusters__accountCluster__Destinations__destination1__Address=http://app-authserver
-      - ReverseProxy__Clusters__identityCluster__Destinations__destination1__Address=http://identity-service
-      - ReverseProxy__Clusters__administrationCluster__Destinations__destination1__Address=http://administration-service
-      - ReverseProxy__Clusters__catalogCluster__Destinations__destination1__Address=http://catalog-service
-      - ReverseProxy__Clusters__orderingCluster__Destinations__destination1__Address=http://ordering-service
-      - ReverseProxy__Clusters__feature-management-cluster__Destinations__destination1__Address=http://administration-service
-      - ReverseProxy__Clusters__permission-management-cluster__Destinations__destination1__Address=http://administration-service
-      - ReverseProxy__Clusters__setting-management-cluster__Destinations__destination1__Address=http://administration-service
+      - ReverseProxy__Clusters__accountCluster__Destinations__destination1__Address=http://eshop-st-authserver
+      - ReverseProxy__Clusters__identityCluster__Destinations__destination1__Address=http://eshop-st-identity
+      - ReverseProxy__Clusters__administrationCluster__Destinations__destination1__Address=http://eshop-st-administration
+      - ReverseProxy__Clusters__catalogCluster__Destinations__destination1__Address=http://eshop-st-catalog
+      - ReverseProxy__Clusters__orderingCluster__Destinations__destination1__Address=http://eshop-st-ordering
+      - ReverseProxy__Clusters__feature-management-cluster__Destinations__destination1__Address=http://eshop-st-administration
+      - ReverseProxy__Clusters__permission-management-cluster__Destinations__destination1__Address=http://eshop-st-administration
+      - ReverseProxy__Clusters__setting-management-cluster__Destinations__destination1__Address=http://eshop-st-administration
     # ports:
     #   - "44372:443"
     depends_on:
@@ -327,8 +310,6 @@ services:
     restart: on-failure  
     networks: 
       - eshoponabp-network
-    # volumes:
-    #   - ./certs:/root/certificate 
   eshop-st-gateway-web-public:
     image: eshoponabp/gateway-web-public:latest
     container_name: gateway-web-public-container
