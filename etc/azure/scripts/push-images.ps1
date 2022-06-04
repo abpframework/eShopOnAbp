@@ -8,8 +8,8 @@ docker push volocr.azurecr.io/eshoponabp/app-web:$version
 docker tag eshoponabp/app-authserver:$version volocr.azurecr.io/eshoponabp/app-authserver:$version
 docker push volocr.azurecr.io/eshoponabp/app-authserver:$version
 
-docker tag eshoponabp/apppublicweb:$version volocr.azurecr.io/eshoponabp/apppublicweb:$version
-docker push volocr.azurecr.io/eshoponabp/apppublicweb:$version
+docker tag eshoponabp/app-publicweb:$version volocr.azurecr.io/eshoponabp/app-publicweb:$version
+docker push volocr.azurecr.io/eshoponabp/app-publicweb:$version
 
 docker tag eshoponabp/gateway-web:$version volocr.azurecr.io/eshoponabp/gateway-web:$version
 docker push volocr.azurecr.io/c:$version
