@@ -4,13 +4,16 @@ authserver:
     selfUrl: https://auth.eshoponabp.com   
     corsOrigins: https://www.gateway.eshoponabp.com,https://www.gateway-public.eshoponabp.com,https://identity.eshoponabp.com,https://administration.eshoponabp.com,https://basket.eshoponabp.com,https://catalog.eshoponabp.com,https://order.eshoponabp.com,https://payment.eshoponabp.com
     allowedRedirectUrls: https://admin.eshoponabp.com
+    authServer:
+      authority: https://auth.eshoponabp.com
+      requireHttpsMetadata: "false"
     connectionStrings:
-      administrationService: "Host=es-az-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
-      identityService: "Host=es-az-postgresdb;Port=5432;Database=EShopOnAbp_Identity;User ID=postgres;password=myPassw0rd;Pooling=false"
+      administrationService: "Host=eshop-az-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
+      identityService: "Host=eshop-az-postgresdb;Port=5432;Database=EShopOnAbp_Identity;User ID=postgres;password=myPassw0rd;Pooling=false"
     dotnetEnv: Production
-    redisHost: es-az-redis
-    rabbitmqHost: es-az-rabbitmq
-    elasticsearchHost: es-az-elasticsearch
+    redisHost: eshop-az-redis
+    rabbitmqHost: eshop-az-rabbitmq
+    elasticsearchHost: eshop-az-elasticsearch
   ingress:
     host: auth.eshoponabp.com
     tlsSecret: eshop-wildcard-tls
@@ -22,7 +25,7 @@ authserver:
 web:
   config:
     selfUrl: https://admin.eshoponabp.com
-    gatewayUrl: https://www.gateway.eshoponabp.com
+    gatewayUrl: http://eshop-az-gateway-web
   ingress:
     host: admin.eshoponabp.com
   image:
@@ -33,14 +36,14 @@ web:
 public-web:
   config:
     selfUrl: https://www.eshoponabp.com
-    gatewayUrl: https://www.gateway-public.eshoponabp.com
+    gatewayUrl: https://www.gateway-public.eshoponabp.com/
     authServer:
-      authority: https://auth.eshoponabp.com 
+      authority: https://auth.eshoponabp.com
       requireHttpsMetadata: "false"
     dotnetEnv: Production
-    redisHost: es-az-redis
-    rabbitmqHost: es-az-rabbitmq
-    elasticsearchHost: es-az-elasticsearch
+    redisHost: eshop-az-redis
+    rabbitmqHost: eshop-az-rabbitmq
+    elasticsearchHost: eshop-az-elasticsearch
   ingress:
     host: eshoponabp.com
   image:
@@ -53,17 +56,17 @@ identity:
     selfUrl: https://identity.eshoponabp.com
     corsOrigins: https://www.gateway.eshoponabp.com,https://www.gateway-public.eshoponabp.com
     connectionStrings:
-      identityService: "Host=es-az-postgresdb;Port=5432;Database=EShopOnAbp_Identity;User ID=postgres;password=myPassw0rd;Pooling=false"
-      administrationService: "Host=es-az-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
+      identityService: "Host=eshop-az-postgresdb;Port=5432;Database=EShopOnAbp_Identity;User ID=postgres;password=myPassw0rd;Pooling=false"
+      administrationService: "Host=eshop-az-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
     authServer:
-      authority: https://auth.eshoponabp.com 
+      authority: http://eshop-az-authserver
       requireHttpsMetadata: "false"
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
     dotnetEnv: Production
-    redisHost: es-az-redis
-    rabbitmqHost: es-az-rabbitmq
-    elasticsearchHost: es-az-elasticsearch    
+    redisHost: eshop-az-redis
+    rabbitmqHost: eshop-az-rabbitmq
+    elasticsearchHost: eshop-az-elasticsearch    
   identityServerClients: # Seeded Clients
     webRootUrl: https://admin.eshoponabp.com/  
     publicWebRootUrl: https://www.eshoponabp.com/
@@ -88,9 +91,9 @@ administration:
     selfUrl: https://administration.eshoponabp.com
     corsOrigins: https://www.gateway.eshoponabp.com,https://www.gateway-public.eshoponabp.com,https://eshop-az-gateway-internal
     connectionStrings:
-      administrationService: "Host=es-az-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
+      administrationService: "Host=eshop-az-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
     authServer:
-      authority: https://auth.eshoponabp.com 
+      authority: http://eshop-az-authserver
       requireHttpsMetadata: "false"
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
@@ -98,9 +101,9 @@ administration:
       abpIdentityBaseUrl: https://identity.eshoponabp.com
       useCurrentToken: "false"  
     dotnetEnv: Production
-    redisHost: es-az-redis
-    rabbitmqHost: es-az-rabbitmq
-    elasticsearchHost: es-az-elasticsearch
+    redisHost: eshop-az-redis
+    rabbitmqHost: eshop-az-rabbitmq
+    elasticsearchHost: eshop-az-elasticsearch
   synchedCommunication: # Used for server-to-server (client-credentials) communication with identityService for user permissions
     authority: https://auth.eshoponabp.com 
   ingress:
@@ -116,14 +119,14 @@ gateway-web:
     corsOrigins: https://admin.eshoponabp.com
     globalConfigurationBaseUrl: http://eshop-az-gateway-public
     authServer:
-      authority: https://auth.eshoponabp.com 
+      authority: http://eshop-az-authserver
       requireHttpsMetadata: "false"
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
     dotnetEnv: Production
-    redisHost: es-az-redis
-    rabbitmqHost: es-az-rabbitmq
-    elasticsearchHost: es-az-elasticsearch
+    redisHost: eshop-az-redis
+    rabbitmqHost: eshop-az-rabbitmq
+    elasticsearchHost: eshop-az-elasticsearch
   ingress:
     host: gateway.eshoponabp.com
   image:
@@ -131,7 +134,7 @@ gateway-web:
     tag: latest
   reRoutes:
     accountService:
-      url: https://auth.eshoponabp.com 
+      url: http://eshop-az-authserver
     identityService:
       url: http://eshop-az-identity
     administrationService:
@@ -142,14 +145,14 @@ gateway-web-public:
   config:
     selfUrl: https://www.gateway-public.eshoponabp.com
     authServer:
-      authority: https://auth.eshoponabp.com 
+      authority: http://eshop-az-authserver
       requireHttpsMetadata: "false"
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
     dotnetEnv: Production
-    redisHost: es-az-redis
-    rabbitmqHost: es-az-rabbitmq
-    elasticsearchHost: es-az-elasticsearch
+    redisHost: eshop-az-redis
+    rabbitmqHost: eshop-az-rabbitmq
+    elasticsearchHost: eshop-az-elasticsearch
   ingress:
     host: gateway-public.eshoponabp.com
   image:
@@ -157,7 +160,7 @@ gateway-web-public:
     tag: latest
   reRoutes:
     accountService:
-      url: https://auth.eshoponabp.com 
+      url: http://eshop-az-authserver
     identityService:
       url: http://eshop-az-identity
     administrationService:
@@ -177,16 +180,16 @@ basket:
     selfUrl: https://basket.eshoponabp.com
     corsOrigins: https://www.gateway.eshoponabp.com,https://www.gateway-public.eshoponabp.com,https://www.eshoponabp.com
     connectionStrings:
-      administrationService: "Host=es-az-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
+      administrationService: "Host=eshop-az-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
     authServer:
-      authority: https://auth.eshoponabp.com 
+      authority: http://eshop-az-authserver
       requireHttpsMetadata: "false"
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
     dotnetEnv: Production
-    redisHost: es-az-redis
-    rabbitmqHost: es-az-rabbitmq
-    elasticsearchHost: es-az-elasticsearch
+    redisHost: eshop-az-redis
+    rabbitmqHost: eshop-az-rabbitmq
+    elasticsearchHost: eshop-az-elasticsearch
     remoteServices:
       catalogBaseUrl: http://eshop-az-catalog
       catalogGrpcUrl: http://eshop-az-catalog
@@ -202,17 +205,17 @@ catalog:
     selfUrl: https://catalog.eshoponabp.com
     corsOrigins: https://www.gateway.eshoponabp.com,https://www.gateway-public.eshoponabp.com,https://www.eshoponabp.com,https://admin.eshoponabp.com
     connectionStrings:
-      catalogService: "mongodb://es-az-mongodb/EShopOnAbp_Catalog"
-      administrationService: "Host=es-az-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
+      catalogService: "mongodb://eshop-az-mongodb/EShopOnAbp_Catalog"
+      administrationService: "Host=eshop-az-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
     authServer:
-      authority: https://auth.eshoponabp.com 
+      authority: http://eshop-az-authserver
       requireHttpsMetadata: "false"
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
     dotnetEnv: Production
-    redisHost: es-az-redis
-    rabbitmqHost: es-az-rabbitmq
-    elasticsearchHost: es-az-elasticsearch
+    redisHost: eshop-az-redis
+    rabbitmqHost: eshop-az-rabbitmq
+    elasticsearchHost: eshop-az-elasticsearch
     kestrel:
       httpUrl: http://eshop-az-catalog:80
       httpProtocols: Http1AndHttp2
@@ -230,17 +233,17 @@ ordering:
     selfUrl: https://order.eshoponabp.com
     corsOrigins: https://www.gateway.eshoponabp.com,https://www.gateway-public.eshoponabp.com
     connectionStrings:
-      orderingService: "Host=es-az-postgresdb;Port=5432;Database=EShopOnAbp_Ordering;User ID=postgres;password=myPassw0rd;Pooling=false"
-      administrationService: "Host=es-az-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
+      orderingService: "Host=eshop-az-postgresdb;Port=5432;Database=EShopOnAbp_Ordering;User ID=postgres;password=myPassw0rd;Pooling=false"
+      administrationService: "Host=eshop-az-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
     authServer:
-      authority: https://auth.eshoponabp.com 
+      authority: http://eshop-az-authserver
       requireHttpsMetadata: "false"
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
     dotnetEnv: Production
-    redisHost: es-az-redis
-    rabbitmqHost: es-az-rabbitmq
-    elasticsearchHost: es-az-elasticsearch
+    redisHost: eshop-az-redis
+    rabbitmqHost: eshop-az-rabbitmq
+    elasticsearchHost: eshop-az-elasticsearch
   ingress:
     host: order.eshoponabp.com
   image:
@@ -253,17 +256,17 @@ payment:
     selfUrl: https://payment.eshoponabp.com
     corsOrigins: https://www.gateway.eshoponabp.com,https://www.gateway-public.eshoponabp.com
     connectionStrings:
-      paymentService: "Host=es-az-postgresdb;Port=5432;Database=EShopOnAbp_Payment;User ID=postgres;password=myPassw0rd;Pooling=false"
-      administrationService: "Host=es-az-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
+      paymentService: "Host=eshop-az-postgresdb;Port=5432;Database=EShopOnAbp_Payment;User ID=postgres;password=myPassw0rd;Pooling=false"
+      administrationService: "Host=eshop-az-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
     authServer:
-      authority: https://auth.eshoponabp.com 
+      authority: http://eshop-az-authserver
       requireHttpsMetadata: "false"
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
     dotnetEnv: Production
-    redisHost: es-az-redis
-    rabbitmqHost: es-az-rabbitmq
-    elasticsearchHost: es-az-elasticsearch
+    redisHost: eshop-az-redis
+    rabbitmqHost: eshop-az-rabbitmq
+    elasticsearchHost: eshop-az-elasticsearch
   ingress:
     host: payment.eshoponabp.com
   image:

@@ -16,7 +16,7 @@ spec:
       containers:
         - image: mongo
           name: {{ .Release.Name }}-{{ .Chart.Name }}
-{{- if eq .Release.Name "es-az" }}
+{{- if eq .Release.Name "eshop-az" }}
           volumeMounts:
           - mountPath: "/data/db"
             name: {{ .Release.Name }}-{{ .Chart.Name }}-database-volume
@@ -25,7 +25,7 @@ spec:
           ports:
             - name: mongo
               containerPort: 27017
-{{- if eq .Release.Name "es-az" }}
+{{- if eq .Release.Name "eshop-az" }}
   volumeClaimTemplates:
   - metadata:
       name: {{ .Release.Name }}-{{ .Chart.Name }}-database-volume
