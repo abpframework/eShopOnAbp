@@ -12,7 +12,6 @@
     "responseType": "code",
     "scope": "offline_access openid profile email phone AccountService IdentityService AdministrationService CatalogService OrderingService",
     "strictDiscoveryDocumentValidation": false,
-    "skipIssuerCheck": true,
     "requireHttps": false
   },
   "apis": {

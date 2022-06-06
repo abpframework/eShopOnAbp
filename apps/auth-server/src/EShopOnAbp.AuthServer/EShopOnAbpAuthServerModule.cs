@@ -78,6 +78,7 @@ public class EShopOnAbpAuthServerModule : AbpModule
         var hostingEnvironment = context.Services.GetHostingEnvironment();
         var configuration = context.Services.GetConfiguration();
 
+        ConfigureSameSiteCookiePolicy(context);
         ConfigureSwagger(context, configuration);
 
         context.Services.AddAuthentication()
