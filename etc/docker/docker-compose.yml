@@ -52,7 +52,7 @@ services:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
-    restart: on-failure  
+    restart: on-failure
     networks: 
       - eshoponabp-network
   eshop-st-identity:
@@ -74,15 +74,15 @@ services:
       - RabbitMQ__Connections__Default__HostName=rabbitmq
       - IdentityServerClients__Web__RootUrl=https://eshop-st-web
       - IdentityServerClients__PublicWeb__RootUrl=https://eshop-st-public-web
-      - IdentityServerClients__WebGateway__RootUrl=https://localhost:44372
+      - IdentityServerClients__WebGateway__RootUrl=https://eshop-st-gateway-web
       - IdentityServerClients__PublicWebGateway__RootUrl=https://eshop-st-gateway-web-public
       - IdentityServerClients__IdentityService__RootUrl=https://eshop-st-identity
       - IdentityServerClients__AdministrationService__RootUrl=https://eshop-st-administration
       - IdentityServerClients__AccountService__RootUrl=https://eshop-st-authserver
-      - IdentityServerClients__CatalogService__RootUrl=https://localhost:44354
-      - IdentityServerClients__BasketService__RootUrl=https://localhost:44355      
-      - IdentityServerClients__OrderingService__RootUrl=https://localhost:44356
-      - IdentityServerClients__PaymentService__RootUrl=https://localhost:44357
+      - IdentityServerClients__CatalogService__RootUrl=https://eshop-st-catalog
+      - IdentityServerClients__BasketService__RootUrl=https://eshop-st-basket     
+      - IdentityServerClients__OrderingService__RootUrl=https://eshop-st-ordering
+      - IdentityServerClients__PaymentService__RootUrl=https://eshop-st-payment
     depends_on:
       redis:
         condition: service_healthy
@@ -285,7 +285,7 @@ services:
       context: ../../
       dockerfile: gateways/web/src/EShopOnAbp.WebGateway/Dockerfile
     environment:
-      - ASPNETCORE_ENVIRONMENT=Docker # Yarp can't resolve dns, needs to be overridden
+      #- ASPNETCORE_ENVIRONMENT=Docker # Yarp can't resolve dns, needs to be overridden
       - ASPNETCORE_URLS=http://+:80;
       - App__SelfUrl=https://eshop-st-gateway-web
       - App__CorsOrigins=https://eshop-st-web
@@ -300,8 +300,6 @@ services:
       - ReverseProxy__Clusters__feature-management-cluster__Destinations__destination1__Address=http://eshop-st-administration
       - ReverseProxy__Clusters__permission-management-cluster__Destinations__destination1__Address=http://eshop-st-administration
       - ReverseProxy__Clusters__setting-management-cluster__Destinations__destination1__Address=http://eshop-st-administration
-    # ports:
-    #   - "44372:443"
     depends_on:
       redis:
         condition: service_healthy
