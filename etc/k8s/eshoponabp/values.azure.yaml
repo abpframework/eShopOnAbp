@@ -44,6 +44,7 @@ public-web:
     redisHost: eshop-az-redis
     rabbitmqHost: eshop-az-rabbitmq
     elasticsearchHost: eshop-az-elasticsearch
+    
   ingress:
     host: eshoponabp.com
   image:
@@ -191,8 +192,8 @@ basket:
     rabbitmqHost: eshop-az-rabbitmq
     elasticsearchHost: eshop-az-elasticsearch
     remoteServices:
-      catalogBaseUrl: http://eshop-az-catalog
-      catalogGrpcUrl: http://eshop-az-catalog
+      catalogBaseUrl: http://eshop-az-catalog:80
+      catalogGrpcUrl: http://eshop-az-catalog:81
   ingress:
     host: basket.eshoponabp.com
   image:
