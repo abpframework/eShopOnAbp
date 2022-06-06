@@ -9,8 +9,11 @@
     "issuer": "https://eshop-st-authserver",
     "redirectUri": "https://eshop-st-web",
     "clientId": "Web",
-    "responseType": "password",
-    "scope": "offline_access openid profile email phone AccountService IdentityService AdministrationService CatalogService OrderingService"
+    "responseType": "code",
+    "scope": "offline_access openid profile email phone AccountService IdentityService AdministrationService CatalogService OrderingService",
+    "strictDiscoveryDocumentValidation": false,
+    "skipIssuerCheck": true,
+    "requireHttps": false
   },
   "apis": {
     "default": {

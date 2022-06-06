@@ -69,10 +69,10 @@ services:
       - AuthServer__Authority=http://eshop-st-authserver
       - AuthServer__RequireHttpsMetadata=false
       - ConnectionStrings__IdentityService=User ID=postgres;Password=myPassw0rd;Host=postgres-db;Port=5432;Database=EShopOnAbp_Identity;Pooling=false;
-      - ConnectionStrings__AdministrationService=User ID=postgres;Password=myPassw0rd;Host=postgres-db;Port=5432;Database=EShopOnAbp_Administration;Pooling=false;      
+      - ConnectionStrings__AdministrationService=User ID=postgres;Password=myPassw0rd;Host=postgres-db;Port=5432;Database=EShopOnAbp_Administration;Pooling=false;
       - Redis__Configuration=redis
       - RabbitMQ__Connections__Default__HostName=rabbitmq
-      - IdentityServerClients__Web__RootUrl=http://localhost:4200
+      - IdentityServerClients__Web__RootUrl=https://eshop-st-web
       - IdentityServerClients__PublicWeb__RootUrl=https://eshop-st-public-web
       - IdentityServerClients__WebGateway__RootUrl=https://localhost:44372
       - IdentityServerClients__PublicWebGateway__RootUrl=https://eshop-st-gateway-web-public
@@ -251,7 +251,7 @@ services:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
-    restart: on-failure  
+    restart: on-failure
     networks: 
       - eshoponabp-network
   eshop-st-public-web:
