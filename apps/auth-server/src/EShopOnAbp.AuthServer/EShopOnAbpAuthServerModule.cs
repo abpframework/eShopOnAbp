@@ -78,6 +78,7 @@ public class EShopOnAbpAuthServerModule : AbpModule
         var hostingEnvironment = context.Services.GetHostingEnvironment();
         var configuration = context.Services.GetConfiguration();
 
+        ConfigureSameSiteCookiePolicy(context);
         ConfigureSwagger(context, configuration);
 
         context.Services.AddAuthentication()
@@ -148,6 +149,11 @@ public class EShopOnAbpAuthServerModule : AbpModule
         }
     }
 
+    private void ConfigureSameSiteCookiePolicy(ServiceConfigurationContext context)
+    {
+        context.Services.AddSameSiteCookiePolicy();
+    }
+
     public override void OnApplicationInitialization(ApplicationInitializationContext context)
     {
         var app = context.GetApplicationBuilder();
@@ -181,6 +187,7 @@ public class EShopOnAbpAuthServerModule : AbpModule
         app.UseStaticFiles();
         app.UseRouting();
         app.UseCors();
+        app.UseCookiePolicy();
         app.UseAuthentication();
         app.UseJwtTokenMiddleware();
         app.UseAbpSerilogEnrichers();
