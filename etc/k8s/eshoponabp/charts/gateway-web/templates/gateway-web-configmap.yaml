@@ -42,6 +42,18 @@ data:
           "Match": {
             "Path": "/api/setting-management/{**everything}"
           }
+        },
+        "Catalog Service": {
+          "ClusterId": "catalogCluster",
+          "Match": {
+            "Path": "/api/catalog/{**everything}"
+          }
+        },
+        "Ordering Service": {
+          "ClusterId": "orderingCluster",
+          "Match": {
+            "Path": "/api/ordering/{**everything}"
+          }
         }
       },
       "Clusters": {
