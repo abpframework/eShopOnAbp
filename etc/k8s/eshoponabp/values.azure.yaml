@@ -25,12 +25,17 @@ authserver:
 web:
   config:
     selfUrl: https://admin.eshoponabp.com
-    gatewayUrl: http://eshop-az-gateway-web
+    # gatewayUrl: http://eshop-az-gateway-web 
+    gatewayUrl: https://www.gateway.eshoponabp.com/
+    authServer:
+      authority: https://auth.eshoponabp.com
+      requireHttpsMetadata: "false"
+      responseType: "code"
   ingress:
     host: admin.eshoponabp.com
   image:
     repository: "volocr.azurecr.io/eshoponabp/app-web"
-    tag: latest
+    tag: 1
 
 # public-web sub-chart override
 public-web:
