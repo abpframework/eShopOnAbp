@@ -86,6 +86,20 @@ data:
               "Address": "{{ .Values.reRoutes.administrationService.url }}"
             }
           }
+        },
+        "catalogCluster": {
+          "Destinations": {
+            "destination1": {
+              "Address": "{{ .Values.reRoutes.catalogService.url }}"
+            }
+          }
+        },
+        "orderingCluster": {
+          "Destinations": {
+            "destination1": {
+              "Address": "{{ .Values.reRoutes.orderingService.url }}"
+            }
+          }
         }
       }
     }

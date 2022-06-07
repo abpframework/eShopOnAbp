@@ -22,7 +22,7 @@ spec:
           containerPort: 443
         volumeMounts:
         - name: config-volume
-          mountPath: /app/dynamic-env.json
+          mountPath: /usr/share/nginx/html/dynamic-env.json
           subPath: dynamic-env.json
         env:
           {{- if .Values.env }}

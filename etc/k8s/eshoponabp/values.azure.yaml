@@ -25,8 +25,7 @@ authserver:
 web:
   config:
     selfUrl: https://admin.eshoponabp.com
-    # gatewayUrl: http://eshop-az-gateway-web 
-    gatewayUrl: https://www.gateway.eshoponabp.com/
+    gatewayUrl: https://www.gateway.eshoponabp.com
     authServer:
       authority: https://auth.eshoponabp.com
       requireHttpsMetadata: "false"
@@ -35,7 +34,7 @@ web:
     host: admin.eshoponabp.com
   image:
     repository: "volocr.azurecr.io/eshoponabp/app-web"
-    tag: 1
+    tag: latest
 
 # public-web sub-chart override
 public-web:
@@ -145,6 +144,10 @@ gateway-web:
       url: http://eshop-az-identity
     administrationService:
       url: http://eshop-az-administration
+    catalogService:
+      url: http://eshop-st-catalog
+    orderingService:
+      url: http://eshop-st-ordering
 
 # gateway-web-public sub-chart override
 gateway-web-public:
