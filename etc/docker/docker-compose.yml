@@ -22,7 +22,8 @@ services:
       - eshop-st-web
       - eshop-st-public-web
       - eshop-st-gateway-web-public
-      - eshop-st-gateway-web 
+      - eshop-st-gateway-web
+    restart: on-failure
     networks:
       - eshoponabp-network
 
@@ -245,7 +246,7 @@ services:
       context: ../../
       dockerfile: apps/angular/Dockerfile
     volumes:
-      - ./nginx/dynamic-env.json://usr/share/nginx/html/dynamic-env.json
+      - ./nginx/dynamic-env.json:/usr/share/nginx/html/dynamic-env.json
     depends_on:
       redis:
         condition: service_healthy
