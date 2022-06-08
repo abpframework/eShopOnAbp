@@ -7,20 +7,21 @@ metadata:
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     nginx.ingress.kubernetes.io/proxy-buffer-size: 32k
     nginx.ingress.kubernetes.io/proxy-buffers-number: "8"
-{{- if eq .Release.Name "es-az" }}
+{{- if eq .Release.Name "eshop-az" }}
     nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
 {{- end }}
+    cert-manager.io/cluster-issuer: letsencrypt
 spec:
   ingressClassName: nginx
   tls:
   - hosts:
       - {{ .Values.ingress.host }}
-{{- if eq .Release.Name "es-az" }}
+{{- if eq .Release.Name "eshop-az" }}
       - {{ print "www." .Values.ingress.host }}
 {{- end }}
-    secretName: {{ .Values.ingress.tlsSecret }}
+    secretName: {{ .Release.Name }}-{{ .Chart.Name }}-tls
   rules:
-{{- if eq .Release.Name "es-az" }}
+{{- if eq .Release.Name "eshop-az" }}
   - host: "{{ print "www." .Values.ingress.host }}"
 {{- else }}
   - host: "{{ .Values.ingress.host }}"

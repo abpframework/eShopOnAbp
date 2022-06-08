@@ -7,14 +7,15 @@ metadata:
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     nginx.ingress.kubernetes.io/proxy-buffer-size: 32k
     nginx.ingress.kubernetes.io/proxy-buffers-number: "8"
+    cert-manager.io/cluster-issuer: letsencrypt
     nginx.ingress.kubernetes.io/configuration-snippet: |
       more_set_input_headers "from-ingress: true";
 spec:
   ingressClassName: nginx
   tls:
   - hosts:
-      - "eshop-st-authserver"
-    secretName: "eshop-wildcard-tls"
+      - {{ .Values.ingress.host }}
+    secretName: {{ .Release.Name }}-{{ .Chart.Name }}-tls
   rules:
   - host: "{{ .Values.ingress.host }}"
     http:

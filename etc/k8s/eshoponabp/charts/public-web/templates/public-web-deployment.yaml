@@ -39,6 +39,8 @@ spec:
           value: "{{ .Values.config.rabbitmqHost }}"
         - name: "ElasticSearch__Url"
           value: "{{ .Values.config.elasticsearchHost }}"
+        - name: "ReverseProxy__Clusters__cluster1__Destinations__destination1__Address"
+          value: "{{ .Values.config.gatewayUrl  }}" 
           {{- if .Values.env }}
 {{ toYaml .Values.env | indent 8 }}
           {{- end }}

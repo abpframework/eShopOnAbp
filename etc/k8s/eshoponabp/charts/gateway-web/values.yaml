@@ -19,6 +19,10 @@ reRoutes:
     url: http://eshop-st-identity
   administrationService:
     url: http://eshop-st-administration
+  catalogService:
+    url: http://eshop-st-catalog
+  orderingService:
+    url: http://eshop-st-order
 ingress:
   host: # eshop-st-gateway-web
   tlsSecret: eshop-wildcard-tls

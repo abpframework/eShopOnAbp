@@ -16,7 +16,7 @@ spec:
       containers:
         - image: "postgres:14.1"
           name: {{ .Release.Name }}-{{ .Chart.Name }}
-{{- if eq .Release.Name "es-az" }}
+{{- if eq .Release.Name "eshop-az" }}
           volumeMounts:
           - mountPath: "/var/opt/postgres"
             name: {{ .Release.Name }}-{{ .Chart.Name }}-database-volume
@@ -28,7 +28,7 @@ spec:
           env:
           - name: POSTGRES_PASSWORD
             value: "myPassw0rd"
-{{- if eq .Release.Name "es-az" }}
+{{- if eq .Release.Name "eshop-az" }}
   volumeClaimTemplates:
   - metadata:
       name: {{ .Release.Name }}-{{ .Chart.Name }}-database-volume

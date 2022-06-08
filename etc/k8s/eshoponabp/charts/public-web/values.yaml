@@ -9,6 +9,7 @@ config:
   rabbitmqHost: eshop-st-rabbitmq
   elasticsearchHost: eshop-st-elasticsearch
   stringEncryptionDefaultPassPhrase: gsKnGZ041HLL4IM8
+  
 
 ingress:
   host: eshop-st-public-web

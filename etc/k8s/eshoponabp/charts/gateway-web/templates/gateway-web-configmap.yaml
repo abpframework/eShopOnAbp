@@ -42,6 +42,18 @@ data:
           "Match": {
             "Path": "/api/setting-management/{**everything}"
           }
+        },
+        "Catalog Service": {
+          "ClusterId": "catalogCluster",
+          "Match": {
+            "Path": "/api/catalog/{**everything}"
+          }
+        },
+        "Ordering Service": {
+          "ClusterId": "orderingCluster",
+          "Match": {
+            "Path": "/api/ordering/{**everything}"
+          }
         }
       },
       "Clusters": {
@@ -84,6 +96,20 @@ data:
           "Destinations": {
             "destination1": {
               "Address": "{{ .Values.reRoutes.administrationService.url }}"
+            }
+          }
+        },
+        "catalogCluster": {
+          "Destinations": {
+            "destination1": {
+              "Address": "{{ .Values.reRoutes.catalogService.url }}"
+            }
+          }
+        },
+        "orderingCluster": {
+          "Destinations": {
+            "destination1": {
+              "Address": "{{ .Values.reRoutes.orderingService.url }}"
             }
           }
         }
