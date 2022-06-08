@@ -19,6 +19,7 @@ using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using StackExchange.Redis;
 using System;
 using System.Net.Http.Headers;
+using Microsoft.AspNetCore.HttpOverrides;
 using Volo.Abp;
 using Volo.Abp.Account;
 using Volo.Abp.AspNetCore.Authentication.OpenIdConnect;
@@ -216,6 +217,11 @@ public class EShopOnAbpPublicWebModule : AbpModule
         {
             app.UseErrorPage();
         }
+        
+        app.UseForwardedHeaders(new ForwardedHeadersOptions
+        {
+            ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+        });
 
         app.UseCorrelationId();
         app.UseStaticFiles();
