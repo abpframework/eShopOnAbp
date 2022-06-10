@@ -31,6 +31,7 @@ web:
       requireHttpsMetadata: "false"
   ingress:
     host: eshop-st-web
+    tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/app-web"
     tag: latest
@@ -49,6 +50,7 @@ public-web:
     elasticsearchHost: eshop-st-elasticsearch
   ingress:
     host: eshop-st-public-web
+    tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/app-publicweb"
     tag: latest
@@ -84,6 +86,7 @@ identity:
     paymentServiceRootUrl: https://eshop-st-payment/
   ingress:
     host: eshop-st-identity
+    tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/service-identity"
     tag: latest
@@ -111,6 +114,7 @@ administration:
     authority: https://eshop-st-authserver
   ingress:
     host: eshop-st-administration
+    tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/service-administration"
     tag: latest
@@ -132,6 +136,7 @@ gateway-web:
     elasticsearchHost: eshop-st-elasticsearch
   ingress:
     host: eshop-st-gateway-web
+    tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/gateway-web"
     tag: latest
@@ -162,6 +167,7 @@ gateway-web-public:
     elasticsearchHost: eshop-st-elasticsearch
   ingress:
     host: eshop-st-gateway-web-public
+    tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/gateway-web-public"
     tag: latest
@@ -202,6 +208,7 @@ basket:
       catalogGrpcUrl: http://eshop-st-catalog:81
   ingress:
     host: eshop-st-basket
+    tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/service-basket"
     tag: latest
@@ -230,6 +237,7 @@ catalog:
       grpcProtocols: Http2
   ingress:
     host: eshop-st-catalog
+    tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/service-catalog"
     tag: latest
@@ -253,6 +261,7 @@ ordering:
     elasticsearchHost: eshop-st-elasticsearch
   ingress:
     host: eshop-st-ordering
+    tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/service-ordering"
     tag: latest
@@ -276,6 +285,7 @@ payment:
     elasticsearchHost: eshop-st-elasticsearch
   ingress:
     host: eshop-st-payment
+    tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/service-payment"
     tag: latest

@@ -13,12 +13,17 @@ spec:
   tls:
   - hosts:
       - {{ .Values.ingress.host }}
+{{- if eq .Release.Name "eshop-az" }}
     secretName: {{ .Release.Name }}-{{ .Chart.Name }}-tls
+{{- else }}
+    secretName: {{ .Values.ingress.tlsSecret }}
+{{- end }}
   rules:
   - host: "{{ .Values.ingress.host }}"
     http:
       paths:
       - path: /
+      
         pathType: Prefix
         backend:
           service:
