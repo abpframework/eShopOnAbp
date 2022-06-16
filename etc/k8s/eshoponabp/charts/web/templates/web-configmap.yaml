@@ -14,11 +14,12 @@ data:
         "oAuthConfig": {
             "issuer": "{{ .Values.config.authServer.authority }}",
             "redirectUri": "{{ .Values.config.selfUrl }}",
-            "requireHttps": "{{ .Values.config.authServer.requireHttpsMetadata }}",
+            "requireHttps": {{ .Values.config.authServer.requireHttpsMetadata }},
             "clientId": "Web",
             "responseType": "{{ .Values.config.authServer.responseType }}",
             "scope": "offline_access openid profile email phone AccountService IdentityService AdministrationService CatalogService OrderingService",
-            "strictDiscoveryDocumentValidation": "false"
+            "strictDiscoveryDocumentValidation": {{ .Values.config.authServer.strictDiscoveryDocumentValidation }},
+            "skipIssuerCheck": {{ .Values.config.authServer.skipIssuerCheck }}
         },
         "apis": {
             "default": {
