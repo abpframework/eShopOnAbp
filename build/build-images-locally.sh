@@ -1,11 +1,14 @@
 #!/bin/bash
 
-export IMAGE_TAG="latest"
+export IMAGE_TAG="1.0.0"
 export total=11
+cd ../
+export currentFolder=`pwd`
+cd build/
 
 
 echo "*** BUILDING WEB (WWW) 1/${total} ****************"
-cd ../apps/angular
+cd ${currentFolder}/apps/angular
 yarn
 # ng build --prod
 npm run build:prod
@@ -13,61 +16,61 @@ docker build -f Dockerfile.local --force-rm -t "eshoponabp/app-web:${IMAGE_TAG}"
 
 
 echo "*** BUILDING AUTH-SERVER 2/$total ****************"
-cd ../auth-server/src/EShopOnAbp.AuthServer
+cd ${currentFolder}/apps/auth-server/src/EShopOnAbp.AuthServer
 dotnet publish -c Release
 docker build -f Dockerfile.local --force-rm -t "eshoponabp/app-authserver:${IMAGE_TAG}" .
 
 
 echo "*** BUILDING WEB-PUBLIC 3/$total ****************"
-cd ../../../public-web/src/EShopOnAbp.PublicWeb
+cd ${currentFolder}/apps/public-web/src/EShopOnAbp.PublicWeb
 dotnet publish -c Release
 docker build -f Dockerfile.local --force-rm -t "eshoponabp/app-publicweb:${IMAGE_TAG}" .
 
 
 echo "*** BUILDING WEB-GATEWAY 4/$total ****************"
-cd ../../../../gateways/web/src/EShopOnAbp.WebGateway
+cd ${currentFolder}/gateways/web/src/EShopOnAbp.WebGateway
 dotnet publish -c Release
 docker build -f Dockerfile.local --force-rm -t "eshoponabp/gateway-web:${IMAGE_TAG}" .
 
 
 echo "*** BUILDING WEB-PUBLIC-GATEWAY 5/$total ****************"
-cd ../../../web-public/src/EShopOnAbp.WebPublicGateway
+cd ${currentFolder}/gateways/web-public/src/EShopOnAbp.WebPublicGateway
 dotnet publish -c Release
 docker build -f Dockerfile.local --force-rm -t "eshoponabp/gateway-web-public:${IMAGE_TAG}" .
 
 
 echo "*** BUILDING IDENTITY-SERVICE 6/$total ****************"
-cd ../../../../services/identity/src/EShopOnAbp.IdentityService.HttpApi.Host
+cd ${currentFolder}/services/identity/src/EShopOnAbp.IdentityService.HttpApi.Host
 dotnet publish -c Release
 docker build -f Dockerfile.local --force-rm -t "eshoponabp/service-identity:${IMAGE_TAG}" .
 
 
 echo "*** BUILDING ADMINISTRATION-SERVICE 7/$total ****************"
-cd ../../../administration/src/EShopOnAbp.AdministrationService.HttpApi.Host
+cd ${currentFolder}/services/administration/src/EShopOnAbp.AdministrationService.HttpApi.Host
 dotnet publish -c Release
 docker build -f Dockerfile.local --force-rm -t "eshoponabp/service-administration:${IMAGE_TAG}" .
 
 
 echo "**************** BUILDING BASKET-SERVICE 8/$total ****************"
-cd ../../../basket/src/EShopOnAbp.BasketService
+cd ${currentFolder}/services/basket/src/EShopOnAbp.BasketService
 dotnet publish -c Release
 docker build -f Dockerfile.local --force-rm -t "eshoponabp/service-basket:${IMAGE_TAG}" .
 
 
 echo "**************** BUILDING CATALOG-SERVICE 9/$total ****************"
-cd ../../../catalog/src/EShopOnAbp.CatalogService.HttpApi.Host
+cd ${currentFolder}/services/catalog/src/EShopOnAbp.CatalogService.HttpApi.Host
 dotnet publish -c Release
 docker build -f Dockerfile.local --force-rm -t "eshoponabp/service-catalog:${IMAGE_TAG}" .
 
 
 echo "**************** BUILDING PAYMENT-SERVICE 10/$total ****************"
-cd ../../../payment/src/EShopOnAbp.PaymentService.HttpApi.Host
+cd ${currentFolder}/services/payment/src/EShopOnAbp.PaymentService.HttpApi.Host
 dotnet publish -c Release
 docker build -f Dockerfile.local --force-rm -t "eshoponabp/service-payment:${IMAGE_TAG}" .
 
 
 echo "**************** BUILDING ORDERING-SERVICE 11/$total ****************"
-cd ../../../ordering/src/EShopOnAbp.OrderingService.HttpApi.Host
+cd ${currentFolder}/services/ordering/src/EShopOnAbp.OrderingService.HttpApi.Host
 dotnet publish -c Release
 docker build -f Dockerfile.local --force-rm -t "eshoponabp/service-ordering:${IMAGE_TAG}" .
 

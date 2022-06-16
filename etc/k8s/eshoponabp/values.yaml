@@ -19,7 +19,7 @@ authserver:
     tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/app-authserver"
-    tag: latest
+    tag: 1.0.0
 
 # web sub-chart override
 web:
@@ -28,14 +28,16 @@ web:
     gatewayUrl: https://eshop-st-gateway-web
     authServer:
       authority: http://eshop-st-authserver
-      requireHttpsMetadata: "false"
+      requireHttpsMetadata: false
       responseType: "code"
+      strictDiscoveryDocumentValidation: false
+      skipIssuerCheck: true
   ingress:
     host: eshop-st-web
     tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/app-web"
-    tag: latest
+    tag: 1.0.0
 
 # public-web sub-chart override
 public-web:
@@ -54,7 +56,7 @@ public-web:
     tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/app-publicweb"
-    tag: latest
+    tag: 1.0.0
 
 # identity-service sub-chart override
 identity:
@@ -90,7 +92,7 @@ identity:
     tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/service-identity"
-    tag: latest
+    tag: 1.0.0
 
 # administration sub-chart override
 administration:
@@ -118,7 +120,7 @@ administration:
     tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/service-administration"
-    tag: latest
+    tag: 1.0.0
 
 # gateway-web sub-chart override
 gateway-web:
@@ -140,7 +142,7 @@ gateway-web:
     tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/gateway-web"
-    tag: latest
+    tag: 1.0.0
   reRoutes:
     accountService:
       url: http://eshop-st-authserver
@@ -171,7 +173,7 @@ gateway-web-public:
     tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/gateway-web-public"
-    tag: latest
+    tag: 1.0.0
   reRoutes:
     accountService:
       url: http://eshop-st-authserver
@@ -212,7 +214,7 @@ basket:
     tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/service-basket"
-    tag: latest
+    tag: 1.0.0
 
 # catalog-service sub-chart override
 catalog:
@@ -241,7 +243,7 @@ catalog:
     tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/service-catalog"
-    tag: latest
+    tag: 1.0.0
 
 # ordering-service sub-chart override
 ordering:
@@ -265,7 +267,7 @@ ordering:
     tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/service-ordering"
-    tag: latest
+    tag: 1.0.0
 
 # payment-service sub-chart override
 payment:
@@ -289,7 +291,7 @@ payment:
     tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/service-payment"
-    tag: latest
+    tag: 1.0.0
 
 # Default values for eshoponabp.
 # This is a YAML-formatted file.

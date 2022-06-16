@@ -19,7 +19,7 @@ authserver:
     tlsSecret: eshop-wildcard-tls
   image:
     repository: "volocr.azurecr.io/eshoponabp/app-authserver"
-    tag: latest
+    tag: 1.0.0
 
 # web sub-chart override
 web:
@@ -28,13 +28,15 @@ web:
     gatewayUrl: https://gateway.eshoponabp.com
     authServer:
       authority: https://auth.eshoponabp.com
-      requireHttpsMetadata: "false"
+      requireHttpsMetadata: false
       responseType: "code"
+      strictDiscoveryDocumentValidation: false
+      skipIssuerCheck: true
   ingress:
     host: admin.eshoponabp.com
   image:
     repository: "volocr.azurecr.io/eshoponabp/app-web"
-    tag: latest
+    tag: 1.0.0
 
 # public-web sub-chart override
 public-web:
@@ -53,7 +55,7 @@ public-web:
     host: www.eshoponabp.com
   image:
     repository: "volocr.azurecr.io/eshoponabp/app-publicweb"
-    tag: latest
+    tag: 1.0.0
 
 # identity-service sub-chart override
 identity:
@@ -88,7 +90,7 @@ identity:
     host: identity.eshoponabp.com
   image:
     repository: "volocr.azurecr.io/eshoponabp/service-identity"
-    tag: latest
+    tag: 1.0.0
 
 # administration sub-chart override
 administration:
@@ -115,7 +117,7 @@ administration:
     host: administration.eshoponabp.com
   image:
     repository: "volocr.azurecr.io/eshoponabp/service-administration"
-    tag: latest
+    tag: 1.0.0
 
 # gateway-web sub-chart override
 gateway-web:
@@ -136,7 +138,7 @@ gateway-web:
     host: gateway.eshoponabp.com
   image:
     repository: "volocr.azurecr.io/eshoponabp/gateway-web"
-    tag: latest
+    tag: 1.0.0
   reRoutes:
     accountService:
       url: http://eshop-az-authserver
@@ -166,7 +168,7 @@ gateway-web-public:
     host: gateway-public.eshoponabp.com
   image:
     repository: "volocr.azurecr.io/eshoponabp/gateway-web-public"
-    tag: latest
+    tag: 1.0.0
   reRoutes:
     accountService:
       url: http://eshop-az-authserver
@@ -206,7 +208,7 @@ basket:
     host: basket.eshoponabp.com
   image:
     repository: "volocr.azurecr.io/eshoponabp/service-basket"
-    tag: latest
+    tag: 1.0.0
 
 # catalog-service sub-chart override
 catalog:
@@ -234,7 +236,7 @@ catalog:
     host: catalog.eshoponabp.com
   image:
     repository: "volocr.azurecr.io/eshoponabp/service-catalog"
-    tag: latest
+    tag: 1.0.0
 
 # ordering-service sub-chart override
 ordering:
@@ -257,7 +259,7 @@ ordering:
     host: order.eshoponabp.com
   image:
     repository: "volocr.azurecr.io/eshoponabp/service-ordering"
-    tag: latest
+    tag: 1.0.0
 
 # payment-service sub-chart override
 payment:
@@ -280,7 +282,7 @@ payment:
     host: payment.eshoponabp.com
   image:
     repository: "volocr.azurecr.io/eshoponabp/service-payment"
-    tag: latest
+    tag: 1.0.0
 
 # Default values for eshoponabp.
 # This is a YAML-formatted file.
