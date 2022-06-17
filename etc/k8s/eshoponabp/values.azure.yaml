@@ -52,7 +52,7 @@ public-web:
     elasticsearchHost: eshop-az-elasticsearch
     
   ingress:
-    host: www.eshoponabp.com
+    host: eshoponabp.com
   image:
     repository: "volocr.azurecr.io/eshoponabp/app-publicweb"
     tag: 1.0.0
