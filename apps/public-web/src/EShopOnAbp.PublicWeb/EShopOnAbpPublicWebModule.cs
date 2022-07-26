@@ -20,6 +20,7 @@ using StackExchange.Redis;
 using System;
 using System.Net.Http.Headers;
 using Microsoft.AspNetCore.HttpOverrides;
+using Polly;
 using Volo.Abp;
 using Volo.Abp.Account;
 using Volo.Abp.AspNetCore.Authentication.OpenIdConnect;
@@ -73,6 +74,19 @@ public class EShopOnAbpPublicWebModule : AbpModule
                 typeof(EShopOnAbpResource),
                 typeof(EShopOnAbpPublicWebModule).Assembly
             );
+        });
+        
+        PreConfigure<AbpHttpClientBuilderOptions>(options =>
+        {
+            options.ProxyClientBuildActions.Add((remoteServiceName, clientBuilder) =>
+            {
+                clientBuilder.AddTransientHttpErrorPolicy(policyBuilder =>
+                    policyBuilder.WaitAndRetryAsync(
+                        3,
+                        i => TimeSpan.FromSeconds(Math.Pow(2, i))
+                    )
+                );
+            });
         });
     }
 
