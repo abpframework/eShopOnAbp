@@ -8,10 +8,6 @@
 @inject IStringLocalizer<EShopOnAbpResource> L
 @inject IOptions<AbpRemoteServiceOptions> options
 
-@{
-    string pageHeader = Model.Product.Name;
-}
-
 @section styles{
     <abp-style src="/Pages/index.css" />
 }
@@ -21,22 +17,16 @@
     <abp-script src="/Pages/index.js" />
 }
 
-@if (Model.HasRemoteServiceError)
-{
-    pageHeader = L["CatalogServiceNotAvailable"];
-}
-
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-lg-6 col-md-6 col-sm-6 ">
-            <h3 class="pt-5 pb-4 text-center">@pageHeader</h3>
             <div class="product-list">
                 @{
                     var product = Model.Product;
                     var productPrice = product.Price.ToString("C", new CultureInfo("en-US"));
                     string productImage = !product.ImageName.IsNullOrEmpty() ? $"{options.Value.RemoteServices.Default.BaseUrl}product-images/{product.ImageName}" : $"{options.Value.RemoteServices.Default.BaseUrl}product-images/@product.ImageName";
                     string buyText = L["Index:AddToBasket"];
-                    <div class="product-list-item" data-product-id="@product.Id.ToString()">
+                    <div class="product-list-item" data-product-id="@product.Id.ToString()" style="cursor:auto">
                         <div class="col">
                             <div class="product-info-box">
                                 <h6>@product.Name</h6>
@@ -58,7 +48,7 @@
                             </div>
                         </div>
                     </div>
-                }
+                 }
             </div>
         </div>
     </div>
