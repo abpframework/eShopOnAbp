@@ -44,7 +44,7 @@
                                 string productImage = !product.ImageName.IsNullOrEmpty() ? $"{options.Value.RemoteServices.Default.BaseUrl}product-images/{product.ImageName}" : $"{options.Value.RemoteServices.Default.BaseUrl}product-images/@product.ImageName";
                                 string buyText = L["Index:AddToBasket"];
                                 <div class="product-list-item" data-product-id="@product.Id.ToString()">
-                                    <a href="/ProductDetail/@product.Id.ToString()">
+                                    <a href="/products/@product.Id.ToString()">
                                         <div class="col">
                                             <div class="product-info-box">
                                                 <h6>@product.Name</h6>

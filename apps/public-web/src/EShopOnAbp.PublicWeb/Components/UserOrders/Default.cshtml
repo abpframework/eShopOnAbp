@@ -54,7 +54,7 @@
                         </div>
                         <abp-row>
                             <abp-column size="_2">
-                                <a href="/ProductDetail/@item.ProductId.ToString()">
+                                <a href="/products/@item.ProductId.ToString()">
                                     @{
                                         string imageUrl = $"{options.Value.RemoteServices.Default.BaseUrl}product-images/{item.PictureUrl}";
                                         <img class="img-size" src="@imageUrl" />
@@ -62,7 +62,7 @@
                                 </a>
                             </abp-column>
                             <abp-column size-lg="_4" size-md="_4" size-sm="_4">
-                                <a href="/ProductDetail/@item.ProductId.ToString()">
+                                <a href="/products/@item.ProductId.ToString()">
                                     <div><strong>@item.ProductName</strong></div>
                                     <div>@L["UserOrders:ProductReturnDate"] @order.OrderDate.AddMonths(1).ToString("dd MMMM yyyy")</div>
                                 </a>
