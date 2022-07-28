@@ -12,9 +12,8 @@ namespace EShopOnAbp.PublicWeb.Pages
         public int OrderNo { get; set; }
 
         public ProductDto Product { get; private set; }
-        public bool HasRemoteServiceError { get; set; } = false;
-        private readonly IPublicProductAppService _productAppService;
 
+        private readonly IPublicProductAppService _productAppService;
 
         public ProductDetailModel(IPublicProductAppService productAppService)
         {
@@ -23,16 +22,7 @@ namespace EShopOnAbp.PublicWeb.Pages
 
         public async Task OnGet(Guid id)
         {
-            try
-            {
-                Product = await _productAppService.GetAsync(id);
-            }
-            catch (Exception e)
-            {
-                Product = new ProductDto();
-                HasRemoteServiceError = true;
-                Console.WriteLine(e);
-            }
+            Product = await _productAppService.GetAsync(id);
         }
     }
 }
