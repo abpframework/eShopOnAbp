@@ -14,12 +14,12 @@
 }
 
 @section styles{
-<abp-style src="/Pages/index.css" />
+    <abp-style src="/Pages/index.css" />
 }
 
 @section scripts {
-<abp-script src="/client-proxies/basket-proxy.js" />
-<abp-script src="/Pages/index.js" />
+    <abp-script src="/client-proxies/basket-proxy.js" />
+    <abp-script src="/Pages/index.js" />
 }
 
 @if (Model.HasRemoteServiceError)
@@ -44,13 +44,15 @@
                                 string productImage = !product.ImageName.IsNullOrEmpty() ? $"{options.Value.RemoteServices.Default.BaseUrl}product-images/{product.ImageName}" : $"{options.Value.RemoteServices.Default.BaseUrl}product-images/@product.ImageName";
                                 string buyText = L["Index:AddToBasket"];
                                 <div class="product-list-item" data-product-id="@product.Id.ToString()">
-                                    <div class="col">
-                                        <div class="product-info-box">
-                                            <h6>@product.Name</h6>
-                                            <em class="d-block text-muted">@product.Code - @L["StockCount"]: @product.StockCount</em>
+                                    <a href="/products/@product.Id.ToString()">
+                                        <div class="col">
+                                            <div class="product-info-box">
+                                                <h6>@product.Name</h6>
+                                                <em class="d-block text-muted">@product.Code - @L["StockCount"]: @product.StockCount</em>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <img src="@productImage" />
+                                        <img src="@productImage" />
+                                    </a>
                                     <div class="row mt-5 ">
                                         @if (product.StockCount > 0)
                                         {
