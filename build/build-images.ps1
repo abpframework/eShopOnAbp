@@ -1,4 +1,4 @@
-param ($version='latest')
+param ($version='1.0.0')
 
 $currentFolder = $PSScriptRoot
 $slnFolder = Join-Path $currentFolder "../"

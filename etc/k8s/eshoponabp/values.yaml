@@ -2,8 +2,11 @@
 authserver:
   config:
     selfUrl: https://eshop-st-authserver    
-    corsOrigins: https://eshop-st-gateway-web,https://eshop-st-gateway-web-public,https://eshop-st-identity,https://eshop-st-administration,https://eshop-st-basket,https://eshop-st-catalog,https://eshop-st-ordering,https://eshop-st-payment
+    corsOrigins: https://eshop-st-gateway-web,https://eshop-st-gateway-web-public,https://eshop-st-identity,https://eshop-st-administration,https://eshop-st-basket,https://eshop-st-catalog,https://eshop-st-ordering,https://eshop-st-payment,https://eshop-st-web,https://eshop-st-public-web
     allowedRedirectUrls: https://eshop-st-web
+    authServer:
+      authority: http://eshop-st-authserver
+      requireHttpsMetadata: "false"
     connectionStrings:
       administrationService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
       identityService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Identity;User ID=postgres;password=myPassw0rd;Pooling=false"
@@ -16,24 +19,31 @@ authserver:
     tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/app-authserver"
-    tag: latest
+    tag: 1.0.0
 
 # web sub-chart override
 web:
   config:
     selfUrl: https://eshop-st-web
-    gatewayUrl: "https://eshop-st-gateway-web/"
+    gatewayUrl: https://eshop-st-gateway-web
+    authServer:
+      authority: http://eshop-st-authserver
+      requireHttpsMetadata: false
+      responseType: "code"
+      strictDiscoveryDocumentValidation: false
+      skipIssuerCheck: true
   ingress:
     host: eshop-st-web
+    tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/app-web"
-    tag: latest
+    tag: 1.0.0
 
 # public-web sub-chart override
 public-web:
   config:
     selfUrl: https://eshop-st-public-web
-    gatewayUrl: http://eshop-st-gateway-web-public
+    gatewayUrl: http://eshop-st-gateway-web-public/
     authServer:
       authority: http://eshop-st-authserver
       requireHttpsMetadata: "false"
@@ -43,9 +53,10 @@ public-web:
     elasticsearchHost: eshop-st-elasticsearch
   ingress:
     host: eshop-st-public-web
+    tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/app-publicweb"
-    tag: latest
+    tag: 1.0.0
 
 # identity-service sub-chart override
 identity:
@@ -78,9 +89,10 @@ identity:
     paymentServiceRootUrl: https://eshop-st-payment/
   ingress:
     host: eshop-st-identity
+    tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/service-identity"
-    tag: latest
+    tag: 1.0.0
 
 # administration sub-chart override
 administration:
@@ -105,9 +117,10 @@ administration:
     authority: https://eshop-st-authserver
   ingress:
     host: eshop-st-administration
+    tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/service-administration"
-    tag: latest
+    tag: 1.0.0
 
 # gateway-web sub-chart override
 gateway-web:
@@ -126,9 +139,10 @@ gateway-web:
     elasticsearchHost: eshop-st-elasticsearch
   ingress:
     host: eshop-st-gateway-web
+    tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/gateway-web"
-    tag: latest
+    tag: 1.0.0
   reRoutes:
     accountService:
       url: http://eshop-st-authserver
@@ -136,6 +150,10 @@ gateway-web:
       url: http://eshop-st-identity
     administrationService:
       url: http://eshop-st-administration
+    catalogService:
+      url: http://eshop-st-catalog
+    orderingService:
+      url: http://eshop-st-ordering
 
 # gateway-web-public sub-chart override
 gateway-web-public:
@@ -152,9 +170,10 @@ gateway-web-public:
     elasticsearchHost: eshop-st-elasticsearch
   ingress:
     host: eshop-st-gateway-web-public
+    tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/gateway-web-public"
-    tag: latest
+    tag: 1.0.0
   reRoutes:
     accountService:
       url: http://eshop-st-authserver
@@ -188,13 +207,14 @@ basket:
     rabbitmqHost: eshop-st-rabbitmq
     elasticsearchHost: eshop-st-elasticsearch
     remoteServices:
-      catalogBaseUrl: http://eshop-st-catalog
-      catalogGrpcUrl: http://eshop-st-catalog
+      catalogBaseUrl: http://eshop-st-catalog:80
+      catalogGrpcUrl: http://eshop-st-catalog:81
   ingress:
     host: eshop-st-basket
+    tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/service-basket"
-    tag: latest
+    tag: 1.0.0
 
 # catalog-service sub-chart override
 catalog:
@@ -220,9 +240,10 @@ catalog:
       grpcProtocols: Http2
   ingress:
     host: eshop-st-catalog
+    tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/service-catalog"
-    tag: latest
+    tag: 1.0.0
 
 # ordering-service sub-chart override
 ordering:
@@ -243,9 +264,10 @@ ordering:
     elasticsearchHost: eshop-st-elasticsearch
   ingress:
     host: eshop-st-ordering
+    tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/service-ordering"
-    tag: latest
+    tag: 1.0.0
 
 # payment-service sub-chart override
 payment:
@@ -266,9 +288,10 @@ payment:
     elasticsearchHost: eshop-st-elasticsearch
   ingress:
     host: eshop-st-payment
+    tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/service-payment"
-    tag: latest
+    tag: 1.0.0
 
 # Default values for eshoponabp.
 # This is a YAML-formatted file.

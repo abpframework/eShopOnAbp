@@ -17,7 +17,7 @@ helm upgrade --install --version=4.0.19 ingress-nginx ingress-nginx/ingress-ngin
 
 # How to run?
 
-* Add entries to the hosts file (in Windows: `C:\Windows\System32\drivers\etc\hosts`):
+* Add entries to the hosts file (in Windows: `C:\Windows\System32\drivers\etc\hosts`, in linux and macos: `/etc/hosts` ):
 
 ````powershell
 127.0.0.1 eshop-st-web
@@ -33,8 +33,8 @@ helm upgrade --install --version=4.0.19 ingress-nginx ingress-nginx/ingress-ngin
 127.0.0.1 eshop-st-gateway-web-public
 ````
 
-* Run `build-images.ps1` in the `build` directory.
-* Run `deploy-staging.ps1` in the `helm-chart` directory. It is deployed with the `eshop` namespace.
+* Run `build-images.ps1` or `build-images.sh` in the `build` directory.
+* Run `deploy-staging.ps1` or `deploy-staging.sh` in the `helm-chart` directory. It is deployed with the `eshop` namespace.
 * *You may wait ~30 seconds on first run for preparing the database*.
 * Browse https://eshop-st-public-web for public and https://eshop-st-web for web application
 * Username: `admin`, password: `1q2w3E*`.
