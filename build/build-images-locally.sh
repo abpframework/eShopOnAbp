@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export IMAGE_TAG="1.0.4"
+export IMAGE_TAG="1.0.0"
 export total=11
 cd ../
 export currentFolder=`pwd`
