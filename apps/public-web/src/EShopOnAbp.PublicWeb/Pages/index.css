@@ -2,6 +2,11 @@
     background-color: #f9f9f9;
 }
 
+a, a:hover, a:visited, a:active {
+    color: inherit;
+    text-decoration: none;
+}
+
 .product-list-item {
     background-color: #fff;
     padding: 2em;
