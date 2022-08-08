@@ -1,4 +1,4 @@
-param ($version='latest')
+param ($version='1.0.0')
 
 az acr login --name volocr
 
@@ -12,7 +12,7 @@ docker tag eshoponabp/app-publicweb:$version volocr.azurecr.io/eshoponabp/app-pu
 docker push volocr.azurecr.io/eshoponabp/app-publicweb:$version
 
 docker tag eshoponabp/gateway-web:$version volocr.azurecr.io/eshoponabp/gateway-web:$version
-docker push volocr.azurecr.io/c:$version
+docker push volocr.azurecr.io/eshoponabp/gateway-web:$version
 
 docker tag eshoponabp/gateway-web-public:$version volocr.azurecr.io/eshoponabp/gateway-web-public:$version
 docker push volocr.azurecr.io/eshoponabp/gateway-web-public:$version
