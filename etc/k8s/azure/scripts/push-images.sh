@@ -1,4 +1,4 @@
-export version="1.0.4"
+export version="1.0.5"
 
 az acr login --name volocr
 
