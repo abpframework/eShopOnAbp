@@ -44,8 +44,10 @@ public-web:
     selfUrl: https://eshoponabp.com
     gatewayUrl: https://gateway-public.eshoponabp.com/
     authServer:
-      authority: https://auth.eshoponabp.com
+      authority: http://eshop-az-authserver
       requireHttpsMetadata: "false"
+      isOnProd: "true"
+      metaAddress: https://auth.eshoponabp.com
     dotnetEnv: Production
     redisHost: eshop-az-redis
     rabbitmqHost: eshop-az-rabbitmq
@@ -101,7 +103,7 @@ administration:
       administrationService: "Host=eshop-az-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
     authServer:
       authority: http://eshop-az-authserver
-      requireHttpsMetadata: "false"
+      requireHttpsMetadata: "false"      
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
     remoteServices:

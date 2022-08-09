@@ -4,6 +4,8 @@ config:
   authServer:
     authority: http://eshop-st-authserver
     requireHttpsMetadata: "false"
+    isOnProd: #
+    metaAddress: #
   dotnetEnv: Staging
   redisHost: eshop-st-redis
   rabbitmqHost: eshop-st-rabbitmq

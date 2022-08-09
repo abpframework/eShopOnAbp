@@ -19,6 +19,7 @@ using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using StackExchange.Redis;
 using System;
 using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.HttpOverrides;
 using Polly;
 using Volo.Abp;
@@ -150,6 +151,37 @@ public class EShopOnAbpPublicWebModule : AbpModule
                 options.Scope.Add("PaymentService");
                 options.Scope.Add("OrderingService");
             });
+        if (Convert.ToBoolean(configuration["AuthServer:IsOnProd"]))
+        {
+            context.Services.Configure<OpenIdConnectOptions>("oidc", options =>
+            {
+                options.MetadataAddress = configuration["AuthServer:MetaAddress"].EnsureEndsWith('/') +
+                                          ".well-known/openid-configuration";
+
+                var previousOnRedirectToIdentityProvider = options.Events.OnRedirectToIdentityProvider;
+                options.Events.OnRedirectToIdentityProvider = async ctx =>
+                {
+                    // Intercept the redirection so the browser navigates to the right URL in your host
+                    ctx.ProtocolMessage.IssuerAddress = configuration["AuthServer:Authority"].EnsureEndsWith('/') + "connect/authorize";
+
+                    if (previousOnRedirectToIdentityProvider != null)
+                    {
+                        await previousOnRedirectToIdentityProvider(ctx);
+                    }
+                };
+                var previousOnRedirectToIdentityProviderForSignOut = options.Events.OnRedirectToIdentityProviderForSignOut;
+                options.Events.OnRedirectToIdentityProviderForSignOut = async ctx =>
+                {
+                    // Intercept the redirection for signout so the browser navigates to the right URL in your host
+                    ctx.ProtocolMessage.IssuerAddress = configuration["AuthServer:Authority"].EnsureEndsWith('/') + "connect/endsession";
+
+                    if (previousOnRedirectToIdentityProviderForSignOut != null)
+                    {
+                        await previousOnRedirectToIdentityProviderForSignOut(ctx);
+                    }
+                };
+            });
+        }
 
         var redis = ConnectionMultiplexer.Connect(configuration["Redis:Configuration"]);
         context.Services
