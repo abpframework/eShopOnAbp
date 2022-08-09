@@ -44,10 +44,10 @@ public-web:
     selfUrl: https://eshoponabp.com
     gatewayUrl: https://gateway-public.eshoponabp.com/
     authServer:
-      authority: http://eshop-az-authserver
+      authority: https://auth.eshoponabp.com
       requireHttpsMetadata: "false"
       isOnProd: "true"
-      metaAddress: https://auth.eshoponabp.com
+      metaAddress: http://eshop-az-authserver
     dotnetEnv: Production
     redisHost: eshop-az-redis
     rabbitmqHost: eshop-az-rabbitmq
@@ -57,7 +57,7 @@ public-web:
     host: eshoponabp.com
   image:
     repository: "volocr.azurecr.io/eshoponabp/app-publicweb"
-    tag: 1.0.5
+    tag: 1.0.6
 
 # identity-service sub-chart override
 identity:
