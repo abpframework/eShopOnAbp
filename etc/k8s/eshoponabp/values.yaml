@@ -42,11 +42,13 @@ web:
 # public-web sub-chart override
 public-web:
   config:
-    selfUrl: https://eshop-st-public-web
+    selfUrl: c
     gatewayUrl: http://eshop-st-gateway-web-public/
     authServer:
       authority: http://eshop-st-authserver
       requireHttpsMetadata: "false"
+      isOnProd: "false"
+      metaAddress: http://eshop-st-authserver
     dotnetEnv: Staging
     redisHost: eshop-st-redis
     rabbitmqHost: eshop-st-rabbitmq
