@@ -4,7 +4,7 @@ config:
   authServer:
     authority: http://eshop-st-authserver
     requireHttpsMetadata: "false"
-    isOnProd: #
+    isOnProd: false
     metaAddress: #
   dotnetEnv: Staging
   redisHost: eshop-st-redis
