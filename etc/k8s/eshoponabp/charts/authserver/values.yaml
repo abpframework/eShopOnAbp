@@ -21,8 +21,8 @@ ingress:
   tlsSecret: eshop-wildcard-tls
 
 image:
-  repository: volocr.azurecr.io/eshoponabp/app-authserver
-  tag: latest
+  repository: volocr.azurecr.io/demomicro/app-authserver
+  tag: 1.0.0
   pullPolicy: IfNotPresent
 
 env: {}
