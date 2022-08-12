@@ -1,12 +1,12 @@
 config:
-  selfUrl: # https://eshop-st-authserver
+  selfUrl: https://demomicro-st-authserver.eshoponabp.com
   corsOrigins: # https://eshop-st-identity,https://eshop-st-administration
   allowedRedirectUrls: https://eshop-st-web
   connectionStrings:
     administrationService: #
     identityService: #
   authServer:
-    authority: http://eshop-st-authserver
+    authority: https://demomicro-st-authserver.eshoponabp.com
     requireHttpsMetadata: "false"
     swaggerClientId: WebGateway_Swagger
     swaggerClientSecret: "1q2w3e*"  
@@ -17,11 +17,11 @@ config:
   stringEncryptionDefaultPassPhrase: gsKnGZ041HLL4IM8
 
 ingress:
-  host: eshop-st-authserver
+  host: demomicro-st-authserver.eshoponabp.com
   tlsSecret: eshop-wildcard-tls
 
 image:
-  repository: eshoponabp/app-authserver
+  repository: volocr.azurecr.io/eshoponabp/app-authserver
   tag: latest
   pullPolicy: IfNotPresent
 
