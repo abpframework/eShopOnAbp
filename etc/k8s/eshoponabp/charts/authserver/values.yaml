@@ -1,20 +1,28 @@
 config:
-  selfUrl: https://demomicro-st-authserver.eshoponabp.com   
-  corsOrigins: https://gateway.eshoponabp.com,https://gateway-public.eshoponabp.com,https://identity.eshoponabp.com,https://administration.eshoponabp.com,https://basket.eshoponabp.com,https://catalog.eshoponabp.com,https://order.eshoponabp.com,https://payment.eshoponabp.com,https://admin.eshoponabp.com,https://www.eshoponabp.com
-  allowedRedirectUrls: https://admin.eshoponabp.com
-  authServer:
-    authority: https://demomicro-st-authserver.eshoponabp.com
-    requireHttpsMetadata: "false"
+  selfUrl: # https://eshop-st-authserver
+  corsOrigins: # https://eshop-st-identity,https://eshop-st-administration
+  allowedRedirectUrls: https://eshop-st-web
   connectionStrings:
-    administrationService: "Host=eshop-az-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
-    identityService: "Host=eshop-az-postgresdb;Port=5432;Database=EShopOnAbp_Identity;User ID=postgres;password=myPassw0rd;Pooling=false"
-  dotnetEnv: Production
-  redisHost: eshop-az-redis
-  rabbitmqHost: eshop-az-rabbitmq
-  elasticsearchHost: eshop-az-elasticsearch
+    administrationService: #
+    identityService: #
+  authServer:
+    authority: http://eshop-st-authserver
+    requireHttpsMetadata: "false"
+    swaggerClientId: WebGateway_Swagger
+    swaggerClientSecret: "1q2w3e*"  
+  dotnetEnv: # 
+  redisHost: #
+  rabbitmqHost: #
+  elasticsearchHost: #
+  stringEncryptionDefaultPassPhrase: gsKnGZ041HLL4IM8
+
 ingress:
-  host: demomicro-st-authserver.eshoponabp.com
+  host: eshop-st-authserver
   tlsSecret: eshop-wildcard-tls
+
 image:
-  repository: "volocr.azurecr.io/demomicro/app-authserver"
-  tag: 1.0.0
+  repository: eshoponabp/app-authserver
+  tag: latest
+  pullPolicy: IfNotPresent
+
+env: {}
