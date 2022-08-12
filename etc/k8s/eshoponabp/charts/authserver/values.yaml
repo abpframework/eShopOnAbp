@@ -1,6 +1,6 @@
 config:
   selfUrl: https://demomicro-st-authserver.eshoponabp.com
-  corsOrigins: # https://eshop-st-identity,https://eshop-st-administration
+  corsOrigins: https://eshop-st-identity,https://eshop-st-administration
   allowedRedirectUrls: https://eshop-st-web
   connectionStrings:
     administrationService: #
