@@ -44,7 +44,7 @@ spec:
         - name: "AuthServer__SwaggerClientId"
           value: "{{ .Values.config.authServer.swaggerClientId }}"
         - name: "AuthServer__SwaggerClientSecret"
-          value: "{{ .Values.config.authServer.swaggerClientSecret }}"  
+          value: "{{ .Values.config.authServer.swaggerClientSecret }}"
         - name: "StringEncryption__DefaultPassPhrase"
           value: "{{ .Values.config.stringEncryptionDefaultPassPhrase }}"
         - name: "RabbitMQ__Connections__Default__HostName"
