@@ -17,4 +17,4 @@ ingress:
   tlsSecret: eshop-wildcard-tls
 image:
   repository: "volocr.azurecr.io/demomicro/app-authserver"
-  tag: 1.0.0
+  tag: 1.0.1
