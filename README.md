@@ -59,6 +59,7 @@ Generating a new certificate will fix that issue. To generate new one,
 
 
 ## Roadmap
+### Version 1.0
 
 - [x] New blank micro-service solution ✔️
 - [x] Creating Deployment Scenarios ✔️
@@ -68,13 +69,16 @@ Generating a new certificate will fix that issue. To generate new one,
   - [x] Basket, Catalog, Order Service ✔️
 - [x] Docker Image creation ✔️
 - [x] Helm deployment for local k8s cluster ✔️
-- [ ] Switch Ocelot to Envoy in Public Web gateway
+- [x] Switch Ocelot to <strike>Envoy</strike> YARP in Public Web gateway
 - [x] Use gRPC for catalog microservice
-- [ ] Management Side of Services
-- [ ] Administration application (to manage products and orders, with a dashboard)
-- [ ] Product-detail page on the shopping application (with CMS-kit integration for comments and rating components)
-- [ ] Deployment to azure k8s
-
+- [x] Management Side of Services
+- [x] Administration application (to manage products and orders, with a dashboard)
+- [x] Product-detail page on the shopping application (with CMS-kit integration for comments and rating components)
+- [x] Deployment to azure k8s
+### Version 2.0
+- [ ] Switch to Keycloak from IdentityServer in AuthServer
+- [ ] Re-design authorization/permission management
+- [ ] Integrate a new sample microservice written by GoLang (Or python/java)
 ### Documentation
 
 - [ ] We will create an e-book to explain the solution
