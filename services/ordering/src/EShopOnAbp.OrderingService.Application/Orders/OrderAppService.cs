@@ -94,6 +94,7 @@ public class OrderAppService : ApplicationService, IOrderAppService
         return CreateOrderStatusDtoMapping(orders);
     }
 
+    [AllowAnonymous]
     public async Task<OrderDto> GetByOrderNoAsync(int orderNo)
     {
         var order = await _orderRepository.GetByOrderNoAsync(orderNo);
