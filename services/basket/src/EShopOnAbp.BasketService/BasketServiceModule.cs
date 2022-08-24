@@ -5,6 +5,7 @@ using EShopOnAbp.Shared.Hosting.Microservices;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
+using Polly;
 using Volo.Abp;
 using Volo.Abp.Application;
 using Volo.Abp.AspNetCore.Mvc;
@@ -30,6 +31,21 @@ namespace EShopOnAbp.BasketService;
 )]
 public class BasketServiceModule : AbpModule
 {
+    public override void PreConfigureServices(ServiceConfigurationContext context)
+    {
+        PreConfigure<AbpHttpClientBuilderOptions>(options =>
+        {
+            options.ProxyClientBuildActions.Add((remoteServiceName, clientBuilder) =>
+            {
+                clientBuilder.AddTransientHttpErrorPolicy(policyBuilder =>
+                    policyBuilder.WaitAndRetryAsync(
+                        3,
+                        i => TimeSpan.FromSeconds(Math.Pow(2, i))
+                    )
+                );
+            });
+        });
+    }
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         var hostingEnvironment = context.Services.GetHostingEnvironment();
