@@ -269,7 +269,7 @@ ordering:
     tlsSecret: eshop-wildcard-tls
   image:
     repository: "ghcr.io/volosoft/eshoponabp/service-ordering"
-    tag: 1.0.0
+    tag: 1.0.1
 
 # payment-service sub-chart override
 payment:
