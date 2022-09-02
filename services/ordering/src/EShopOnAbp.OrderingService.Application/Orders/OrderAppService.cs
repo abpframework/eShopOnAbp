@@ -76,21 +76,21 @@ public class OrderAppService : ApplicationService, IOrderAppService
     private async Task<List<TopSellingDto>> GetTopSellingAsync(string filter)
     {
         ISpecification<Order> specification = SpecificationFactory.Create(filter);
-        var orderItems = await _orderRepository.GetTopSelling(specification, true);
-        return ObjectMapper.Map<List<OrderItem>, List<TopSellingDto>>(orderItems);
+        var orderItems = await _orderRepository.GetDashboardAsync(specification);
+        return CreateTopSellingDtoMapping(orderItems);
     }
 
     private async Task<List<PaymentDto>> GetPercentOfTotalPaymentAsync(string filter)
     {
         ISpecification<Order> specification = SpecificationFactory.Create(filter);
-        var orders = await _orderRepository.GetPercentOfTotalPayment(specification);
+        var orders = await _orderRepository.GetDashboardAsync(specification, false);
         return CreatePaymentDtoMapping(orders);
     }
 
     private async Task<List<OrderStatusDto>> GetCountOfTotalOrderStatusAsync(string filter)
     {
         ISpecification<Order> specification = SpecificationFactory.Create(filter);
-        var orders = await _orderRepository.GetCountOfTotalOrderStatus(specification, true);
+        var orders = await _orderRepository.GetDashboardAsync(specification);
         return CreateOrderStatusDtoMapping(orders);
     }
 
@@ -200,11 +200,24 @@ public class OrderAppService : ApplicationService, IOrderAppService
         return payments;
     }
 
+    private List<TopSellingDto> CreateTopSellingDtoMapping(List<Order> orders)
+    {
+        var orderItems = orders.Select(p => p.OrderItems).SelectMany(p => p).ToList();
+
+        var topSetlling = orderItems
+                .GroupBy(p => p.ProductId)
+                    .Select(p => new TopSellingDto { Units = p.Count(), ProductName = p.First().ProductName , PictureUrl = p.First().PictureUrl })
+                    .OrderByDescending(p => p.Units)
+                    .Take(OrderConstants.Top10).ToList();
+
+        return topSetlling;
+    }
+
     private List<OrderStatusDto> CreateOrderStatusDtoMapping(List<Order> orders)
     {
         var orderStatus = orders
                     .GroupBy(p => p.OrderStatus)
-                    .Select(p => new OrderStatusDto { CountOfStatusOrder = p.Count(), OrderStatus = p.Key.ToString(), })
+                    .Select(p => new OrderStatusDto { CountOfStatusOrder = p.Count(), OrderStatus = p.Key.ToString() })
                     .OrderBy(p => p.CountOfStatusOrder)
                     .ToList();
 

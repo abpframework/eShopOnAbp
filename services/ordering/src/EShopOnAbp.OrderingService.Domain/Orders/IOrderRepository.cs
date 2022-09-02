@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Volo.Abp.Domain.Repositories;
@@ -20,16 +21,7 @@ public interface IOrderRepository : IRepository<Order, Guid>
         bool includeDetails = true,
         CancellationToken cancellationToken = default);
 
-    Task<List<OrderItem>> GetTopSelling(
-        ISpecification<Order> spec,
-        bool includeDetails = true,
-        CancellationToken cancellationToken = default);
-
-    Task<List<Order>> GetPercentOfTotalPayment(
-        ISpecification<Order> spec,
-        CancellationToken cancellationToken = default);
-
-    Task<List<Order>> GetCountOfTotalOrderStatus(
+    Task<List<Order>> GetDashboardAsync(
         ISpecification<Order> spec,
         bool includeDetails = true,
         CancellationToken cancellationToken = default);
