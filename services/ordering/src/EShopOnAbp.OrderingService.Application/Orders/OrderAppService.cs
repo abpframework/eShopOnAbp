@@ -205,8 +205,8 @@ public class OrderAppService : ApplicationService, IOrderAppService
         var orderItems = orders.Select(p => p.OrderItems).SelectMany(p => p).ToList();
 
         var topSetlling = orderItems
-                .GroupBy(p => new { p.ProductName, p.PictureUrl })
-                    .Select(p => new TopSellingDto { Units = p.Count(), ProductName = p.Key.ProductName, PictureUrl = p.Key.PictureUrl })
+                .GroupBy(p => p.ProductId)
+                    .Select(p => new TopSellingDto { Units = p.Count(), ProductName = p.First().ProductName , PictureUrl = p.First().PictureUrl })
                     .OrderByDescending(p => p.Units)
                     .Take(OrderConstants.Top10).ToList();
 
