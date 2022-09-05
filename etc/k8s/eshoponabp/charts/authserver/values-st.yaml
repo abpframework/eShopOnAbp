@@ -1,0 +1,20 @@
+config:
+  selfUrl: https://demomicro-st-authserver.eshoponabp.com   
+  corsOrigins: https://demomicro-st-gateway.eshoponabp.com,https://demomicro-st-gateway-public.eshoponabp.com,https://demomicro-st-identity.eshoponabp.com,https://demomicro-st-administration.eshoponabp.com,https://demomicro-st-basket.eshoponabp.com,https://demomicro-st-catalog.eshoponabp.com,https://demomicro-st-order.eshoponabp.com,https://demomicro-st-payment.eshoponabp.com,https://demomicro-st-admin.eshoponabp.com,https://demomicro-st-eshoponabp.com
+  allowedRedirectUrls: https://demomicro-st-admin.eshoponabp.com
+  authServer:
+    authority: https://demomicro-st-authserver.eshoponabp.com
+    requireHttpsMetadata: "false"
+  connectionStrings:
+    administrationService: "Host=postgresdb-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
+    identityService: "Host=postgresdb-postgresdb;Port=5432;Database=EShopOnAbp_Identity;User ID=postgres;password=myPassw0rd;Pooling=false"
+  dotnetEnv: Production
+  redisHost: redis-redis
+  rabbitmqHost: rabbitmq-rabbitmq
+  elasticsearchHost: elasticsearch-elasticsearch
+ingress:
+  host: demomicro-st-authserver.eshoponabp.com
+  tlsSecret: eshop-wildcard-tls
+image:
+  repository: "volocr.azurecr.io/demomicro/app-authserver"
+  tag: 1.0.1
