@@ -76,7 +76,7 @@ kubectl create secret tls -n eshop eshop-wildcard-tls --cert=./eshop-st-web+10.p
   127.0.0.1 eshop-st-gateway-web-public
   ````
 
-* Run `helm upgrade --install eshop-st abp-charts/eshoponabp -f ./eshoponabp/values.artifacthub.yaml --namespace eshop --create-namespace`
+* Run `helm upgrade --install eshop-st abp-charts/eshoponabp --namespace eshop --create-namespace`
 * *You may wait ~30 seconds on first run for preparing the database*.
 * Browse https://eshop-st-public-web for public and https://eshop-st-web for web application
 * Username: `admin`, password: `1q2w3E*`.
