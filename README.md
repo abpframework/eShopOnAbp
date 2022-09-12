@@ -1,8 +1,10 @@
 # eShopOnAbp
 
-This project is a reference for who want to build microservice solutions with the ABP Framework.
+This project is a reference project for those who want to build microservice solutions with the ABP Framework.
 
 See [the announcement](https://blog.abp.io/abp/Introducing-the-eShopOnAbp-Project) post for more info.
+
+Live demo is on https://www.eshoponabp.com/
 
 ## Issues
 
