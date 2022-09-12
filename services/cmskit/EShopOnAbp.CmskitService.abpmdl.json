@@ -1,0 +1,58 @@
+{
+  "folders": {
+    "items": {
+      "src": {},
+      "test": {}
+    }
+  },
+  "packages": {
+    "EShopOnAbp.CmskitService.Domain.Shared": {
+      "path": "src/EShopOnAbp.CmskitService.Domain.Shared/EShopOnAbp.CmskitService.Domain.Shared.abppkg.json",
+      "folder": "src"
+    },
+    "EShopOnAbp.CmskitService.Application.Contracts": {
+      "path": "src/EShopOnAbp.CmskitService.Application.Contracts/EShopOnAbp.CmskitService.Application.Contracts.abppkg.json",
+      "folder": "src"
+    },
+    "EShopOnAbp.CmskitService.Domain": {
+      "path": "src/EShopOnAbp.CmskitService.Domain/EShopOnAbp.CmskitService.Domain.abppkg.json",
+      "folder": "src"
+    },
+    "EShopOnAbp.CmskitService.Application": {
+      "path": "src/EShopOnAbp.CmskitService.Application/EShopOnAbp.CmskitService.Application.abppkg.json",
+      "folder": "src"
+    },
+    "EShopOnAbp.CmskitService.EntityFrameworkCore": {
+      "path": "src/EShopOnAbp.CmskitService.EntityFrameworkCore/EShopOnAbp.CmskitService.EntityFrameworkCore.abppkg.json",
+      "folder": "src"
+    },
+    "EShopOnAbp.CmskitService.HttpApi": {
+      "path": "src/EShopOnAbp.CmskitService.HttpApi/EShopOnAbp.CmskitService.HttpApi.abppkg.json",
+      "folder": "src"
+    },
+    "EShopOnAbp.CmskitService.HttpApi.Client": {
+      "path": "src/EShopOnAbp.CmskitService.HttpApi.Client/EShopOnAbp.CmskitService.HttpApi.Client.abppkg.json",
+      "folder": "src"
+    },
+    "EShopOnAbp.CmskitService.HttpApi.Host": {
+      "path": "src/EShopOnAbp.CmskitService.HttpApi.Host/EShopOnAbp.CmskitService.HttpApi.Host.abppkg.json",
+      "folder": "src"
+    },
+    "EShopOnAbp.CmskitService.Domain.Tests": {
+      "path": "test/EShopOnAbp.CmskitService.Domain.Tests/EShopOnAbp.CmskitService.Domain.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "EShopOnAbp.CmskitService.EntityFrameworkCore.Tests": {
+      "path": "test/EShopOnAbp.CmskitService.EntityFrameworkCore.Tests/EShopOnAbp.CmskitService.EntityFrameworkCore.Tests.abppkg.json",
+      "folder": "test"
+    },
+    "EShopOnAbp.CmskitService.TestBase": {
+      "path": "test/EShopOnAbp.CmskitService.TestBase/EShopOnAbp.CmskitService.TestBase.abppkg.json",
+      "folder": "test"
+    },
+    "EShopOnAbp.CmskitService.Application.Tests": {
+      "path": "test/EShopOnAbp.CmskitService.Application.Tests/EShopOnAbp.CmskitService.Application.Tests.abppkg.json",
+      "folder": "test"
+    }
+  }
+}
