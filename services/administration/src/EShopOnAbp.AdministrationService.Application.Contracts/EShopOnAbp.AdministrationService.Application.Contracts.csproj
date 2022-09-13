@@ -9,6 +9,7 @@
     <ProjectReference Include="..\EShopOnAbp.AdministrationService.Domain.Shared\EShopOnAbp.AdministrationService.Domain.Shared.csproj" />
     <ProjectReference Include="..\..\..\catalog\src\EShopOnAbp.CatalogService.Application.Contracts\EShopOnAbp.CatalogService.Application.Contracts.csproj" />
     <ProjectReference Include="..\..\..\ordering\src\EShopOnAbp.OrderingService.Application.Contracts\EShopOnAbp.OrderingService.Application.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\cmskit\src\EShopOnAbp.CmskitService.Application.Contracts\EShopOnAbp.CmskitService.Application.Contracts.csproj" />
 
   </ItemGroup>
 
