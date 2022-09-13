@@ -90,6 +90,7 @@ public class IdentityServerDataSeeder : IDataSeedContributor, ITransientDependen
         await CreateApiResourceAsync("BasketService", commonApiUserClaims);
         await CreateApiResourceAsync("OrderingService", commonApiUserClaims);
         await CreateApiResourceAsync("PaymentService", commonApiUserClaims);
+        await CreateApiResourceAsync("CmskitService", commonApiUserClaims);
     }
 
     private async Task CreateApiScopesAsync()
@@ -101,6 +102,7 @@ public class IdentityServerDataSeeder : IDataSeedContributor, ITransientDependen
         await CreateApiScopeAsync("BasketService");
         await CreateApiScopeAsync("OrderingService");
         await CreateApiScopeAsync("PaymentService");
+        await CreateApiScopeAsync("CmskitService");
     }
 
     private async Task CreateSwaggerClientsAsync()
@@ -114,7 +116,8 @@ public class IdentityServerDataSeeder : IDataSeedContributor, ITransientDependen
                 "CatalogService",
                 "BasketService",
                 "PaymentService",
-                "OrderingService"
+                "OrderingService",
+                "CmskitService"
             });
     }
 
@@ -144,6 +147,7 @@ public class IdentityServerDataSeeder : IDataSeedContributor, ITransientDependen
             var basketServiceRootUrl = _configuration[$"IdentityServerClients:BasketService:RootUrl"].TrimEnd('/');
             var orderingServiceRootUrl = _configuration[$"IdentityServerClients:OrderingService:RootUrl"].TrimEnd('/');
             var paymentServiceRootUrl = _configuration[$"IdentityServerClients:PaymentService:RootUrl"].TrimEnd('/');
+            var cmskitServiceRootUrl = _configuration[$"IdentityServerClients:CmskitService:RootUrl"].TrimEnd('/');
 
             await CreateClientAsync(
                 name: swaggerClientId,
@@ -161,7 +165,8 @@ public class IdentityServerDataSeeder : IDataSeedContributor, ITransientDependen
                     $"{catalogServiceRootUrl}/swagger/oauth2-redirect.html", // CatalogService redirect uri
                     $"{basketServiceRootUrl}/swagger/oauth2-redirect.html", // BasketService redirect uri
                     $"{orderingServiceRootUrl}/swagger/oauth2-redirect.html", // OrderingService redirect uri
-                    $"{paymentServiceRootUrl}/swagger/oauth2-redirect.html" // PaymentService redirect uri
+                    $"{paymentServiceRootUrl}/swagger/oauth2-redirect.html", // PaymentService redirect uri
+                    $"{cmskitServiceRootUrl}/swagger/oauth2-redirect.html" // CmskitService redirect uri
                 },
                 corsOrigins: new[]
                 {
@@ -173,7 +178,8 @@ public class IdentityServerDataSeeder : IDataSeedContributor, ITransientDependen
                     catalogServiceRootUrl.RemovePostFix("/"),
                     basketServiceRootUrl.RemovePostFix("/"),
                     orderingServiceRootUrl.RemovePostFix("/"),
-                    paymentServiceRootUrl.RemovePostFix("/")
+                    paymentServiceRootUrl.RemovePostFix("/"),
+                    cmskitServiceRootUrl.RemovePostFix("/")
                 }
             );
         }
@@ -247,7 +253,8 @@ public class IdentityServerDataSeeder : IDataSeedContributor, ITransientDependen
                 "CatalogService",
                 "BasketService",
                 "PaymentService",
-                "OrderingService"
+                "OrderingService",
+                "CmskitService"
             }),
             grantTypes: new[] { "hybrid" },
             secret: "1q2w3e*".Sha256(),
@@ -268,7 +275,8 @@ public class IdentityServerDataSeeder : IDataSeedContributor, ITransientDependen
                 "IdentityService",
                 "AdministrationService",
                 "CatalogService",
-                "OrderingService"
+                "OrderingService",
+                "CmskitService"
             }),
             grantTypes: new[] { "authorization_code", "LinkLogin", "password" },
             secret: "1q2w3e*".Sha256(),
