@@ -88,6 +88,13 @@
           }
         }
       },
+      "cmskitCluster": {
+        "Destinations": {
+          "destination1": {
+            "Address": "https://localhost:44358"
+          }
+        }
+      },
       "productPictureCluster": {
         "Destinations": {
           "destination1": {

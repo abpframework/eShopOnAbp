@@ -106,6 +106,13 @@
             "Address": "https://localhost:44356"
           }
         }
+      },
+      "cmskitCluster": {
+        "Destinations": {
+          "destination1": {
+            "Address": "https://localhost:44358"
+          }
+        }
       }
     }
   }
