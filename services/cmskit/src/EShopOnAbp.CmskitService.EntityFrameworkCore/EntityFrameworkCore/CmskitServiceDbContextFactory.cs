@@ -21,7 +21,7 @@ public class CmskitServiceDbContextFactory : IDesignTimeDbContextFactory<CmskitS
                configuration.GetConnectionString(CmskitServiceDbProperties.ConnectionStringName),
                b =>
                {
-                   b.MigrationsHistoryTable("__OrderingService_Migrations");
+                   b.MigrationsHistoryTable("__CmsKitService_Migrations");
                });
 
         // https://www.npgsql.org/efcore/release-notes/6.0.html#opting-out-of-the-new-timestamp-mapping-logic
@@ -33,7 +33,7 @@ public class CmskitServiceDbContextFactory : IDesignTimeDbContextFactory<CmskitS
     private static IConfigurationRoot BuildConfiguration()
     {
         var builder = new ConfigurationBuilder()
-            .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../EShopOnAbp.OrderingService.HttpApi.Host/"))
+            .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../EShopOnAbp.CmsKitService.HttpApi.Host/"))
             .AddJsonFile("appsettings.json", optional: false);
 
         return builder.Build();

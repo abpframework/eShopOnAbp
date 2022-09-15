@@ -12,6 +12,8 @@ using Volo.Abp.AspNetCore.Mvc;
 using System.Linq;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.Extensions.Configuration;
+using Volo.Abp.GlobalFeatures;
+using Volo.Abp.Threading;
 
 namespace EShopOnAbp.CmskitService;
 [DependsOn(
@@ -22,9 +24,16 @@ namespace EShopOnAbp.CmskitService;
     )]
 public class CmskitServiceHttpApiHostModule : AbpModule
 {
+    //public override void PreConfigureServices(ServiceConfigurationContext context)
+    //{
+    //    //TODO why doesn't work?
+    //    FeatureConfigurer.Configure();
+    //}
+
+
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-         var configuration = context.Services.GetConfiguration();
+        var configuration = context.Services.GetConfiguration();
         // var hostingEnvironment = context.Services.GetHostingEnvironment();
 
         JwtBearerConfigurationHelper.Configure(context, "CmskitService");
