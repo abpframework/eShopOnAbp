@@ -1,19 +1,17 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Hosting;
-using EShopOnAbp.CmskitService.EntityFrameworkCore;
-using EShopOnAbp.Shared.Hosting.Microservices;
-using Volo.Abp;
-using Volo.Abp.Modularity;
+﻿using EShopOnAbp.CmskitService.EntityFrameworkCore;
 using EShopOnAbp.Shared.Hosting.AspNetCore;
-using System.Collections.Generic;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using Volo.Abp.AspNetCore.Mvc;
-using System.Linq;
+using EShopOnAbp.Shared.Hosting.Microservices;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.Extensions.Configuration;
-using Volo.Abp.GlobalFeatures;
-using Volo.Abp.Threading;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Volo.Abp;
+using Volo.Abp.AspNetCore.Mvc;
+using Volo.Abp.Modularity;
 
 namespace EShopOnAbp.CmskitService;
 [DependsOn(
@@ -24,17 +22,9 @@ namespace EShopOnAbp.CmskitService;
     )]
 public class CmskitServiceHttpApiHostModule : AbpModule
 {
-    //public override void PreConfigureServices(ServiceConfigurationContext context)
-    //{
-    //    //TODO why doesn't work?
-    //    FeatureConfigurer.Configure();
-    //}
-
-
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         var configuration = context.Services.GetConfiguration();
-        // var hostingEnvironment = context.Services.GetHostingEnvironment();
 
         JwtBearerConfigurationHelper.Configure(context, "CmskitService");
 
@@ -42,11 +32,11 @@ public class CmskitServiceHttpApiHostModule : AbpModule
             context: context,
             authority: configuration["AuthServer:Authority"],
             scopes: new
-                Dictionary<string, string> /* Requested scopes for authorization code request and descriptions for swagger UI only */
+                Dictionary<string, string>
                 {
-                    { "CmskitService", "CmskitService Service API" }
+                    { "CmskitService", "Cmskit Service API" }
                 },
-            apiTitle: "CmskitService Service API"
+            apiTitle: "Cmskit Service API"
         );
 
         context.Services.AddCors(options =>
@@ -68,7 +58,6 @@ public class CmskitServiceHttpApiHostModule : AbpModule
             });
         });
 
-        // TODO: Create controller instead of auto-controller configuration
         Configure<AbpAspNetCoreMvcOptions>(options =>
         {
             options.ConventionalControllers.Create(typeof(CmskitServiceApplicationModule).Assembly, opts =>
@@ -90,12 +79,12 @@ public class CmskitServiceHttpApiHostModule : AbpModule
         }
 
         app.UseCorrelationId();
+        app.UseCors();
         app.UseAbpRequestLocalization();
         app.UseStaticFiles();
         app.UseRouting();
         app.UseAuthentication();
         app.UseAbpClaimsMap();
-        app.UseMultiTenancy();
         app.UseAuthorization();
         app.UseSwagger();
         app.UseSwaggerUI(options =>
@@ -110,4 +99,12 @@ public class CmskitServiceHttpApiHostModule : AbpModule
         app.UseUnitOfWork();
         app.UseConfiguredEndpoints();
     }
+
+    //TODO don't forget here... It gives error
+    //public override async Task OnPostApplicationInitializationAsync(ApplicationInitializationContext context)
+    //{
+    //await context.ServiceProvider
+    //    .GetRequiredService<CmskitServiceDatabaseMigrationChecker>()
+    //    .CheckAndApplyDatabaseMigrationsAsync();
+    //}
 }
