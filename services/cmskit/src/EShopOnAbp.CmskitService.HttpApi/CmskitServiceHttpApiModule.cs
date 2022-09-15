@@ -10,9 +10,9 @@ namespace EShopOnAbp.CmskitService;
 
 [DependsOn(
     typeof(CmskitServiceApplicationContractsModule),
-    typeof(AbpAspNetCoreMvcModule))]
-[DependsOn(typeof(CmsKitHttpApiModule))]
-    public class CmskitServiceHttpApiModule : AbpModule
+    typeof(AbpAspNetCoreMvcModule),
+    typeof(CmsKitHttpApiModule))]
+public class CmskitServiceHttpApiModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {

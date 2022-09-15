@@ -8,10 +8,9 @@ namespace EShopOnAbp.CmskitService;
 [DependsOn(
     typeof(CmskitServiceDomainSharedModule),
     typeof(AbpDddApplicationContractsModule),
-    typeof(AbpAuthorizationModule)
-    )]
-[DependsOn(typeof(CmsKitApplicationContractsModule))]
-    public class CmskitServiceApplicationContractsModule : AbpModule
+    typeof(AbpAuthorizationModule),
+    typeof(CmsKitApplicationContractsModule))]
+public class CmskitServiceApplicationContractsModule : AbpModule
 {
 
 }
