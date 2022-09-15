@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="6.0.0" />
+    <PackageReference Include="Volo.CmsKit.Domain.Shared" Version="5.1.2" />
   </ItemGroup>
 
   <ItemGroup>

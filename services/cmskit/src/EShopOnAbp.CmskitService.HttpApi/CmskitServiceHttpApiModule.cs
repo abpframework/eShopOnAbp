@@ -1,16 +1,18 @@
-﻿using Localization.Resources.AbpUi;
+using Localization.Resources.AbpUi;
 using Microsoft.Extensions.DependencyInjection;
 using EShopOnAbp.CmskitService.Localization;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
+using Volo.CmsKit;
 
 namespace EShopOnAbp.CmskitService;
 
 [DependsOn(
     typeof(CmskitServiceApplicationContractsModule),
     typeof(AbpAspNetCoreMvcModule))]
-public class CmskitServiceHttpApiModule : AbpModule
+[DependsOn(typeof(CmsKitHttpApiModule))]
+    public class CmskitServiceHttpApiModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {

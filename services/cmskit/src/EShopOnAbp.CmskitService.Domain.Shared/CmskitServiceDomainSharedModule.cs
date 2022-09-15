@@ -1,17 +1,19 @@
-﻿using EShopOnAbp.CmskitService.Localization;
+using EShopOnAbp.CmskitService.Localization;
 using Volo.Abp.Localization;
 using Volo.Abp.Localization.ExceptionHandling;
 using Volo.Abp.Modularity;
 using Volo.Abp.Validation;
 using Volo.Abp.Validation.Localization;
 using Volo.Abp.VirtualFileSystem;
+using Volo.CmsKit;
 
 namespace EShopOnAbp.CmskitService;
 
 [DependsOn(
     typeof(AbpValidationModule)
 )]
-public class CmskitServiceDomainSharedModule : AbpModule
+[DependsOn(typeof(CmsKitDomainSharedModule))]
+    public class CmskitServiceDomainSharedModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {

@@ -1,5 +1,6 @@
-﻿using Volo.Abp.Domain;
+using Volo.Abp.Domain;
 using Volo.Abp.Modularity;
+using Volo.CmsKit;
 
 namespace EShopOnAbp.CmskitService;
 
@@ -7,6 +8,7 @@ namespace EShopOnAbp.CmskitService;
     typeof(AbpDddDomainModule),
     typeof(CmskitServiceDomainSharedModule)
 )]
-public class CmskitServiceDomainModule : AbpModule
+[DependsOn(typeof(CmsKitDomainModule))]
+    public class CmskitServiceDomainModule : AbpModule
 {
 }

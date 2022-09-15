@@ -3,6 +3,7 @@ using System;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore.PostgreSql;
 using Volo.Abp.Modularity;
+using Volo.CmsKit.EntityFrameworkCore;
 
 namespace EShopOnAbp.CmskitService.EntityFrameworkCore;
 
@@ -10,7 +11,8 @@ namespace EShopOnAbp.CmskitService.EntityFrameworkCore;
     typeof(AbpEntityFrameworkCorePostgreSqlModule),
     typeof(CmskitServiceDomainModule)
 )]
-public class CmskitServiceEntityFrameworkCoreModule : AbpModule
+[DependsOn(typeof(CmsKitEntityFrameworkCoreModule))]
+    public class CmskitServiceEntityFrameworkCoreModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {

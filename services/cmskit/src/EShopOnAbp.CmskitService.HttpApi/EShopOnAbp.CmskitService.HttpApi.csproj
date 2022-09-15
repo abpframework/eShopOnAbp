@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="5.1.2" />
+    <PackageReference Include="Volo.CmsKit.HttpApi" Version="5.1.2" />
     <ProjectReference Include="..\EShopOnAbp.CmskitService.Application.Contracts\EShopOnAbp.CmskitService.Application.Contracts.csproj" />
   </ItemGroup>
 

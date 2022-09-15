@@ -1,7 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.Application;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Modularity;
+using Volo.CmsKit;
 
 namespace EShopOnAbp.CmskitService;
 
@@ -11,7 +12,8 @@ namespace EShopOnAbp.CmskitService;
     typeof(AbpDddApplicationModule),
     typeof(AbpAutoMapperModule)
     )]
-public class CmskitServiceApplicationModule : AbpModule
+[DependsOn(typeof(CmsKitApplicationModule))]
+    public class CmskitServiceApplicationModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {

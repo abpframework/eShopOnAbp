@@ -1,6 +1,7 @@
-﻿using Volo.Abp.Application;
+using Volo.Abp.Application;
 using Volo.Abp.Authorization;
 using Volo.Abp.Modularity;
+using Volo.CmsKit;
 
 namespace EShopOnAbp.CmskitService;
 
@@ -9,7 +10,8 @@ namespace EShopOnAbp.CmskitService;
     typeof(AbpDddApplicationContractsModule),
     typeof(AbpAuthorizationModule)
     )]
-public class CmskitServiceApplicationContractsModule : AbpModule
+[DependsOn(typeof(CmsKitApplicationContractsModule))]
+    public class CmskitServiceApplicationContractsModule : AbpModule
 {
 
 }
