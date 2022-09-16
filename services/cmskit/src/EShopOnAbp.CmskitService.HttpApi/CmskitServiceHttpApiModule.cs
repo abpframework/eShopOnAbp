@@ -16,6 +16,8 @@ public class CmskitServiceHttpApiModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {
+        FeatureConfigurer.Configure();
+        
         PreConfigure<IMvcBuilder>(mvcBuilder =>
         {
             mvcBuilder.AddApplicationPartIfNotExists(typeof(CmskitServiceHttpApiModule).Assembly);

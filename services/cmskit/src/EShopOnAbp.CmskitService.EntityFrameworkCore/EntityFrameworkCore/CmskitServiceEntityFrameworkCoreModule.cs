@@ -9,10 +9,10 @@ namespace EShopOnAbp.CmskitService.EntityFrameworkCore;
 
 [DependsOn(
     typeof(AbpEntityFrameworkCorePostgreSqlModule),
-    typeof(CmskitServiceDomainModule)
-)]
-[DependsOn(typeof(CmsKitEntityFrameworkCoreModule))]
-    public class CmskitServiceEntityFrameworkCoreModule : AbpModule
+    typeof(CmskitServiceDomainModule),
+    typeof(CmsKitEntityFrameworkCoreModule))]
+
+public class CmskitServiceEntityFrameworkCoreModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {

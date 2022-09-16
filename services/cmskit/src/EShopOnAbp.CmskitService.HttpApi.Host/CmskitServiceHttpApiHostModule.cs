@@ -22,6 +22,11 @@ namespace EShopOnAbp.CmskitService;
     )]
 public class CmskitServiceHttpApiHostModule : AbpModule
 {
+    public override void PreConfigureServices(ServiceConfigurationContext context)
+    {
+        FeatureConfigurer.Configure();
+    }
+    
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         var configuration = context.Services.GetConfiguration();

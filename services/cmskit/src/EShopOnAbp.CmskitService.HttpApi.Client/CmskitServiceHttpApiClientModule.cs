@@ -8,13 +8,18 @@ namespace EShopOnAbp.CmskitService;
 
 [DependsOn(
     typeof(CmskitServiceApplicationContractsModule),
-    typeof(AbpHttpClientModule))]
-[DependsOn(typeof(CmsKitHttpApiClientModule))]
-    public class CmskitServiceHttpApiClientModule : AbpModule
+    typeof(AbpHttpClientModule),
+    typeof(CmsKitHttpApiClientModule))]
+public class CmskitServiceHttpApiClientModule : AbpModule
 {
+    public override void PreConfigureServices(ServiceConfigurationContext context)
+    {
+        FeatureConfigurer.Configure();
+    }
+
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        context.Services.AddHttpClientProxies(typeof(CmskitServiceApplicationContractsModule).Assembly,
+        context.Services.AddStaticHttpClientProxies(typeof(CmskitServiceApplicationContractsModule).Assembly,
             CmskitServiceRemoteServiceConsts.RemoteServiceName);
 
         Configure<AbpVirtualFileSystemOptions>(options =>

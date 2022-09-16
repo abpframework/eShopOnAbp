@@ -9,7 +9,7 @@ public static class CmskitServiceEfCoreEntityExtensionMappings
     public static void Configure()
     {
         CmskitServiceModuleExtensionConfigurator.Configure();
-
+        //TODO global
         OneTimeRunner.Run(() =>
         {
                 /* You can configure extra properties for the
