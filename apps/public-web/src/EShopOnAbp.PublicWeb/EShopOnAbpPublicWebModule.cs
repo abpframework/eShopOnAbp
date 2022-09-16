@@ -46,6 +46,10 @@ using Volo.Abp.UI.Navigation;
 using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.VirtualFileSystem;
 using Yarp.ReverseProxy.Transforms;
+using Volo.CmsKit.Comments;
+using Volo.CmsKit;
+using Volo.CmsKit.Public.Web;
+using Volo.CmsKit.Ratings;
 
 namespace EShopOnAbp.PublicWeb;
 
@@ -62,10 +66,14 @@ namespace EShopOnAbp.PublicWeb;
     typeof(CatalogServiceHttpApiClientModule),
     typeof(BasketServiceContractsModule),
     typeof(OrderingServiceHttpApiClientModule),
-    typeof(CmskitServiceHttpApiClientModule),
     typeof(AbpAspNetCoreSignalRModule),
     typeof(PaymentServiceHttpApiClientModule),
-    typeof(AbpAutoMapperModule)
+    typeof(AbpAutoMapperModule),
+    typeof(CmskitServiceHttpApiClientModule),
+    typeof(CmsKitDomainModule),
+    typeof(CmsKitPublicWebModule)
+    
+
 )]
 public class EShopOnAbpPublicWebModule : AbpModule
 {
@@ -91,6 +99,8 @@ public class EShopOnAbpPublicWebModule : AbpModule
                 );
             });
         });
+
+        FeatureConfigurer.Configure();
     }
 
     public override void ConfigureServices(ServiceConfigurationContext context)
@@ -100,6 +110,8 @@ public class EShopOnAbpPublicWebModule : AbpModule
 
         ConfigureBasketHttpClient(context);
 
+        ConfigureCmskit();
+            
         context.Services.AddAutoMapperObjectMapper<EShopOnAbpPublicWebModule>();
         Configure<AbpAutoMapperOptions>(options => { options.AddMaps<EShopOnAbpPublicWebModule>(validate: true); });
 
@@ -241,6 +253,19 @@ public class EShopOnAbpPublicWebModule : AbpModule
         Configure<PaymentMethodUiOptions>(options =>
         {
             options.ConfigureIcon(PaymentMethodNames.PayPal, "fa-cc-paypal paypal");
+        });
+    }
+
+    private void ConfigureCmskit()
+    {
+        Configure<CmsKitCommentOptions>(options =>
+        {
+            options.EntityTypes.Add(new CommentEntityTypeDefinition("quote"));
+        });
+
+        Configure<CmsKitRatingOptions>(options =>
+        {
+            options.EntityTypes.Add(new RatingEntityTypeDefinition("quote"));
         });
     }
 
