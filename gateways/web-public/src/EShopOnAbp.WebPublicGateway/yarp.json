@@ -37,11 +37,29 @@
           "Path": "/api/payment/{**everything}"
         }
       },
+      "Cmskit Service": {
+        "ClusterId": "cmskitCluster",
+        "Match": {
+          "Path": "/api/cmskit/{**everything}"
+        }
+      },
+      "Cmskit Public Service": {
+        "ClusterId": "cmskitCluster",
+        "Match": {
+          "Path": "/api/cms-kit-public/{**everything}"
+        }
+      },
+      "Cmskit Admin Service": {
+        "ClusterId": "cmskitCluster",
+        "Match": {
+          "Path": "/api/cms-kit-admin/{**everything}"
+        }
+      },
       "product-picture-route": {
         "ClusterId": "productPictureCluster",
         "Match": {
           "Path": "/product-images/{**everything}",
-          "Methods" : [ "GET" ]
+          "Methods": [ "GET" ]
         }
       }
     },
