@@ -129,7 +129,7 @@ services:
     container_name: basket-service-container
     build:
       context: ../../
-      dockerfile: services/basket/src/EShopOnAbp.BasketService.HttpApi.Host/Dockerfile
+      dockerfile: services/basket/src/EShopOnAbp.BasketService/Dockerfile
     environment:
       # - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_URLS=http://+:80
