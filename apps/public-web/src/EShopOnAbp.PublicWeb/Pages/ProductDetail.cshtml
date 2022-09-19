@@ -63,7 +63,7 @@
                 <abp-column size-md="_6">
                     @if (GlobalFeatureManager.Instance.IsEnabled<RatingsFeature>())
                     {
-                        @*@await Component.InvokeAsync(typeof(RatingViewComponent), new {entityType = "quote", entityId = "2"})*@
+                        @await Component.InvokeAsync(typeof(RatingViewComponent), new {entityType = "quote", entityId = @product.Id.ToString()})
                     }
                 </abp-column>
                 <abp-column size-md="_12">
