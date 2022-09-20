@@ -1,4 +1,5 @@
-﻿using EShopOnAbp.CmskitService.EntityFrameworkCore;
+﻿using EShopOnAbp.CmskitService.DbMigrations;
+using EShopOnAbp.CmskitService.EntityFrameworkCore;
 using EShopOnAbp.Shared.Hosting.AspNetCore;
 using EShopOnAbp.Shared.Hosting.Microservices;
 using Microsoft.AspNetCore.Builder;
@@ -9,16 +10,24 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc;
+using Volo.Abp.AspNetCore.Mvc.AntiForgery;
+using Volo.Abp.Http.Client.IdentityModel.Web;
+using Volo.Abp.Identity;
 using Volo.Abp.Modularity;
+using Volo.CmsKit.Comments;
+using Volo.CmsKit.Ratings;
 
 namespace EShopOnAbp.CmskitService;
 [DependsOn(
     typeof(EShopOnAbpSharedHostingMicroservicesModule),
     typeof(CmskitServiceApplicationModule),
     typeof(CmskitServiceHttpApiModule),
-    typeof(CmskitServiceEntityFrameworkCoreModule)
+    typeof(CmskitServiceEntityFrameworkCoreModule),
+    typeof(AbpIdentityHttpApiClientModule),
+    typeof(AbpHttpClientIdentityModelWebModule)
     )]
 public class CmskitServiceHttpApiHostModule : AbpModule
 {
@@ -26,12 +35,12 @@ public class CmskitServiceHttpApiHostModule : AbpModule
     {
         FeatureConfigurer.Configure();
     }
-    
+
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        var configuration = context.Services.GetConfiguration();
-
         JwtBearerConfigurationHelper.Configure(context, "CmskitService");
+
+        var configuration = context.Services.GetConfiguration();
 
         SwaggerConfigurationHelper.ConfigureWithAuth(
             context: context,
@@ -71,6 +80,22 @@ public class CmskitServiceHttpApiHostModule : AbpModule
                 opts.RemoteServiceName = "Cmskit";
             });
         });
+
+        Configure<AbpAntiForgeryOptions>(options =>
+        {
+            options.AutoValidate = false; //TODO 
+        });
+
+
+        Configure<CmsKitCommentOptions>(options =>
+        {
+            options.EntityTypes.Add(new CommentEntityTypeDefinition("quote"));
+        });
+
+        Configure<CmsKitRatingOptions>(options =>
+        {
+            options.EntityTypes.Add(new RatingEntityTypeDefinition("quote"));
+        });
     }
 
     public override void OnApplicationInitialization(ApplicationInitializationContext context)
@@ -105,11 +130,10 @@ public class CmskitServiceHttpApiHostModule : AbpModule
         app.UseConfiguredEndpoints();
     }
 
-    //TODO don't forget here... It gives error
-    //public override async Task OnPostApplicationInitializationAsync(ApplicationInitializationContext context)
-    //{
-    //await context.ServiceProvider
-    //    .GetRequiredService<CmskitServiceDatabaseMigrationChecker>()
-    //    .CheckAndApplyDatabaseMigrationsAsync();
-    //}
+    public override async Task OnPostApplicationInitializationAsync(ApplicationInitializationContext context)
+    {
+        await context.ServiceProvider
+            .GetRequiredService<CmskitServiceDatabaseMigrationChecker>()
+            .CheckAndApplyDatabaseMigrationsAsync();
+    }
 }
