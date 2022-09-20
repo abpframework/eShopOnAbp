@@ -22,6 +22,8 @@
     <ProjectReference Include="..\EShopOnAbp.CmskitService.Application\EShopOnAbp.CmskitService.Application.csproj" />
     <ProjectReference Include="..\EShopOnAbp.CmskitService.EntityFrameworkCore\EShopOnAbp.CmskitService.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\EShopOnAbp.CmskitService.HttpApi\EShopOnAbp.CmskitService.HttpApi.csproj" />
+    <PackageReference Include="Volo.Abp.Identity.HttpApi.Client" Version="5.1.2" />
+    <PackageReference Include="Volo.Abp.Http.Client.IdentityModel.Web" Version="5.1.2" />
   </ItemGroup>
 
   <ItemGroup>

@@ -298,6 +298,18 @@ public class IdentityServerDataSeeder : IDataSeedContributor, ITransientDependen
             secret: "1q2w3e*".Sha256(),
             permissions: new[] { IdentityPermissions.Users.Default }
         );
+
+        //Cmskit Service Client
+        await CreateClientAsync(
+            name: "EShopOnAbp_CmskitService",
+            scopes: commonScopes.Union(new[]
+            {
+                "IdentityService"
+            }),
+            grantTypes: new[] { "client_credentials" },
+            secret: "1q2w3e*".Sha256(),
+            permissions: new[] { IdentityPermissions.UserLookup.Default }
+        );
     }
 
     private async Task<Client> CreateClientAsync(
