@@ -27,7 +27,6 @@ namespace EShopOnAbp.CmskitService.Migrations
             modelBuilder.Entity("Volo.CmsKit.Comments.Comment", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -82,7 +81,6 @@ namespace EShopOnAbp.CmskitService.Migrations
             modelBuilder.Entity("Volo.CmsKit.Ratings.Rating", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreationTime")
@@ -119,7 +117,6 @@ namespace EShopOnAbp.CmskitService.Migrations
             modelBuilder.Entity("Volo.CmsKit.Users.CmsUser", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<string>("ConcurrencyStamp")

@@ -13,7 +13,7 @@ using Volo.Abp.EntityFrameworkCore;
 namespace EShopOnAbp.CmskitService.Migrations
 {
     [DbContext(typeof(CmskitServiceDbContext))]
-    [Migration("20220915090116_Initial")]
+    [Migration("20220920113120_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,7 +29,6 @@ namespace EShopOnAbp.CmskitService.Migrations
             modelBuilder.Entity("Volo.CmsKit.Comments.Comment", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -84,7 +83,6 @@ namespace EShopOnAbp.CmskitService.Migrations
             modelBuilder.Entity("Volo.CmsKit.Ratings.Rating", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreationTime")
@@ -121,7 +119,6 @@ namespace EShopOnAbp.CmskitService.Migrations
             modelBuilder.Entity("Volo.CmsKit.Users.CmsUser", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<string>("ConcurrencyStamp")
