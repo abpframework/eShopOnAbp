@@ -11,10 +11,12 @@
 @using Volo.CmsKit.Public.Comments
 @using Volo.CmsKit.Public.Web.Pages.CmsKit.Shared.Components.Commenting
 @using Volo.CmsKit.Public.Web.Pages.CmsKit.Shared.Components.Rating
-@model EShopOnAbp.PublicWeb.Pages.ProductDetailModel
+
 @inject IStringLocalizer<EShopOnAbpResource> L
 @inject IOptions<AbpRemoteServiceOptions> options
 @inject ICurrentUser CurrentUser
+
+@model EShopOnAbp.PublicWeb.Pages.ProductDetailModel
 
 @section styles{
     <abp-style src="/Pages/index.css" />
@@ -61,7 +63,7 @@
 
             <abp-row>
                 <abp-column size-md="_6">
-                    @if (GlobalFeatureManager.Instance.IsEnabled<RatingsFeature>())
+                    @if (GlobalFeatureManager.Instance.IsEnabled<RatingsFeature>() && Model.IsPurschased)
                     {
                         @await Component.InvokeAsync(typeof(RatingViewComponent), new {entityType = "quote", entityId = @product.Id.ToString()})
                     }
