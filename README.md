@@ -91,4 +91,4 @@ Generating a new certificate will fix that issue. To generate new one,
 
 ## ABP Community Talks
 
-We've organized a meetup related to this solution. You can watch it here: https://community.abp.io/posts/abp-community-talks-2022.1-microservice-development-a98jnsa0
+We've organized a meetup related to this solution. You can watch it here: https://community.abp.io/events/microservice-development-iv7d46ov
