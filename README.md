@@ -78,6 +78,7 @@ Generating a new certificate will fix that issue. To generate new one,
 - [x] Product-detail page on the shopping application (with CMS-kit integration for comments and rating components) ✔️
 - [x] Deployment to azure k8s ✔️ (https://eshoponabp.com)
 ### Version 2.0
+- [ ] Integrate CmsKit for rating and commenting for the products
 - [ ] Switch to Keycloak from IdentityServer in AuthServer
 - [ ] Re-design authorization/permission management
 - [ ] Integrate a new sample microservice written in GoLang (Or python/java)
