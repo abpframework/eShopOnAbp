@@ -28,6 +28,10 @@ export const environment = {
     Ordering: {
       url: "https://localhost:44356",
       rootNamespace: 'EShopOnAbp.OrderingService',
+    },
+    Cmskit: {
+        url: "https://localhost:44358",
+        rootNamespace: 'EShopOnAbp.CmskitService',
     }
   },
   mediaServerUrl:'https://localhost:44335'

@@ -64,6 +64,17 @@ services:
     - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49
   env_file:
     - ./.env  
+  
+- name: cmskit-service
+  project: services/cmskit/src/EShopOnAbp.CmskitService.HttpApi.Host/EShopOnAbp.CmskitService.HttpApi.Host.csproj
+  bindings:
+    - protocol: https
+      port: 44358
+  env:
+    - Kestrel__Certificates__Default__Path=../../../../etc/dev-cert/localhost.pfx
+    - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49
+  env_file:
+    - ./.env 
 
 - name: web-gateway
   project: gateways/web/src/EShopOnAbp.WebGateway/EShopOnAbp.WebGateway.csproj

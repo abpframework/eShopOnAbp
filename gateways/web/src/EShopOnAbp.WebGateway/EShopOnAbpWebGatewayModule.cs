@@ -1,16 +1,15 @@
-﻿using EShopOnAbp.Shared.Hosting.Gateways;
+﻿using EShopOnAbp.Shared.Hosting.AspNetCore;
+using EShopOnAbp.Shared.Hosting.Gateways;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors;
-using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using EShopOnAbp.Shared.Hosting.AspNetCore;
 using Volo.Abp;
 using Volo.Abp.Modularity;
-using Microsoft.AspNetCore.Rewrite;
 
 namespace EShopOnAbp.WebGateway;
 
@@ -37,6 +36,7 @@ public class EShopOnAbpWebGatewayModule : AbpModule
                     {"BasketService", "Basket Service API"},
                     {"PaymentService", "Payment Service API"},
                     {"OrderingService", "Ordering Service API"},
+                    {"CmskitService", "Cmskit Service API"},
                 },
             apiTitle: "Web Gateway"
         );

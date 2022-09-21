@@ -1,5 +1,6 @@
 ﻿using EShopOnAbp.BasketService;
 using EShopOnAbp.CatalogService;
+using EShopOnAbp.CmskitService;
 using EShopOnAbp.Localization;
 using EShopOnAbp.OrderingService;
 using EShopOnAbp.PaymentService;
@@ -10,18 +11,18 @@ using EShopOnAbp.PublicWeb.Menus;
 using EShopOnAbp.PublicWeb.PaymentMethods;
 using EShopOnAbp.Shared.Hosting.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Polly;
 using StackExchange.Redis;
 using System;
 using System.Net.Http.Headers;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.AspNetCore.HttpOverrides;
-using Polly;
 using Volo.Abp;
 using Volo.Abp.Account;
 using Volo.Abp.AspNetCore.Authentication.OpenIdConnect;
@@ -44,6 +45,8 @@ using Volo.Abp.MultiTenancy;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.VirtualFileSystem;
+using Volo.CmsKit;
+using Volo.CmsKit.Public.Web;
 using Yarp.ReverseProxy.Transforms;
 
 namespace EShopOnAbp.PublicWeb;
@@ -63,7 +66,12 @@ namespace EShopOnAbp.PublicWeb;
     typeof(OrderingServiceHttpApiClientModule),
     typeof(AbpAspNetCoreSignalRModule),
     typeof(PaymentServiceHttpApiClientModule),
-    typeof(AbpAutoMapperModule)
+    typeof(AbpAutoMapperModule),
+    typeof(CmskitServiceHttpApiClientModule),
+    typeof(CmsKitDomainModule),
+    typeof(CmsKitPublicWebModule)
+
+
 )]
 public class EShopOnAbpPublicWebModule : AbpModule
 {
@@ -76,7 +84,7 @@ public class EShopOnAbpPublicWebModule : AbpModule
                 typeof(EShopOnAbpPublicWebModule).Assembly
             );
         });
-        
+
         PreConfigure<AbpHttpClientBuilderOptions>(options =>
         {
             options.ProxyClientBuildActions.Add((remoteServiceName, clientBuilder) =>
@@ -89,6 +97,8 @@ public class EShopOnAbpPublicWebModule : AbpModule
                 );
             });
         });
+
+        FeatureConfigurer.Configure();
     }
 
     public override void ConfigureServices(ServiceConfigurationContext context)
@@ -150,6 +160,7 @@ public class EShopOnAbpPublicWebModule : AbpModule
                 options.Scope.Add("CatalogService");
                 options.Scope.Add("PaymentService");
                 options.Scope.Add("OrderingService");
+                options.Scope.Add("CmskitService");
             });
         if (Convert.ToBoolean(configuration["AuthServer:IsOnProd"]))
         {
@@ -263,7 +274,7 @@ public class EShopOnAbpPublicWebModule : AbpModule
         {
             app.UseErrorPage();
         }
-        
+
         app.UseForwardedHeaders(new ForwardedHeadersOptions
         {
             ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto

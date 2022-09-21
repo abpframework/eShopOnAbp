@@ -16,6 +16,7 @@ $basketServiceFolder = Join-Path $slnFolder "services/basket/src/EShopOnAbp.Bask
 $catalogServiceFolder = Join-Path $slnFolder "services/catalog/src/EShopOnAbp.CatalogService.HttpApi.Host"
 $paymentServiceFolder = Join-Path $slnFolder "services/payment/src/EShopOnAbp.PaymentService.HttpApi.Host"
 $orderingServiceFolder = Join-Path $slnFolder "services/ordering/src/EShopOnAbp.OrderingService.HttpApi.Host"
+$cmskitServiceFolder = Join-Path $slnFolder "services/cmskit/src/EShopOnAbp.CmskitService.HttpApi.Host"
 
 $total = 11
 
@@ -79,6 +80,11 @@ docker build -f "$paymentServiceFolder/Dockerfile" -t eshoponabp/service-payment
 Write-Host "**************** BUILDING ORDERING-SERVICE 11/$total ****************" -ForegroundColor Green
 Set-Location $slnFolder
 docker build -f "$orderingServiceFolder/Dockerfile" -t eshoponabp/service-ordering:$version .
+
+### CMSKIT-SERVICE
+Write-Host "**************** BUILDING CMSKIT-SERVICE 12/$total ****************" -ForegroundColor Green
+Set-Location $slnFolder
+docker build -f "$cmskitServiceFolder/Dockerfile" -t eshoponabp/service-cmskit:$version .
 
 ### ALL COMPLETED
 Write-Host "ALL COMPLETED" -ForegroundColor Green
