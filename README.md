@@ -75,10 +75,9 @@ Generating a new certificate will fix that issue. To generate new one,
 - [x] Use gRPC for catalog microservice ✔️
 - [x] Management Side of Services ✔️
 - [x] Administration application (to manage products and orders, with a dashboard) ✔️
-- [x] Product-detail page on the shopping application (with CMS-kit integration for comments and rating components) ✔️
 - [x] Deployment to azure k8s ✔️ (https://eshoponabp.com)
 ### Version 2.0
-- [X] Integrate CmsKit for rating and commenting for the products
+- [x] Product-detail page on the shopping application (with CMS-kit integration for comments and rating components) ✔️
 - [ ] Switch to Keycloak from IdentityServer in AuthServer
 - [ ] Re-design authorization/permission management
 - [ ] Integrate a new sample microservice written in GoLang (Or python/java)
