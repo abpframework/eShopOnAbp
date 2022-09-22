@@ -35,7 +35,7 @@ You can either run in Visual Studio, or using [Microsoft Tye](https://github.com
 	- You can check running application from tye dashboard ([localhost:8000](http://127.0.0.1:8000/))
 	- **Note**: If you see all of your applications keep restarting on tye dashboard or tye console, you may be facing ssl certificate issues. To diagnose the problems better, check any application logs. If it is related with SSL, developer certificate creation may have failed because of powershell issues regarding authorization. Check the powershell script running configuration and set policy for your local machine as: 
 	```bash
-	Get-ExecutionPolicy list
+	Get-ExecutionPolicy -list
 	Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
 	```
 	See [Microsoft Powershell documentation](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.security/get-executionpolicy?view=powershell-7.2) for more information.
