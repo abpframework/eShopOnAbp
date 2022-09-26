@@ -32,5 +32,8 @@ docker push volocr.azurecr.io/eshoponabp/service-catalog:$version
 docker tag eshoponabp/service-ordering:$version volocr.azurecr.io/eshoponabp/service-ordering:$version
 docker push volocr.azurecr.io/eshoponabp/service-ordering:$version
 
+docker tag eshoponabp/service-cmskit:$version volocr.azurecr.io/eshoponabp/service-cmskit:$version
+docker push volocr.azurecr.io/eshoponabp/service-cmskit:$version
+
 docker tag eshoponabp/service-payment:$version volocr.azurecr.io/eshoponabp/service-payment:$version
 docker push volocr.azurecr.io/eshoponabp/service-payment:$version
