@@ -1,7 +1,7 @@
 #!/bin/bash
 
 export IMAGE_TAG="1.0.0"
-export total=11
+export total=12
 cd ../
 export currentFolder=`pwd`
 cd build/
