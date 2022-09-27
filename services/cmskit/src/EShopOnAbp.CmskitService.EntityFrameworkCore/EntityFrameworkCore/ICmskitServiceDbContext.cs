@@ -6,6 +6,5 @@ namespace EShopOnAbp.CmskitService.EntityFrameworkCore
     [ConnectionStringName(CmskitServiceDbProperties.ConnectionStringName)]
     public interface ICmskitServiceDbContext : IEfCoreDbContext
     {
-        //DbSet<Model> Model { get; }
     }
 }
