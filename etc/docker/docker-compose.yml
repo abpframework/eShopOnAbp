@@ -193,13 +193,15 @@ services:
       # - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_URLS=http://+:80;
       - App__SelfUrl=https://eshop-st-cmskit
-      - App__CorsOrigins=https://eshop-st-gateway-web,https://eshop-st-gateway-web-public,https://eshop-st-web
+      - App__CorsOrigins=https://eshop-st-gateway-web,https://eshop-st-gateway-web-public
       - ConnectionStrings__CmskitService=User ID=postgres;Password=myPassw0rd;Host=postgres-db;Port=5432;Database=EShopOnAbp_Cmskit;Pooling=false;
       - ConnectionStrings__AdministrationService=User ID=postgres;Password=myPassw0rd;Host=postgres-db;Port=5432;Database=EShopOnAbp_Administration;Pooling=false;
       - AuthServer__Authority=http://eshop-st-authserver
       - AuthServer__RequireHttpsMetadata=false
       - Redis__Configuration=redis
       - RabbitMQ__Connections__Default__HostName=rabbitmq
+      - RemoteServices__AbpIdentity__BaseUrl=eshop-st-identity
+      - IdentityClients__Default__Authority=http://eshop-st-identity
     depends_on:
       redis:
         condition: service_healthy
