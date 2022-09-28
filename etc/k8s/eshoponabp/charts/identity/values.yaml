@@ -28,6 +28,7 @@ identityServerClients:
   catalogServiceRootUrl: #
   orderingServiceRootUrl: #
   paymentServiceRootUrl: #
+  cmskitServiceRootUrl: #
   
 
 ingress:
