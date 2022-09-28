@@ -9,11 +9,20 @@ config:
     requireHttpsMetadata: "false"
     swaggerClientId: WebGateway_Swagger
     swaggerClientSecret: "1q2w3e*"
+  remoteServices:
+    abpIdentityBaseUrl: #
   dotnetEnv: Staging
   redisHost: eshop-st-redis
   rabbitmqHost: eshop-st-rabbitmq
   elasticsearchHost: eshop-st-elasticsearch
   stringEncryptionDefaultPassPhrase: gsKnGZ041HLL4IM8
+
+synchedCommunication:
+  grantType: # "client_credentials"
+  clientId: # 
+  clientSecret: #
+  authority: # "https://eshop-st-authserver"
+  scope: # "IdentityService"
 
 ingress:
   host: eshop-st-cmskit

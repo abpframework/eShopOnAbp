@@ -281,10 +281,14 @@ cmskit:
       requireHttpsMetadata: "false"
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
+    remoteServices:
+      abpIdentityBaseUrl: https://identity.eshoponabp.com
     dotnetEnv: Production
     redisHost: eshop-az-redis
     rabbitmqHost: eshop-az-rabbitmq
     elasticsearchHost: eshop-az-elasticsearch
+  synchedCommunication: # Used for server-to-server (client-credentials) communication with identityService for user permissions
+    authority: https://auth.eshoponabp.com 
   ingress:
     host: cmskit.eshoponabp.com
   image:
