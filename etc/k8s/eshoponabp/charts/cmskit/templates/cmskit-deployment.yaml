@@ -47,6 +47,10 @@ spec:
           value: "{{ .Values.config.authServer.swaggerClientSecret }}"
         - name: "StringEncryption__DefaultPassPhrase"
           value: "{{ .Values.config.stringEncryptionDefaultPassPhrase }}"
+        - name: RemoteServices__AbpIdentity__BaseUrl
+          value: "{{ .Values.config.remoteServices.abpIdentityBaseUrl }}"
+        - name: IdentityClients__Default__Authority
+          value: "{{ .Values.synchedCommunication.authority }}"
           {{- if .Values.env }}
 {{ toYaml .Values.env | indent 8 }}
           {{- end }}
