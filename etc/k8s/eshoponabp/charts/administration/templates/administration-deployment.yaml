@@ -27,6 +27,8 @@ spec:
           value: "{{ .Values.config.remoteServices.abpIdentityBaseUrl }}"
         - name: RemoteServices__AbpIdentity__UseCurrentAccessToken
           value: "{{ .Values.config.remoteServices.useCurrentToken }}"  
+        - name: RemoteServices__AbpIdentity__RequireHttpsMetadata
+          value: "{{ .Values.config.authServer.requireHttpsMetadata }}" 
         - name: App__CorsOrigins
           value: "{{ .Values.config.corsOrigins }}"
         - name: IdentityClients__Default__Authority

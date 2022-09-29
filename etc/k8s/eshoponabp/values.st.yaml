@@ -112,14 +112,14 @@ administration:
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
     remoteServices:
-      abpIdentityBaseUrl: https://eshop-st-identity
+      abpIdentityBaseUrl: http://eshop-st-identity
       useCurrentToken: "false"  
     dotnetEnv: Staging
     redisHost: eshop-st-redis
     rabbitmqHost: eshop-st-rabbitmq
     elasticsearchHost: eshop-st-elasticsearch
   synchedCommunication: # Used for server-to-server (client-credentials) communication with identityService for user permissions
-    authority: https://eshop-st-authserver
+    authority: http://eshop-st-authserver
   ingress:
     host: eshop-st-administration
     tlsSecret: eshop-wildcard-tls
@@ -291,6 +291,8 @@ cmskit:
       requireHttpsMetadata: "false"
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
+    remoteServices:
+      abpIdentityBaseUrl: https://eshop-st-identity
     dotnetEnv: Staging
     redisHost: eshop-st-redis
     rabbitmqHost: eshop-st-rabbitmq
