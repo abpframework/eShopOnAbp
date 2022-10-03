@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.8'
 
 services:
   rabbitmq:
@@ -46,12 +46,21 @@ services:
       - eshoponabp-network
   
   pgadmin:
-    container_name: pgadmin_container
+    container_name: pgadmin
     image: dpage/pgadmin4:6.2    
     volumes:
        - pgadmin_data:/var/lib/pgadmin
     networks: 
-      - eshoponabp-network   
+      - eshoponabp-network
+
+  keycloak:
+    container_name: keycloak
+    image: jboss/keycloak:13.0.0
+    depends_on:
+      - postgres-db  
+    restart: unless-stopped
+    networks:
+      - eshoponabp-network
 
 volumes:
   postgres_data:
