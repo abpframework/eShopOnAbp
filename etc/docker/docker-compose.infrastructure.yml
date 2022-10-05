@@ -55,7 +55,7 @@ services:
 
   keycloak:
     container_name: keycloak
-    image: jboss/keycloak:13.0.0
+    image: quay.io/keycloak/keycloak:19.0.2
     depends_on:
       - postgres-db  
     restart: unless-stopped
