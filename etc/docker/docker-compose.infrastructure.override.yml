@@ -30,7 +30,7 @@ services:
 
   keycloak:
     ports:
-      - "44320:8080"
+      - "8080:8080"
     environment:
       DB_VENDOR: postgres
       DB_ADDR: "postgres-db"
@@ -41,5 +41,5 @@ services:
       KEYCLOAK_ADMIN_PASSWORD: admin
       KC_HEALTH_ENABLED: true
     entrypoint: ["/opt/keycloak/bin/kc.sh", "start-dev"]
-    
+
     

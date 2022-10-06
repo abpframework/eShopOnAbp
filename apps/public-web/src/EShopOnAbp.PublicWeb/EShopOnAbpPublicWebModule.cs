@@ -141,27 +141,68 @@ public class EShopOnAbpPublicWebModule : AbpModule
             .AddCookie("Cookies", options => { options.ExpireTimeSpan = TimeSpan.FromDays(365); })
             .AddAbpOpenIdConnect("oidc", options =>
             {
-                options.Authority = configuration["AuthServer:Authority"];
-                options.RequireHttpsMetadata = Convert.ToBoolean(configuration["AuthServer:RequireHttpsMetadata"]);
-                options.ResponseType = OpenIdConnectResponseType.CodeIdToken;
+                /*
+                 * ASP.NET core uses the http://*:5000 and https://*:5001 ports for default communication with the OIDC middleware
+                 * The app requires load balancing services to work with :80 or :443
+                 * These needs to be added to the keycloak client, in order for the redirect to work.
+                 * If you however intend to use the app by itself then,
+                 * Change the ports in launchsettings.json, but beware to also change the options.CallbackPath and options.SignedOutCallbackPath!
+                 * Use LB services whenever possible, to reduce the config hazzle :)
+                */
 
-                options.ClientId = configuration["AuthServer:ClientId"];
-                options.ClientSecret = configuration["AuthServer:ClientSecret"];
-
-                options.SaveTokens = true;
+                //Use default signin scheme
+                // options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                //Keycloak server
+                options.Authority = configuration["Keycloak:ServerRealm"];
+                //Keycloak client ID
+                options.ClientId = configuration["Keycloak:ClientId"];
+                //Keycloak client secret
+                options.ClientSecret = configuration["Keycloak:ClientSecret"];
+                //Keycloak .wellknown config origin to fetch config
+                options.MetadataAddress = configuration["Keycloak:Metadata"];
+                //Require keycloak to use SSL
+                options.RequireHttpsMetadata = false;
                 options.GetClaimsFromUserInfoEndpoint = true;
-
-                options.Scope.Add("role");
-                options.Scope.Add("email");
-                options.Scope.Add("phone");
-                options.Scope.Add("AccountService");
-                options.Scope.Add("AdministrationService");
-                options.Scope.Add("BasketService");
-                options.Scope.Add("CatalogService");
-                options.Scope.Add("PaymentService");
-                options.Scope.Add("OrderingService");
-                options.Scope.Add("CmskitService");
+                options.Scope.Add("openid");
+                options.Scope.Add("profile");
+                //Save the token
+                options.SaveTokens = true;
+                //Token response type, will sometimes need to be changed to IdToken, depending on config.
+                options.ResponseType = OpenIdConnectResponseType.Code;
+                //SameSite is needed for Chrome/Firefox, as they will give http error 500 back, if not set to unspecified.
+                // options.NonceCookie.SameSite = SameSiteMode.Unspecified;
+                // options.CorrelationCookie.SameSite = SameSiteMode.Unspecified;
+                //
+                // options.TokenValidationParameters = new TokenValidationParameters
+                // {
+                //     NameClaimType = "name",
+                //     RoleClaimType = ClaimTypes.Role,
+                //     ValidateIssuer = true
+                // };
             });
+        // .AddAbpOpenIdConnect("oidc", options =>
+            // {
+            //     options.Authority = configuration["AuthServer:Authority"];
+            //     options.RequireHttpsMetadata = Convert.ToBoolean(configuration["AuthServer:RequireHttpsMetadata"]);
+            //     options.ResponseType = OpenIdConnectResponseType.CodeIdToken;
+            //
+            //     options.ClientId = configuration["AuthServer:ClientId"];
+            //     options.ClientSecret = configuration["AuthServer:ClientSecret"];
+            //
+            //     options.SaveTokens = true;
+            //     options.GetClaimsFromUserInfoEndpoint = true;
+            //
+            //     options.Scope.Add("role");
+            //     options.Scope.Add("email");
+            //     options.Scope.Add("phone");
+            //     options.Scope.Add("AccountService");
+            //     options.Scope.Add("AdministrationService");
+            //     options.Scope.Add("BasketService");
+            //     options.Scope.Add("CatalogService");
+            //     options.Scope.Add("PaymentService");
+            //     options.Scope.Add("OrderingService");
+            //     options.Scope.Add("CmskitService");
+            // });
         if (Convert.ToBoolean(configuration["AuthServer:IsOnProd"]))
         {
             context.Services.Configure<OpenIdConnectOptions>("oidc", options =>
