@@ -2,6 +2,7 @@
 using EShopOnAbp.CmskitService.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Volo.Abp.EntityFrameworkCore;
@@ -11,9 +12,10 @@ using Volo.Abp.EntityFrameworkCore;
 namespace EShopOnAbp.CmskitService.Migrations
 {
     [DbContext(typeof(CmskitServiceDbContext))]
-    partial class CmskitServiceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221006075206_Abp_6_0_Update")]
+    partial class Abp_6_0_Update
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
