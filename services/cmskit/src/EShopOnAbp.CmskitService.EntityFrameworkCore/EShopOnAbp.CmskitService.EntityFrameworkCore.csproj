@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <Import Project="..\..\..\..\common.props" />
 
@@ -11,11 +11,11 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Volo.CmsKit.EntityFrameworkCore" Version="5.1.2" />
+    <PackageReference Include="Volo.CmsKit.EntityFrameworkCore" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.EntityFrameworkCore.PostgreSql" Version="5.1.2" />
+    <PackageReference Include="Volo.Abp.EntityFrameworkCore.PostgreSql" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
