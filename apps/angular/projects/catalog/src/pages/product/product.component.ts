@@ -1,7 +1,7 @@
 import { ListService } from '@abp/ng.core';
 import { Confirmation, ConfirmationService } from '@abp/ng.theme.shared';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { eCatalogPolicyNames } from '@eshoponabp/catalog/config';
 import { finalize } from 'rxjs/operators';
 import { ProductDto } from '../../lib/proxy/products/models';
@@ -29,12 +29,12 @@ export class ProductComponent implements OnInit {
 
   modalBusy = false;
 
-  form: FormGroup;
+  form: UntypedFormGroup;
   constructor(
     public readonly list: ListService,
     private readonly service: ProductService,
     private confirmationService: ConfirmationService,
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) {
     this.list.maxResultCount = 10;
   }
