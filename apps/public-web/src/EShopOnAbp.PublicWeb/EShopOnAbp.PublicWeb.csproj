@@ -19,7 +19,7 @@
     <PackageReference Include="Volo.Abp.Http.Client.IdentityModel.Web" Version="6.0.0" />
     <PackageReference Include="Volo.Abp.AspNetCore.Authentication.OpenIdConnect" Version="6.0.0" />
     <PackageReference Include="Volo.Abp.AspNetCore.Mvc.Client" Version="6.0.0" />
-    <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.Theme.Basic" Version="6.0.0" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite" Version="1.0.0-rc.7" />
     <PackageReference Include="Volo.Abp.Account.HttpApi.Client" Version="6.0.0" />
     <PackageReference Include="Volo.Abp.AspNetCore.SignalR" Version="6.0.0" />
   </ItemGroup>
