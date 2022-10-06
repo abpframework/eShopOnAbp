@@ -23,6 +23,7 @@ using Polly;
 using StackExchange.Redis;
 using System;
 using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Authentication.OAuth.Claims;
 using Volo.Abp;
 using Volo.Abp.Account;
 using Volo.Abp.AspNetCore.Authentication.OpenIdConnect;
@@ -42,6 +43,7 @@ using Volo.Abp.Http.Client;
 using Volo.Abp.Http.Client.IdentityModel.Web;
 using Volo.Abp.Modularity;
 using Volo.Abp.MultiTenancy;
+using Volo.Abp.Security.Claims;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.VirtualFileSystem;
@@ -157,7 +159,7 @@ public class EShopOnAbpPublicWebModule : AbpModule
                 //Keycloak client ID
                 options.ClientId = configuration["Keycloak:ClientId"];
                 //Keycloak client secret
-                options.ClientSecret = configuration["Keycloak:ClientSecret"];
+                // options.ClientSecret = configuration["Keycloak:ClientSecret"];
                 //Keycloak .wellknown config origin to fetch config
                 options.MetadataAddress = configuration["Keycloak:Metadata"];
                 //Require keycloak to use SSL
@@ -165,6 +167,10 @@ public class EShopOnAbpPublicWebModule : AbpModule
                 options.GetClaimsFromUserInfoEndpoint = true;
                 options.Scope.Add("openid");
                 options.Scope.Add("profile");
+                options.Scope.Add("email");
+                options.Scope.Add("phone");
+                options.Scope.Add("roles");
+                options.Scope.Add("offline_access");
                 //Save the token
                 options.SaveTokens = true;
                 //Token response type, will sometimes need to be changed to IdToken, depending on config.
@@ -179,6 +185,13 @@ public class EShopOnAbpPublicWebModule : AbpModule
                 //     RoleClaimType = ClaimTypes.Role,
                 //     ValidateIssuer = true
                 // };
+                
+                if (AbpClaimTypes.UserName != "preferred_username")
+                {
+                    options.ClaimActions.MapJsonKey(AbpClaimTypes.UserName, "preferred_username");
+                    options.ClaimActions.DeleteClaim("preferred_username");
+                    options.ClaimActions.RemoveDuplicate(AbpClaimTypes.UserName);
+                }
             });
         // .AddAbpOpenIdConnect("oidc", options =>
             // {
