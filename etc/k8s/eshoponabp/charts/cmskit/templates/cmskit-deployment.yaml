@@ -51,6 +51,8 @@ spec:
           value: "{{ .Values.config.remoteServices.abpIdentityBaseUrl }}"
         - name: IdentityClients__Default__Authority
           value: "{{ .Values.synchedCommunication.authority }}"
+        - name: IdentityClients__Default__RequireHttps
+          value: "{{ .Values.config.authServer.requireHttpsMetadata }}"
           {{- if .Values.env }}
 {{ toYaml .Values.env | indent 8 }}
           {{- end }}
