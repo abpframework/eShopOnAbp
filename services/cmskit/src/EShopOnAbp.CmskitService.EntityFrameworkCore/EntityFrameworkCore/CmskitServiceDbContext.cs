@@ -41,16 +41,20 @@ public class CmskitServiceDbContext : AbpDbContext<CmskitServiceDbContext>, ICms
     public DbSet<Blog> Blogs { get; set; }
 
     public DbSet<BlogPost> BlogPosts { get; set; }
+
     public DbSet<BlogFeature> BlogFeatures { get; set; }
 
     public DbSet<MediaDescriptor> MediaDescriptors { get; set; }
 
     public DbSet<MenuItem> MenuItems { get; set; }
+
     public DbSet<GlobalResource> GlobalResources { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        FeatureConfigurer.Configure();
 
         modelBuilder.ConfigureCmskitService();
         modelBuilder.ConfigureCmsKit();
