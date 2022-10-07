@@ -38,8 +38,8 @@ services:
       DB_USER: "postgres"
       DB_PASSWORD: "myPassw0rd"
       KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin
-      KC_HEALTH_ENABLED: true
+      KEYCLOAK_ADMIN_PASSWORD: "1q2w3E*"
+      KC_HEALTH_ENABLED: "true"
     entrypoint: ["/opt/keycloak/bin/kc.sh", "start-dev"]
 
     
