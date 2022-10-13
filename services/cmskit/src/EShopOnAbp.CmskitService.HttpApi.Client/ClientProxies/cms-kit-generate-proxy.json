@@ -1,0 +1,458 @@
+{
+  "modules": {
+    "cms-kit": {
+      "rootPath": "cms-kit",
+      "remoteServiceName": "CmsKitPublic",
+      "controllers": {
+        "Volo.CmsKit.Public.Ratings.RatingPublicController": {
+          "controllerName": "RatingPublic",
+          "controllerGroupName": "RatingPublic",
+          "isRemoteService": false,
+          "apiVersion": null,
+          "type": "Volo.CmsKit.Public.Ratings.RatingPublicController",
+          "interfaces": [
+            {
+              "type": "Volo.CmsKit.Public.Ratings.IRatingPublicAppService"
+            }
+          ],
+          "actions": {
+            "CreateAsyncByEntityTypeAndEntityIdAndInput": {
+              "uniqueName": "CreateAsyncByEntityTypeAndEntityIdAndInput",
+              "name": "CreateAsync",
+              "httpMethod": "PUT",
+              "url": "api/cms-kit-public/ratings/{entityType}/{entityId}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "entityType",
+                  "typeAsString": "System.String, System.Private.CoreLib",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "entityId",
+                  "typeAsString": "System.String, System.Private.CoreLib",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "input",
+                  "typeAsString": "Volo.CmsKit.Public.Ratings.CreateUpdateRatingInput, Volo.CmsKit.Public.Application.Contracts",
+                  "type": "Volo.CmsKit.Public.Ratings.CreateUpdateRatingInput",
+                  "typeSimple": "Volo.CmsKit.Public.Ratings.CreateUpdateRatingInput",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "entityType",
+                  "name": "entityType",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "entityId",
+                  "name": "entityId",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "Volo.CmsKit.Public.Ratings.CreateUpdateRatingInput",
+                  "typeSimple": "Volo.CmsKit.Public.Ratings.CreateUpdateRatingInput",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Volo.CmsKit.Public.Ratings.RatingDto",
+                "typeSimple": "Volo.CmsKit.Public.Ratings.RatingDto"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Volo.CmsKit.Public.Ratings.IRatingPublicAppService"
+            },
+            "DeleteAsyncByEntityTypeAndEntityId": {
+              "uniqueName": "DeleteAsyncByEntityTypeAndEntityId",
+              "name": "DeleteAsync",
+              "httpMethod": "DELETE",
+              "url": "api/cms-kit-public/ratings/{entityType}/{entityId}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "entityType",
+                  "typeAsString": "System.String, System.Private.CoreLib",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "entityId",
+                  "typeAsString": "System.String, System.Private.CoreLib",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "entityType",
+                  "name": "entityType",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "entityId",
+                  "name": "entityId",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Void",
+                "typeSimple": "System.Void"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Volo.CmsKit.Public.Ratings.IRatingPublicAppService"
+            },
+            "GetGroupedStarCountsAsyncByEntityTypeAndEntityId": {
+              "uniqueName": "GetGroupedStarCountsAsyncByEntityTypeAndEntityId",
+              "name": "GetGroupedStarCountsAsync",
+              "httpMethod": "GET",
+              "url": "api/cms-kit-public/ratings/{entityType}/{entityId}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "entityType",
+                  "typeAsString": "System.String, System.Private.CoreLib",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "entityId",
+                  "typeAsString": "System.String, System.Private.CoreLib",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "entityType",
+                  "name": "entityType",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "entityId",
+                  "name": "entityId",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Collections.Generic.List<Volo.CmsKit.Public.Ratings.RatingWithStarCountDto>",
+                "typeSimple": "[Volo.CmsKit.Public.Ratings.RatingWithStarCountDto]"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Volo.CmsKit.Public.Ratings.IRatingPublicAppService"
+            }
+          }
+        },
+        "Volo.CmsKit.Public.Comments.CommentPublicController": {
+          "controllerName": "CommentPublic",
+          "controllerGroupName": "CommentPublic",
+          "isRemoteService": false,
+          "apiVersion": null,
+          "type": "Volo.CmsKit.Public.Comments.CommentPublicController",
+          "interfaces": [
+            {
+              "type": "Volo.CmsKit.Public.Comments.ICommentPublicAppService"
+            }
+          ],
+          "actions": {
+            "GetListAsyncByEntityTypeAndEntityId": {
+              "uniqueName": "GetListAsyncByEntityTypeAndEntityId",
+              "name": "GetListAsync",
+              "httpMethod": "GET",
+              "url": "api/cms-kit-public/comments/{entityType}/{entityId}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "entityType",
+                  "typeAsString": "System.String, System.Private.CoreLib",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "entityId",
+                  "typeAsString": "System.String, System.Private.CoreLib",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "entityType",
+                  "name": "entityType",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "entityId",
+                  "name": "entityId",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Volo.Abp.Application.Dtos.ListResultDto<Volo.CmsKit.Public.Comments.CommentWithDetailsDto>",
+                "typeSimple": "Volo.Abp.Application.Dtos.ListResultDto<Volo.CmsKit.Public.Comments.CommentWithDetailsDto>"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Volo.CmsKit.Public.Comments.ICommentPublicAppService"
+            },
+            "CreateAsyncByEntityTypeAndEntityIdAndInput": {
+              "uniqueName": "CreateAsyncByEntityTypeAndEntityIdAndInput",
+              "name": "CreateAsync",
+              "httpMethod": "POST",
+              "url": "api/cms-kit-public/comments/{entityType}/{entityId}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "entityType",
+                  "typeAsString": "System.String, System.Private.CoreLib",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "entityId",
+                  "typeAsString": "System.String, System.Private.CoreLib",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "input",
+                  "typeAsString": "Volo.CmsKit.Public.Comments.CreateCommentInput, Volo.CmsKit.Public.Application.Contracts",
+                  "type": "Volo.CmsKit.Public.Comments.CreateCommentInput",
+                  "typeSimple": "Volo.CmsKit.Public.Comments.CreateCommentInput",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "entityType",
+                  "name": "entityType",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "entityId",
+                  "name": "entityId",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "Volo.CmsKit.Public.Comments.CreateCommentInput",
+                  "typeSimple": "Volo.CmsKit.Public.Comments.CreateCommentInput",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Volo.CmsKit.Public.Comments.CommentDto",
+                "typeSimple": "Volo.CmsKit.Public.Comments.CommentDto"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Volo.CmsKit.Public.Comments.ICommentPublicAppService"
+            },
+            "UpdateAsyncByIdAndInput": {
+              "uniqueName": "UpdateAsyncByIdAndInput",
+              "name": "UpdateAsync",
+              "httpMethod": "PUT",
+              "url": "api/cms-kit-public/comments/{id}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "input",
+                  "typeAsString": "Volo.CmsKit.Public.Comments.UpdateCommentInput, Volo.CmsKit.Public.Application.Contracts",
+                  "type": "Volo.CmsKit.Public.Comments.UpdateCommentInput",
+                  "typeSimple": "Volo.CmsKit.Public.Comments.UpdateCommentInput",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "Volo.CmsKit.Public.Comments.UpdateCommentInput",
+                  "typeSimple": "Volo.CmsKit.Public.Comments.UpdateCommentInput",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Volo.CmsKit.Public.Comments.CommentDto",
+                "typeSimple": "Volo.CmsKit.Public.Comments.CommentDto"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Volo.CmsKit.Public.Comments.ICommentPublicAppService"
+            },
+            "DeleteAsyncById": {
+              "uniqueName": "DeleteAsyncById",
+              "name": "DeleteAsync",
+              "httpMethod": "DELETE",
+              "url": "api/cms-kit-public/comments/{id}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Void",
+                "typeSimple": "System.Void"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Volo.CmsKit.Public.Comments.ICommentPublicAppService"
+            }
+          }
+        }
+      }
+    }
+  },
+  "types": {}
+}

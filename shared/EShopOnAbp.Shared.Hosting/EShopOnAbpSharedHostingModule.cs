@@ -32,6 +32,12 @@ namespace EShopOnAbp.Shared.Hosting
                     database.MappedConnections.Add("AbpIdentity");
                     database.MappedConnections.Add("AbpIdentityServer");
                 });
+
+                options.Databases.Configure("CmskitService", database =>
+                {
+                    database.MappedConnections.Add("CmsKit");
+                    database.MappedConnections.Add("CmskitService");
+                });
             });
         }
     }

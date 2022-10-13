@@ -3,7 +3,8 @@
   "name": "EShopOnAbpPublicWeb",
   "private": true,
   "dependencies": {
-    "@abp/aspnetcore.mvc.ui.theme.basic": "~5.1.2",
-    "@abp/signalr": "~5.1.2"
+    "@abp/aspnetcore.mvc.ui.theme.basic": "~6.0.0",
+    "@abp/signalr": "~6.0.0",
+    "@abp/cms-kit": "~6.0.0"
   }
 }

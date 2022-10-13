@@ -48,6 +48,12 @@
         "Match": {
           "Path": "/api/ordering/{**everything}"
         }
+      },
+      "Cmskit Service": {
+        "ClusterId": "cmskitCluster",
+        "Match": {
+          "Path": "/api/cmskit/{**everything}"
+        }
       }
     },
     "Clusters": {
@@ -104,6 +110,13 @@
         "Destinations": {
           "destination1": {
             "Address": "https://localhost:44356"
+          }
+        }
+      },
+      "cmskitCluster": {
+        "Destinations": {
+          "destination1": {
+            "Address": "https://localhost:44358"
           }
         }
       }

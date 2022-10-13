@@ -1,8 +1,10 @@
 # eShopOnAbp
 
-This project is a reference for who want to build microservice solutions with the ABP Framework.
+This project is a reference project for those who want to build microservice solutions with the ABP Framework.
 
 See [the announcement](https://blog.abp.io/abp/Introducing-the-eShopOnAbp-Project) post for more info.
+
+Live demo is on https://www.eshoponabp.com/
 
 ## Issues
 
@@ -33,7 +35,7 @@ You can either run in Visual Studio, or using [Microsoft Tye](https://github.com
 	- You can check running application from tye dashboard ([localhost:8000](http://127.0.0.1:8000/))
 	- **Note**: If you see all of your applications keep restarting on tye dashboard or tye console, you may be facing ssl certificate issues. To diagnose the problems better, check any application logs. If it is related with SSL, developer certificate creation may have failed because of powershell issues regarding authorization. Check the powershell script running configuration and set policy for your local machine as: 
 	```bash
-	Get-ExecutionPolicy list
+	Get-ExecutionPolicy -list
 	Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
 	```
 	See [Microsoft Powershell documentation](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.security/get-executionpolicy?view=powershell-7.2) for more information.
@@ -73,9 +75,9 @@ Generating a new certificate will fix that issue. To generate new one,
 - [x] Use gRPC for catalog microservice ✔️
 - [x] Management Side of Services ✔️
 - [x] Administration application (to manage products and orders, with a dashboard) ✔️
-- [x] Product-detail page on the shopping application (with CMS-kit integration for comments and rating components) ✔️
 - [x] Deployment to azure k8s ✔️ (https://eshoponabp.com)
 ### Version 2.0
+- [x] Product-detail page on the shopping application (with CMS-kit integration for comments and rating components) ✔️
 - [ ] Switch to Keycloak from IdentityServer in AuthServer
 - [ ] Re-design authorization/permission management
 - [ ] Integrate a new sample microservice written in GoLang (Or python/java)
@@ -89,4 +91,4 @@ Generating a new certificate will fix that issue. To generate new one,
 
 ## ABP Community Talks
 
-We've organized a meetup related to this solution. You can watch it here: https://community.abp.io/posts/abp-community-talks-2022.1-microservice-development-a98jnsa0
+We've organized a meetup related to this solution. You can watch it here: https://community.abp.io/events/microservice-development-iv7d46ov
