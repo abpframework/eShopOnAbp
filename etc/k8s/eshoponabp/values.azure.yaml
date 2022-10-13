@@ -18,8 +18,8 @@ authserver:
     host: auth.eshoponabp.com
     tlsSecret: eshop-wildcard-tls
   image:
-    repository: "volocr.azurecr.io/eshoponabp/app-authserver"
-    tag: 1.0.5
+    repository: "ghcr.io/volosoft/eshoponabp/app-authserver"
+    tag: 1.0.0
 
 # web sub-chart override
 web:
@@ -35,8 +35,8 @@ web:
   ingress:
     host: admin.eshoponabp.com
   image:
-    repository: "volocr.azurecr.io/eshoponabp/app-web"
-    tag: 1.0.5
+    repository: "ghcr.io/volosoft/eshoponabp/app-web"
+    tag: 1.0.0
 
 # public-web sub-chart override
 public-web:
@@ -56,8 +56,8 @@ public-web:
   ingress:
     host: eshoponabp.com
   image:
-    repository: "volocr.azurecr.io/eshoponabp/app-publicweb"
-    tag: 1.0.6
+    repository: "ghcr.io/volosoft/eshoponabp/app-publicweb"
+    tag: 1.0.0
 
 # identity-service sub-chart override
 identity:
@@ -91,8 +91,8 @@ identity:
   ingress:
     host: identity.eshoponabp.com
   image:
-    repository: "volocr.azurecr.io/eshoponabp/service-identity"
-    tag: 1.0.5
+    repository: "ghcr.io/volosoft/eshoponabp/service-identity"
+    tag: 1.0.0
 
 # administration sub-chart override
 administration:
@@ -118,8 +118,8 @@ administration:
   ingress:
     host: administration.eshoponabp.com
   image:
-    repository: "volocr.azurecr.io/eshoponabp/service-administration"
-    tag: 1.0.5
+    repository: "ghcr.io/volosoft/eshoponabp/service-administration"
+    tag: 1.0.0
 
 # gateway-web sub-chart override
 gateway-web:
@@ -139,8 +139,8 @@ gateway-web:
   ingress:
     host: gateway.eshoponabp.com
   image:
-    repository: "volocr.azurecr.io/eshoponabp/gateway-web"
-    tag: 1.0.5
+    repository: "ghcr.io/volosoft/eshoponabp/gateway-web"
+    tag: 1.0.0
   reRoutes:
     accountService:
       url: http://eshop-az-authserver
@@ -169,8 +169,8 @@ gateway-web-public:
   ingress:
     host: gateway-public.eshoponabp.com
   image:
-    repository: "volocr.azurecr.io/eshoponabp/gateway-web-public"
-    tag: 1.0.5
+    repository: "ghcr.io/volosoft/eshoponabp/gateway-web-public"
+    tag: 1.0.0
   reRoutes:
     accountService:
       url: http://eshop-az-authserver
@@ -209,8 +209,8 @@ basket:
   ingress:
     host: basket.eshoponabp.com
   image:
-    repository: "volocr.azurecr.io/eshoponabp/service-basket"
-    tag: 1.0.5
+    repository: "ghcr.io/volosoft/eshoponabp/service-basket"
+    tag: 1.0.0
 
 # catalog-service sub-chart override
 catalog:
@@ -237,8 +237,8 @@ catalog:
   ingress:
     host: catalog.eshoponabp.com
   image:
-    repository: "volocr.azurecr.io/eshoponabp/service-catalog"
-    tag: 1.0.5
+    repository: "ghcr.io/volosoft/eshoponabp/service-catalog"
+    tag: 1.0.0
 
 # ordering-service sub-chart override
 ordering:
@@ -260,9 +260,8 @@ ordering:
   ingress:
     host: order.eshoponabp.com
   image:
-    repository: "volocr.azurecr.io/eshoponabp/service-ordering"
-    tag: 1.0.5
-
+    repository: "ghcr.io/volosoft/eshoponabp/service-ordering"
+    tag: 1.0.1
 # payment-service sub-chart override
 payment:
   config:
@@ -283,8 +282,8 @@ payment:
   ingress:
     host: payment.eshoponabp.com
   image:
-    repository: "volocr.azurecr.io/eshoponabp/service-payment"
-    tag: 1.0.5
+    repository: "ghcr.io/volosoft/eshoponabp/service-payment"
+    tag: 1.0.0
 
 # Default values for eshoponabp.
 # This is a YAML-formatted file.
