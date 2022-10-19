@@ -1,5 +1,4 @@
-﻿using EShopOnAbp.DbMigrator.Keycloak;
-using EShopOnAbp.Shared.Hosting;
+﻿using EShopOnAbp.Shared.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.Modularity;
 
@@ -13,9 +12,14 @@ public class EShopOnAbpDbMigratorModule : AbpModule
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         var configuration = context.Services.GetConfiguration();
-        
-        context.Services.AddHttpClient(KeycloakService.HttpClientName);
-        
-        Configure<KeycloakClientOptions>(configuration);
+
+        Configure<KeycloakClientOptions>(options =>
+            {
+                options.Url = configuration["Keycloak:url"];
+                options.AdminUserName = configuration["Keycloak:adminUsername"];
+                options.AdminPassword = configuration["Keycloak:adminPassword"];
+                options.RealmName = configuration["Keycloak:realmName"];
+            }
+        );
     }
 }
