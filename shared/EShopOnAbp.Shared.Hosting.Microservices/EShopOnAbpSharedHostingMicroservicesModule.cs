@@ -29,6 +29,7 @@ public class EShopOnAbpSharedHostingMicroservicesModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
+        Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
         var configuration = context.Services.GetConfiguration();
 
         Configure<AbpMultiTenancyOptions>(options =>
