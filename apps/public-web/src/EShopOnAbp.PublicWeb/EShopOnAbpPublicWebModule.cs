@@ -143,27 +143,10 @@ public class EShopOnAbpPublicWebModule : AbpModule
             .AddCookie("Cookies", options => { options.ExpireTimeSpan = TimeSpan.FromDays(365); })
             .AddAbpOpenIdConnect("oidc", options =>
             {
-                /*
-                 * ASP.NET core uses the http://*:5000 and https://*:5001 ports for default communication with the OIDC middleware
-                 * The app requires load balancing services to work with :80 or :443
-                 * These needs to be added to the keycloak client, in order for the redirect to work.
-                 * If you however intend to use the app by itself then,
-                 * Change the ports in launchsettings.json, but beware to also change the options.CallbackPath and options.SignedOutCallbackPath!
-                 * Use LB services whenever possible, to reduce the config hazzle :)
-                */
-
-                //Use default signin scheme
-                // options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                //Keycloak server
-                options.Authority = configuration["Keycloak:ServerRealm"];
-                //Keycloak client ID
+                options.Authority = configuration["AuthServer:Authority"];
                 options.ClientId = configuration["Keycloak:ClientId"];
-                //Keycloak client secret
-                // options.ClientSecret = configuration["Keycloak:ClientSecret"];
-                //Keycloak .wellknown config origin to fetch config
-                options.MetadataAddress = configuration["Keycloak:Metadata"];
-                //Require keycloak to use SSL
-                options.RequireHttpsMetadata = false;
+                options.MetadataAddress = configuration["AuthServer:MetaAddress"];
+                options.RequireHttpsMetadata = Convert.ToBoolean(configuration["AuthServer:RequireHttpsMetadata"]);
                 options.GetClaimsFromUserInfoEndpoint = true;
                 options.Scope.Add("openid");
                 options.Scope.Add("profile");
@@ -171,7 +154,8 @@ public class EShopOnAbpPublicWebModule : AbpModule
                 options.Scope.Add("phone");
                 options.Scope.Add("roles");
                 options.Scope.Add("offline_access");
-                //Save the token
+                // options.Scope.Add("AdministrationService"); // Audiences couldn't be seeded -> outdated library
+                
                 options.SaveTokens = true;
                 //Token response type, will sometimes need to be changed to IdToken, depending on config.
                 options.ResponseType = OpenIdConnectResponseType.Code;
