@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Keycloak.Net;
 using Keycloak.Net.Models.Clients;
+using Keycloak.Net.Models.ClientScopes;
+using Keycloak.Net.Models.ProtocolMappers;
 using Microsoft.Extensions.Options;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
@@ -29,7 +31,63 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
     public async Task SeedAsync(DataSeedContext context)
     {
         await UpdateAdminUserAsync();
+        await CreateClientScopesAsync();
         await CreateClientsAsync();
+    }
+
+    private async Task CreateClientScopesAsync()
+    {
+        await CreateScopeAsync("AdministrationService");
+        await CreateScopeAsync("IdentityService");
+        await CreateScopeAsync("BasketService");
+        await CreateScopeAsync("CatalogService");
+        await CreateScopeAsync("OrderingService");
+        await CreateScopeAsync("PaymentService");
+        await CreateScopeAsync("CmskitService");
+    }
+
+    private async Task CreateScopeAsync(string scopeName)
+    {
+        var scope = (await _keycloakClient.GetClientScopesAsync(_keycloakOptions.RealmName))
+            .FirstOrDefault(q => q.Name == scopeName);
+        
+        if (scope == null)
+        {
+            scope = new ClientScope()
+            {
+                Name = scopeName,
+                Description = scopeName + " scope",
+                Protocol = "openid-connect",
+                Attributes = new Attributes
+                {
+                    ConsentScreenText = scopeName,
+                    DisplayOnConsentScreen = "true",
+                    IncludeInTokenScope = "true"
+                },
+                ProtocolMappers = new List<ProtocolMapper>()
+                {
+                    new ProtocolMapper()
+                    {
+                        Name = scopeName,
+                        Protocol = "openid-connect",
+                        _ProtocolMapper = "oidc-audience-mapper",
+                        // Config = new Dictionary<string, string>()
+                        // {
+                        //     {"id.token.claim", "false"},
+                        //     {"access.token.claim", "true"},
+                        //     {"included.custom.audience", scopeName}
+                        // }
+                        Config = new Config() // This should be dictionary -> Outdated library
+                        {
+                            AccessTokenClaim = "true",
+                            IdTokenClaim = "false"
+                        }
+                    }
+                }
+            };
+
+            await _keycloakClient.CreateClientScopeAsync(_keycloakOptions.RealmName, scope);
+        }
     }
 
     private async Task CreateClientsAsync()
@@ -62,10 +120,9 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
             {
                 { "post.logout.redirect.uris", "https://localhost:44335/signout-callback-oidc" }
             };
-            
+
             await _keycloakClient.CreateClientAsync(_keycloakOptions.RealmName, publicWebClient);
         }
-        
     }
 
     private async Task UpdateAdminUserAsync()
