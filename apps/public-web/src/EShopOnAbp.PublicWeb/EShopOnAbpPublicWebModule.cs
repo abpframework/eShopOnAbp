@@ -144,7 +144,7 @@ public class EShopOnAbpPublicWebModule : AbpModule
             .AddAbpOpenIdConnect("oidc", options =>
             {
                 options.Authority = configuration["AuthServer:Authority"];
-                options.ClientId = configuration["Keycloak:ClientId"];
+                options.ClientId = configuration["AuthServer:ClientId"];
                 options.MetadataAddress = configuration["AuthServer:MetaAddress"];
                 options.RequireHttpsMetadata = Convert.ToBoolean(configuration["AuthServer:RequireHttpsMetadata"]);
                 options.GetClaimsFromUserInfoEndpoint = true;
@@ -154,7 +154,14 @@ public class EShopOnAbpPublicWebModule : AbpModule
                 options.Scope.Add("phone");
                 options.Scope.Add("roles");
                 options.Scope.Add("offline_access");
-                // options.Scope.Add("AdministrationService"); // Audiences couldn't be seeded -> outdated library
+                // Audiences couldn't be seeded -> TODO: Update when library is updated
+                //     options.Scope.Add("AccountService");
+                //     options.Scope.Add("AdministrationService");
+                //     options.Scope.Add("BasketService");
+                //     options.Scope.Add("CatalogService");
+                //     options.Scope.Add("PaymentService");
+                //     options.Scope.Add("OrderingService");
+                //     options.Scope.Add("CmskitService");
                 
                 options.SaveTokens = true;
                 //Token response type, will sometimes need to be changed to IdToken, depending on config.
@@ -177,29 +184,6 @@ public class EShopOnAbpPublicWebModule : AbpModule
                     options.ClaimActions.RemoveDuplicate(AbpClaimTypes.UserName);
                 }
             });
-        // .AddAbpOpenIdConnect("oidc", options =>
-            // {
-            //     options.Authority = configuration["AuthServer:Authority"];
-            //     options.RequireHttpsMetadata = Convert.ToBoolean(configuration["AuthServer:RequireHttpsMetadata"]);
-            //     options.ResponseType = OpenIdConnectResponseType.CodeIdToken;
-            //
-            //     options.ClientId = configuration["AuthServer:ClientId"];
-            //     options.ClientSecret = configuration["AuthServer:ClientSecret"];
-            //
-            //     options.SaveTokens = true;
-            //     options.GetClaimsFromUserInfoEndpoint = true;
-            //
-            //     options.Scope.Add("role");
-            //     options.Scope.Add("email");
-            //     options.Scope.Add("phone");
-            //     options.Scope.Add("AccountService");
-            //     options.Scope.Add("AdministrationService");
-            //     options.Scope.Add("BasketService");
-            //     options.Scope.Add("CatalogService");
-            //     options.Scope.Add("PaymentService");
-            //     options.Scope.Add("OrderingService");
-            //     options.Scope.Add("CmskitService");
-            // });
         if (Convert.ToBoolean(configuration["AuthServer:IsOnProd"]))
         {
             context.Services.Configure<OpenIdConnectOptions>("oidc", options =>
