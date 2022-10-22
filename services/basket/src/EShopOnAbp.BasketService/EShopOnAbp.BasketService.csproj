@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <Import Project="..\..\..\..\common.props" />
 
@@ -12,15 +12,15 @@
     <PackageReference Include="Google.Protobuf" Version="3.19.3" />
     <PackageReference Include="Grpc.Net.ClientFactory" Version="2.42.0" />
     <PackageReference Include="Grpc.Tools" Version="2.42.0" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="6.0.5" />
     <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="6.0.7" />
 
-    <PackageReference Include="Volo.Abp.Http.Client" Version="5.1.2" />
-    <PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="5.1.2" />
-    <PackageReference Include="Volo.Abp.AutoMapper" Version="5.1.2" />
-    <PackageReference Include="Volo.Abp.Caching" Version="5.1.2" />
-    <PackageReference Include="Volo.Abp.Ddd.Domain" Version="5.1.2" />
-    <PackageReference Include="Volo.Abp.Ddd.Application" Version="5.1.2" />
+    <PackageReference Include="Volo.Abp.Http.Client" Version="6.0.0" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="6.0.0" />
+    <PackageReference Include="Volo.Abp.AutoMapper" Version="6.0.0" />
+    <PackageReference Include="Volo.Abp.Caching" Version="6.0.0" />
+    <PackageReference Include="Volo.Abp.Ddd.Domain" Version="6.0.0" />
+    <PackageReference Include="Volo.Abp.Ddd.Application" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>

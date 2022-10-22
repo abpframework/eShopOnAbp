@@ -4,6 +4,7 @@ using Volo.Abp.EntityFrameworkCore;
 using Volo.CmsKit.Blogs;
 using Volo.CmsKit.Comments;
 using Volo.CmsKit.EntityFrameworkCore;
+using Volo.CmsKit.GlobalResources;
 using Volo.CmsKit.MediaDescriptors;
 using Volo.CmsKit.Menus;
 using Volo.CmsKit.Pages;
@@ -41,13 +42,19 @@ public class CmskitServiceDbContext : AbpDbContext<CmskitServiceDbContext>, ICms
 
     public DbSet<BlogPost> BlogPosts { get; set; }
 
+    public DbSet<BlogFeature> BlogFeatures { get; set; }
+
     public DbSet<MediaDescriptor> MediaDescriptors { get; set; }
 
     public DbSet<MenuItem> MenuItems { get; set; }
 
+    public DbSet<GlobalResource> GlobalResources { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        FeatureConfigurer.Configure();
 
         modelBuilder.ConfigureCmskitService();
         modelBuilder.ConfigureCmsKit();

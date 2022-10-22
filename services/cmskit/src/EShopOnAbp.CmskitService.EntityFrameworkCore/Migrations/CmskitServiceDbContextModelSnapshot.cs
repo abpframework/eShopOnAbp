@@ -19,7 +19,7 @@ namespace EShopOnAbp.CmskitService.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("_Abp_DatabaseProvider", EfCoreDatabaseProvider.PostgreSql)
-                .HasAnnotation("ProductVersion", "6.0.1")
+                .HasAnnotation("ProductVersion", "6.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -140,6 +140,10 @@ namespace EShopOnAbp.CmskitService.Migrations
                     b.Property<string>("ExtraProperties")
                         .HasColumnType("text")
                         .HasColumnName("ExtraProperties");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean")
+                        .HasColumnName("IsActive");
 
                     b.Property<string>("Name")
                         .HasMaxLength(64)
