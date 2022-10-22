@@ -13,6 +13,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\EShopOnAbp.Shared.Hosting\EShopOnAbp.Shared.Hosting.csproj" />
+<!--        <ProjectReference Include="..\..\..\Keycloak.Net\src\Keycloak.Net.Core\Keycloak.Net.Core.csproj" />-->
     </ItemGroup>
 
     <ItemGroup>

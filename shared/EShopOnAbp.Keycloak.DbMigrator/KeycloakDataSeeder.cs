@@ -78,17 +78,17 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
                         Name = scopeName,
                         Protocol = "openid-connect",
                         _ProtocolMapper = "oidc-audience-mapper",
-                        Config = new Dictionary<string, string>()
-                        {
-                            { "id.token.claim", "false" },
-                            { "access.token.claim", "true" },
-                            { "included.custom.audience", scopeName }
-                        }
-                        // Config = new Config() // This should be dictionary -> Outdated library
+                        // Config = new Dictionary<string, string>() //TODO: Update when //https://github.com/AnderssonPeter/Keycloak.Net/pull/5 is merged
                         // {
-                        //     AccessTokenClaim = "true",
-                        //     IdTokenClaim = "false"
+                        //     { "id.token.claim", "false" },
+                        //     { "access.token.claim", "true" },
+                        //     { "included.custom.audience", scopeName }
                         // }
+                        Config = new Config() // This should be dictionary -> Outdated library
+                        {
+                            AccessTokenClaim = "true",
+                            IdTokenClaim = "false"
+                        }
                     }
                 }
             };
@@ -132,6 +132,7 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
             };
 
             await _keycloakClient.CreateClientAsync(_keycloakOptions.RealmName, webClient);
+            
             //TODO: Update when //https://github.com/AnderssonPeter/Keycloak.Net/pull/5 is merged
             // await AddOptionalClientScopesAsync(
             //     "PublicWeb",
@@ -217,6 +218,7 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
             };
 
             await _keycloakClient.CreateClientAsync(_keycloakOptions.RealmName, publicWebClient);
+            
             //TODO: Update when //https://github.com/AnderssonPeter/Keycloak.Net/pull/5 is merged
             // await AddOptionalClientScopesAsync(
             //     "PublicWeb",
