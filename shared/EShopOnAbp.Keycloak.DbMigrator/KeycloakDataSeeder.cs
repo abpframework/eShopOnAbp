@@ -133,12 +133,12 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
 
             await _keycloakClient.CreateClientAsync(_keycloakOptions.RealmName, webClient);
             
-            //TODO: Update when //https://github.com/AnderssonPeter/Keycloak.Net/pull/5 is merged
+            //TODO: Update when //https://github.com/AnderssonPeter/Keycloak.Net/pull/5 is merged 
             // await AddOptionalClientScopesAsync(
             //     "PublicWeb",
             //     new List<string>
             //     {
-            //         "AccountService", "AdministrationService", "IdentityService", "BasketService", "CatalogService",
+            //         "AdministrationService", "IdentityService", "BasketService", "CatalogService",
             //         "OrderingService", "PaymentService", "CmskitService"
             //     }
             // );
@@ -224,7 +224,7 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
             //     "PublicWeb",
             //     new List<string>
             //     {
-            //         "AccountService", "AdministrationService", "IdentityService", "BasketService", "CatalogService",
+            //         "AdministrationService", "IdentityService", "BasketService", "CatalogService",
             //         "OrderingService", "PaymentService", "CmskitService"
             //     }
             // );
