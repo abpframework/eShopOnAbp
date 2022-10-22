@@ -100,7 +100,48 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
     private async Task CreateClientsAsync()
     {
         await CreatePublicWebClientAsync();
-        await CreateSwaggerClientAsync();
+        await CreateSwaggerClientAsync(); // TODO: Test when Volo.Abp.Swashbuckle v6.0.1 is released (https://github.com/abpframework/abp/pull/14409)
+        await CreateWebClientAsync();
+    }
+
+    private async Task CreateWebClientAsync()
+    {
+        var webClient = (await _keycloakClient.GetClientsAsync(_keycloakOptions.RealmName, clientId: "Web"))
+            .FirstOrDefault();
+
+        if (webClient == null)
+        {
+            var webRootUrl = _configuration[$"Clients:Web:RootUrl"];
+            webClient = new Client
+            {
+                ClientId = "Web",
+                Name = "Angular Back-Office Web Application",
+                Protocol = "openid-connect",
+                Enabled = true,
+                BaseUrl = webRootUrl,
+                RedirectUris = new List<string>
+                {
+                    $"{webRootUrl.TrimEnd('/')}"
+                },
+                FrontChannelLogout = true,
+                PublicClient = true
+            };
+            webClient.Attributes = new Dictionary<string, object>
+            {
+                { "post.logout.redirect.uris", $"{webRootUrl.TrimEnd('/')}" }
+            };
+
+            await _keycloakClient.CreateClientAsync(_keycloakOptions.RealmName, webClient);
+            //TODO: Update when //https://github.com/AnderssonPeter/Keycloak.Net/pull/5 is merged
+            // await AddOptionalClientScopesAsync(
+            //     "PublicWeb",
+            //     new List<string>
+            //     {
+            //         "AccountService", "AdministrationService", "IdentityService", "BasketService", "CatalogService",
+            //         "OrderingService", "PaymentService", "CmskitService"
+            //     }
+            // );
+        }
     }
 
     private async Task CreateSwaggerClientAsync()
@@ -127,7 +168,6 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
                 Name = "Swagger Client Application",
                 Protocol = "openid-connect",
                 Enabled = true,
-                // BaseUrl = "https://localhost:44335/",
                 RedirectUris = new List<string>
                 {
                     $"{webGatewaySwaggerRootUrl}/swagger/oauth2-redirect.html", // WebGateway redirect uri
@@ -143,10 +183,6 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
                 },
                 FrontChannelLogout = true,
                 PublicClient = true
-            };
-            swaggerClient.Attributes = new Dictionary<string, object>
-            {
-                { "post.logout.redirect.uris", "https://localhost:44335/signout-callback-oidc" }
             };
 
             await _keycloakClient.CreateClientAsync(_keycloakOptions.RealmName, swaggerClient);
@@ -181,16 +217,16 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
             };
 
             await _keycloakClient.CreateClientAsync(_keycloakOptions.RealmName, publicWebClient);
+            //TODO: Update when //https://github.com/AnderssonPeter/Keycloak.Net/pull/5 is merged
+            // await AddOptionalClientScopesAsync(
+            //     "PublicWeb",
+            //     new List<string>
+            //     {
+            //         "AccountService", "AdministrationService", "IdentityService", "BasketService", "CatalogService",
+            //         "OrderingService", "PaymentService", "CmskitService"
+            //     }
+            // );
         }
-
-        await AddOptionalClientScopesAsync(
-            "PublicWeb",
-            new List<string>
-            {
-                "AccountService", "AdministrationService", "IdentityService", "BasketService", "CatalogService",
-                "OrderingService", "PaymentService", "CmskitService"
-            }
-        );
     }
 
     private async Task AddOptionalClientScopesAsync(string clientName, List<string> scopes)
