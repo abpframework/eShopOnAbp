@@ -9,11 +9,12 @@ export const environment = {
     name: 'EShopOnAbp',
   },
   oAuthConfig: {
-    issuer: 'https://localhost:44330',
+    issuer: 'http://localhost:8080/realms/master',
     redirectUri: baseUrl,
     clientId: 'Web',
     responseType: 'code',
-    scope: 'offline_access openid profile email phone AccountService IdentityService AdministrationService CatalogService OrderingService',
+    scope: 'offline_access openid profile email phone',
+    // scope: 'offline_access openid profile email phone AccountService IdentityService AdministrationService CatalogService OrderingService', //TODO: Update when https://github.com/AnderssonPeter/Keycloak.Net/pull/5 is merged
     //requireHttps: true,
   },
   apis: {

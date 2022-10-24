@@ -23,6 +23,7 @@ using Polly;
 using StackExchange.Redis;
 using System;
 using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Authentication.OAuth.Claims;
 using Volo.Abp;
 using Volo.Abp.Account;
 using Volo.Abp.AspNetCore.Authentication.OpenIdConnect;
@@ -42,6 +43,7 @@ using Volo.Abp.Http.Client;
 using Volo.Abp.Http.Client.IdentityModel.Web;
 using Volo.Abp.Modularity;
 using Volo.Abp.MultiTenancy;
+using Volo.Abp.Security.Claims;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.VirtualFileSystem;
@@ -142,25 +144,45 @@ public class EShopOnAbpPublicWebModule : AbpModule
             .AddAbpOpenIdConnect("oidc", options =>
             {
                 options.Authority = configuration["AuthServer:Authority"];
-                options.RequireHttpsMetadata = Convert.ToBoolean(configuration["AuthServer:RequireHttpsMetadata"]);
-                options.ResponseType = OpenIdConnectResponseType.CodeIdToken;
-
                 options.ClientId = configuration["AuthServer:ClientId"];
-                options.ClientSecret = configuration["AuthServer:ClientSecret"];
-
-                options.SaveTokens = true;
+                options.MetadataAddress = configuration["AuthServer:MetaAddress"];
+                options.RequireHttpsMetadata = Convert.ToBoolean(configuration["AuthServer:RequireHttpsMetadata"]);
                 options.GetClaimsFromUserInfoEndpoint = true;
-
-                options.Scope.Add("role");
+                options.Scope.Add("openid");
+                options.Scope.Add("profile");
                 options.Scope.Add("email");
                 options.Scope.Add("phone");
-                options.Scope.Add("AccountService");
-                options.Scope.Add("AdministrationService");
-                options.Scope.Add("BasketService");
-                options.Scope.Add("CatalogService");
-                options.Scope.Add("PaymentService");
-                options.Scope.Add("OrderingService");
-                options.Scope.Add("CmskitService");
+                options.Scope.Add("roles");
+                options.Scope.Add("offline_access");
+                // Audiences couldn't be seeded -> TODO: Update when library is updated
+                //     options.Scope.Add("AccountService");
+                //     options.Scope.Add("AdministrationService");
+                //     options.Scope.Add("BasketService");
+                //     options.Scope.Add("CatalogService");
+                //     options.Scope.Add("PaymentService");
+                //     options.Scope.Add("OrderingService");
+                //     options.Scope.Add("CmskitService");
+                
+                options.SaveTokens = true;
+                //Token response type, will sometimes need to be changed to IdToken, depending on config.
+                options.ResponseType = OpenIdConnectResponseType.Code;
+                //SameSite is needed for Chrome/Firefox, as they will give http error 500 back, if not set to unspecified.
+                // options.NonceCookie.SameSite = SameSiteMode.Unspecified;
+                // options.CorrelationCookie.SameSite = SameSiteMode.Unspecified;
+                //
+                // options.TokenValidationParameters = new TokenValidationParameters
+                // {
+                //     NameClaimType = "name",
+                //     RoleClaimType = ClaimTypes.Role,
+                //     ValidateIssuer = true
+                // };
+                
+                if (AbpClaimTypes.UserName != "preferred_username")
+                {
+                    options.ClaimActions.MapJsonKey(AbpClaimTypes.UserName, "preferred_username");
+                    options.ClaimActions.DeleteClaim("preferred_username");
+                    options.ClaimActions.RemoveDuplicate(AbpClaimTypes.UserName);
+                }
             });
         if (Convert.ToBoolean(configuration["AuthServer:IsOnProd"]))
         {
