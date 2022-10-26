@@ -29,8 +29,17 @@ namespace EShopOnAbp.PublicWeb.Pages
 
         public async Task OnGet(Guid id)
         {
-            IsPurschased = (await _orderAppService.GetMyOrdersAsync(new GetMyOrdersInput())).Any(p => p.Items.Any(p => p.ProductId == id));
             Product = await _productAppService.GetAsync(id);
+            
+            try
+            {
+                IsPurschased = (await _orderAppService.GetMyOrdersAsync(new GetMyOrdersInput())).Any(p => p.Items.Any(p => p.ProductId == id));
+            }
+            catch (Exception e)
+            {
+                IsPurschased = false;
+                Console.WriteLine(e);
+            }
         }
     }
 }
