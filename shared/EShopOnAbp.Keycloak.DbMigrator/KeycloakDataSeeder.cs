@@ -43,7 +43,6 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
 
     private async Task CreateClientScopesAsync()
     {
-        await CreateScopeAsync("AccountService");
         await CreateScopeAsync("AdministrationService");
         await CreateScopeAsync("IdentityService");
         await CreateScopeAsync("BasketService");
@@ -78,16 +77,11 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
                         Name = scopeName,
                         Protocol = "openid-connect",
                         _ProtocolMapper = "oidc-audience-mapper",
-                        // Config = new Dictionary<string, string>() //TODO: Update when //https://github.com/AnderssonPeter/Keycloak.Net/pull/5 is merged
-                        // {
-                        //     { "id.token.claim", "false" },
-                        //     { "access.token.claim", "true" },
-                        //     { "included.custom.audience", scopeName }
-                        // }
-                        Config = new Config() // This should be dictionary -> Outdated library
+                        Config = new Dictionary<string, string>() //TODO: Update when //https://github.com/AnderssonPeter/Keycloak.Net/pull/5 is merged
                         {
-                            AccessTokenClaim = "true",
-                            IdTokenClaim = "false"
+                            { "id.token.claim", "false" },
+                            { "access.token.claim", "true" },
+                            { "included.custom.audience", scopeName }
                         }
                     }
                 }
@@ -133,15 +127,14 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
 
             await _keycloakClient.CreateClientAsync(_keycloakOptions.RealmName, webClient);
             
-            //TODO: Update when //https://github.com/AnderssonPeter/Keycloak.Net/pull/5 is merged 
-            // await AddOptionalClientScopesAsync(
-            //     "PublicWeb",
-            //     new List<string>
-            //     {
-            //         "AdministrationService", "IdentityService", "BasketService", "CatalogService",
-            //         "OrderingService", "PaymentService", "CmskitService"
-            //     }
-            // );
+            await AddOptionalClientScopesAsync(
+                "PublicWeb",
+                new List<string>
+                {
+                    "AdministrationService", "IdentityService", "BasketService", "CatalogService",
+                    "OrderingService", "PaymentService", "CmskitService"
+                }
+            );
         }
     }
 
@@ -219,15 +212,14 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
 
             await _keycloakClient.CreateClientAsync(_keycloakOptions.RealmName, publicWebClient);
             
-            //TODO: Update when //https://github.com/AnderssonPeter/Keycloak.Net/pull/5 is merged
-            // await AddOptionalClientScopesAsync(
-            //     "PublicWeb",
-            //     new List<string>
-            //     {
-            //         "AdministrationService", "IdentityService", "BasketService", "CatalogService",
-            //         "OrderingService", "PaymentService", "CmskitService"
-            //     }
-            // );
+            await AddOptionalClientScopesAsync(
+                "PublicWeb",
+                new List<string>
+                {
+                    "AdministrationService", "IdentityService", "BasketService", "CatalogService",
+                    "OrderingService", "PaymentService", "CmskitService"
+                }
+            );
         }
     }
 
@@ -264,8 +256,6 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
         var adminUser = users.FirstOrDefault();
         if (adminUser == null)
         {
-            _logger.LogError(
-                "Keycloak admin user is not provided, check if KEYCLOAK_ADMIN environment variable is passed properly.");
             throw new Exception(
                 "Keycloak admin user is not provided, check if KEYCLOAK_ADMIN environment variable is passed properly.");
         }

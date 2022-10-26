@@ -154,14 +154,13 @@ public class EShopOnAbpPublicWebModule : AbpModule
                 options.Scope.Add("phone");
                 options.Scope.Add("roles");
                 options.Scope.Add("offline_access");
-                // Audiences couldn't be seeded -> TODO: Update when library is updated
-                //     options.Scope.Add("AccountService");
-                //     options.Scope.Add("AdministrationService");
-                //     options.Scope.Add("BasketService");
-                //     options.Scope.Add("CatalogService");
-                //     options.Scope.Add("PaymentService");
-                //     options.Scope.Add("OrderingService");
-                //     options.Scope.Add("CmskitService");
+                
+                options.Scope.Add("AdministrationService");
+                options.Scope.Add("BasketService");
+                options.Scope.Add("CatalogService");
+                options.Scope.Add("PaymentService");
+                options.Scope.Add("OrderingService");
+                options.Scope.Add("CmskitService");
                 
                 options.SaveTokens = true;
                 //Token response type, will sometimes need to be changed to IdToken, depending on config.

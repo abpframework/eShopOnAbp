@@ -20,10 +20,6 @@ public static class JwtBearerConfigurationHelper
                 options.Authority = configuration["AuthServer:Authority"];
                 options.RequireHttpsMetadata = Convert.ToBoolean(configuration["AuthServer:RequireHttpsMetadata"]);
                 options.Audience = audience;
-                options.TokenValidationParameters = new TokenValidationParameters()
-                {
-                    ValidateAudience = false //Disabled since seeding audience is not possible with the current keycloak.net library version
-                };
             });
     }
 }
