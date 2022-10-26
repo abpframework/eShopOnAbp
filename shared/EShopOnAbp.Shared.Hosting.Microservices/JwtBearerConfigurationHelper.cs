@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using Microsoft.IdentityModel.Tokens;
 using Volo.Abp.Modularity;
 
 namespace EShopOnAbp.Shared.Hosting.Microservices;

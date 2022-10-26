@@ -72,8 +72,6 @@ namespace EShopOnAbp.PublicWeb;
     typeof(CmskitServiceHttpApiClientModule),
     typeof(CmsKitDomainModule),
     typeof(CmsKitPublicWebModule)
-
-
 )]
 public class EShopOnAbpPublicWebModule : AbpModule
 {
@@ -147,6 +145,7 @@ public class EShopOnAbpPublicWebModule : AbpModule
                 options.ClientId = configuration["AuthServer:ClientId"];
                 options.MetadataAddress = configuration["AuthServer:MetaAddress"];
                 options.RequireHttpsMetadata = Convert.ToBoolean(configuration["AuthServer:RequireHttpsMetadata"]);
+                options.ResponseType = OpenIdConnectResponseType.CodeIdToken;
                 options.GetClaimsFromUserInfoEndpoint = true;
                 options.Scope.Add("openid");
                 options.Scope.Add("profile");
@@ -154,17 +153,16 @@ public class EShopOnAbpPublicWebModule : AbpModule
                 options.Scope.Add("phone");
                 options.Scope.Add("roles");
                 options.Scope.Add("offline_access");
-                
+
                 options.Scope.Add("AdministrationService");
                 options.Scope.Add("BasketService");
                 options.Scope.Add("CatalogService");
                 options.Scope.Add("PaymentService");
                 options.Scope.Add("OrderingService");
                 options.Scope.Add("CmskitService");
-                
+
                 options.SaveTokens = true;
-                //Token response type, will sometimes need to be changed to IdToken, depending on config.
-                options.ResponseType = OpenIdConnectResponseType.Code;
+
                 //SameSite is needed for Chrome/Firefox, as they will give http error 500 back, if not set to unspecified.
                 // options.NonceCookie.SameSite = SameSiteMode.Unspecified;
                 // options.CorrelationCookie.SameSite = SameSiteMode.Unspecified;
@@ -175,7 +173,7 @@ public class EShopOnAbpPublicWebModule : AbpModule
                 //     RoleClaimType = ClaimTypes.Role,
                 //     ValidateIssuer = true
                 // };
-                
+
                 if (AbpClaimTypes.UserName != "preferred_username")
                 {
                     options.ClaimActions.MapJsonKey(AbpClaimTypes.UserName, "preferred_username");
@@ -194,18 +192,21 @@ public class EShopOnAbpPublicWebModule : AbpModule
                 options.Events.OnRedirectToIdentityProvider = async ctx =>
                 {
                     // Intercept the redirection so the browser navigates to the right URL in your host
-                    ctx.ProtocolMessage.IssuerAddress = configuration["AuthServer:Authority"].EnsureEndsWith('/') + "connect/authorize";
+                    ctx.ProtocolMessage.IssuerAddress = configuration["AuthServer:Authority"].EnsureEndsWith('/') +
+                                                        "connect/authorize";
 
                     if (previousOnRedirectToIdentityProvider != null)
                     {
                         await previousOnRedirectToIdentityProvider(ctx);
                     }
                 };
-                var previousOnRedirectToIdentityProviderForSignOut = options.Events.OnRedirectToIdentityProviderForSignOut;
+                var previousOnRedirectToIdentityProviderForSignOut =
+                    options.Events.OnRedirectToIdentityProviderForSignOut;
                 options.Events.OnRedirectToIdentityProviderForSignOut = async ctx =>
                 {
                     // Intercept the redirection for signout so the browser navigates to the right URL in your host
-                    ctx.ProtocolMessage.IssuerAddress = configuration["AuthServer:Authority"].EnsureEndsWith('/') + "connect/endsession";
+                    ctx.ProtocolMessage.IssuerAddress = configuration["AuthServer:Authority"].EnsureEndsWith('/') +
+                                                        "connect/endsession";
 
                     if (previousOnRedirectToIdentityProviderForSignOut != null)
                     {
@@ -250,7 +251,8 @@ public class EShopOnAbpPublicWebModule : AbpModule
     private void ConfigureBasketHttpClient(ServiceConfigurationContext context)
     {
         context.Services.AddStaticHttpClientProxies(
-            typeof(BasketServiceContractsModule).Assembly, remoteServiceConfigurationName: BasketServiceConstants.RemoteServiceName
+            typeof(BasketServiceContractsModule).Assembly,
+            remoteServiceConfigurationName: BasketServiceConstants.RemoteServiceName
         );
 
         Configure<AbpVirtualFileSystemOptions>(options =>
