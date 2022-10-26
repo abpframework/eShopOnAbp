@@ -13,8 +13,7 @@ export const environment = {
     redirectUri: baseUrl,
     clientId: 'Web',
     responseType: 'code',
-    scope: 'offline_access openid profile email phone',
-    // scope: 'offline_access openid profile email phone AccountService IdentityService AdministrationService CatalogService OrderingService', //TODO: Update when https://github.com/AnderssonPeter/Keycloak.Net/pull/5 is merged
+    scope: 'offline_access openid profile email phone roles AdministrationService IdentityService BasketService CatalogService OrderingService PaymentService CmskitService', 
     //requireHttps: true,
   },
   apis: {

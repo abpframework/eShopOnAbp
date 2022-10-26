@@ -8,12 +8,11 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
-        <PackageReference Include="Keycloak.v19.Net" Version="1.0.0" />
+        <PackageReference Include="Keycloak.Net.Core" Version="1.0.20" />
     </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\EShopOnAbp.Shared.Hosting\EShopOnAbp.Shared.Hosting.csproj" />
-<!--        <ProjectReference Include="..\..\..\Keycloak.Net\src\Keycloak.Net.Core\Keycloak.Net.Core.csproj" />-->
     </ItemGroup>
 
     <ItemGroup>

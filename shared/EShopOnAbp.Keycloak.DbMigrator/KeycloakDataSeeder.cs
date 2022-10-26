@@ -21,7 +21,8 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
     private readonly ILogger<KeyCloakDataSeeder> _logger;
     private readonly IConfiguration _configuration;
 
-    public KeyCloakDataSeeder(IOptions<KeycloakClientOptions> keycloakClientOptions, ILogger<KeyCloakDataSeeder> logger, IConfiguration configuration)
+    public KeyCloakDataSeeder(IOptions<KeycloakClientOptions> keycloakClientOptions, ILogger<KeyCloakDataSeeder> logger,
+        IConfiguration configuration)
     {
         _logger = logger;
         _configuration = configuration;
@@ -37,13 +38,40 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
     public async Task SeedAsync(DataSeedContext context)
     {
         await UpdateAdminUserAsync();
+        await CreateRoleMapperAsync();
         await CreateClientScopesAsync();
         await CreateClientsAsync();
     }
 
+    private async Task CreateRoleMapperAsync()
+    {
+        var roleScope = (await _keycloakClient.GetClientScopesAsync(_keycloakOptions.RealmName))
+            .FirstOrDefault(q => q.Name == "roles");
+        if (roleScope == null)
+            return;
+
+        if (!roleScope.ProtocolMappers.Any(q => q.Name == "roles"))
+        {
+            await _keycloakClient.CreateProtocolMapperAsync(_keycloakOptions.RealmName, roleScope.Id,
+                new ProtocolMapper()
+                {
+                    Name = "roles",
+                    Protocol = "openid-connect",
+                    _ProtocolMapper = "oidc-usermodel-realm-role-mapper",
+                    Config = new Dictionary<string, string>()
+                    {
+                        { "access.token.claim", "true" },
+                        { "id.token.claim", "true" },
+                        { "claim.name", "roles" },
+                        { "multivalued", "true" },
+                        { "userinfo.token.claim", "true" },
+                    }
+                });
+        }
+    }
+
     private async Task CreateClientScopesAsync()
     {
-        await CreateScopeAsync("AccountService");
         await CreateScopeAsync("AdministrationService");
         await CreateScopeAsync("IdentityService");
         await CreateScopeAsync("BasketService");
@@ -78,17 +106,15 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
                         Name = scopeName,
                         Protocol = "openid-connect",
                         _ProtocolMapper = "oidc-audience-mapper",
-                        // Config = new Dictionary<string, string>() //TODO: Update when //https://github.com/AnderssonPeter/Keycloak.Net/pull/5 is merged
-                        // {
-                        //     { "id.token.claim", "false" },
-                        //     { "access.token.claim", "true" },
-                        //     { "included.custom.audience", scopeName }
-                        // }
-                        Config = new Config() // This should be dictionary -> Outdated library
-                        {
-                            AccessTokenClaim = "true",
-                            IdTokenClaim = "false"
-                        }
+                        Config =
+                            new
+                                Dictionary<string,
+                                    string>() //TODO: Update when //https://github.com/AnderssonPeter/Keycloak.Net/pull/5 is merged
+                                {
+                                    { "id.token.claim", "false" },
+                                    { "access.token.claim", "true" },
+                                    { "included.custom.audience", scopeName }
+                                }
                     }
                 }
             };
@@ -132,24 +158,24 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
             };
 
             await _keycloakClient.CreateClientAsync(_keycloakOptions.RealmName, webClient);
-            
-            //TODO: Update when //https://github.com/AnderssonPeter/Keycloak.Net/pull/5 is merged 
-            // await AddOptionalClientScopesAsync(
-            //     "PublicWeb",
-            //     new List<string>
-            //     {
-            //         "AdministrationService", "IdentityService", "BasketService", "CatalogService",
-            //         "OrderingService", "PaymentService", "CmskitService"
-            //     }
-            // );
+
+            await AddOptionalClientScopesAsync(
+                "Web",
+                new List<string>
+                {
+                    "AdministrationService", "IdentityService", "BasketService", "CatalogService",
+                    "OrderingService", "PaymentService", "CmskitService"
+                }
+            );
         }
     }
 
     private async Task CreateSwaggerClientAsync()
     {
-        var swaggerClient = (await _keycloakClient.GetClientsAsync(_keycloakOptions.RealmName, clientId: "SwaggerClient"))
+        var swaggerClient =
+            (await _keycloakClient.GetClientsAsync(_keycloakOptions.RealmName, clientId: "SwaggerClient"))
             .FirstOrDefault();
-        
+
         if (swaggerClient == null)
         {
             var webGatewaySwaggerRootUrl = _configuration[$"Clients:WebGateway:RootUrl"].TrimEnd('/');
@@ -162,7 +188,7 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
             var orderingServiceRootUrl = _configuration[$"Clients:OrderingService:RootUrl"].TrimEnd('/');
             var paymentServiceRootUrl = _configuration[$"Clients:PaymentService:RootUrl"].TrimEnd('/');
             var cmskitServiceRootUrl = _configuration[$"Clients:CmskitService:RootUrl"].TrimEnd('/');
-            
+
             swaggerClient = new Client
             {
                 ClientId = "SwaggerClient",
@@ -204,13 +230,14 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
                 Name = "Public Web Application",
                 Protocol = "openid-connect",
                 Enabled = true,
-                BaseUrl =  publicWebRootUrl,
+                BaseUrl = publicWebRootUrl,
                 RedirectUris = new List<string>
                 {
                     $"{publicWebRootUrl.TrimEnd('/')}/signin-oidc"
                 },
                 FrontChannelLogout = true,
-                PublicClient = true
+                PublicClient = true,
+                ImplicitFlowEnabled = true // for hybrid flow
             };
             publicWebClient.Attributes = new Dictionary<string, object>
             {
@@ -218,16 +245,15 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
             };
 
             await _keycloakClient.CreateClientAsync(_keycloakOptions.RealmName, publicWebClient);
-            
-            //TODO: Update when //https://github.com/AnderssonPeter/Keycloak.Net/pull/5 is merged
-            // await AddOptionalClientScopesAsync(
-            //     "PublicWeb",
-            //     new List<string>
-            //     {
-            //         "AdministrationService", "IdentityService", "BasketService", "CatalogService",
-            //         "OrderingService", "PaymentService", "CmskitService"
-            //     }
-            // );
+
+            await AddOptionalClientScopesAsync(
+                "PublicWeb",
+                new List<string>
+                {
+                    "AdministrationService", "IdentityService", "BasketService", "CatalogService",
+                    "OrderingService", "PaymentService", "CmskitService"
+                }
+            );
         }
     }
 
@@ -264,8 +290,6 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
         var adminUser = users.FirstOrDefault();
         if (adminUser == null)
         {
-            _logger.LogError(
-                "Keycloak admin user is not provided, check if KEYCLOAK_ADMIN environment variable is passed properly.");
             throw new Exception(
                 "Keycloak admin user is not provided, check if KEYCLOAK_ADMIN environment variable is passed properly.");
         }
