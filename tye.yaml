@@ -94,14 +94,14 @@ services:
     - Kestrel__Certificates__Default__Path=../../../../etc/dev-cert/localhost.pfx
     - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49
 
-- name: public-web
-  project: apps/public-web/src/EShopOnAbp.PublicWeb/EShopOnAbp.PublicWeb.csproj
-  bindings:
-    - protocol: https
-      port: 44335
-  env:
-    - Kestrel__Certificates__Default__Path=../../../../etc/dev-cert/localhost.pfx
-    - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49
+# - name: public-web
+#   project: apps/public-web/src/EShopOnAbp.PublicWeb/EShopOnAbp.PublicWeb.csproj
+#   bindings:
+#     - protocol: https
+#       port: 44335
+#   env:
+#     - Kestrel__Certificates__Default__Path=../../../../etc/dev-cert/localhost.pfx
+#     - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49
 
 - name: keycloak-seeder
   project: shared/EShopOnAbp.Keycloak.DbMigrator/EShopOnAbp.Keycloak.DbMigrator.csproj    
