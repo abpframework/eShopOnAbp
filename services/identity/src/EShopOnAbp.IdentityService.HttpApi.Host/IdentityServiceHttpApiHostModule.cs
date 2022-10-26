@@ -40,7 +40,7 @@ public class IdentityServiceHttpApiHostModule : AbpModule
                 {
                     { "IdentityService", "Identity Service API" }
                 },
-            apiTitle: "IdentityService Gateway API"
+            apiTitle: "IdentityService API"
         );
 
 
