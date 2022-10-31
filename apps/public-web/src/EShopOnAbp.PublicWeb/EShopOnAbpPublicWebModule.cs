@@ -70,7 +70,6 @@ namespace EShopOnAbp.PublicWeb;
     typeof(PaymentServiceHttpApiClientModule),
     typeof(AbpAutoMapperModule),
     typeof(CmskitServiceHttpApiClientModule),
-    typeof(CmsKitDomainModule),
     typeof(CmsKitPublicWebModule)
 )]
 public class EShopOnAbpPublicWebModule : AbpModule
