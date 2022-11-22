@@ -37,14 +37,8 @@ public class OrderAppService : ApplicationService, IOrderAppService
         return CreateOrderDtoMapping(order);
     }
 
-    [AllowAnonymous]
     public async Task<List<OrderDto>> GetMyOrdersAsync(GetMyOrdersInput input)
     {
-        if (CurrentUser.Id == null)
-        {
-            return new List<OrderDto>();
-        }
-    
         ISpecification<Order> specification = SpecificationFactory.Create(input.Filter);
         var orders = await _orderRepository.GetOrdersByUserId(CurrentUser.GetId(), specification, true);
         return CreateOrderDtoMapping(orders);
@@ -78,6 +72,7 @@ public class OrderAppService : ApplicationService, IOrderAppService
             Payments = await GetPercentOfTotalPaymentAsync(input.Filter)
         };
     }
+
     private async Task<List<TopSellingDto>> GetTopSellingAsync(string filter)
     {
         ISpecification<Order> specification = SpecificationFactory.Create(filter);
@@ -99,7 +94,6 @@ public class OrderAppService : ApplicationService, IOrderAppService
         return CreateOrderStatusDtoMapping(orders);
     }
 
-    [AllowAnonymous]
     public async Task<OrderDto> GetByOrderNoAsync(int orderNo)
     {
         var order = await _orderRepository.GetByOrderNoAsync(orderNo);
@@ -122,7 +116,6 @@ public class OrderAppService : ApplicationService, IOrderAppService
         await _orderRepository.UpdateAsync(order);
     }
 
-    [AllowAnonymous]
     public async Task<OrderDto> CreateAsync(OrderCreateDto input)
     {
         var orderItems = GetProductListTuple(input.Products);
@@ -211,7 +204,7 @@ public class OrderAppService : ApplicationService, IOrderAppService
 
         var topSetlling = orderItems
                 .GroupBy(p => p.ProductId)
-                    .Select(p => new TopSellingDto { Units = p.Count(), ProductName = p.First().ProductName , PictureUrl = p.First().PictureUrl })
+                    .Select(p => new TopSellingDto { Units = p.Count(), ProductName = p.First().ProductName, PictureUrl = p.First().PictureUrl })
                     .OrderByDescending(p => p.Units)
                     .Take(OrderConstants.Top10).ToList();
 
