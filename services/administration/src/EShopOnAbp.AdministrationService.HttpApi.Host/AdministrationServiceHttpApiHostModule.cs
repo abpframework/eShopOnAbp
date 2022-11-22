@@ -91,7 +91,7 @@ public class AdministrationServiceHttpApiHostModule : AbpModule
             var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
             options.SwaggerEndpoint("/swagger/v1/swagger.json", "Administration Service API");
             options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
-            options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
+            // options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
         });
         app.UseAbpSerilogEnrichers();
         app.UseAuditing();

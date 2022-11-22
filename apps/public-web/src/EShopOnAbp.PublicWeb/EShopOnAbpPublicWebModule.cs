@@ -22,7 +22,14 @@ using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Polly;
 using StackExchange.Redis;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http.Headers;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.OAuth.Claims;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Volo.Abp;
 using Volo.Abp.Account;
 using Volo.Abp.AspNetCore.Authentication.OpenIdConnect;
@@ -37,11 +44,13 @@ using Volo.Abp.AspNetCore.SignalR;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Caching;
 using Volo.Abp.Caching.StackExchangeRedis;
+using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.EventBus.RabbitMq;
 using Volo.Abp.Http.Client;
 using Volo.Abp.Http.Client.IdentityModel.Web;
 using Volo.Abp.Modularity;
 using Volo.Abp.MultiTenancy;
+using Volo.Abp.Security.Claims;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.VirtualFileSystem;
@@ -68,10 +77,7 @@ namespace EShopOnAbp.PublicWeb;
     typeof(PaymentServiceHttpApiClientModule),
     typeof(AbpAutoMapperModule),
     typeof(CmskitServiceHttpApiClientModule),
-    typeof(CmsKitDomainModule),
     typeof(CmsKitPublicWebModule)
-
-
 )]
 public class EShopOnAbpPublicWebModule : AbpModule
 {
@@ -142,26 +148,57 @@ public class EShopOnAbpPublicWebModule : AbpModule
             .AddAbpOpenIdConnect("oidc", options =>
             {
                 options.Authority = configuration["AuthServer:Authority"];
+                options.ClientId = configuration["AuthServer:ClientId"];
+                options.MetadataAddress = configuration["AuthServer:MetaAddress"];
                 options.RequireHttpsMetadata = Convert.ToBoolean(configuration["AuthServer:RequireHttpsMetadata"]);
                 options.ResponseType = OpenIdConnectResponseType.CodeIdToken;
-
-                options.ClientId = configuration["AuthServer:ClientId"];
-                options.ClientSecret = configuration["AuthServer:ClientSecret"];
-
-                options.SaveTokens = true;
                 options.GetClaimsFromUserInfoEndpoint = true;
-
-                options.Scope.Add("role");
+                options.Scope.Add("openid");
+                options.Scope.Add("profile");
                 options.Scope.Add("email");
                 options.Scope.Add("phone");
-                options.Scope.Add("AccountService");
+                options.Scope.Add("roles");
+                options.Scope.Add("offline_access");
+
                 options.Scope.Add("AdministrationService");
                 options.Scope.Add("BasketService");
                 options.Scope.Add("CatalogService");
                 options.Scope.Add("PaymentService");
                 options.Scope.Add("OrderingService");
                 options.Scope.Add("CmskitService");
+
+                options.SaveTokens = true;
+
+                //SameSite is needed for Chrome/Firefox, as they will give http error 500 back, if not set to unspecified.
+                // options.NonceCookie.SameSite = SameSiteMode.Unspecified;
+                // options.CorrelationCookie.SameSite = SameSiteMode.Unspecified;
+                //
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    NameClaimType = "name",
+                    RoleClaimType = ClaimTypes.Role,
+                    ValidateIssuer = true
+                };
+
+                options.Events.OnAuthorizationCodeReceived = async (authContext) =>
+                {
+                    var userLoggedInEto = CreateUserLoggedInEto(authContext.Principal, authContext.HttpContext);
+                    if (userLoggedInEto != null)
+                    {
+                        var eventBus =
+                            authContext.HttpContext.RequestServices.GetRequiredService<IDistributedEventBus>();
+                        await eventBus.PublishAsync(userLoggedInEto);
+                    }
+                };
+
+                if (AbpClaimTypes.UserName != "preferred_username")
+                {
+                    options.ClaimActions.MapJsonKey(AbpClaimTypes.UserName, "preferred_username");
+                    options.ClaimActions.DeleteClaim("preferred_username");
+                    options.ClaimActions.RemoveDuplicate(AbpClaimTypes.UserName);
+                }
             });
+
         if (Convert.ToBoolean(configuration["AuthServer:IsOnProd"]))
         {
             context.Services.Configure<OpenIdConnectOptions>("oidc", options =>
@@ -173,18 +210,21 @@ public class EShopOnAbpPublicWebModule : AbpModule
                 options.Events.OnRedirectToIdentityProvider = async ctx =>
                 {
                     // Intercept the redirection so the browser navigates to the right URL in your host
-                    ctx.ProtocolMessage.IssuerAddress = configuration["AuthServer:Authority"].EnsureEndsWith('/') + "connect/authorize";
+                    ctx.ProtocolMessage.IssuerAddress = configuration["AuthServer:Authority"].EnsureEndsWith('/') +
+                                                        "connect/authorize";
 
                     if (previousOnRedirectToIdentityProvider != null)
                     {
                         await previousOnRedirectToIdentityProvider(ctx);
                     }
                 };
-                var previousOnRedirectToIdentityProviderForSignOut = options.Events.OnRedirectToIdentityProviderForSignOut;
+                var previousOnRedirectToIdentityProviderForSignOut =
+                    options.Events.OnRedirectToIdentityProviderForSignOut;
                 options.Events.OnRedirectToIdentityProviderForSignOut = async ctx =>
                 {
                     // Intercept the redirection for signout so the browser navigates to the right URL in your host
-                    ctx.ProtocolMessage.IssuerAddress = configuration["AuthServer:Authority"].EnsureEndsWith('/') + "connect/endsession";
+                    ctx.ProtocolMessage.IssuerAddress = configuration["AuthServer:Authority"].EnsureEndsWith('/') +
+                                                        "connect/endsession";
 
                     if (previousOnRedirectToIdentityProviderForSignOut != null)
                     {
@@ -224,32 +264,6 @@ public class EShopOnAbpPublicWebModule : AbpModule
                     );
                 });
             });
-    }
-
-    private void ConfigureBasketHttpClient(ServiceConfigurationContext context)
-    {
-        context.Services.AddStaticHttpClientProxies(
-            typeof(BasketServiceContractsModule).Assembly, remoteServiceConfigurationName: BasketServiceConstants.RemoteServiceName
-        );
-
-        Configure<AbpVirtualFileSystemOptions>(options =>
-        {
-            options.FileSets.AddEmbedded<EShopOnAbpPublicWebModule>();
-        });
-    }
-
-    private void ConfigurePayment(IConfiguration configuration)
-    {
-        Configure<EShopOnAbpPublicWebPaymentOptions>(options =>
-        {
-            options.PaymentSuccessfulCallbackUrl =
-                configuration["App:SelfUrl"].EnsureEndsWith('/') + "PaymentCompleted";
-        });
-
-        Configure<PaymentMethodUiOptions>(options =>
-        {
-            options.ConfigureIcon(PaymentMethodNames.PayPal, "fa-cc-paypal paypal");
-        });
     }
 
     public override void OnApplicationInitialization(ApplicationInitializationContext context)
@@ -293,5 +307,67 @@ public class EShopOnAbpPublicWebModule : AbpModule
             endpoints.MapReverseProxy();
             // endpoints.MapMetrics();
         });
+    }
+
+    private void ConfigureBasketHttpClient(ServiceConfigurationContext context)
+    {
+        context.Services.AddStaticHttpClientProxies(
+            typeof(BasketServiceContractsModule).Assembly,
+            remoteServiceConfigurationName: BasketServiceConstants.RemoteServiceName
+        );
+
+        Configure<AbpVirtualFileSystemOptions>(options =>
+        {
+            options.FileSets.AddEmbedded<EShopOnAbpPublicWebModule>();
+        });
+    }
+
+    private void ConfigurePayment(IConfiguration configuration)
+    {
+        Configure<EShopOnAbpPublicWebPaymentOptions>(options =>
+        {
+            options.PaymentSuccessfulCallbackUrl =
+                configuration["App:SelfUrl"].EnsureEndsWith('/') + "PaymentCompleted";
+        });
+
+        Configure<PaymentMethodUiOptions>(options =>
+        {
+            options.ConfigureIcon(PaymentMethodNames.PayPal, "fa-cc-paypal paypal");
+        });
+    }
+
+    private UserLoggedInEto CreateUserLoggedInEto(ClaimsPrincipal principal, HttpContext httpContext)
+    {
+        var logger = httpContext.RequestServices.GetRequiredService<ILogger<EShopOnAbpPublicWebModule>>();
+
+        if (principal == null)
+        {
+            logger.LogWarning($"AuthorizationCode does not contain principal to create/update user!");
+            return null;
+        }
+
+        var claims = principal.Claims.ToList();
+
+        var userNameClaim = claims.FirstOrDefault(x => x.Type == "preferred_username");
+        var emailClaim = claims.FirstOrDefault(x => x.Type == ClaimTypes.Email);
+        var isEmailVerified = claims.FirstOrDefault(x => x.Type == "email_verified")?.Value == "true";
+        var phoneNumberClaim = claims.FirstOrDefault(x => x.Type == "phone");
+        var userIdString = claims.First(t => t.Type == ClaimTypes.NameIdentifier).Value;
+
+        if (!Guid.TryParse(userIdString, out Guid userId))
+        {
+            logger.LogWarning(
+                $"Handling UserLoggedInEvent... User creation failed! {userIdString} can not be parsed!");
+            return null;
+        }
+
+        return new UserLoggedInEto
+        {
+            Id = userId,
+            Email = emailClaim?.Value,
+            UserName = userNameClaim?.Value,
+            Phone = phoneNumberClaim?.Value,
+            IsEmailVerified = isEmailVerified
+        };
     }
 }
