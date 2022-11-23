@@ -128,6 +128,83 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
         await CreatePublicWebClientAsync();
         await CreateSwaggerClientAsync(); // TODO: Test when Volo.Abp.Swashbuckle v6.0.1 is released (https://github.com/abpframework/abp/pull/14409)
         await CreateWebClientAsync();
+        await CreateCmskitClientAsync();
+        await CreateAdministrationClientAsync();
+    }
+
+    private async Task CreateAdministrationClientAsync()
+    {
+        var administrationClient = (await _keycloakClient.GetClientsAsync(_keycloakOptions.RealmName, clientId: "EShopOnAbp_AdministrationService"))
+            .FirstOrDefault();
+        
+        if (administrationClient == null)
+        {
+            administrationClient = new Client()
+            {
+                ClientId = "EShopOnAbp_AdministrationService",
+                Name = "Cmskit microservice client",
+                Protocol = "openid-connect",
+                PublicClient = false,
+                ImplicitFlowEnabled = false,
+                AuthorizationServicesEnabled = false,
+                StandardFlowEnabled = false,
+                DirectAccessGrantsEnabled = false,
+                ServiceAccountsEnabled = true,
+                Secret = "1q2w3e*"
+            };
+            administrationClient.Attributes = new Dictionary<string, object>()
+            {
+                { "oauth2.device.authorization.grant.enabled", false },
+                { "oidc.ciba.grant.enabled", false }
+            };
+            
+            await _keycloakClient.CreateClientAsync(_keycloakOptions.RealmName, administrationClient);
+        
+            await AddOptionalClientScopesAsync(
+                "EShopOnAbp_AdministrationService",
+                new List<string>
+                {
+                    "IdentityService"
+                }
+            );
+        }
+    }
+
+    private async Task CreateCmskitClientAsync()
+    {
+        var cmsKitClient = (await _keycloakClient.GetClientsAsync(_keycloakOptions.RealmName, clientId: "EShopOnAbp_CmskitService"))
+            .FirstOrDefault();
+
+        if (cmsKitClient == null)
+        {
+            cmsKitClient = new Client()
+            {
+                ClientId = "EShopOnAbp_CmskitService",
+                Name = "Cmskit microservice client",
+                Protocol = "openid-connect",
+                PublicClient = false,
+                ImplicitFlowEnabled = false,
+                AuthorizationServicesEnabled = false,
+                StandardFlowEnabled = false,
+                DirectAccessGrantsEnabled = false,
+                ServiceAccountsEnabled = true,
+                Secret = "1q2w3e*"
+            };
+            cmsKitClient.Attributes = new Dictionary<string, object>()
+            {
+                { "oauth2.device.authorization.grant.enabled", false },
+                { "oidc.ciba.grant.enabled", false }
+            };
+        }
+        await _keycloakClient.CreateClientAsync(_keycloakOptions.RealmName, cmsKitClient);
+        
+        await AddOptionalClientScopesAsync(
+            "EShopOnAbp_CmskitService",
+            new List<string>
+            {
+                "IdentityService"
+            }
+        );
     }
 
     private async Task CreateWebClientAsync()

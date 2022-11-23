@@ -162,6 +162,7 @@ public class EShopOnAbpPublicWebModule : AbpModule
 
                 options.Scope.Add("AdministrationService");
                 options.Scope.Add("BasketService");
+                options.Scope.Add("IdentityService");
                 options.Scope.Add("CatalogService");
                 options.Scope.Add("PaymentService");
                 options.Scope.Add("OrderingService");
