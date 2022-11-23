@@ -9,14 +9,14 @@ services:
 #     - Kestrel__Certificates__Default__Path=../../../../etc/dev-cert/localhost.pfx
 #     - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49
 
-# - name: identity-service
-#   project: services/identity/src/EShopOnAbp.IdentityService.HttpApi.Host/EShopOnAbp.IdentityService.HttpApi.Host.csproj
-#   bindings:
-#     - protocol: https
-#       port: 44351
-#   env:
-#     - Kestrel__Certificates__Default__Path=../../../../etc/dev-cert/localhost.pfx
-#     - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49
+- name: identity-service
+  project: services/identity/src/EShopOnAbp.IdentityService.HttpApi.Host/EShopOnAbp.IdentityService.HttpApi.Host.csproj
+  bindings:
+    - protocol: https
+      port: 44351
+  env:
+    - Kestrel__Certificates__Default__Path=../../../../etc/dev-cert/localhost.pfx
+    - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49
 
 - name: administration-service
   project: services/administration/src/EShopOnAbp.AdministrationService.HttpApi.Host/EShopOnAbp.AdministrationService.HttpApi.Host.csproj
