@@ -37,10 +37,21 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
 
     public async Task SeedAsync(DataSeedContext context)
     {
+        await UpdateRealmSettingsAsync();
         await UpdateAdminUserAsync();
         await CreateRoleMapperAsync();
         await CreateClientScopesAsync();
         await CreateClientsAsync();
+    }
+
+    private async Task UpdateRealmSettingsAsync()
+    {
+        var masterRealm = await _keycloakClient.GetRealmAsync(_keycloakOptions.RealmName);
+        if (masterRealm.AccessTokenLifespan != 30 * 60)
+        {
+            masterRealm.AccessTokenLifespan = 30 * 60;
+            await _keycloakClient.UpdateRealmAsync(_keycloakOptions.RealmName, masterRealm);
+        }
     }
 
     private async Task CreateRoleMapperAsync()
@@ -134,9 +145,11 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
 
     private async Task CreateAdministrationClientAsync()
     {
-        var administrationClient = (await _keycloakClient.GetClientsAsync(_keycloakOptions.RealmName, clientId: "EShopOnAbp_AdministrationService"))
+        var administrationClient =
+            (await _keycloakClient.GetClientsAsync(_keycloakOptions.RealmName,
+                clientId: "EShopOnAbp_AdministrationService"))
             .FirstOrDefault();
-        
+
         if (administrationClient == null)
         {
             administrationClient = new Client()
@@ -157,9 +170,9 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
                 { "oauth2.device.authorization.grant.enabled", false },
                 { "oidc.ciba.grant.enabled", false }
             };
-            
+
             await _keycloakClient.CreateClientAsync(_keycloakOptions.RealmName, administrationClient);
-        
+
             await AddOptionalClientScopesAsync(
                 "EShopOnAbp_AdministrationService",
                 new List<string>
@@ -172,7 +185,8 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
 
     private async Task CreateCmskitClientAsync()
     {
-        var cmsKitClient = (await _keycloakClient.GetClientsAsync(_keycloakOptions.RealmName, clientId: "EShopOnAbp_CmskitService"))
+        var cmsKitClient =
+            (await _keycloakClient.GetClientsAsync(_keycloakOptions.RealmName, clientId: "EShopOnAbp_CmskitService"))
             .FirstOrDefault();
 
         if (cmsKitClient == null)
@@ -197,8 +211,9 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
                 { "client_credentials.use_refresh_token", false }
             };
         }
+
         await _keycloakClient.CreateClientAsync(_keycloakOptions.RealmName, cmsKitClient);
-        
+
         await AddOptionalClientScopesAsync(
             "EShopOnAbp_CmskitService",
             new List<string>
