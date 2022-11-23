@@ -210,17 +210,17 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
                 { "oidc.ciba.grant.enabled", false },
                 { "client_credentials.use_refresh_token", false }
             };
+            
+            await _keycloakClient.CreateClientAsync(_keycloakOptions.RealmName, cmsKitClient);
+
+            await AddOptionalClientScopesAsync(
+                "EShopOnAbp_CmskitService",
+                new List<string>
+                {
+                    "IdentityService"
+                }
+            );
         }
-
-        await _keycloakClient.CreateClientAsync(_keycloakOptions.RealmName, cmsKitClient);
-
-        await AddOptionalClientScopesAsync(
-            "EShopOnAbp_CmskitService",
-            new List<string>
-            {
-                "IdentityService"
-            }
-        );
     }
 
     private async Task CreateWebClientAsync()
