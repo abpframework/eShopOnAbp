@@ -165,6 +165,7 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
                 ServiceAccountsEnabled = true,
                 Secret = "1q2w3e*"
             };
+            
             administrationClient.Attributes = new Dictionary<string, object>()
             {
                 { "oauth2.device.authorization.grant.enabled", false },
@@ -180,6 +181,17 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
                     "IdentityService"
                 }
             );
+            
+            var insertedClient =
+                (await _keycloakClient.GetClientsAsync(_keycloakOptions.RealmName, clientId: "EShopOnAbp_AdministrationService"))
+                .First();
+            
+            var clientIdProtocolMapper = insertedClient.ProtocolMappers.First(q => q.Name == "Client ID");
+            
+            clientIdProtocolMapper.Config["claim.name"] = "client_id";
+
+            var result = await _keycloakClient.UpdateClientAsync(_keycloakOptions.RealmName, insertedClient.Id,
+                insertedClient);
         }
     }
 
@@ -210,7 +222,7 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
                 { "oidc.ciba.grant.enabled", false },
                 { "client_credentials.use_refresh_token", false }
             };
-            
+
             await _keycloakClient.CreateClientAsync(_keycloakOptions.RealmName, cmsKitClient);
 
             await AddOptionalClientScopesAsync(
@@ -220,6 +232,17 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
                     "IdentityService"
                 }
             );
+            
+            var insertedClient =
+                (await _keycloakClient.GetClientsAsync(_keycloakOptions.RealmName, clientId: "EShopOnAbp_CmskitService"))
+                .First();
+            
+            var clientIdProtocolMapper = insertedClient.ProtocolMappers.First(q => q.Name == "Client ID");
+            
+            clientIdProtocolMapper.Config["claim.name"] = "client_id";
+
+            var result = await _keycloakClient.UpdateClientAsync(_keycloakOptions.RealmName, insertedClient.Id,
+                insertedClient);
         }
     }
 
