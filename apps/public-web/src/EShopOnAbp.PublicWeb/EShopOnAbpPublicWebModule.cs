@@ -144,7 +144,7 @@ public class EShopOnAbpPublicWebModule : AbpModule
                 options.DefaultScheme = "Cookies";
                 options.DefaultChallengeScheme = "oidc";
             })
-            .AddCookie("Cookies", options => { options.ExpireTimeSpan = TimeSpan.FromDays(365); })
+            .AddCookie("Cookies")
             .AddAbpOpenIdConnect("oidc", options =>
             {
                 options.Authority = configuration["AuthServer:Authority"];

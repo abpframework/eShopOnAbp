@@ -142,7 +142,7 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
             administrationClient = new Client()
             {
                 ClientId = "EShopOnAbp_AdministrationService",
-                Name = "Cmskit microservice client",
+                Name = "Administration service client",
                 Protocol = "openid-connect",
                 PublicClient = false,
                 ImplicitFlowEnabled = false,
@@ -193,7 +193,8 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
             cmsKitClient.Attributes = new Dictionary<string, object>()
             {
                 { "oauth2.device.authorization.grant.enabled", false },
-                { "oidc.ciba.grant.enabled", false }
+                { "oidc.ciba.grant.enabled", false },
+                { "client_credentials.use_refresh_token", false }
             };
         }
         await _keycloakClient.CreateClientAsync(_keycloakOptions.RealmName, cmsKitClient);
