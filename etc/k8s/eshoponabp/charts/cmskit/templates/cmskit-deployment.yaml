@@ -23,22 +23,20 @@ spec:
         env:
         - name: App__SelfUrl
           value: "{{ .Values.config.selfUrl }}"
-        - name: RemoteServices__AbpIdentity__BaseUrl
-          value: "{{ .Values.config.remoteServices.abpIdentityBaseUrl }}"
-        - name: RemoteServices__AbpIdentity__UseCurrentAccessToken
-          value: "{{ .Values.config.remoteServices.useCurrentToken }}" 
         - name: App__CorsOrigins
           value: "{{ .Values.config.corsOrigins }}"
-        - name: IdentityClients__Default__Authority
-          value: "{{ .Values.synchedCommunication.authority }}"
-        - name: IdentityClients__Default__RequireHttps
-          value: "{{ .Values.config.authServer.requireHttpsMetadata }}"
+        - name: "ConnectionStrings__CmskitService"
+          value: {{ .Values.config.connectionStrings.cmskitService }}  
         - name: "ConnectionStrings__AdministrationService"
-          value: "{{ .Values.config.connectionStrings.administrationService }}"
+          value: {{ .Values.config.connectionStrings.administrationService }}
         - name: "DOTNET_ENVIRONMENT"
           value: "{{ .Values.config.dotnetEnv }}"
         - name: "Redis__Configuration"
           value: "{{ .Values.config.redisHost }}"
+        - name: "RabbitMQ__Connections__Default__HostName"
+          value: "{{ .Values.config.rabbitmqHost }}"
+        - name: "ElasticSearch__Url"
+          value: "{{ .Values.config.elasticsearchHost }}"   
         - name: "AuthServer__Authority"
           value: "{{ .Values.config.authServer.authority }}"
         - name: "AuthServer__RequireHttpsMetadata"
@@ -49,10 +47,13 @@ spec:
           value: "{{ .Values.config.authServer.swaggerClientSecret }}"
         - name: "StringEncryption__DefaultPassPhrase"
           value: "{{ .Values.config.stringEncryptionDefaultPassPhrase }}"
-        - name: "RabbitMQ__Connections__Default__HostName"
-          value: "{{ .Values.config.rabbitmqHost }}"
-        - name: "ElasticSearch__Url"
-          value: "{{ .Values.config.elasticsearchHost }}"
+        - name: RemoteServices__AbpIdentity__BaseUrl
+          value: "{{ .Values.config.remoteServices.abpIdentityBaseUrl }}"
+        - name: IdentityClients__Default__Authority
+          value: "{{ .Values.synchedCommunication.authority }}"
+        - name: IdentityClients__Default__RequireHttps
+          value: "{{ .Values.config.authServer.requireHttpsMetadata }}"
           {{- if .Values.env }}
 {{ toYaml .Values.env | indent 8 }}
           {{- end }}
+

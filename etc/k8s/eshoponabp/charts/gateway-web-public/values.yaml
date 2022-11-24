@@ -23,6 +23,8 @@ reRoutes:
     url: https://eshop-st-basket
   orderingService:
     url: https://eshop-st-ordering
+  cmskitService:
+    url: https://eshop-st-cmskit
   paymentService:
     url: https://eshop-st-payment  
 

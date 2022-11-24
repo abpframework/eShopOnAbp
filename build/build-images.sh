@@ -1,7 +1,7 @@
 #!/bin/bash
 
 export IMAGE_TAG="1.0.0"
-export total=11
+export total=12
 cd ../
 export currentFolder=`pwd`
 cd build/
@@ -59,5 +59,9 @@ docker build --force-rm -t "eshoponabp/service-payment:${IMAGE_TAG}" .
 echo "**************** BUILDING ORDERING-SERVICE 11/$total ****************"
 cd ${currentFolder}/services/ordering/src/EShopOnAbp.OrderingService.HttpApi.Host
 docker build --force-rm -t "eshoponabp/service-ordering:${IMAGE_TAG}" .
+
+echo "**************** BUILDING CMSKIT-SERVICE 12/$total ****************"
+cd ${currentFolder}/services/cmskit/src/EShopOnAbp.CmskitService.HttpApi.Host
+docker build --force-rm -t "eshoponabp/service-cmskit:${IMAGE_TAG}" .
 
 echo "ALL COMPLETED"

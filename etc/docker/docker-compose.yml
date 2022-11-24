@@ -18,6 +18,7 @@ services:
       - eshop-st-basket
       - eshop-st-catalog
       - eshop-st-ordering
+      - eshop-st-cmskit
       - eshop-st-payment
       - eshop-st-web
       - eshop-st-public-web
@@ -83,6 +84,7 @@ services:
       - IdentityServerClients__CatalogService__RootUrl=https://eshop-st-catalog
       - IdentityServerClients__BasketService__RootUrl=https://eshop-st-basket     
       - IdentityServerClients__OrderingService__RootUrl=https://eshop-st-ordering
+      - IdentityServerClients__CmskitService__RootUrl=https://eshop-st-cmskit
       - IdentityServerClients__PaymentService__RootUrl=https://eshop-st-payment
     depends_on:
       redis:
@@ -181,6 +183,37 @@ services:
       - eshoponabp-network
     # volumes:
     #   - ./certs:/root/certificate
+  eshop-st-cmskit:
+    image: eshoponabp/service-cmskit:latest
+    container_name: cmskit-service-container
+    build:
+      context: ../../
+      dockerfile: services/cmskit/src/EShopOnAbp.CmskitService.HttpApi.Host/Dockerfile
+    environment:
+      # - ASPNETCORE_ENVIRONMENT=Docker
+      - ASPNETCORE_URLS=http://+:80;
+      - App__SelfUrl=https://eshop-st-cmskit
+      - App__CorsOrigins=https://eshop-st-gateway-web,https://eshop-st-gateway-web-public
+      - ConnectionStrings__CmskitService=User ID=postgres;Password=myPassw0rd;Host=postgres-db;Port=5432;Database=EShopOnAbp_Cmskit;Pooling=false;
+      - ConnectionStrings__AdministrationService=User ID=postgres;Password=myPassw0rd;Host=postgres-db;Port=5432;Database=EShopOnAbp_Administration;Pooling=false;
+      - AuthServer__Authority=http://eshop-st-authserver
+      - AuthServer__RequireHttpsMetadata=false
+      - Redis__Configuration=redis
+      - RabbitMQ__Connections__Default__HostName=rabbitmq
+      - RemoteServices__AbpIdentity__BaseUrl=eshop-st-identity
+      - IdentityClients__Default__Authority=http://eshop-st-identity
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres-db:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    restart: on-failure  
+    networks: 
+      - eshoponabp-network
+    # volumes:
+    #   - ./certs:/root/certificate
   eshop-st-payment:
     image: eshoponabp/service-payment:latest
     container_name: payment-service-container
@@ -221,7 +254,7 @@ services:
       # - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_URLS=http://+:80;
       - App__SelfUrl=https://eshop-st-authserver
-      - App__CorsOrigins=https://eshop-st-web,https://eshop-st-public-web,https://eshop-st-identity,http://eshop-st-administration,https://eshop-st-administration,https://eshop-st-catalog,https://eshop-st-basket,https://eshop-st-ordering,https://eshop-st-payment
+      - App__CorsOrigins=https://eshop-st-web,https://eshop-st-public-web,https://eshop-st-identity,http://eshop-st-administration,https://eshop-st-administration,https://eshop-st-catalog,https://eshop-st-basket,https://eshop-st-ordering,https://eshop-st-cmskit,https://eshop-st-payment
       - App__RedirectAllowedUrls=http://eshop-st-web
       - AuthServer__Authority=http://eshop-st-authserver
       - AuthServer__RequireHttpsMetadata=false
@@ -298,6 +331,7 @@ services:
       - ReverseProxy__Clusters__administrationCluster__Destinations__destination1__Address=http://eshop-st-administration
       - ReverseProxy__Clusters__catalogCluster__Destinations__destination1__Address=http://eshop-st-catalog
       - ReverseProxy__Clusters__orderingCluster__Destinations__destination1__Address=http://eshop-st-ordering
+      - ReverseProxy__Clusters__cmskitCluster__Destinations__destination1__Address=http://eshop-st-cmskit
       - ReverseProxy__Clusters__feature-management-cluster__Destinations__destination1__Address=http://eshop-st-administration
       - ReverseProxy__Clusters__permission-management-cluster__Destinations__destination1__Address=http://eshop-st-administration
       - ReverseProxy__Clusters__setting-management-cluster__Destinations__destination1__Address=http://eshop-st-administration
@@ -327,6 +361,7 @@ services:
       - ReverseProxy__Clusters__catalogCluster__Destinations__destination1__Address=http://eshop-st-catalog
       - ReverseProxy__Clusters__basketCluster__Destinations__destination1__Address=http://eshop-st-basket
       - ReverseProxy__Clusters__orderingCluster__Destinations__destination1__Address=http://eshop-st-ordering
+      - ReverseProxy__Clusters__cmskitCluster__Destinations__destination1__Address=http://eshop-st-cmskit
       - ReverseProxy__Clusters__paymentCluster__Destinations__destination1__Address=http://eshop-st-payment
       - ReverseProxy__Clusters__productPictureCluster__Destinations__destination1__Address=http://eshop-st-catalog
     depends_on:

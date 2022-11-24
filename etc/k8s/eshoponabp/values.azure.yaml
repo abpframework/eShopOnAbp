@@ -2,7 +2,7 @@
 authserver:
   config:
     selfUrl: https://auth.eshoponabp.com   
-    corsOrigins: https://gateway.eshoponabp.com,https://gateway-public.eshoponabp.com,https://identity.eshoponabp.com,https://administration.eshoponabp.com,https://basket.eshoponabp.com,https://catalog.eshoponabp.com,https://order.eshoponabp.com,https://payment.eshoponabp.com,https://admin.eshoponabp.com,https://www.eshoponabp.com
+    corsOrigins: https://gateway.eshoponabp.com,https://gateway-public.eshoponabp.com,https://identity.eshoponabp.com,https://administration.eshoponabp.com,https://basket.eshoponabp.com,https://catalog.eshoponabp.com,https://order.eshoponabp.com,https://cmskit.eshoponabp.com,https://payment.eshoponabp.com,https://admin.eshoponabp.com,https://www.eshoponabp.com
     allowedRedirectUrls: https://admin.eshoponabp.com
     authServer:
       authority: https://auth.eshoponabp.com
@@ -87,6 +87,7 @@ identity:
     basketServiceRootUrl: https://basket.eshoponabp.com/
     catalogServiceRootUrl: https://catalog.eshoponabp.com
     orderingServiceRootUrl: https://order.eshoponabp.com
+    cmskitServiceRootUrl: https://cmskit.eshoponabp.com
     paymentServiceRootUrl: https://payment.eshoponabp.com
   ingress:
     host: identity.eshoponabp.com
@@ -152,6 +153,8 @@ gateway-web:
       url: http://eshop-az-catalog
     orderingService:
       url: http://eshop-az-ordering
+    cmskitService:
+      url: http://eshop-az-cmskit
 
 # gateway-web-public sub-chart override
 gateway-web-public:
@@ -184,6 +187,8 @@ gateway-web-public:
       url: http://eshop-az-basket
     orderingService:
       url: http://eshop-az-ordering
+    cmskitService:
+      url: http://eshop-az-cmskit
     paymentService:
       url: http://eshop-az-payment  
 
@@ -260,8 +265,36 @@ ordering:
   ingress:
     host: order.eshoponabp.com
   image:
-    repository: "ghcr.io/volosoft/eshoponabp/service-ordering"
-    tag: 1.0.1
+    repository: "volocr.azurecr.io/eshoponabp/service-ordering"
+    tag: 1.0.5
+
+# cmskit-service sub-chart override
+cmskit:
+  config:
+    selfUrl: https://cmskit.eshoponabp.com
+    corsOrigins: https://gateway.eshoponabp.com,https://gateway-public.eshoponabp.com
+    connectionStrings:
+      cmskitService: "Host=eshop-az-postgresdb;Port=5432;Database=EShopOnAbp_Cmskit;User ID=postgres;password=myPassw0rd;Pooling=false"
+      administrationService: "Host=eshop-az-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
+    authServer:
+      authority: http://eshop-az-authserver
+      requireHttpsMetadata: "false"
+      swaggerClientId: WebGateway_Swagger
+      swaggerClientSecret: "1q2w3e*"
+    remoteServices:
+      abpIdentityBaseUrl: https://identity.eshoponabp.com
+    dotnetEnv: Production
+    redisHost: eshop-az-redis
+    rabbitmqHost: eshop-az-rabbitmq
+    elasticsearchHost: eshop-az-elasticsearch
+  synchedCommunication: # Used for server-to-server (client-credentials) communication with identityService for user permissions
+    authority: https://auth.eshoponabp.com 
+  ingress:
+    host: cmskit.eshoponabp.com
+  image:
+    repository: "volocr.azurecr.io/eshoponabp/service-cmskit"
+    tag: 1.0.5
+    
 # payment-service sub-chart override
 payment:
   config:

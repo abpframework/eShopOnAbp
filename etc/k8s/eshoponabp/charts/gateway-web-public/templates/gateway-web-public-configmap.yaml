@@ -37,6 +37,12 @@ data:
             "Path": "/api/ordering/{**everything}"
           }
         },
+        "Cmskit Service": {
+          "ClusterId": "cmskit-cluster",
+          "Match": {
+            "Path": "/api/cmskit/{**everything}"
+          }
+        },
         "Payment Service": {
           "ClusterId": "payment-cluster",
           "Match": {
@@ -91,6 +97,13 @@ data:
           "Destinations": {
             "destination1": {
               "Address": "{{ .Values.reRoutes.orderingService.url }}"
+            }
+          }
+        },
+        "cmskit-cluster": {
+          "Destinations": {
+            "destination1": {
+              "Address": "{{ .Values.reRoutes.cmskitService.url }}"
             }
           }
         },

@@ -4,12 +4,11 @@ namespace EShopOnAbp.CmskitService.EntityFrameworkCore;
 
 public static class CmskitServiceEfCoreEntityExtensionMappings
 {
-    private static readonly OneTimeRunner OneTimeRunner = new OneTimeRunner();
+    private static readonly OneTimeRunner OneTimeRunner = new();
 
     public static void Configure()
     {
         CmskitServiceModuleExtensionConfigurator.Configure();
-        //TODO global
         OneTimeRunner.Run(() =>
         {
                 /* You can configure extra properties for the
