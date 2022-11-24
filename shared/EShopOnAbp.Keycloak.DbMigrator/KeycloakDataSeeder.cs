@@ -73,7 +73,7 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
                     {
                         { "access.token.claim", "true" },
                         { "id.token.claim", "true" },
-                        { "claim.name", "roles" },
+                        { "claim.name", "role" },
                         { "multivalued", "true" },
                         { "userinfo.token.claim", "true" },
                     }
