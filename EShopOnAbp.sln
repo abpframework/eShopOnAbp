@@ -43,7 +43,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShopOnAbp.BasketService", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShopOnAbp.CmskitService.HttpApi.Host", "services\cmskit\src\EShopOnAbp.CmskitService.HttpApi.Host\EShopOnAbp.CmskitService.HttpApi.Host.csproj", "{D5B9D5A5-44AA-42F8-867C-95B54780C9DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EShopOnAbp.Keycloak.DbMigrator", "shared\EShopOnAbp.Keycloak.DbMigrator\EShopOnAbp.Keycloak.DbMigrator.csproj", "{774C6ADF-BDD0-431C-A9F3-8BAFD5A49C8C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShopOnAbp.Keycloak.DbMigrator", "shared\EShopOnAbp.Keycloak.DbMigrator\EShopOnAbp.Keycloak.DbMigrator.csproj", "{774C6ADF-BDD0-431C-A9F3-8BAFD5A49C8C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
