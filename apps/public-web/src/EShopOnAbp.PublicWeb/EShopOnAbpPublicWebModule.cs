@@ -121,7 +121,10 @@ public class EShopOnAbpPublicWebModule : AbpModule
         {
             options.StyleBundles.Configure(
                 LeptonXLiteThemeBundles.Styles.Global,
-                bundle => { bundle.AddContributors(typeof(CartWidgetStyleContributor)); }
+                bundle => { 
+                    bundle.AddContributors(typeof(CartWidgetStyleContributor));
+					bundle.AddFiles("/global.css");
+				}
             );
         });
 

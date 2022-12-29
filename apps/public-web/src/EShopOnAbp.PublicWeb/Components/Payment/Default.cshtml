@@ -7,8 +7,8 @@
 
 <div class="row">
 	<div class="col-lg-9">
-		<div class="address-list p-5">
-			<h5 class="mb-5">@L["Payment:SelectAddress"]</h5>
+		<div class="address-list p-1">
+			<h5 class="mb-2">@L["Payment:SelectAddress"]</h5>
 			<abp-row>
 				@foreach (var address in Model.Address)
 				{
@@ -28,8 +28,8 @@
 			</abp-row>
 		</div>
 
-		<div class="payment-list p-5">
-			<h5 class="mb-5">@L["Payment:SelectPaymentMethod"]</h5>
+		<div class="payment-list p-1">
+			<h5 class="mb-2">@L["Payment:SelectPaymentMethod"]</h5>
 			<abp-row>
 				@foreach (var paymentMethod in Model.PaymentMethods)
 				{
