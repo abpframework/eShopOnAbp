@@ -8,9 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.Ddd.Application.Contracts" Version="6.0.0" />
-    <PackageReference Include="Volo.Abp.Authorization" Version="6.0.0" />
-    <PackageReference Include="Volo.CmsKit.Application.Contracts" Version="6.0.0" />
+    <PackageReference Include="Volo.Abp.Ddd.Application.Contracts" Version="7.0.0" />
+    <PackageReference Include="Volo.Abp.Authorization" Version="7.0.0" />
+    <PackageReference Include="Volo.CmsKit.Application.Contracts" Version="7.0.0" />
     <ProjectReference Include="..\EShopOnAbp.CmskitService.Domain.Shared\EShopOnAbp.CmskitService.Domain.Shared.csproj" />
   </ItemGroup>
 
