@@ -41,7 +41,6 @@ COPY . .
 
 WORKDIR "/src/gateways/web/src/EShopOnAbp.WebGateway"
 RUN dotnet publish -c Release -o /app 
-# Should be used after .net6 is out of preview for better performance
 # RUN dotnet publish --no-restore -c Release -o /app 
 
 FROM build AS publish

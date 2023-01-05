@@ -41,7 +41,6 @@ COPY . .
 
 WORKDIR "/src/services/ordering/src/EShopOnAbp.OrderingService.HttpApi.Host"
 RUN dotnet publish -c Release -o /app 
-# Should be used after .net6 is out of preview for better performance
 # RUN dotnet publish --no-restore -c Release -o /app 
 
 FROM build AS publish

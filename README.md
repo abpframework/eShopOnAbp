@@ -16,7 +16,7 @@ You can either run in Visual Studio, or using [Microsoft Tye](https://github.com
 
  ### Requirements
 
-- .NET 6.0+
+- .NET 7.0+
 - Docker
 - Yarn
 
