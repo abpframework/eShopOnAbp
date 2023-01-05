@@ -1,9 +1,9 @@
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 
 # It's important to keep lines from here down to "COPY . ." identical in all Dockerfiles
@@ -42,7 +42,7 @@ COPY . .
 WORKDIR "/src/apps/auth-server/src/EShopOnAbp.AuthServer"
 
 RUN dotnet publish -c Release -o /app 
-# Should be used after .net6 is out of preview for better performance
+# Should be used after .net7 is out of preview for better performance
 # RUN dotnet publish --no-restore -c Release -o /app 
 
 FROM build AS publish

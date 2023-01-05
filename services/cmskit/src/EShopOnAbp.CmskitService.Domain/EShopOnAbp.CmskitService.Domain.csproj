@@ -8,8 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.Ddd.Domain" Version="6.0.0" />
-    <PackageReference Include="Volo.CmsKit.Domain" Version="6.0.0" />
+    <PackageReference Include="Volo.Abp.Ddd.Domain" Version="7.0.0" />
+    <PackageReference Include="Volo.CmsKit.Domain" Version="7.0.0" />
     <ProjectReference Include="..\EShopOnAbp.CmskitService.Domain.Shared\EShopOnAbp.CmskitService.Domain.Shared.csproj" />
   </ItemGroup>
 

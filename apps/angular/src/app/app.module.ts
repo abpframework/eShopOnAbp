@@ -17,7 +17,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { APP_ROUTE_PROVIDER } from './route.provider';
 import { OrderingConfigModule } from '@eshoponabp/ordering/config';
-
+import { AbpOAuthModule } from '@abp/ng.oauth';
 @NgModule({
   imports: [
     BrowserModule,
@@ -27,6 +27,7 @@ import { OrderingConfigModule } from '@eshoponabp/ordering/config';
       environment,
       registerLocaleFn: registerLocale(),
     }),
+    AbpOAuthModule.forRoot(),
     ThemeSharedModule.forRoot(),
     AccountConfigModule.forRoot(),
     IdentityConfigModule.forRoot(),

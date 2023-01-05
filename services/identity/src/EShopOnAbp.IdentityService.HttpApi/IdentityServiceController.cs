@@ -1,7 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using System;
+using System.Threading.Tasks;
 using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Identity;
@@ -31,10 +31,11 @@ public class IdentityServiceController : IdentityUserLookupController
 
     public override async Task<UserData> FindByIdAsync(Guid id)
     {
-        var permissions = _permissionDefinitionManager.GetPermissions();
-        
+        //TODO : Why has been called these methods and not used
+        var permissions = await _permissionDefinitionManager.GetPermissionsAsync();
+
         var isGranted = await _permissionChecker.IsGrantedAsync(IdentityPermissions.UserLookup.Default);
-        
+
         var result = await _authorizationService.IsGrantedAnyAsync("AbpIdentity.UserLookup");
         var httpContext = _httpContextAccessor.HttpContext;
         return await base.FindByIdAsync(id);

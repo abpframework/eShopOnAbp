@@ -3,7 +3,7 @@
   <Import Project="..\..\..\..\common.props" />
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
@@ -12,15 +12,15 @@
     <PackageReference Include="Google.Protobuf" Version="3.19.3" />
     <PackageReference Include="Grpc.Net.ClientFactory" Version="2.42.0" />
     <PackageReference Include="Grpc.Tools" Version="2.42.0" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="6.0.5" />
-    <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="6.0.7" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="7.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="7.0.0" />
 
-    <PackageReference Include="Volo.Abp.Http.Client" Version="6.0.0" />
-    <PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="6.0.0" />
-    <PackageReference Include="Volo.Abp.AutoMapper" Version="6.0.0" />
-    <PackageReference Include="Volo.Abp.Caching" Version="6.0.0" />
-    <PackageReference Include="Volo.Abp.Ddd.Domain" Version="6.0.0" />
-    <PackageReference Include="Volo.Abp.Ddd.Application" Version="6.0.0" />
+    <PackageReference Include="Volo.Abp.Http.Client" Version="7.0.0" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="7.0.0" />
+    <PackageReference Include="Volo.Abp.AutoMapper" Version="7.0.0" />
+    <PackageReference Include="Volo.Abp.Caching" Version="7.0.0" />
+    <PackageReference Include="Volo.Abp.Ddd.Domain" Version="7.0.0" />
+    <PackageReference Include="Volo.Abp.Ddd.Application" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>

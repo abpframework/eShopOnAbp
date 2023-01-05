@@ -1,12 +1,12 @@
-﻿using System;
+﻿using EShopOnAbp.PaymentService.PaymentRequests;
+using Newtonsoft.Json.Linq;
+using PayPalCheckoutSdk.Core;
+using PayPalCheckoutSdk.Orders;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using EShopOnAbp.PaymentService.PaymentRequests;
-using Newtonsoft.Json.Linq;
-using PayPalCheckoutSdk.Core;
-using PayPalCheckoutSdk.Orders;
 using Volo.Abp.DependencyInjection;
 
 namespace EShopOnAbp.PaymentService.PaymentMethods;
