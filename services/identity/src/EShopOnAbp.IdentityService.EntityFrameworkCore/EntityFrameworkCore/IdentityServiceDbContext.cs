@@ -10,6 +10,7 @@ using Volo.Abp.IdentityServer.Devices;
 using Volo.Abp.IdentityServer.EntityFrameworkCore;
 using Volo.Abp.IdentityServer.Grants;
 using Volo.Abp.IdentityServer.IdentityResources;
+using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 
 namespace EShopOnAbp.IdentityService.EntityFrameworkCore
 {
@@ -67,6 +68,7 @@ namespace EShopOnAbp.IdentityService.EntityFrameworkCore
 
             builder.ConfigureIdentity();
             builder.ConfigureIdentityServer();
+            builder.ConfigurePermissionManagement();
         }
     }
 }

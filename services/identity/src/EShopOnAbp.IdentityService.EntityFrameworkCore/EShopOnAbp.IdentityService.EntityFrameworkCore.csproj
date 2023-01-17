@@ -9,6 +9,7 @@
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.0">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+        <PackageReference Include="Volo.Abp.PermissionManagement.EntityFrameworkCore" Version="7.0.0" />
     </ItemGroup>
 
     <ItemGroup>

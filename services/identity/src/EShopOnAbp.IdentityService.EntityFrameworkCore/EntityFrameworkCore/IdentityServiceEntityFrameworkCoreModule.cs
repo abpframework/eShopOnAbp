@@ -5,6 +5,7 @@ using Volo.Abp.EntityFrameworkCore.PostgreSql;
 using Volo.Abp.Identity.EntityFrameworkCore;
 using Volo.Abp.IdentityServer.EntityFrameworkCore;
 using Volo.Abp.Modularity;
+using Volo.Abp.PermissionManagement.EntityFrameworkCore;
 
 namespace EShopOnAbp.IdentityService.EntityFrameworkCore
 {
@@ -12,7 +13,8 @@ namespace EShopOnAbp.IdentityService.EntityFrameworkCore
         typeof(IdentityServiceDomainModule),
         typeof(AbpEntityFrameworkCorePostgreSqlModule),
         typeof(AbpIdentityEntityFrameworkCoreModule),
-        typeof(AbpIdentityServerEntityFrameworkCoreModule)
+        typeof(AbpIdentityServerEntityFrameworkCoreModule),
+        typeof(AbpPermissionManagementEntityFrameworkCoreModule)
     )]
     public class IdentityServiceEntityFrameworkCoreModule : AbpModule
     {
