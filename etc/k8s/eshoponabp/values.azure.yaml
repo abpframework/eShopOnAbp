@@ -266,7 +266,7 @@ ordering:
     host: order.eshoponabp.com
   image:
     repository: "volocr.azurecr.io/eshoponabp/service-ordering"
-    tag: 1.0.5
+    tag: 1.0.1
 
 # cmskit-service sub-chart override
 cmskit:
@@ -293,7 +293,7 @@ cmskit:
     host: cmskit.eshoponabp.com
   image:
     repository: "volocr.azurecr.io/eshoponabp/service-cmskit"
-    tag: 1.0.5
+    tag: 1.0.1
     
 # payment-service sub-chart override
 payment:
