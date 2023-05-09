@@ -14,6 +14,8 @@ authserver:
     redisHost: eshop-az-redis
     rabbitmqHost: eshop-az-rabbitmq
     elasticsearchHost: eshop-az-elasticsearch
+  nodeSelector:
+    agentpool: demopool
   ingress:
     host: auth.eshoponabp.com
     tlsSecret: eshop-wildcard-tls
@@ -32,6 +34,8 @@ web:
       responseType: "code"
       strictDiscoveryDocumentValidation: false
       skipIssuerCheck: true
+  nodeSelector:
+    agentpool: demopool
   ingress:
     host: admin.eshoponabp.com
   image:
@@ -52,7 +56,8 @@ public-web:
     redisHost: eshop-az-redis
     rabbitmqHost: eshop-az-rabbitmq
     elasticsearchHost: eshop-az-elasticsearch
-    
+  nodeSelector:
+    agentpool: demopool
   ingress:
     host: eshoponabp.com
   image:
@@ -89,6 +94,8 @@ identity:
     orderingServiceRootUrl: https://order.eshoponabp.com
     cmskitServiceRootUrl: https://cmskit.eshoponabp.com
     paymentServiceRootUrl: https://payment.eshoponabp.com
+  nodeSelector:
+    agentpool: demopool
   ingress:
     host: identity.eshoponabp.com
   image:
@@ -115,7 +122,9 @@ administration:
     rabbitmqHost: eshop-az-rabbitmq
     elasticsearchHost: eshop-az-elasticsearch
   synchedCommunication: # Used for server-to-server (client-credentials) communication with identityService for user permissions
-    authority: https://auth.eshoponabp.com 
+    authority: https://auth.eshoponabp.com
+  nodeSelector:
+    agentpool: demopool
   ingress:
     host: administration.eshoponabp.com
   image:
@@ -137,6 +146,8 @@ gateway-web:
     redisHost: eshop-az-redis
     rabbitmqHost: eshop-az-rabbitmq
     elasticsearchHost: eshop-az-elasticsearch
+  nodeSelector:
+    agentpool: demopool
   ingress:
     host: gateway.eshoponabp.com
   image:
@@ -169,6 +180,8 @@ gateway-web-public:
     redisHost: eshop-az-redis
     rabbitmqHost: eshop-az-rabbitmq
     elasticsearchHost: eshop-az-elasticsearch
+  nodeSelector:
+    agentpool: demopool
   ingress:
     host: gateway-public.eshoponabp.com
   image:
@@ -211,6 +224,8 @@ basket:
     remoteServices:
       catalogBaseUrl: http://eshop-az-catalog:80
       catalogGrpcUrl: http://eshop-az-catalog:81
+  nodeSelector:
+    agentpool: demopool
   ingress:
     host: basket.eshoponabp.com
   image:
@@ -262,6 +277,8 @@ ordering:
     redisHost: eshop-az-redis
     rabbitmqHost: eshop-az-rabbitmq
     elasticsearchHost: eshop-az-elasticsearch
+  nodeSelector:
+    agentpool: demopool
   ingress:
     host: order.eshoponabp.com
   image:
@@ -289,6 +306,8 @@ ordering:
 #     elasticsearchHost: eshop-az-elasticsearch
 #   synchedCommunication: # Used for server-to-server (client-credentials) communication with identityService for user permissions
 #     authority: https://auth.eshoponabp.com 
+#   nodeSelector:
+#     agentpool: demopool
 #   ingress:
 #     host: cmskit.eshoponabp.com
 #   image:
@@ -312,6 +331,8 @@ payment:
     redisHost: eshop-az-redis
     rabbitmqHost: eshop-az-rabbitmq
     elasticsearchHost: eshop-az-elasticsearch
+  nodeSelector:
+    agentpool: demopool
   ingress:
     host: payment.eshoponabp.com
   image:
@@ -395,7 +416,8 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
-nodeSelector: {}
+nodeSelector:
+    agentpool: demopool
 
 tolerations: []
 
