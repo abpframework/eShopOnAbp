@@ -1,6 +1,6 @@
 ﻿using EShopOnAbp.CatalogService.MongoDB;
-using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations;
 using System;
+using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations.MongoDb;
 using Volo.Abp.Data;
 using Volo.Abp.DistributedLocking;
 using Volo.Abp.MultiTenancy;

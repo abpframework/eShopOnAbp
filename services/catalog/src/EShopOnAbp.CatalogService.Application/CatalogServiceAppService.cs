@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using EShopOnAbp.CatalogService.Localization;
+﻿using EShopOnAbp.CatalogService.Localization;
 using Volo.Abp.Application.Services;
 
 namespace EShopOnAbp.CatalogService
