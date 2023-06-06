@@ -8,8 +8,7 @@ using Volo.Abp.DistributedLocking;
 
 namespace EShopOnAbp.OrderingService.DbMigrations;
 
-public class OrderingServiceDatabaseMigrationChecker 
-    : PendingEfCoreMigrationsChecker<OrderingServiceDbContext>
+public class OrderingServiceDatabaseMigrationChecker : PendingEfCoreMigrationsChecker<OrderingServiceDbContext>
 {
     public OrderingServiceDatabaseMigrationChecker(
         IUnitOfWorkManager unitOfWorkManager,
