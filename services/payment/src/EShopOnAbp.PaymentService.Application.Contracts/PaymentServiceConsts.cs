@@ -1,6 +1,5 @@
-﻿namespace EShopOnAbp.PaymentService
+﻿namespace EShopOnAbp.PaymentService;
+
+public static class PaymentServiceConsts
 {
-    public static class PaymentServiceConsts
-    {
-    }
 }
