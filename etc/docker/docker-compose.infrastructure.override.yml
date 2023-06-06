@@ -14,6 +14,14 @@ services:
     ports:
       - "27017:27017"
       
+  mongo-express:
+    ports:
+      - "8081:8081"    
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+      - ME_CONFIG_BASICAUTH_USERNAME=admin
+      - ME_CONFIG_BASICAUTH_PASSWORD=admin123
+
   postgres-db:
     ports:
       - "5432:5432"
