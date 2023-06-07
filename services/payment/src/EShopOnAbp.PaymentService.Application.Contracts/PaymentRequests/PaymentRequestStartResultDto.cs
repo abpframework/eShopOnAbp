@@ -1,10 +1,9 @@
 ﻿using System;
 
-namespace EShopOnAbp.PaymentService.PaymentRequests
+namespace EShopOnAbp.PaymentService.PaymentRequests;
+
+[Serializable]
+public class PaymentRequestStartResultDto
 {
-    [Serializable]
-    public class PaymentRequestStartResultDto
-    {
-        public string CheckoutLink { get; set; }
-    }
+    public string CheckoutLink { get; set; }
 }

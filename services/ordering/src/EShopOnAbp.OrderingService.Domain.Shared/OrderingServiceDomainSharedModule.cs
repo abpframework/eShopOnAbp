@@ -7,33 +7,32 @@ using Volo.Abp.Validation.Localization;
 using Volo.Abp.VirtualFileSystem;
 using EShopOnAbp.PaymentService;
 
-namespace EShopOnAbp.OrderingService
+namespace EShopOnAbp.OrderingService;
+
+[DependsOn(
+    typeof(AbpValidationModule),
+    typeof(PaymentServiceDomainSharedModule)
+)]
+public class OrderingServiceDomainSharedModule : AbpModule
 {
-    [DependsOn(
-        typeof(AbpValidationModule),
-        typeof(PaymentServiceDomainSharedModule)
-    )]
-    public class OrderingServiceDomainSharedModule : AbpModule
+    public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        public override void ConfigureServices(ServiceConfigurationContext context)
+        Configure<AbpVirtualFileSystemOptions>(options =>
         {
-            Configure<AbpVirtualFileSystemOptions>(options =>
-            {
-                options.FileSets.AddEmbedded<OrderingServiceDomainSharedModule>();
-            });
+            options.FileSets.AddEmbedded<OrderingServiceDomainSharedModule>();
+        });
 
-            Configure<AbpLocalizationOptions>(options =>
-            {
-                options.Resources
-                    .Add<OrderingServiceResource>("en")
-                    .AddBaseTypes(typeof(AbpValidationResource))
-                    .AddVirtualJson("/Localization/OrderingService");
-            });
+        Configure<AbpLocalizationOptions>(options =>
+        {
+            options.Resources
+                .Add<OrderingServiceResource>("en")
+                .AddBaseTypes(typeof(AbpValidationResource))
+                .AddVirtualJson("/Localization/OrderingService");
+        });
 
-            Configure<AbpExceptionLocalizationOptions>(options =>
-            {
-                options.MapCodeNamespace("OrderingService", typeof(OrderingServiceResource));
-            });
-        }
+        Configure<AbpExceptionLocalizationOptions>(options =>
+        {
+            options.MapCodeNamespace("OrderingService", typeof(OrderingServiceResource));
+        });
     }
 }

@@ -1,7 +1,6 @@
-﻿namespace EShopOnAbp.OrderingService.Orders
+﻿namespace EShopOnAbp.OrderingService.Orders;
+
+public class GetOrdersInput
 {
-    public class GetOrdersInput
-    {
-        public string Filter { get; set; }
-    }
+    public string Filter { get; set; }
 }

@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using Volo.Abp.Application.Dtos;
 
-namespace EShopOnAbp.OrderingService.Orders
+namespace EShopOnAbp.OrderingService.Orders;
+
+public class DashboardDto: EntityDto
 {
-    public class DashboardDto: EntityDto
-    {
-        public List<TopSellingDto> TopSellings { get; set; }
-        public List<PaymentDto> Payments { get; set; }
-        public List<OrderStatusDto> OrderStatusDto { get; set; }
-    }
+    public List<TopSellingDto> TopSellings { get; set; }
+    public List<PaymentDto> Payments { get; set; }
+    public List<OrderStatusDto> OrderStatusDto { get; set; }
 }

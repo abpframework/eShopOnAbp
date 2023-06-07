@@ -1,15 +1,15 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System;
+using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
 using Serilog;
-using System;
-using System.Threading.Tasks;
 using Volo.Abp.Data;
 using Volo.Abp.DistributedLocking;
 using Volo.Abp.MongoDB;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.Uow;
 
-namespace EShopOnAbp.Shared.Hosting.Microservices.DbMigrations;
+namespace EShopOnAbp.Shared.Hosting.Microservices.DbMigrations.MongoDb;
 
 public class PendingMongoDbMigrationsChecker<TDbContext> : PendingMigrationsCheckerBase
     where TDbContext : AbpMongoDbContext

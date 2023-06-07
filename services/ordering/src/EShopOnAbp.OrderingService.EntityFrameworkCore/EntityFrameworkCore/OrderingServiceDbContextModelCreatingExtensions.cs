@@ -1,34 +1,33 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Volo.Abp;
 
-namespace EShopOnAbp.OrderingService.EntityFrameworkCore
+namespace EShopOnAbp.OrderingService.EntityFrameworkCore;
+
+public static class OrderingServiceDbContextModelCreatingExtensions
 {
-    public static class OrderingServiceDbContextModelCreatingExtensions
+    public static void ConfigureOrderingService(
+        this ModelBuilder builder)
     {
-        public static void ConfigureOrderingService(
-            this ModelBuilder builder)
+        Check.NotNull(builder, nameof(builder));
+
+        /* Configure all entities here. Example:
+
+        builder.Entity<Question>(b =>
         {
-            Check.NotNull(builder, nameof(builder));
+            //Configure table & schema name
+            b.ToTable(OrderingServiceDbProperties.DbTablePrefix + "Questions", OrderingServiceDbProperties.DbSchema);
 
-            /* Configure all entities here. Example:
+            b.ConfigureByConvention();
 
-            builder.Entity<Question>(b =>
-            {
-                //Configure table & schema name
-                b.ToTable(OrderingServiceDbProperties.DbTablePrefix + "Questions", OrderingServiceDbProperties.DbSchema);
+            //Properties
+            b.Property(q => q.Title).IsRequired().HasMaxLength(QuestionConsts.MaxTitleLength);
 
-                b.ConfigureByConvention();
+            //Relations
+            b.HasMany(question => question.Tags).WithOne().HasForeignKey(qt => qt.QuestionId);
 
-                //Properties
-                b.Property(q => q.Title).IsRequired().HasMaxLength(QuestionConsts.MaxTitleLength);
-
-                //Relations
-                b.HasMany(question => question.Tags).WithOne().HasForeignKey(qt => qt.QuestionId);
-
-                //Indexes
-                b.HasIndex(q => q.CreationTime);
-            });
-            */
-        }
+            //Indexes
+            b.HasIndex(q => q.CreationTime);
+        });
+        */
     }
 }

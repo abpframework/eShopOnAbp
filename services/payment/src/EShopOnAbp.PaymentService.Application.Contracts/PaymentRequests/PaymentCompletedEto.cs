@@ -1,11 +1,10 @@
 ﻿using Volo.Abp.Domain.Entities.Events.Distributed;
 using Volo.Abp.EventBus;
 
-namespace EShopOnAbp.PaymentService.PaymentRequests
+namespace EShopOnAbp.PaymentService.PaymentRequests;
+
+[EventName("EShopOnAbp.Payment.Completed")]
+public class PaymentCompletedEto : EtoBase
 {
-    [EventName("EShopOnAbp.Payment.Completed")]
-    public class PaymentCompletedEto : EtoBase
-    {
-        public PaymentRequestDto PaymentRequest { get; set; }
-    }
+    public PaymentRequestDto PaymentRequest { get; set; }
 }
