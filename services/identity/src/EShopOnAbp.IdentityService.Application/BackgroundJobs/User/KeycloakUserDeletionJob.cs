@@ -1,39 +1,31 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Keycloak.Net;
+using EShopOnAbp.IdentityService.Keycloak;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Volo.Abp;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.DependencyInjection;
 
-namespace EShopOnAbp.IdentityService.BackgroundJobs;
+namespace EShopOnAbp.IdentityService.BackgroundJobs.User;
 
-public class IdentityUserDeletionJob : AsyncBackgroundJob<IdentityUserDeletionArgs>, ITransientDependency
+public class KeycloakUserDeletionJob : AsyncBackgroundJob<IdentityUserDeletionArgs>, ITransientDependency
 {
-    private readonly KeycloakClient _keycloakClient;
-    private readonly KeycloakClientOptions _keycloakOptions;
-    private readonly ILogger<KeycloakUserCreationJob> _logger;
+    private readonly KeycloakService _keycloakService;
+    private readonly ILogger _logger;
 
-    public IdentityUserDeletionJob(IOptions<KeycloakClientOptions> keycloakOptions,
+    public KeycloakUserDeletionJob(KeycloakService keycloakService,
         ILogger<KeycloakUserCreationJob> logger)
     {
+        _keycloakService = keycloakService;
         _logger = logger;
-        _keycloakOptions = keycloakOptions.Value;
-
-        _keycloakClient = new KeycloakClient(
-            _keycloakOptions.Url,
-            _keycloakOptions.AdminUserName,
-            _keycloakOptions.AdminPassword
-        );
     }
 
     public override async Task ExecuteAsync(IdentityUserDeletionArgs args)
     {
         try
         {
-            var keycloakUser = (await _keycloakClient.GetUsersAsync(_keycloakOptions.RealmName, username: args.UserName))
+            var keycloakUser = (await _keycloakService.GetUsersAsync(username: args.UserName))
                 .First();
             if (keycloakUser == null)
             {
@@ -41,7 +33,7 @@ public class IdentityUserDeletionJob : AsyncBackgroundJob<IdentityUserDeletionAr
                 throw new UserFriendlyException($"Keycloak user with the username:{args.UserName} could not be found!");
             }
 
-            var result = await _keycloakClient.DeleteUserAsync(_keycloakOptions.RealmName, keycloakUser.Id);
+            var result = await _keycloakService.DeleteUserAsync(keycloakUser.Id);
             if (result)
             {
                 _logger.LogInformation($"Keycloak user with the username:{args.UserName} has been deleted.");
