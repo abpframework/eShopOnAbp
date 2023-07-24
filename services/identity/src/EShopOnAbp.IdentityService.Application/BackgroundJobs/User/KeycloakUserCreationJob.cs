@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.DependencyInjection;
 using Keycloak.Net.Models.Users;
+using Volo.Abp.Identity;
 
 namespace EShopOnAbp.IdentityService.BackgroundJobs.User;
 
@@ -31,6 +32,7 @@ public class KeycloakUserCreationJob : AsyncBackgroundJob<IdentityUserCreationAr
             FirstName = args.Name,
             LastName = args.Surname,
             Enabled = args.IsActive,
+            // EmailVerified = true,
             Credentials = new List<Credentials>()
             {
                 new() { Type = "password", Value = args.Password }
@@ -70,11 +72,26 @@ public class KeycloakUserCreationJob : AsyncBackgroundJob<IdentityUserCreationAr
 
 public class IdentityUserCreationArgs
 {
-    public string Email { get; set; }
-    public string UserName { get; set; }
-    public string Name { get; set; }
-    public string Surname { get; set; }
-    public string Password { get; set; }
-    public bool IsActive { get; set; }
-    public string[] RoleNames { get; set; }
+    public string Email { get; init; }
+    public string UserName { get; init; }
+    public string Name { get; init; }
+    public string Surname { get; init; }
+    public string Password { get; init; }
+    public bool IsActive { get; init; }
+    public string[] RoleNames { get; init; }
+
+    public IdentityUserCreationArgs()
+    {
+    }
+
+    public IdentityUserCreationArgs(IdentityUserCreateDto input)
+    {
+        Email = input.Email;
+        UserName = input.UserName;
+        Name = input.Name;
+        Surname = input.Surname;
+        Password = input.Password;
+        IsActive = input.IsActive;
+        RoleNames = input.RoleNames;
+    }
 }

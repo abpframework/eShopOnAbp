@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using EShopOnAbp.IdentityService.BackgroundJobs;
+using EShopOnAbp.IdentityService.BackgroundJobs.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Volo.Abp.BackgroundJobs;
@@ -12,33 +12,27 @@ namespace EShopOnAbp.IdentityService;
 [ExposeServices(typeof(IdentityUserAppService), typeof(IIdentityUserAppService))]
 public class EShopIdentityUserAppService : IdentityUserAppService
 {
+    private readonly IdentityUserManager _userManager;
     private readonly IBackgroundJobManager _backgroundJobManager;
-    private readonly IIdentityUserRepository _userRepository;
 
     public EShopIdentityUserAppService(
         IdentityUserManager userManager,
         IIdentityUserRepository userRepository,
         IIdentityRoleRepository roleRepository,
-        IOptions<IdentityOptions> identityOptions, IBackgroundJobManager backgroundJobManager) : base(userManager,
+        IOptions<IdentityOptions> identityOptions,
+        IBackgroundJobManager backgroundJobManager) : base(userManager,
         userRepository,
         roleRepository,
         identityOptions)
     {
+        _userManager = userManager;
         _backgroundJobManager = backgroundJobManager;
-        _userRepository = userRepository;
     }
 
     public override async Task<IdentityUserDto> CreateAsync(IdentityUserCreateDto input)
     {
         var createdUser = await base.CreateAsync(input);
-        await _backgroundJobManager.EnqueueAsync(new IdentityUserCreationArgs
-        {
-            Email = createdUser.Email,
-            UserName = createdUser.UserName,
-            Name = createdUser.Name,
-            Surname = createdUser.Surname,
-            Password = input.Password
-        });
+        await _backgroundJobManager.EnqueueAsync(new IdentityUserCreationArgs(input));
 
         return createdUser;
     }
@@ -52,7 +46,9 @@ public class EShopIdentityUserAppService : IdentityUserAppService
             UserName = updatedUser.UserName,
             Name = updatedUser.Name,
             Surname = updatedUser.Surname,
-            EmailConfirmed = updatedUser.EmailConfirmed
+            EmailConfirmed = updatedUser.EmailConfirmed,
+            IsActive = input.IsActive,
+            RoleNames = input.RoleNames
         });
 
         return updatedUser;
@@ -60,12 +56,11 @@ public class EShopIdentityUserAppService : IdentityUserAppService
 
     public override async Task DeleteAsync(Guid id)
     {
-        var user = await _userRepository.FindAsync(id);
+        var user = await _userManager.FindByIdAsync(id.ToString());
         await base.DeleteAsync(id);
-        
-        await _backgroundJobManager.EnqueueAsync(new IdentityUserDeletionArgs
+        if (user != null)
         {
-            UserName = user.UserName
-        });
+            await _backgroundJobManager.EnqueueAsync(new IdentityUserDeletionArgs(user.UserName));
+        }
     }
 }

@@ -8,6 +8,7 @@ using Microsoft.Extensions.Options;
 using Volo.Abp;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.DependencyInjection;
+using Volo.Abp.Identity;
 
 namespace EShopOnAbp.IdentityService.BackgroundJobs.User;
 
@@ -26,7 +27,7 @@ public class KeycloakUserUpdatingJob : AsyncBackgroundJob<IdentityUserUpdatingAr
     {
         try
         {
-            var keycloakUser = (await _keycloakService.GetUsersAsync( username: args.UserName))
+            var keycloakUser = (await _keycloakService.GetUsersAsync(username: args.UserName))
                 .First();
             if (keycloakUser == null)
             {
@@ -42,7 +43,7 @@ public class KeycloakUserUpdatingJob : AsyncBackgroundJob<IdentityUserUpdatingAr
             keycloakUser.EmailVerified = args.EmailConfirmed;
 
             var result =
-                await _keycloakService.UpdateUserAsync( keycloakUser.Id, keycloakUser);
+                await _keycloakService.UpdateUserAsync(keycloakUser.Id, keycloakUser);
             if (result)
             {
                 _logger.LogInformation($"Keycloak user with the username:{args.UserName} has been updated.");
@@ -50,18 +51,20 @@ public class KeycloakUserUpdatingJob : AsyncBackgroundJob<IdentityUserUpdatingAr
         }
         catch (Exception e)
         {
-            _logger.LogError($"Keycloak user updating failed! Username:{args.UserName}");
+            _logger.LogWarning($"Keycloak user updating failed! Username:{args.UserName}");
+            throw new UserFriendlyException($"Keycloak user updating failed! Username:{args.UserName}",
+                innerException: e);
         }
     }
 }
 
 public class IdentityUserUpdatingArgs
 {
-    public string Email { get; set; }
-    public string UserName { get; set; }
-    public string Name { get; set; }
-    public string Surname { get; set; }
-    public bool EmailConfirmed { get; set; }
-    public bool IsActive { get; set; }
-    public string[] RoleNames { get; set; }
+    public string Email { get; init; }
+    public string UserName { get; init; }
+    public string Name { get; init; }
+    public string Surname { get; init; }
+    public bool EmailConfirmed { get; init; }
+    public bool IsActive { get; init; }
+    public string[] RoleNames { get; init; }
 }

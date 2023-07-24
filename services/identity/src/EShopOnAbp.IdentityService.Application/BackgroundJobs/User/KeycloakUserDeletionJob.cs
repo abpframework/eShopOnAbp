@@ -48,5 +48,12 @@ public class KeycloakUserDeletionJob : AsyncBackgroundJob<IdentityUserDeletionAr
 
 public class IdentityUserDeletionArgs
 {
-    public string UserName { get; set; }
+    public string UserName { get; init; }
+
+    public IdentityUserDeletionArgs() { }
+
+    public IdentityUserDeletionArgs(string userName)
+    {
+        UserName = userName;
+    }
 }
