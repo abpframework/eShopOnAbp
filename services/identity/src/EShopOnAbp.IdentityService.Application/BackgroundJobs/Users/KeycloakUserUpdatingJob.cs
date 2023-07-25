@@ -2,15 +2,12 @@
 using System.Linq;
 using System.Threading.Tasks;
 using EShopOnAbp.IdentityService.Keycloak;
-using Keycloak.Net;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Volo.Abp;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.DependencyInjection;
-using Volo.Abp.Identity;
 
-namespace EShopOnAbp.IdentityService.BackgroundJobs.User;
+namespace EShopOnAbp.IdentityService.BackgroundJobs.Users;
 
 public class KeycloakUserUpdatingJob : AsyncBackgroundJob<IdentityUserUpdatingArgs>, ITransientDependency
 {

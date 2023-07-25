@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EShopOnAbp.IdentityService.Keycloak;
+using Keycloak.Net.Models.Users;
 using Microsoft.Extensions.Logging;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.DependencyInjection;
-using Keycloak.Net.Models.Users;
 using Volo.Abp.Identity;
 
-namespace EShopOnAbp.IdentityService.BackgroundJobs.User;
+namespace EShopOnAbp.IdentityService.BackgroundJobs.Users;
 
 public class KeycloakUserCreationJob : AsyncBackgroundJob<IdentityUserCreationArgs>, ITransientDependency
 {
@@ -25,7 +25,7 @@ public class KeycloakUserCreationJob : AsyncBackgroundJob<IdentityUserCreationAr
 
     public override async Task ExecuteAsync(IdentityUserCreationArgs args)
     {
-        var keycloakUser = new global::Keycloak.Net.Models.Users.User()
+        var keycloakUser = new User
         {
             Email = args.Email,
             UserName = args.UserName,
@@ -82,6 +82,7 @@ public class IdentityUserCreationArgs
 
     public IdentityUserCreationArgs()
     {
+        
     }
 
     public IdentityUserCreationArgs(IdentityUserCreateDto input)

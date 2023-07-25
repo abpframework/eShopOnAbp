@@ -7,7 +7,7 @@ using Volo.Abp;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.DependencyInjection;
 
-namespace EShopOnAbp.IdentityService.BackgroundJobs.User;
+namespace EShopOnAbp.IdentityService.BackgroundJobs.Users;
 
 public class KeycloakUserDeletionJob : AsyncBackgroundJob<IdentityUserDeletionArgs>, ITransientDependency
 {
@@ -50,7 +50,10 @@ public class IdentityUserDeletionArgs
 {
     public string UserName { get; init; }
 
-    public IdentityUserDeletionArgs() { }
+    public IdentityUserDeletionArgs()
+    {
+        
+    }
 
     public IdentityUserDeletionArgs(string userName)
     {
