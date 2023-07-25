@@ -39,7 +39,7 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
     {
         await UpdateRealmSettingsAsync();
         await UpdateAdminUserAsync();
-        await CreateRoleMapperAsync();
+        await CreateRoleMapperAsync(); // roles scope
         await CreateClientScopesAsync();
         await CreateClientsAsync();
     }

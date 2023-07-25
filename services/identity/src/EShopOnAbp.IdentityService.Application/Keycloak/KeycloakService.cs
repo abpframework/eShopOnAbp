@@ -63,4 +63,23 @@ public class KeycloakService : ITransientDependency
         return _keycloakClient.AddRealmRoleMappingsToUserAsync(_keycloakOptions.RealmName, userId, roles,
             cancellationToken);
     }
+
+    public Task<bool> CreateRoleAsync(string name, CancellationToken cancellationToken = default)
+    {
+        Role role = new Role
+        {
+            Name = name
+        };
+        return _keycloakClient.CreateRoleAsync(_keycloakOptions.RealmName, role, cancellationToken);
+    }
+
+    public Task<bool> DeleteRoleByIdAsync(string id, CancellationToken cancellationToken = default)
+    {
+        return _keycloakClient.DeleteRoleByIdAsync(_keycloakOptions.RealmName, id, cancellationToken);
+    }
+
+    public Task<bool> UpdateRoleAsync(string id, Role role, CancellationToken cancellationToken = default)
+    {
+        return _keycloakClient.UpdateRoleByIdAsync(_keycloakOptions.RealmName, id, role, cancellationToken);
+    }
 }

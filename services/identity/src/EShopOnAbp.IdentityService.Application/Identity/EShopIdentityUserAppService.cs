@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Threading.Tasks;
-using EShopOnAbp.IdentityService.BackgroundJobs.User;
+using EShopOnAbp.IdentityService.BackgroundJobs.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Identity;
 
-namespace EShopOnAbp.IdentityService;
+namespace EShopOnAbp.IdentityService.Identity;
 
 [ExposeServices(typeof(IdentityUserAppService), typeof(IIdentityUserAppService))]
 public class EShopIdentityUserAppService : IdentityUserAppService
