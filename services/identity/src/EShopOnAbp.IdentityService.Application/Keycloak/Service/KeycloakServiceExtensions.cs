@@ -8,6 +8,7 @@ using Keycloak.Net.Models.Users;
 
 namespace EShopOnAbp.IdentityService.Keycloak.Service;
 
+/* Extensions to create unique strings based on list values */
 public static class KeycloakServiceExtensions
 {
     public static string GenerateCacheKeyBasedOnValues(this IEnumerable<Role> roles)

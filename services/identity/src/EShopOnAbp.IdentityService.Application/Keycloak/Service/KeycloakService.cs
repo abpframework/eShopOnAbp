@@ -23,7 +23,6 @@ public class KeycloakService : IKeycloakService
     private readonly IObjectMapper _objectMapper;
     private readonly IDistributedCache<List<CachedKeycloakUser>, string> _keycloakUsersCache;
     private readonly IDistributedCache<List<CachedKeycloakRole>, string> _keycloakRolesCache;
-    private readonly IDistributedCache<List<CachedKeycloakRole>, string> _userRolesCache;
 
     private readonly KeycloakClient _keycloakClient;
     private readonly KeycloakClientOptions _keycloakOptions;
@@ -32,13 +31,11 @@ public class KeycloakService : IKeycloakService
         IOptions<KeycloakClientOptions> keycloakOptions,
         IObjectMapper objectMapper,
         IDistributedCache<List<CachedKeycloakUser>, string> keycloakUsersCache,
-        IDistributedCache<List<CachedKeycloakRole>, string> keycloakRolesCache,
-        IDistributedCache<List<CachedKeycloakRole>, string> userRolesCache)
+        IDistributedCache<List<CachedKeycloakRole>, string> keycloakRolesCache)
     {
         _objectMapper = objectMapper;
         _keycloakUsersCache = keycloakUsersCache;
         _keycloakRolesCache = keycloakRolesCache;
-        _userRolesCache = userRolesCache;
 
         _keycloakOptions = keycloakOptions.Value;
         _keycloakClient = new KeycloakClient(
@@ -84,7 +81,6 @@ public class KeycloakService : IKeycloakService
             await _keycloakUsersCache.RemoveAsync(UsersCacheKey, token: cancellationToken);
         }
 
-// _keycloakClient.DeleteRealmRoleMappingsFromUserAsync()
         return result;
     }
 
@@ -122,24 +118,7 @@ public class KeycloakService : IKeycloakService
             cancellationToken);
     }
 
-    // Updating user with roles is not working
-    public async Task<IEnumerable<CachedKeycloakRole>> GetRealmRolesOfUserAsync(string userId,
-        CancellationToken cancellationToken = default)
-    {
-        var userRoles = await _userRolesCache.GetAsync(userId, token: cancellationToken);
-        if (userRoles == null)
-        {
-            var roles = (await _keycloakClient.GetRealmRoleMappingsForUserAsync(_keycloakOptions.RealmName, userId,
-                    cancellationToken))
-                .ToList();
-            userRoles = _objectMapper.Map<List<Role>, List<CachedKeycloakRole>>(roles);
-            await _userRolesCache.SetAsync(userId, userRoles, token: cancellationToken);
-        }
-
-        return userRoles;
-    }
-
-    public Task RemoveRealmRolesFromUserAsync(string userId, IEnumerable<Role> roles,
+    public Task<bool> RemoveRealmRolesFromUserAsync(string userId, IEnumerable<Role> roles,
         CancellationToken cancellationToken = default)
     {
         return _keycloakClient.DeleteRealmRoleMappingsFromUserAsync(_keycloakOptions.RealmName, userId, roles,

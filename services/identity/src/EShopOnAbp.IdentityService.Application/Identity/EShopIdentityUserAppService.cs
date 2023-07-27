@@ -43,6 +43,11 @@ public class EShopIdentityUserAppService : IdentityUserAppService
     public override async Task<IdentityUserDto> UpdateAsync(Guid id, IdentityUserUpdateDto input)
     {
         var existingUser = await _userRepository.GetAsync(id);
+        // Disabling username updating. Keycloak service is unavailable to update the username field!
+        if (input.UserName != existingUser.UserName)
+        {
+            input.UserName = existingUser.UserName;
+        }
         var args = await CreateIdentityUserUpdatingArgsAsync(existingUser, input);
         var updatedUser = await base.UpdateAsync(id, input);
         await _backgroundJobManager.EnqueueAsync(args);

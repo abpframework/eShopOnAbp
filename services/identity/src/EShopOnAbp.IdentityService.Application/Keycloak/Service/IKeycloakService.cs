@@ -25,9 +25,8 @@ public interface IKeycloakService : ITransientDependency
     Task<List<CachedKeycloakRole>> GetRolesAsync(CancellationToken cancellationToken = default);
     
     Task<bool> AddRealmRolesToUserAsync(string userId, IEnumerable<Role> roles, CancellationToken cancellationToken = default);
-    public Task<IEnumerable<CachedKeycloakRole>> GetRealmRolesOfUserAsync(string userId, CancellationToken cancellationToken = default);
 
-    Task RemoveRealmRolesFromUserAsync(string userId, IEnumerable<Role> roles, CancellationToken cancellationToken = default);
+    Task<bool> RemoveRealmRolesFromUserAsync(string userId, IEnumerable<Role> roles, CancellationToken cancellationToken = default);
     
     Task<bool> CreateRoleAsync(string name, CancellationToken cancellationToken = default);
     

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EShopOnAbp.IdentityService.Keycloak.Service;
+using Keycloak.Net.Models.Roles;
 using Keycloak.Net.Models.Users;
 using Microsoft.Extensions.Logging;
 using Volo.Abp;
@@ -18,7 +19,8 @@ public class KeycloakUserUpdatingJob : AsyncBackgroundJob<IdentityUserUpdatingAr
     private readonly ILogger<KeycloakUserCreationJob> _logger;
     private readonly IObjectMapper _objectMapper;
 
-    public KeycloakUserUpdatingJob(IKeycloakService keycloakService, ILogger<KeycloakUserCreationJob> logger, IObjectMapper objectMapper)
+    public KeycloakUserUpdatingJob(IKeycloakService keycloakService, ILogger<KeycloakUserCreationJob> logger,
+        IObjectMapper objectMapper)
     {
         _keycloakService = keycloakService;
         _logger = logger;
@@ -30,11 +32,11 @@ public class KeycloakUserUpdatingJob : AsyncBackgroundJob<IdentityUserUpdatingAr
         try
         {
             var keycloakUser = (await _keycloakService.GetUsersAsync())
-                .FirstOrDefault(q => q.UserName == args.UserName);
+                .FirstOrDefault(q => q.UserName == args.OldUserName);
             if (keycloakUser == null)
             {
-                _logger.LogError($"Keycloak user could not be found to update! Username:{args.UserName}");
-                throw new UserFriendlyException($"Keycloak user with the username:{args.UserName} could not be found!");
+                _logger.LogError($"Keycloak user could not be found to update! Username:{args.OldUserName}");
+                throw new UserFriendlyException($"Keycloak user with the username:{args.OldUserName} could not be found!");
             }
 
             IEnumerable<IdentityUserUpdatingArgs.FieldChange> differentFields = args.GetDifferentFields().ToList();
@@ -42,7 +44,7 @@ public class KeycloakUserUpdatingJob : AsyncBackgroundJob<IdentityUserUpdatingAr
             {
                 if (fieldChange.FieldName == "Email")
                     keycloakUser.Email = fieldChange.NewValue.ToString();
-                if (fieldChange.FieldName == "UserName")
+                if (fieldChange.FieldName == "UserName")    // Username update is not working - not updating in keycloak
                     keycloakUser.UserName = fieldChange.NewValue.ToString();
                 if (fieldChange.FieldName == "Name")
                     keycloakUser.FirstName = fieldChange.NewValue.ToString();
@@ -57,10 +59,34 @@ public class KeycloakUserUpdatingJob : AsyncBackgroundJob<IdentityUserUpdatingAr
             if (differentFields.Count() != 0)
             {
                 var mappedUser = _objectMapper.Map<CachedKeycloakUser, User>(keycloakUser);
+
                 var result = await _keycloakService.UpdateUserAsync(
-                    keycloakUser.Id, 
+                    keycloakUser.Id,
                     mappedUser
-                    );
+                );
+
+                // User roles are not being updated - Updating manually
+                if (differentFields.FirstOrDefault(q => q.FieldName == "RoleNames") != null)
+                {
+                    var oldRoles = (await _keycloakService.GetRolesAsync())
+                        .Where(q => args.OldRoleNames.Contains(q.Name))
+                        .ToList();
+                    var newRoles = (await _keycloakService.GetRolesAsync())
+                        .Where(q => args.RoleNames.Contains(q.Name))
+                        .ToList();
+                    if (oldRoles.Count > 0)
+                    {
+                        await _keycloakService.RemoveRealmRolesFromUserAsync(keycloakUser.Id,
+                            _objectMapper.Map<List<CachedKeycloakRole>, List<Role>>(oldRoles));
+                    }
+
+                    if (newRoles.Count > 0)
+                    {
+                        await _keycloakService.AddRealmRolesToUserAsync(keycloakUser.Id,
+                            _objectMapper.Map<List<CachedKeycloakRole>, List<Role>>(newRoles));
+                    }
+                }
+
                 if (result)
                 {
                     _logger.LogInformation($"Keycloak user with the username:{args.UserName} has been updated.");
