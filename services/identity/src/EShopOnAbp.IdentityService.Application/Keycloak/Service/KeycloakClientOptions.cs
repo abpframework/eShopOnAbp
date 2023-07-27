@@ -1,4 +1,4 @@
-﻿namespace EShopOnAbp.IdentityService.Keycloak;
+﻿namespace EShopOnAbp.IdentityService.Keycloak.Service;
     public class KeycloakClientOptions
     {
         public string Url { get; set; }

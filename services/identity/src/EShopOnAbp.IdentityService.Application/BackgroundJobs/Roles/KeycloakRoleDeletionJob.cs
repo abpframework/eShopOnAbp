@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using EShopOnAbp.IdentityService.Keycloak;
+using EShopOnAbp.IdentityService.Keycloak.Service;
 using Microsoft.Extensions.Logging;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.DependencyInjection;
@@ -10,10 +10,10 @@ namespace EShopOnAbp.IdentityService.BackgroundJobs.Roles;
 
 public class KeycloakRoleDeletionJob : AsyncBackgroundJob<IdentityRoleDeletionArgs>, ITransientDependency
 {
-    private readonly KeycloakService _keycloakService;
+    private readonly IKeycloakService _keycloakService;
     private readonly ILogger<KeycloakRoleDeletionJob> _logger;
 
-    public KeycloakRoleDeletionJob(KeycloakService keycloakService, ILogger<KeycloakRoleDeletionJob> logger)
+    public KeycloakRoleDeletionJob(IKeycloakService keycloakService, ILogger<KeycloakRoleDeletionJob> logger)
     {
         _keycloakService = keycloakService;
         _logger = logger;

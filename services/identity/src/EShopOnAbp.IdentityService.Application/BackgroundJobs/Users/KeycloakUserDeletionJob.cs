@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using EShopOnAbp.IdentityService.Keycloak;
+using EShopOnAbp.IdentityService.Keycloak.Service;
 using Microsoft.Extensions.Logging;
 using Volo.Abp;
 using Volo.Abp.BackgroundJobs;
@@ -11,10 +11,10 @@ namespace EShopOnAbp.IdentityService.BackgroundJobs.Users;
 
 public class KeycloakUserDeletionJob : AsyncBackgroundJob<IdentityUserDeletionArgs>, ITransientDependency
 {
-    private readonly KeycloakService _keycloakService;
+    private readonly IKeycloakService _keycloakService;
     private readonly ILogger _logger;
 
-    public KeycloakUserDeletionJob(KeycloakService keycloakService,
+    public KeycloakUserDeletionJob(IKeycloakService keycloakService,
         ILogger<KeycloakUserCreationJob> logger)
     {
         _keycloakService = keycloakService;
@@ -25,8 +25,8 @@ public class KeycloakUserDeletionJob : AsyncBackgroundJob<IdentityUserDeletionAr
     {
         try
         {
-            var keycloakUser = (await _keycloakService.GetUsersAsync(username: args.UserName))
-                .First();
+            var keycloakUser = (await _keycloakService.GetUsersAsync())
+                .FirstOrDefault(q => q.UserName == args.UserName);
             if (keycloakUser == null)
             {
                 _logger.LogError($"Keycloak user could not be found to delete! Username:{args.UserName}");
@@ -52,7 +52,6 @@ public class IdentityUserDeletionArgs
 
     public IdentityUserDeletionArgs()
     {
-        
     }
 
     public IdentityUserDeletionArgs(string userName)

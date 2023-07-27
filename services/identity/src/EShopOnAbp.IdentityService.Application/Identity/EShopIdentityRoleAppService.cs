@@ -31,9 +31,12 @@ public class EShopIdentityRoleAppService : IdentityRoleAppService
 
     public override async Task<IdentityRoleDto> UpdateAsync(Guid id, IdentityRoleUpdateDto input)
     {
+        var role = await _identityRoleManager.GetByIdAsync(id);
+        var existingRoleName = role.Name;
         var result = await base.UpdateAsync(id, input);
-        await _backgroundJobManager.EnqueueAsync(new IdentityRoleUpdatingArgs(result.Name));
-
+        
+        await _backgroundJobManager.EnqueueAsync(new IdentityRoleUpdatingArgs(existingRoleName, input.Name));
+        
         return result;
     }
 

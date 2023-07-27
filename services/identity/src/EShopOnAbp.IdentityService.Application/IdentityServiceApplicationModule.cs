@@ -1,4 +1,5 @@
 ﻿using EShopOnAbp.IdentityService.Keycloak;
+using EShopOnAbp.IdentityService.Keycloak.Service;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.BackgroundJobs;

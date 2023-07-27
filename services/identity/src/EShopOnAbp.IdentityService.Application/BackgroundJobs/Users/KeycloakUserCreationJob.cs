@@ -2,24 +2,28 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using EShopOnAbp.IdentityService.Keycloak;
+using EShopOnAbp.IdentityService.Keycloak.Service;
+using Keycloak.Net.Models.Roles;
 using Keycloak.Net.Models.Users;
 using Microsoft.Extensions.Logging;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Identity;
+using Volo.Abp.ObjectMapping;
 
 namespace EShopOnAbp.IdentityService.BackgroundJobs.Users;
 
 public class KeycloakUserCreationJob : AsyncBackgroundJob<IdentityUserCreationArgs>, ITransientDependency
 {
-    private readonly KeycloakService _keycloakService;
+    private readonly IKeycloakService _keycloakService;
     private readonly ILogger _logger;
+    private readonly IObjectMapper _objectMapper;
 
-    public KeycloakUserCreationJob(KeycloakService keycloakService,
-        ILogger<KeycloakUserCreationJob> logger)
+    public KeycloakUserCreationJob(IKeycloakService keycloakService,
+        ILogger<KeycloakUserCreationJob> logger, IObjectMapper objectMapper)
     {
         _logger = logger;
+        _objectMapper = objectMapper;
         _keycloakService = keycloakService;
     }
 
@@ -32,7 +36,6 @@ public class KeycloakUserCreationJob : AsyncBackgroundJob<IdentityUserCreationAr
             FirstName = args.Name,
             LastName = args.Surname,
             Enabled = args.IsActive,
-            // EmailVerified = true,
             Credentials = new List<Credentials>()
             {
                 new() { Type = "password", Value = args.Password }
@@ -61,11 +64,14 @@ public class KeycloakUserCreationJob : AsyncBackgroundJob<IdentityUserCreationAr
 
     private async Task AddRolesToKeycloakUserAsync(string userName, string[] roleNames)
     {
-        var user = (await _keycloakService.GetUsersAsync(username: userName)).First();
+        var user = (await _keycloakService.GetUsersAsync()).FirstOrDefault(q=>q.UserName == userName);
         var allTheRoles = await _keycloakService.GetRolesAsync();
-        var roles = allTheRoles.Where(q => roleNames.Contains(q.Name));
+        var roles = allTheRoles.Where(q => roleNames.Contains(q.Name)).ToList();
 
-        await _keycloakService.AddRolesToUserAsync(user.Id, roles);
+        await _keycloakService.AddRealmRolesToUserAsync(
+            user.Id, 
+            _objectMapper.Map<List<CachedKeycloakRole>,List<Role>>(roles)
+            );
         _logger.LogInformation($"Keycloak roles:{roleNames} has been added to user with the username:{userName}.");
     }
 }
@@ -80,7 +86,7 @@ public class IdentityUserCreationArgs
     public bool IsActive { get; init; }
     public string[] RoleNames { get; init; }
 
-    public IdentityUserCreationArgs()
+    public IdentityUserCreationArgs() // For deserialization
     {
         
     }

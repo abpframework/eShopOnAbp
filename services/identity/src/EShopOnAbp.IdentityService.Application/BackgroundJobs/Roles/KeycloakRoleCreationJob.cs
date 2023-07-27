@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using EShopOnAbp.IdentityService.Keycloak;
+using EShopOnAbp.IdentityService.Keycloak.Service;
 using Microsoft.Extensions.Logging;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.DependencyInjection;
@@ -10,10 +10,10 @@ namespace EShopOnAbp.IdentityService.BackgroundJobs.Roles;
 
 public class KeycloakRoleCreationJob : AsyncBackgroundJob<IdentityRoleCreationArgs>, ITransientDependency
 {
-    private readonly KeycloakService _keycloakService;
+    private readonly IKeycloakService _keycloakService;
     private readonly ILogger<KeycloakRoleCreationJob> _logger;
 
-    public KeycloakRoleCreationJob(KeycloakService keycloakService, ILogger<KeycloakRoleCreationJob> logger)
+    public KeycloakRoleCreationJob(IKeycloakService keycloakService, ILogger<KeycloakRoleCreationJob> logger)
     {
         _keycloakService = keycloakService;
         _logger = logger;
