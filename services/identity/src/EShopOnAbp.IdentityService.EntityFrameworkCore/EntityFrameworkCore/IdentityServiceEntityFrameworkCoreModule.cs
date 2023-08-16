@@ -3,7 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore.PostgreSql;
 using Volo.Abp.Identity.EntityFrameworkCore;
-using Volo.Abp.IdentityServer.EntityFrameworkCore;
 using Volo.Abp.Modularity;
 
 namespace EShopOnAbp.IdentityService.EntityFrameworkCore
@@ -11,8 +10,7 @@ namespace EShopOnAbp.IdentityService.EntityFrameworkCore
     [DependsOn(
         typeof(IdentityServiceDomainModule),
         typeof(AbpEntityFrameworkCorePostgreSqlModule),
-        typeof(AbpIdentityEntityFrameworkCoreModule),
-        typeof(AbpIdentityServerEntityFrameworkCoreModule)
+        typeof(AbpIdentityEntityFrameworkCoreModule)
     )]
     public class IdentityServiceEntityFrameworkCoreModule : AbpModule
     {
@@ -26,7 +24,6 @@ namespace EShopOnAbp.IdentityService.EntityFrameworkCore
             context.Services.AddAbpDbContext<IdentityServiceDbContext>(options =>
             {
                 options.ReplaceDbContext<IIdentityDbContext>();
-                options.ReplaceDbContext<IIdentityServerDbContext>();
 
                 options.AddDefaultRepositories(includeAllEntities: true);
             });

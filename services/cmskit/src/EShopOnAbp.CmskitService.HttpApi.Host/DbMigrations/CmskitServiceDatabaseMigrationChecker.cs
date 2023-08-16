@@ -8,8 +8,7 @@ using Volo.Abp.Uow;
 
 namespace EShopOnAbp.CmskitService.DbMigrations;
 
-public class CmskitServiceDatabaseMigrationChecker
-    : PendingEfCoreMigrationsChecker<CmskitServiceDbContext>
+public class CmskitServiceDatabaseMigrationChecker : PendingEfCoreMigrationsChecker<CmskitServiceDbContext>
 {
     public CmskitServiceDatabaseMigrationChecker(
         IUnitOfWorkManager unitOfWorkManager,
@@ -25,6 +24,5 @@ public class CmskitServiceDatabaseMigrationChecker
             abpDistributedLock,
             CmskitServiceDbProperties.ConnectionStringName)
     {
-
     }
 }

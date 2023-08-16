@@ -24,6 +24,21 @@ services:
       retries: 10   
     networks: 
       - eshoponabp-network  
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-express
+    depends_on:
+      - mongodb    
+    restart: unless-stopped
+    healthcheck:
+      test:  wget --quiet --tries=3 --spider http://admin:admin123@mongo-express:8081 || exit 1
+      interval: 30s
+      timeout: 10s
+      retries: 3    
+    networks:
+      - eshoponabp-network
+
   redis:
     container_name: redis
     image: redis:alpine

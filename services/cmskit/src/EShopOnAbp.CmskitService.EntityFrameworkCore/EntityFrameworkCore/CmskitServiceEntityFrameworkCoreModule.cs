@@ -35,7 +35,7 @@ public class CmskitServiceEntityFrameworkCoreModule : AbpModule
         Configure<AbpDbContextOptions>(options =>
         {
             /* The main point to change your DBMS.
-             * See also OrderingServiceMigrationsDbContextFactory for EF Core tooling. */
+             * See also CmskitServiceMigrationsDbContextFactory for EF Core tooling. */
             options.UseNpgsql(b =>
             {
                 b.MigrationsHistoryTable("__CmskitService_Migrations");

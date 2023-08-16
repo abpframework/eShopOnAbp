@@ -26,11 +26,13 @@ spec:
         - name: RemoteServices__AbpIdentity__BaseUrl
           value: "{{ .Values.config.remoteServices.abpIdentityBaseUrl }}"
         - name: RemoteServices__AbpIdentity__UseCurrentAccessToken
-          value: "{{ .Values.config.remoteServices.useCurrentToken }}"  
+          value: "{{ .Values.config.remoteServices.useCurrentToken }}" 
         - name: App__CorsOrigins
           value: "{{ .Values.config.corsOrigins }}"
         - name: IdentityClients__Default__Authority
           value: "{{ .Values.synchedCommunication.authority }}"
+        - name: IdentityClients__Default__RequireHttps
+          value: "{{ .Values.config.authServer.requireHttpsMetadata }}"
         - name: "ConnectionStrings__AdministrationService"
           value: "{{ .Values.config.connectionStrings.administrationService }}"
         - name: "DOTNET_ENVIRONMENT"

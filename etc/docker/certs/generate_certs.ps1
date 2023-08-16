@@ -11,6 +11,7 @@ $identityServiceCNs = "identity-service", "localhost"
 $catalogServiceCNs = "catalog-service", "localhost"
 $basketServiceCNs = "basket-service", "localhost"
 $orderingServiceCNs = "ordering-service", "localhost"
+$cmskitServiceCNs = "cmskit-service", "localhost"
 $paymentServiceCNs = "payment-service", "localhost"
 
 $alreadyExistingCertsRoot = Get-ChildItem -Path Cert:\LocalMachine\My -Recurse | Where-Object {$_.Subject -eq "CN=$rootCN"}
@@ -30,6 +31,7 @@ $authserverCert = New-SelfSignedCertificate -DnsName $authserverCNs -Signer $roo
 # $basketServiceCert = New-SelfSignedCertificate -DnsName $basketServiceCNs -Signer $rootCN -CertStoreLocation Cert:\LocalMachine\My
 # $orderingServiceCert = New-SelfSignedCertificate -DnsName $orderingServiceCNs -Signer $rootCN -CertStoreLocation Cert:\LocalMachine\My
 # $paymentServiceCert = New-SelfSignedCertificate -DnsName $paymentServiceCNs -Signer $rootCN -CertStoreLocation Cert:\LocalMachine\My
+# $cmskitServiceCert = New-SelfSignedCertificate -DnsName $cmskitServiceCNs -Signer $rootCN -CertStoreLocation Cert:\LocalMachine\My
 
 $password = ConvertTo-SecureString -String "8b6039b6-c67a-448b-977b-0ce6d3fcfd49" -Force -AsPlainText
 
@@ -42,6 +44,7 @@ Export-PfxCertificate -Cert $authserverCert -FilePath app-authserver-cert.pfx -P
 # Export-PfxCertificate -Cert $basketServiceCert -FilePath basket-service-cert.pfx -Password $password | Out-Null
 # Export-PfxCertificate -Cert $orderingServiceCert -FilePath ordering-service-cert.pfx -Password $password | Out-Null
 # Export-PfxCertificate -Cert $paymentServiceCert -FilePath payment-service-cert.pfx -Password $password | Out-Null
+# Export-PfxCertificate -Cert $cmskitServiceCert -FilePath cmskit-service-cert.pfx -Password $password | Out-Null
 
 # Export .cer to be converted to .crt to be trusted within the Docker container.
 Export-Certificate -Cert $rootCA -FilePath eShopOnAbp-root-cert.cer -Type CERT | Out-Null

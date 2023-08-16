@@ -8,8 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.Http.Client" Version="6.0.0" />
-    <PackageReference Include="Volo.CmsKit.HttpApi.Client" Version="6.0.0" />
+    <PackageReference Include="Volo.Abp.Http.Client" Version="7.0.0" />
+    <PackageReference Include="Volo.CmsKit.HttpApi.Client" Version="7.0.0" />
     <ProjectReference Include="..\EShopOnAbp.CmskitService.Application.Contracts\EShopOnAbp.CmskitService.Application.Contracts.csproj" />
   </ItemGroup>
 

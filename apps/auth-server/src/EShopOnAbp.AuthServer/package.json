@@ -3,7 +3,7 @@
   "name": "EShopOnAbpAuthServer",
   "private": true,
   "dependencies": {
-    "@abp/aspnetcore.mvc.ui.theme.basic": "~6.0.0",
-    "@volo/account": "~6.0.0"
+    "@abp/aspnetcore.mvc.ui.theme.basic": "~7.0.0",
+    "@volo/account": "~7.0.0"
   }
 }

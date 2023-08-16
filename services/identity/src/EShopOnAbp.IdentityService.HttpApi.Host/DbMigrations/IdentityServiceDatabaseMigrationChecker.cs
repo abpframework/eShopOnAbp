@@ -1,9 +1,7 @@
 ﻿using EShopOnAbp.IdentityService.EntityFrameworkCore;
 using System;
-using System.Threading.Tasks;
 using EShopOnAbp.Shared.Hosting.Microservices.DbMigrations.EfCore;
 using Volo.Abp.EventBus.Distributed;
-using Volo.Abp.EventBus.Local;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.Uow;
 using Volo.Abp.DistributedLocking;

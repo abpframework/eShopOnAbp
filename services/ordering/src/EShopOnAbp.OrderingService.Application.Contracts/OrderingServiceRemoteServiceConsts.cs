@@ -1,7 +1,6 @@
-﻿namespace EShopOnAbp.OrderingService
+﻿namespace EShopOnAbp.OrderingService;
+
+public static class OrderingServiceRemoteServiceConsts
 {
-    public static class OrderingServiceRemoteServiceConsts
-    {
-        public const string RemoteServiceName = "Ordering";
-    }
+    public const string RemoteServiceName = "Ordering";
 }

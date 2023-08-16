@@ -121,7 +121,10 @@ public class EShopOnAbpPublicWebModule : AbpModule
         {
             options.StyleBundles.Configure(
                 LeptonXLiteThemeBundles.Styles.Global,
-                bundle => { bundle.AddContributors(typeof(CartWidgetStyleContributor)); }
+                bundle => { 
+                    bundle.AddContributors(typeof(CartWidgetStyleContributor));
+					bundle.AddFiles("/global.css");
+				}
             );
         });
 
@@ -144,7 +147,7 @@ public class EShopOnAbpPublicWebModule : AbpModule
                 options.DefaultScheme = "Cookies";
                 options.DefaultChallengeScheme = "oidc";
             })
-            .AddCookie("Cookies", options => { options.ExpireTimeSpan = TimeSpan.FromDays(365); })
+            .AddCookie("Cookies")
             .AddAbpOpenIdConnect("oidc", options =>
             {
                 options.Authority = configuration["AuthServer:Authority"];
@@ -162,6 +165,7 @@ public class EShopOnAbpPublicWebModule : AbpModule
 
                 options.Scope.Add("AdministrationService");
                 options.Scope.Add("BasketService");
+                options.Scope.Add("IdentityService");
                 options.Scope.Add("CatalogService");
                 options.Scope.Add("PaymentService");
                 options.Scope.Add("OrderingService");

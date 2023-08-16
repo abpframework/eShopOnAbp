@@ -22,7 +22,7 @@ namespace EShopOnAbp.AdministrationService.EntityFrameworkCore
      * used modules (as explained above). See AdministrationServiceMigrationsDbContext for migrations.
      */
     [ConnectionStringName(AdministrationServiceDbProperties.ConnectionStringName)]
-    public class AdministrationServiceDbContext 
+    public class AdministrationServiceDbContext
         : AbpDbContext<AdministrationServiceDbContext>,
         IPermissionManagementDbContext,
         ISettingManagementDbContext,
@@ -40,6 +40,8 @@ namespace EShopOnAbp.AdministrationService.EntityFrameworkCore
         public DbSet<AuditLog> AuditLogs { get; set; }
         public DbSet<DatabaseBlobContainer> BlobContainers { get; set; }
         public DbSet<DatabaseBlob> Blobs { get; set; }
+        public DbSet<PermissionGroupDefinitionRecord> PermissionGroups { get; set; }
+        public DbSet<PermissionDefinitionRecord> Permissions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

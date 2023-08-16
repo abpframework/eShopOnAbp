@@ -16,7 +16,7 @@ You can either run in Visual Studio, or using [Microsoft Tye](https://github.com
 
  ### Requirements
 
-- .NET 6.0+
+- .NET 7.0+
 - Docker
 - Yarn
 
@@ -78,7 +78,7 @@ Generating a new certificate will fix that issue. To generate new one,
 - [x] Deployment to azure k8s ✔️ (https://eshoponabp.com)
 ### Version 2.0
 - [x] Product-detail page on the shopping application (with CMS-kit integration for comments and rating components) ✔️
-- [ ] Switch to Keycloak from IdentityServer in AuthServer
+- [x] Switch to Keycloak from IdentityServer in AuthServer
 - [ ] Re-design authorization/permission management
 - [ ] Integrate a new sample microservice written in GoLang (Or python/java)
 ### Documentation

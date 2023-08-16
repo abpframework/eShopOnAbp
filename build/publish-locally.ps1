@@ -18,7 +18,7 @@ $paymentServiceFolder = Join-Path $slnFolder "services/payment/src/EShopOnAbp.Pa
 $orderingServiceFolder = Join-Path $slnFolder "services/ordering/src/EShopOnAbp.OrderingService.HttpApi.Host"
 $cmskitServiceFolder = Join-Path $slnFolder "services/cmskit/src/EShopOnAbp.CmskitService.HttpApi.Host"
 
-$total = 11
+$total = 12
 
 ### Angular WEB App(WWW)
 Write-Host "*** BUILDING WEB (WWW) 1/$total ****************" -ForegroundColor Green

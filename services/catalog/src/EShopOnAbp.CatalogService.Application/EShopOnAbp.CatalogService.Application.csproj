@@ -3,7 +3,7 @@
   <Import Project="..\..\..\..\common.props" />
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <RootNamespace>EShopOnAbp.CatalogService</RootNamespace>
   </PropertyGroup>
 
@@ -11,7 +11,7 @@
     <PackageReference Include="Google.Protobuf" Version="3.19.3" />
     <PackageReference Include="Grpc.Core" Version="2.42.0" />
     <PackageReference Include="Grpc.Tools" Version="2.42.0" PrivateAssets="All" />
-    <PackageReference Include="Volo.Abp.Ddd.Application" Version="6.0.0" />
+    <PackageReference Include="Volo.Abp.Ddd.Application" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,6 +1,6 @@
 ﻿namespace EShopOnAbp.PublicWeb.Menus
 {
-    public class EShopOnAbpPublicWebMenus
+    public static class EShopOnAbpPublicWebMenus
     {
         private const string Prefix = "EShopOnAbp.Public";
 
