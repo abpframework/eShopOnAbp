@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -18,32 +17,12 @@ public static class YarpSwaggerUIBuilderExtensions
         {
             var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
             var logger = context.ServiceProvider.GetRequiredService<ILogger<ApplicationInitializationContext>>();
-            var proxyConfigProvider = context.ServiceProvider.GetRequiredService<IProxyConfigProvider>();
-            var yarpConfig = proxyConfigProvider.GetConfig();
+            var proxyConfig = context.ServiceProvider.GetRequiredService<IProxyConfigProvider>().GetConfig();
 
-            var routedClusters = yarpConfig.Clusters
-                .SelectMany(t => t.Destinations,
-                    (clusterId, destination) => new {clusterId.ClusterId, destination.Value});
-
-            var groupedClusters = routedClusters
-                .GroupBy(q => q.Value.Address)
-                .Select(t => t.First())
-                .Distinct()
-                .ToList();
-
-            foreach (var clusterGroup in groupedClusters)
+            foreach (var cluster in proxyConfig.Clusters)
             {
-                var routeConfig = yarpConfig.Routes.FirstOrDefault(q =>
-                    q.ClusterId == clusterGroup.ClusterId);
-                if (routeConfig == null)
-                {
-                    logger.LogWarning($"Swagger UI: Couldn't find route configuration for {clusterGroup.ClusterId}...");
-                    continue;
-                }
-
-                options.SwaggerEndpoint($"{clusterGroup.Value.Address}/swagger/v1/swagger.json", $"{routeConfig.RouteId} API");
-                options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
-                options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
+                options.SwaggerEndpoint($"/swagger-json/{cluster.ClusterId}/swagger/v1/swagger.json",
+                    $"{cluster.ClusterId} API");
             }
         });
         
