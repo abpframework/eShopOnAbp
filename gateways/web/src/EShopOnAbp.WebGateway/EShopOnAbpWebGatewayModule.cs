@@ -23,23 +23,19 @@ public class EShopOnAbpWebGatewayModule : AbpModule
         var configuration = context.Services.GetConfiguration();
         var hostingEnvironment = context.Services.GetHostingEnvironment();
 
-        SwaggerConfigurationHelper.ConfigureWithAuth(
-            context: context,
-            authority: configuration["AuthServer:Authority"],
-            scopes: new
-                Dictionary<string, string> /* Requested scopes for authorization code request and descriptions for swagger UI only */
+        SwaggerConfigurationHelper
+            .ConfigureWithOidc(
+                context: context,
+                authority: configuration["AuthServer:Authority"]!,
+                /* Requested scopes for authorization code request and descriptions for swagger UI only */
+                scopes: new[]
                 {
-                    {"AccountService", "Account Service API"},
-                    {"IdentityService", "Identity Service API"},
-                    {"AdministrationService", "Administration Service API"},
-                    {"CatalogService", "Catalog Service API"},
-                    {"BasketService", "Basket Service API"},
-                    {"PaymentService", "Payment Service API"},
-                    {"OrderingService", "Ordering Service API"},
-                    {"CmskitService", "Cmskit Service API"},
+                    "AccountService", "IdentityService", "AdministrationService", "CatalogService", "BasketService",
+                    "PaymentService", "OrderingService", "CmskitService"
                 },
-            apiTitle: "Web Gateway"
-        );
+                apiTitle: "Web Gateway",
+                discoveryEndpoint: configuration["AuthServer:MetadataAddress"]
+            );
 
         context.Services.AddCors(options =>
         {
@@ -70,6 +66,7 @@ public class EShopOnAbpWebGatewayModule : AbpModule
         {
             app.UseDeveloperExceptionPage();
         }
+
         app.UseCorrelationId();
         app.UseAbpSerilogEnrichers();
         app.UseCors();
@@ -80,9 +77,6 @@ public class EShopOnAbpWebGatewayModule : AbpModule
             .AddRedirect("^(|\\|\\s+)$", "/swagger"));
 
         app.UseRouting();
-        app.UseEndpoints(endpoints =>
-        {
-            endpoints.MapReverseProxy();
-        });
+        app.UseEndpoints(endpoints => { endpoints.MapReverseProxy(); });
     }
 }

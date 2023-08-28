@@ -21,25 +21,19 @@ public class EShopOnAbpWebPublicGatewayModule : AbpModule
         var configuration = context.Services.GetConfiguration();
         var hostingEnvironment = context.Services.GetHostingEnvironment();
 
-        SwaggerConfigurationHelper.ConfigureWithAuth(
-            context: context,
-            authority: configuration["AuthServer:Authority"],
-            scopes: new Dictionary<string, string> /* Requested scopes for authorization code request and descriptions for swagger UI only */
-            {
-                { "AccountService", "Account Service API" },
-                { "IdentityService", "Identity Service API" },
-                { "AdministrationService", "Administration Service API" },
-                { "CatalogService", "Catalog Service API" },
-                { "BasketService", "Basket Service API" },
-                { "PaymentService", "Payment Service API" },
-                { "OrderingService", "Ordering Service API" },
-                { "CmskitService", "Cmskit Service API" },
-            },
-            apiTitle: "WebPublic Gateway"
-        );
-
-        // context.Services.AddReverseProxy()
-        //     .LoadFromConfig(configuration.GetSection("ReverseProxy"));
+        SwaggerConfigurationHelper
+            .ConfigureWithOidc(
+                context: context,
+                authority: configuration["AuthServer:Authority"]!,
+                /* Requested scopes for authorization code request and descriptions for swagger UI only */
+                scopes: new[]
+                {
+                    "AccountService", "IdentityService", "AdministrationService", "CatalogService", "BasketService",
+                    "OrderingService", "CmskitService"
+                },
+                apiTitle: "Public Web Gateway API",
+                discoveryEndpoint: configuration["AuthServer:MetadataAddress"]
+            );
     }
 
     public override void OnApplicationInitialization(ApplicationInitializationContext context)
