@@ -1,6 +1,12 @@
 ﻿{
   "ReverseProxy": {
     "Routes": {
+      "AbpApi": {
+        "ClusterId": "Administration",
+        "Match": {
+          "Path": "/api/abp/{**catch-all}"
+        }
+      },
       "Account Service": {
         "ClusterId": "accountCluster",
         "Match": {
@@ -8,112 +14,85 @@
         }
       },
       "Identity Service": {
-        "ClusterId": "identityCluster",
+        "ClusterId": "Identity",
         "Match": {
           "Path": "/api/identity/{**everything}"
         }
       },
-      "Administration Service": {
-        "ClusterId": "administrationCluster",
-        "Match": {
-          "Path": "/api/abp/{**everything}"
-        }
-      },
-      "feature-management-route": {
-        "ClusterId": "feature-management-cluster",
+      "FeatureManagement": {
+        "ClusterId": "Administration",
         "Match": {
           "Path": "/api/feature-management/{**everything}"
         }
       },
-      "permission-management-route": {
-        "ClusterId": "permission-management-cluster",
+      "PermissionManagement": {
+        "ClusterId": "Administration",
         "Match": {
           "Path": "/api/permission-management/{**everything}"
         }
       },
-      "setting-management-route": {
-        "ClusterId": "setting-management-cluster",
+      "SettingManagement": {
+        "ClusterId": "Administration",
         "Match": {
           "Path": "/api/setting-management/{**everything}"
         }
       },
       "Catalog Service": {
-        "ClusterId": "catalogCluster",
+        "ClusterId": "Catalog",
         "Match": {
           "Path": "/api/catalog/{**everything}"
         }
       },
       "Ordering Service": {
-        "ClusterId": "orderingCluster",
+        "ClusterId": "Ordering",
         "Match": {
           "Path": "/api/ordering/{**everything}"
         }
       },
       "Cmskit Service": {
-        "ClusterId": "cmskitCluster",
+        "ClusterId": "CmsKit",
         "Match": {
           "Path": "/api/cmskit/{**everything}"
         }
       }
     },
     "Clusters": {
-      "accountCluster": {
+      "Account": {
         "Destinations": {
           "destination1": {
             "Address": "https://localhost:44330"
           }
         }
       },
-      "identityCluster": {
+      "Identity": {
         "Destinations": {
           "destination1": {
             "Address": "https://localhost:44351"
           }
         }
       },
-      "administrationCluster": {
+      "Administration": {
         "Destinations": {
           "destination1": {
             "Address": "https://localhost:44353"
           }
         }
       },
-      "feature-management-cluster": {
-        "Destinations": {
-          "destination1": {
-            "Address": "https://localhost:44353"
-          }
-        }
-      },
-      "permission-management-cluster": {
-        "Destinations": {
-          "destination1": {
-            "Address": "https://localhost:44353"
-          }
-        }
-      },
-      "setting-management-cluster": {
-        "Destinations": {
-          "destination1": {
-            "Address": "https://localhost:44353"
-          }
-        }
-      },
-      "catalogCluster": {
+      "Catalog": {
         "Destinations": {
           "destination1": {
             "Address": "https://localhost:44354"
           }
         }
       },
-      "orderingCluster": {
+      "Ordering": {
         "Destinations": {
           "destination1": {
             "Address": "https://localhost:44356"
           }
         }
       },
-      "cmskitCluster": {
+      "CmsKit": {
         "Destinations": {
           "destination1": {
             "Address": "https://localhost:44358"

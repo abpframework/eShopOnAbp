@@ -1,62 +1,62 @@
 ﻿{
   "ReverseProxy": {
     "Routes": {
+      "AbpApi": {
+        "ClusterId": "Administration",
+        "Match": {
+          "Path": "/api/abp/{**catch-all}"
+        }
+      },
       "Account Service": {
-        "ClusterId": "accountCluster",
+        "ClusterId": "Account",
         "Match": {
           "Path": "/api/account/{**everything}"
         }
       },
-      "Administration Service": {
-        "ClusterId": "administrationCluster",
-        "Match": {
-          "Path": "/api/abp/{**everything}"
-        }
-      },
       "Catalog Service": {
-        "ClusterId": "catalogCluster",
+        "ClusterId": "Catalog",
         "Match": {
           "Path": "/api/catalog/{**everything}"
         }
       },
       "Basket Service": {
-        "ClusterId": "basketCluster",
+        "ClusterId": "Basket",
         "Match": {
           "Path": "/api/basket/{**everything}"
         }
       },
       "Ordering Service": {
-        "ClusterId": "orderingCluster",
+        "ClusterId": "Ordering",
         "Match": {
           "Path": "/api/ordering/{**everything}"
         }
       },
       "Payment Service": {
-        "ClusterId": "paymentCluster",
+        "ClusterId": "Payment",
         "Match": {
           "Path": "/api/payment/{**everything}"
         }
       },
       "Cmskit Service": {
-        "ClusterId": "cmskitCluster",
+        "ClusterId": "CmsKit",
         "Match": {
           "Path": "/api/cmskit/{**everything}"
         }
       },
       "Cmskit Public Service": {
-        "ClusterId": "cmskitCluster",
+        "ClusterId": "CmsKit",
         "Match": {
           "Path": "/api/cms-kit-public/{**everything}"
         }
       },
       "Cmskit Admin Service": {
-        "ClusterId": "cmskitCluster",
+        "ClusterId": "CmsKit",
         "Match": {
           "Path": "/api/cms-kit-admin/{**everything}"
         }
       },
       "product-picture-route": {
-        "ClusterId": "productPictureCluster",
+        "ClusterId": "ProductPictures",
         "Match": {
           "Path": "/product-images/{**everything}",
           "Methods": [ "GET" ]
@@ -64,56 +64,56 @@
       }
     },
     "Clusters": {
-      "accountCluster": {
+      "Account": {
         "Destinations": {
           "destination1": {
             "Address": "https://localhost:44330"
           }
         }
       },
-      "administrationCluster": {
+      "Administration": {
         "Destinations": {
           "destination1": {
             "Address": "https://localhost:44353"
           }
         }
       },
-      "catalogCluster": {
+      "Catalog": {
         "Destinations": {
           "destination1": {
             "Address": "https://localhost:44354"
           }
         }
       },
-      "basketCluster": {
+      "Basket": {
         "Destinations": {
           "destination1": {
             "Address": "https://localhost:44355"
           }
         }
       },            
-      "orderingCluster": {
+      "Ordering": {
         "Destinations": {
           "destination1": {
             "Address": "https://localhost:44356"
           }
         }
       },
-      "paymentCluster": {
+      "Payment": {
         "Destinations": {
           "destination1": {
             "Address": "https://localhost:44357"
           }
         }
       },
-      "cmskitCluster": {
+      "CmsKit": {
         "Destinations": {
           "destination1": {
             "Address": "https://localhost:44358"
           }
         }
       },
-      "productPictureCluster": {
+      "ProductPictures": {
         "Destinations": {
           "destination1": {
             "Address": "https://localhost:44354"
