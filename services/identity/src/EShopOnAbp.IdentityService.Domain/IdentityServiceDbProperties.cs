@@ -11,5 +11,6 @@
         public const string DefaultAdminEmailAddress = "admin@abp.io";
         
         public const string DefaultAdminPassword = "1q2w3E*";
+        public const string CustomerRoleName = "customer";
     }
 }
