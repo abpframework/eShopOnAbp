@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net7.0</TargetFramework>
         <RootNamespace>EShopOnAbp.IdentityService</RootNamespace>
     </PropertyGroup>
 
@@ -11,7 +11,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Volo.Abp.Identity.Application" Version="5.1.2" />
+        <PackageReference Include="Volo.Abp.BackgroundJobs" Version="7.0.0" />
+        <PackageReference Include="Volo.Abp.Identity.Application" Version="7.0.0" />
+        <PackageReference Include="Keycloak.Net.Core" Version="1.0.20" />
     </ItemGroup>
 
 </Project>

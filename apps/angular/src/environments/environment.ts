@@ -9,11 +9,11 @@ export const environment = {
     name: 'EShopOnAbp',
   },
   oAuthConfig: {
-    issuer: 'https://localhost:44330',
+    issuer: 'http://localhost:8080/realms/master',
     redirectUri: baseUrl,
     clientId: 'Web',
     responseType: 'code',
-    scope: 'offline_access openid profile email phone AccountService IdentityService AdministrationService CatalogService OrderingService',
+    scope: 'offline_access openid profile email phone roles AdministrationService IdentityService BasketService CatalogService OrderingService PaymentService CmskitService', 
     //requireHttps: true,
   },
   apis: {

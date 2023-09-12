@@ -3,13 +3,6 @@ using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.Identity;
 using Volo.Abp.Identity.EntityFrameworkCore;
-using Volo.Abp.IdentityServer.ApiResources;
-using Volo.Abp.IdentityServer.ApiScopes;
-using Volo.Abp.IdentityServer.Clients;
-using Volo.Abp.IdentityServer.Devices;
-using Volo.Abp.IdentityServer.EntityFrameworkCore;
-using Volo.Abp.IdentityServer.Grants;
-using Volo.Abp.IdentityServer.IdentityResources;
 
 namespace EShopOnAbp.IdentityService.EntityFrameworkCore
 {
@@ -23,8 +16,7 @@ namespace EShopOnAbp.IdentityService.EntityFrameworkCore
      * used modules (as explained above). See IdentityServiceMigrationsDbContext for migrations.
      */
     [ConnectionStringName(IdentityServiceDbProperties.ConnectionStringName)]
-    public class IdentityServiceDbContext : AbpDbContext<IdentityServiceDbContext>, IIdentityDbContext,
-        IIdentityServerDbContext
+    public class IdentityServiceDbContext : AbpDbContext<IdentityServiceDbContext>, IIdentityDbContext
     {
         public DbSet<IdentityUser> Users { get; set; }
         public DbSet<IdentityRole> Roles { get; set; }
@@ -32,29 +24,6 @@ namespace EShopOnAbp.IdentityService.EntityFrameworkCore
         public DbSet<OrganizationUnit> OrganizationUnits { get; set; }
         public DbSet<IdentitySecurityLog> SecurityLogs { get; set; }
         public DbSet<IdentityLinkUser> LinkUsers { get; set; }
-        public DbSet<ApiResource> ApiResources { get; set; }
-        public DbSet<ApiResourceSecret> ApiResourceSecrets { get; set; }
-        public DbSet<ApiResourceClaim> ApiResourceClaims { get; set; }
-        public DbSet<ApiResourceScope> ApiResourceScopes { get; set; }
-        public DbSet<ApiResourceProperty> ApiResourceProperties { get; set; }
-        public DbSet<ApiScope> ApiScopes { get; set; }
-        public DbSet<ApiScopeClaim> ApiScopeClaims { get; set; }
-        public DbSet<ApiScopeProperty> ApiScopeProperties { get; set; }
-        public DbSet<IdentityResource> IdentityResources { get; set; }
-        public DbSet<IdentityResourceClaim> IdentityClaims { get; set; }
-        public DbSet<IdentityResourceProperty> IdentityResourceProperties { get; set; }
-        public DbSet<Client> Clients { get; set; }
-        public DbSet<ClientGrantType> ClientGrantTypes { get; set; }
-        public DbSet<ClientRedirectUri> ClientRedirectUris { get; set; }
-        public DbSet<ClientPostLogoutRedirectUri> ClientPostLogoutRedirectUris { get; set; }
-        public DbSet<ClientScope> ClientScopes { get; set; }
-        public DbSet<ClientSecret> ClientSecrets { get; set; }
-        public DbSet<ClientClaim> ClientClaims { get; set; }
-        public DbSet<ClientIdPRestriction> ClientIdPRestrictions { get; set; }
-        public DbSet<ClientCorsOrigin> ClientCorsOrigins { get; set; }
-        public DbSet<ClientProperty> ClientProperties { get; set; }
-        public DbSet<PersistedGrant> PersistedGrants { get; set; }
-        public DbSet<DeviceFlowCodes> DeviceFlowCodes { get; set; }
 
         public IdentityServiceDbContext(DbContextOptions<IdentityServiceDbContext> options)
             : base(options)
@@ -66,7 +35,6 @@ namespace EShopOnAbp.IdentityService.EntityFrameworkCore
             base.OnModelCreating(builder);
 
             builder.ConfigureIdentity();
-            builder.ConfigureIdentityServer();
         }
     }
 }

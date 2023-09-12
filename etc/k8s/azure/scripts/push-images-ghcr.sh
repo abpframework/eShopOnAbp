@@ -32,5 +32,8 @@ docker push ghcr.io/volosoft/eshoponabp/service-catalog:"${version}"
 docker tag eshoponabp/service-ordering:"${version}" ghcr.io/volosoft/eshoponabp/service-ordering:"${version}"
 docker push ghcr.io/volosoft/eshoponabp/service-ordering:"${version}"
 
+docker tag eshoponabp/service-cmskit:"${version}" ghcr.io/volosoft/eshoponabp/service-cmskit:"${version}"
+docker push ghcr.io/volosoft/eshoponabp/service-cmskit:"${version}"
+
 docker tag eshoponabp/service-payment:"${version}" ghcr.io/volosoft/eshoponabp/service-payment:"${version}"
 docker push ghcr.io/volosoft/eshoponabp/service-payment:"${version}"

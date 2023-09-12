@@ -10,9 +10,14 @@
     "module": "esnext",
     "moduleResolution": "node",
     "importHelpers": true,
-    "target": "es2015",
-    "typeRoots": ["node_modules/@types"],
-    "lib": ["es2018", "dom"],
+    "target": "ES2022",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2018",
+      "dom"
+    ],
     "paths": {
       "@eshoponabp/catalog/config": [
         "node_modules/@eshoponabp/catalog/config",
@@ -20,17 +25,18 @@
       ],
       "@eshoponabp/catalog": [
         "node_modules/@eshoponabp/catalog",
-        "projects/catalog/src/public-api.ts",
+        "projects/catalog/src/public-api.ts"
       ],
       "@eshoponabp/ordering/config": [
         "node_modules/@eshoponabp/ordering/config",
-        "projects/ordering/config/src/public-api.ts",
+        "projects/ordering/config/src/public-api.ts"
       ],
       "@eshoponabp/ordering": [
         "node_modules/@eshoponabp/ordering",
-        "projects/ordering/src/public-api.ts",
-      ],
-    }
+        "projects/ordering/src/public-api.ts"
+      ]
+    },
+    "useDefineForClassFields": false
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

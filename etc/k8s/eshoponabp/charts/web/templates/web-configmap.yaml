@@ -16,6 +16,7 @@ data:
             "redirectUri": "{{ .Values.config.selfUrl }}",
             "requireHttps": {{ .Values.config.authServer.requireHttpsMetadata }},
             "clientId": "Web",
+            "responseType": "code",
             "responseType": "{{ .Values.config.authServer.responseType }}",
             "scope": "offline_access openid profile email phone AccountService IdentityService AdministrationService CatalogService OrderingService",
             "strictDiscoveryDocumentValidation": {{ .Values.config.authServer.strictDiscoveryDocumentValidation }},

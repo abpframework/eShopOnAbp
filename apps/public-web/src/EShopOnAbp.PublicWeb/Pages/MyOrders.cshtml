@@ -34,14 +34,14 @@
     }
 }
 
-<div class="mt-5 col">
+<div class="col">
     <abp-row>
         <abp-column offset="_9" size="_3">
-            <abp-select suppress-label="true" asp-for="OrderFilter" asp-items="selectList"></abp-select>
+            <abp-select class="card" suppress-label="true" asp-for="OrderFilter" asp-items="selectList"></abp-select>
         </abp-column>
     </abp-row>
 </div>
 
-<div id="UserOrdersArea" class="pt-5">
+<div id="UserOrdersArea">
     @await Component.InvokeAsync(typeof(UserOrderWidgetViewComponent), new {Filter = Model.OrderFilter})
 </div>

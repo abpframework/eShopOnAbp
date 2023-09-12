@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Volo.Abp;
 using Volo.Abp.Modularity;
 
@@ -40,9 +41,8 @@ public class IdentityServiceHttpApiHostModule : AbpModule
                 {
                     { "IdentityService", "Identity Service API" }
                 },
-            apiTitle: "IdentityService Gateway API"
+            apiTitle: "IdentityService API"
         );
-
 
         context.Services.AddCors(options =>
         {
@@ -61,6 +61,12 @@ public class IdentityServiceHttpApiHostModule : AbpModule
                     .AllowAnyMethod()
                     .AllowCredentials();
             });
+        });
+        
+        // Keycloak handles the user creation that a user name can be multiple words
+        Configure<IdentityOptions>(options =>
+        {
+            options.User.AllowedUserNameCharacters = null;
         });
     }
 

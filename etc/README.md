@@ -28,6 +28,7 @@ helm upgrade --install --version=4.0.19 ingress-nginx ingress-nginx/ingress-ngin
 127.0.0.1 eshop-st-basket
 127.0.0.1 eshop-st-catalog
 127.0.0.1 eshop-st-ordering
+127.0.0.1 eshop-st-cmskit
 127.0.0.1 eshop-st-payment
 127.0.0.1 eshop-st-gateway-web
 127.0.0.1 eshop-st-gateway-web-public
@@ -72,7 +73,7 @@ mkcert -install
 
 Create certificate for the eshopOnAbp domains using the mkcert command below:
 ```powershell
-mkcert "eshop-st-web" "eshop-st-public-web" "eshop-st-authserver" "eshop-st-identity" "eshop-st-administration" "eshop-st-basket" "eshop-st-catalog" "eshop-st-ordering" "eshop-st-payment" "eshop-st-gateway-web" "eshop-st-gateway-web-public"
+mkcert "eshop-st-web" "eshop-st-public-web" "eshop-st-authserver" "eshop-st-identity" "eshop-st-administration" "eshop-st-basket" "eshop-st-catalog" "eshop-st-ordering" "eshop-st-cmskit" "eshop-st-payment" "eshop-st-gateway-web" "eshop-st-gateway-web-public"
 ```
 
 At the end of the output you will see something like

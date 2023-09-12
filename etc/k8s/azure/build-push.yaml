@@ -1,0 +1,54 @@
+variables:
+  # Container registry service connection established during pipeline creation
+  dockerRegistryServiceConnection: 'volosoft-reg'
+  buildContextBasePath: '$(Build.SourcesDirectory)'
+  # tag: $[replace(variables['Build.SourceBranch'], 'refs/tags/', '')]
+  tag: $(Build.BuildNumber)
+  DOCKER_BUILDKIT: 1
+
+trigger:
+  branches:
+    include:
+      - refs/heads/main
+
+pool:
+  vmImage: "ubuntu-latest"
+
+steps:
+  - task: UseDotNet@2
+    displayName: "Use .NET sdk"
+    inputs:
+      packageType: sdk
+      version: 7.0.x
+      installationPath: $(Agent.ToolsDirectory)/dotnet
+      includePreviewVersions: true
+
+  - task: PowerShell@2
+    displayName: Build docker images
+    inputs:
+      filePath: "build/build-images.ps1"
+      arguments: "-version $(tag)"
+
+  - task: Docker@2
+    displayName: Login to ACR
+    inputs:
+      containerRegistry: $(dockerRegistryServiceConnection)
+      command: "login"
+
+  - task: PowerShell@2
+    displayName: Push images to ACR
+    inputs:
+      filePath: "etc/k8s/azure/scripts/push-images-az.ps1"
+      arguments: "-version $(tag)"
+
+  - bash: |
+      sed -i "s/tag: latest/tag: \"\${tag}\"/g" etc/k8s/azure/values-az-cr.yaml
+
+
+
+  - task: PublishPipelineArtifact@1
+    inputs:
+      targetPath: '$(buildContextBasePath)/etc/k8s'
+      artifact: helm
+      publishLocation: pipeline
+

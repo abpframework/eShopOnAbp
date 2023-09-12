@@ -47,25 +47,23 @@ public class AdministrationServiceDatabaseMigrationChecker
 
     private async Task SeedDataAsync()
     {
-        using (var uow = UnitOfWorkManager.Begin(requiresNew: true, isTransactional: true))
-        {
-            var multiTenancySide = MultiTenancySides.Host;
+        using var uow = UnitOfWorkManager.Begin(requiresNew: true, isTransactional: true);
+        var multiTenancySide = MultiTenancySides.Host;
 
-            var permissionNames = _permissionDefinitionManager
-                .GetPermissions()
-                .Where(p => p.MultiTenancySide.HasFlag(multiTenancySide))
-                .Where(p => !p.Providers.Any() ||
-                            p.Providers.Contains(RolePermissionValueProvider.ProviderName))
-                .Select(p => p.Name)
-                .ToArray();
+        var permissionNames = (await _permissionDefinitionManager
+            .GetPermissionsAsync())
+            .Where(p => p.MultiTenancySide.HasFlag(multiTenancySide))
+            .Where(p => !p.Providers.Any() ||
+                        p.Providers.Contains(RolePermissionValueProvider.ProviderName))
+            .Select(p => p.Name)
+            .ToArray();
 
-            await _permissionDataSeeder.SeedAsync(
-                RolePermissionValueProvider.ProviderName,
-                "admin",
-                permissionNames
-            );
+        await _permissionDataSeeder.SeedAsync(
+            RolePermissionValueProvider.ProviderName,
+            "admin",
+            permissionNames
+        );
 
-            await uow.CompleteAsync();
-        }
+        await uow.CompleteAsync();
     }
 }

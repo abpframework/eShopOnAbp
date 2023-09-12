@@ -1,13 +1,13 @@
-﻿using EShopOnAbp.Shared.Hosting.Gateways;
+﻿using EShopOnAbp.Shared.Hosting.AspNetCore;
+using EShopOnAbp.Shared.Hosting.Gateways;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Collections.Generic;
-using EShopOnAbp.Shared.Hosting.AspNetCore;
-using Microsoft.AspNetCore.Http;
 using Volo.Abp;
 using Volo.Abp.Modularity;
-using Microsoft.AspNetCore.Rewrite;
 
 namespace EShopOnAbp.WebPublicGateway;
 
@@ -33,6 +33,7 @@ public class EShopOnAbpWebPublicGatewayModule : AbpModule
                 { "BasketService", "Basket Service API" },
                 { "PaymentService", "Payment Service API" },
                 { "OrderingService", "Ordering Service API" },
+                { "CmskitService", "Cmskit Service API" },
             },
             apiTitle: "WebPublic Gateway"
         );
@@ -54,11 +55,11 @@ public class EShopOnAbpWebPublicGatewayModule : AbpModule
         app.UseCorrelationId();
         app.UseAbpSerilogEnrichers();
         app.UseSwaggerUIWithYarp(context);
-        
+
         app.UseRewriter(new RewriteOptions()
             // Regex for "", "/" and "" (whitespace)
             .AddRedirect("^(|\\|\\s+)$", "/swagger"));
-        
+
         app.UseRouting();
         app.UseEndpoints(endpoints =>
         {

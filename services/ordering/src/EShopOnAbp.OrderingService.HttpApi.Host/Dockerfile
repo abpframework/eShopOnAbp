@@ -1,9 +1,9 @@
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 
 # It's important to keep lines from here down to "COPY . ." identical in all Dockerfiles
@@ -28,6 +28,7 @@ COPY "services/basket/src/EShopOnAbp.BasketService/EShopOnAbp.BasketService.cspr
 COPY "services/ordering/src/EShopOnAbp.OrderingService.HttpApi.Host/EShopOnAbp.OrderingService.HttpApi.Host.csproj" "services/ordering/src/EShopOnAbp.OrderingService.HttpApi.Host/EShopOnAbp.OrderingService.HttpApi.Host.csproj"
 COPY "services/catalog/src/EShopOnAbp.CatalogService.HttpApi.Host/EShopOnAbp.CatalogService.HttpApi.Host.csproj" "services/catalog/src/EShopOnAbp.CatalogService.HttpApi.Host/EShopOnAbp.CatalogService.HttpApi.Host.csproj"
 COPY "services/payment/src/EShopOnAbp.PaymentService.HttpApi.Host/EShopOnAbp.PaymentService.HttpApi.Host.csproj" "services/payment/src/EShopOnAbp.PaymentService.HttpApi.Host/EShopOnAbp.PaymentService.HttpApi.Host.csproj"
+COPY "services/cmskit/src/EShopOnAbp.CmskitService.HttpApi.Host/EShopOnAbp.CmskitService.HttpApi.Host.csproj" "services/cmskit/src/EShopOnAbp.CmskitService.HttpApi.Host/EShopOnAbp.CmskitService.HttpApi.Host.csproj"
 
 # Gateways
 COPY "gateways/web/src/EShopOnAbp.WebGateway/EShopOnAbp.WebGateway.csproj" "gateways/web/src/EShopOnAbp.WebGateway/EShopOnAbp.WebGateway.csproj"
@@ -40,7 +41,6 @@ COPY . .
 
 WORKDIR "/src/services/ordering/src/EShopOnAbp.OrderingService.HttpApi.Host"
 RUN dotnet publish -c Release -o /app 
-# Should be used after .net6 is out of preview for better performance
 # RUN dotnet publish --no-restore -c Release -o /app 
 
 FROM build AS publish

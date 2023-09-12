@@ -284,35 +284,32 @@ ordering:
   image:
     repository: "ghcr.io/volosoft/eshoponabp/service-ordering"
     tag: 1.0.1
-
-# cmskit-service sub-chart override
-# cmskit:
-#   config:
-#     selfUrl: https://cmskit.eshoponabp.com
-#     corsOrigins: https://gateway.eshoponabp.com,https://gateway-public.eshoponabp.com
-#     connectionStrings:
-#       cmskitService: "Host=eshop-az-postgresdb;Port=5432;Database=EShopOnAbp_Cmskit;User ID=postgres;password=myPassw0rd;Pooling=false"
-#       administrationService: "Host=eshop-az-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
-#     authServer:
-#       authority: http://eshop-az-authserver
-#       requireHttpsMetadata: "false"
-#       swaggerClientId: WebGateway_Swagger
-#       swaggerClientSecret: "1q2w3e*"
-#     remoteServices:
-#       abpIdentityBaseUrl: https://identity.eshoponabp.com
-#     dotnetEnv: Production
-#     redisHost: eshop-az-redis
-#     rabbitmqHost: eshop-az-rabbitmq
-#     elasticsearchHost: eshop-az-elasticsearch
-#   synchedCommunication: # Used for server-to-server (client-credentials) communication with identityService for user permissions
-#     authority: https://auth.eshoponabp.com 
-#   nodeSelector:
-#     agentpool: demopool
-#   ingress:
-#     host: cmskit.eshoponabp.com
-#   image:
-#     repository: "ghcr.io/volosoft/eshoponabp/service-cmskit"
-#     tag: 1.0.1
+    
+cmskit:
+  config:
+    selfUrl: https://cmskit.eshoponabp.com
+    corsOrigins: https://gateway.eshoponabp.com,https://gateway-public.eshoponabp.com
+    connectionStrings:
+      cmskitService: "Host=eshop-az-postgresdb;Port=5432;Database=EShopOnAbp_Cmskit;User ID=postgres;password=myPassw0rd;Pooling=false"
+      administrationService: "Host=eshop-az-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
+    authServer:
+      authority: http://eshop-az-authserver
+      requireHttpsMetadata: "false"
+      swaggerClientId: WebGateway_Swagger
+      swaggerClientSecret: "1q2w3e*"
+    remoteServices:
+      abpIdentityBaseUrl: https://identity.eshoponabp.com
+    dotnetEnv: Production
+    redisHost: eshop-az-redis
+    rabbitmqHost: eshop-az-rabbitmq
+    elasticsearchHost: eshop-az-elasticsearch
+  synchedCommunication: # Used for server-to-server (client-credentials) communication with identityService for user permissions
+    authority: https://auth.eshoponabp.com 
+  ingress:
+    host: cmskit.eshoponabp.com
+  image:
+    repository: "ghcr.io/volosoft/eshoponabp/service-cmskit"
+    tag: 1.0.1
     
 # payment-service sub-chart override
 payment:

@@ -1,6 +1,6 @@
 config:
   selfUrl: # https://eshop-st-administration
-  corsOrigins: # https://eshop-st-gateway-web,https://eshop-st-gateway-public-web,https://eshop-st-gateway-internal
+  corsOrigins: # https://eshop-st-gateway-web,https://eshop-st-gateway-public-web
   connectionStrings:
     administrationService: #
   authServer:
@@ -21,7 +21,7 @@ synchedCommunication:
   grantType: # "client_credentials"
   clientId: # 
   clientSecret: #
-  authority: https://eshop-st-authserver
+  authority: # "https://eshop-st-authserver"
   scope: # "IdentityService"
 
 ingress:

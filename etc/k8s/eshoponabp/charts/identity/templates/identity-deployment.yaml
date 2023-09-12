@@ -67,6 +67,8 @@ spec:
           value: {{ .Values.identityServerClients.catalogServiceRootUrl }}
         - name: "IdentityServerClients__OrderingService__RootUrl"
           value: {{ .Values.identityServerClients.orderingServiceRootUrl }}
+        - name: "IdentityServerClients__CmskitService__RootUrl"
+          value: {{ .Values.identityServerClients.cmskitServiceRootUrl }}
         - name: "IdentityServerClients__PaymentService__RootUrl"
           value: {{ .Values.identityServerClients.paymentServiceRootUrl }}  
           {{- if .Values.env }}

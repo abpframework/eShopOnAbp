@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Dynamic.Core;
 using System.Threading;
 using System.Threading.Tasks;
 using Volo.Abp.Domain.Entities;
@@ -45,35 +44,8 @@ public class EfCoreOrderRepository : EfCoreRepository<OrderingServiceDbContext, 
             .OrderByDescending(o => o.OrderDate)
             .ToListAsync(GetCancellationToken(cancellationToken));
     }
-
-    public async Task<List<OrderItem>> GetTopSelling(
-        ISpecification<Order> spec,
-        bool includeDetails = true,
-        CancellationToken cancellationToken = default)
-    {
-        return (await (await GetDbSetAsync())
-        .IncludeDetails(includeDetails)
-        .Where(spec.ToExpression())
-        .SelectMany(oi => oi.OrderItems)
-            .GroupBy(p => p.ProductCode)
-            .OrderByDescending(o => o.Sum(p => p.Units))
-            .Select(o => o.ToList())
-        .ToListAsync())
-        .SelectMany(t => t)
-        .Take(OrderConstants.Top10)
-        .ToList();
-    }
-
-    public async Task<List<Order>> GetPercentOfTotalPayment(
-        ISpecification<Order> spec,
-        CancellationToken cancellationToken = default)
-    {
-        return await (await GetDbSetAsync())
-        .Where(spec.ToExpression())
-        .ToListAsync(GetCancellationToken(cancellationToken));
-    }
-
-    public async Task<List<Order>> GetCountOfTotalOrderStatus(
+    
+    public async Task<List<Order>> GetDashboardAsync(
         ISpecification<Order> spec,
         bool includeDetails = true,
         CancellationToken cancellationToken = default)

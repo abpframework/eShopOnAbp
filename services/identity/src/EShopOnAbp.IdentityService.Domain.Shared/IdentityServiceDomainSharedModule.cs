@@ -1,8 +1,6 @@
 ﻿using EShopOnAbp.IdentityService.Localization;
 using Volo.Abp.Identity;
-using Volo.Abp.IdentityServer;
 using Volo.Abp.Localization;
-using Volo.Abp.Localization.ExceptionHandling;
 using Volo.Abp.Modularity;
 using Volo.Abp.Validation.Localization;
 using Volo.Abp.VirtualFileSystem;
@@ -10,8 +8,7 @@ using Volo.Abp.VirtualFileSystem;
 namespace EShopOnAbp.IdentityService
 {
     [DependsOn(
-        typeof(AbpIdentityDomainSharedModule),
-        typeof(AbpIdentityServerDomainSharedModule)
+        typeof(AbpIdentityDomainSharedModule)
         )]
     public class IdentityServiceDomainSharedModule : AbpModule
     {

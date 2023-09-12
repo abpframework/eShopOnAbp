@@ -1,13 +1,12 @@
 ﻿using EShopOnAbp.OrderingService.Localization;
 using Volo.Abp.AspNetCore.Mvc;
 
-namespace EShopOnAbp.OrderingService
+namespace EShopOnAbp.OrderingService;
+
+public abstract class OrderingServiceController : AbpControllerBase
 {
-    public abstract class OrderingServiceController : AbpControllerBase
+    protected OrderingServiceController()
     {
-        protected OrderingServiceController()
-        {
-            LocalizationResource = typeof(OrderingServiceResource);
-        }
+        LocalizationResource = typeof(OrderingServiceResource);
     }
 }

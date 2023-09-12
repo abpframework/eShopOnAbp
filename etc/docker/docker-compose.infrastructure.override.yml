@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.8'
 
 services:
   rabbitmq:
@@ -14,10 +14,19 @@ services:
     ports:
       - "27017:27017"
       
+  mongo-express:
+    ports:
+      - "8081:8081"    
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+      - ME_CONFIG_BASICAUTH_USERNAME=admin
+      - ME_CONFIG_BASICAUTH_PASSWORD=admin123
+
   postgres-db:
     ports:
       - "5432:5432"
     environment:
+      POSTGRES_DB: keycloak
       POSTGRES_PASSWORD: "myPassw0rd"
 
   pgadmin:
@@ -26,3 +35,19 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+
+  keycloak:
+    ports:
+      - "8080:8080"
+    environment:
+      DB_VENDOR: postgres
+      DB_ADDR: "postgres-db"
+      DB_DATABASE: "keycloak"
+      DB_USER: "postgres"
+      DB_PASSWORD: "myPassw0rd"
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: "1q2w3E*"
+      KC_HEALTH_ENABLED: "true"
+    entrypoint: ["/opt/keycloak/bin/kc.sh", "start-dev"]
+
+    

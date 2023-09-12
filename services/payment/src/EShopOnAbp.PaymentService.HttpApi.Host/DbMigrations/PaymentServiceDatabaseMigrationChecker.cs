@@ -8,8 +8,7 @@ using Volo.Abp.DistributedLocking;
 
 namespace EShopOnAbp.PaymentService.DbMigrations;
 
-public class PaymentServiceDatabaseMigrationChecker
-    : PendingEfCoreMigrationsChecker<PaymentServiceDbContext>
+public class PaymentServiceDatabaseMigrationChecker : PendingEfCoreMigrationsChecker<PaymentServiceDbContext>
 {
     public PaymentServiceDatabaseMigrationChecker(
         IUnitOfWorkManager unitOfWorkManager,
