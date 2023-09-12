@@ -32,6 +32,18 @@ helm upgrade --install --version=4.0.19 ingress-nginx ingress-nginx/ingress-ngin
 127.0.0.1 eshop-st-gateway-web
 127.0.0.1 eshop-st-gateway-web-public
 ````
+Once Helm is set up properly, add the repo as follows:
+
+```console
+helm repo add eshoponabp https://abpframework.github.io/abp-charts/
+```
+You can then run `helm search repo eshoponabp` to see the charts.
+
+```console
+ helm install eshop-st eshoponabp/eshoponabp
+```
+
+OR
 
 * Run `build-images.ps1` or `build-images.sh` in the `build` directory.
 * Run `deploy-staging.ps1` or `deploy-staging.sh` in the `helm-chart` directory. It is deployed with the `eshop` namespace.
