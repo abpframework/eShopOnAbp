@@ -21,7 +21,7 @@ authserver:
     tlsSecret: eshop-wildcard-tls
   image:
     repository: "ghcr.io/volosoft/eshoponabp/app-authserver"
-    tag: 1.0.0
+    tag: latest
 
 # web sub-chart override
 web:
@@ -38,7 +38,7 @@ web:
     host: eshop-st-web
     tlsSecret: eshop-wildcard-tls
   image:
-    repository: "ghcr.io/volosoft/eshoponabp/app-web"
+    repository: "eshoponabp/app-web"
     tag: 1.0.0
 
 # public-web sub-chart override
@@ -59,7 +59,7 @@ public-web:
     host: eshop-st-public-web
     tlsSecret: eshop-wildcard-tls
   image:
-    repository: "ghcr.io/volosoft/eshoponabp/app-publicweb"
+    repository: "eshoponabp/app-publicweb"
     tag: 1.0.0
 
 # identity-service sub-chart override
@@ -96,7 +96,7 @@ identity:
     host: eshop-st-identity
     tlsSecret: eshop-wildcard-tls
   image:
-    repository: "ghcr.io/volosoft/eshoponabp/service-identity"
+    repository: "eshoponabp/service-identity"
     tag: 1.0.0
 
 # administration sub-chart override
@@ -124,7 +124,7 @@ administration:
     host: eshop-st-administration
     tlsSecret: eshop-wildcard-tls
   image:
-    repository: "ghcr.io/volosoft/eshoponabp/service-administration"
+    repository: "eshoponabp/service-administration"
     tag: 1.0.0
 
 # gateway-web sub-chart override
@@ -146,7 +146,7 @@ gateway-web:
     host: eshop-st-gateway-web
     tlsSecret: eshop-wildcard-tls
   image:
-    repository: "ghcr.io/volosoft/eshoponabp/gateway-web"
+    repository: "eshoponabp/gateway-web"
     tag: 1.0.0
   reRoutes:
     accountService:
@@ -179,7 +179,7 @@ gateway-web-public:
     host: eshop-st-gateway-web-public
     tlsSecret: eshop-wildcard-tls
   image:
-    repository: "ghcr.io/volosoft/eshoponabp/gateway-web-public"
+    repository: "eshoponabp/gateway-web-public"
     tag: 1.0.0
   reRoutes:
     accountService:
@@ -222,7 +222,7 @@ basket:
     host: eshop-st-basket
     tlsSecret: eshop-wildcard-tls
   image:
-    repository: "ghcr.io/volosoft/eshoponabp/service-basket"
+    repository: "eshoponabp/service-basket"
     tag: 1.0.0
 
 # catalog-service sub-chart override
@@ -251,7 +251,7 @@ catalog:
     host: eshop-st-catalog
     tlsSecret: eshop-wildcard-tls
   image:
-    repository: "ghcr.io/volosoft/eshoponabp/service-catalog"
+    repository: "eshoponabp/service-catalog"
     tag: 1.0.0
 
 # ordering-service sub-chart override
@@ -275,8 +275,8 @@ ordering:
     host: eshop-st-ordering
     tlsSecret: eshop-wildcard-tls
   image:
-    repository: "ghcr.io/volosoft/eshoponabp/service-ordering"
-    tag: 1.0.1
+    repository: "eshoponabp/service-ordering"
+    tag: 1.0.0
 
 # cmskit-service sub-chart override
 cmskit:
@@ -327,7 +327,7 @@ payment:
     host: eshop-st-payment
     tlsSecret: eshop-wildcard-tls
   image:
-    repository: "ghcr.io/volosoft/eshoponabp/service-payment"
+    repository: "eshoponabp/service-payment"
     tag: 1.0.0
 
 # Default values for eshoponabp.

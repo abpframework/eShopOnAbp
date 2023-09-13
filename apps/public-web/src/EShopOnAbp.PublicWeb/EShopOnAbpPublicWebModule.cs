@@ -305,7 +305,7 @@ public class EShopOnAbpPublicWebModule : AbpModule
         app.UseAuthentication();
         app.UseAbpSerilogEnrichers();
         app.UseAuthorization();
-        app.UseAnonymousUser();
+        // app.UseAnonymousUser();
         app.UseConfiguredEndpoints(endpoints =>
         {
             endpoints.MapReverseProxy();

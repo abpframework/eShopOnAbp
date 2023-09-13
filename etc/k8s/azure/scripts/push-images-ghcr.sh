@@ -1,4 +1,4 @@
-export version="1.0.0"
+export version="latest"
 
 az acr login --name volocr
 
@@ -30,7 +30,7 @@ docker tag eshoponabp/service-catalog:"${version}" ghcr.io/volosoft/eshoponabp/s
 docker push ghcr.io/volosoft/eshoponabp/service-catalog:"${version}"
 
 docker tag eshoponabp/service-ordering:"${version}" ghcr.io/volosoft/eshoponabp/service-ordering:"${version}"
-docker push ghcr.io/volosoft/eshoponabp/service-ordering:"1.0.1"
+docker push ghcr.io/volosoft/eshoponabp/service-ordering:"${version}"
 
 docker tag eshoponabp/service-cmskit:"${version}" ghcr.io/volosoft/eshoponabp/service-cmskit:"${version}"
 docker push ghcr.io/volosoft/eshoponabp/service-cmskit:"${version}"
