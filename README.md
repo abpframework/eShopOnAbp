@@ -1,10 +1,10 @@
 # eShopOnAbp
 
-This project is a reference project for those who want to build microservice solutions with the ABP Framework.
+This is a reference project for those who want to build microservice solutions with the ABP Framework.
 
 See [the announcement](https://blog.abp.io/abp/Introducing-the-eShopOnAbp-Project) post for more info.
 
-Live demo is on https://www.eshoponabp.com/
+Live demo 👉 https://www.eshoponabp.com/
 
 ## Issues
 
@@ -12,7 +12,7 @@ Please open issues on the main GitHub repository: https://github.com/abpframewor
 
 ## How to Run?
 
-You can either run in Visual Studio, or using [Microsoft Tye](https://github.com/dotnet/tye). Tye is a developer tool that makes developing, testing, and deploying micro-services and distributed applications easier.
+You can run it in Visual Studio or use [Microsoft Tye](https://github.com/dotnet/tye). Tye is a developer tool that makes developing, testing, and deploying micro-services and distributed applications easier.
 
  ### Requirements
 
@@ -32,8 +32,8 @@ You can either run in Visual Studio, or using [Microsoft Tye](https://github.com
 
 - Wait until all applications are up!
 
-	- You can check running application from tye dashboard ([localhost:8000](http://127.0.0.1:8000/))
-	- **Note**: If you see all of your applications keep restarting on tye dashboard or tye console, you may be facing ssl certificate issues. To diagnose the problems better, check any application logs. If it is related with SSL, developer certificate creation may have failed because of powershell issues regarding authorization. Check the powershell script running configuration and set policy for your local machine as: 
+	- You can check the running application from `tye` dashboard ([localhost:8000](http://127.0.0.1:8000/))
+	- **Note**: If you see all of your applications keep restarting on `tye` dashboard or `tye` console, you may be facing SSL certificate issues. To diagnose the problems better, check any application logs. If it is related to SSL, developer certificate creation may have failed because of Powershell issues regarding authorization. Check the PowerShell script running configuration and set the policy for your local machine as follows: 
 	```bash
 	Get-ExecutionPolicy -list
 	Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope LocalMachine
@@ -48,12 +48,12 @@ You can either run in Visual Studio, or using [Microsoft Tye](https://github.com
   ```
 
 ### Certificate Expiration
-If the cerficiate is expired you'll see following error:
+If the certificate is expired, you'll see the following error:
 
 <!-- Make it smaller with 320px height  -->
 <img src="docs/images/ssl-error.png" height="320"/>
 
-Generating a new certificate will fix that issue. To generate new one,
+Generating a new certificate will fix that issue. To generate a new one,
 
 - Remove `etc/dev-cert/localhost.pfx`
 
@@ -74,13 +74,13 @@ Generating a new certificate will fix that issue. To generate new one,
 - [x] Switch Ocelot to <strike>Envoy</strike> YARP in Public Web gateway ✔️
 - [x] Use gRPC for catalog microservice ✔️
 - [x] Management Side of Services ✔️
-- [x] Administration application (to manage products and orders, with a dashboard) ✔️
+- [x] Administration application (to manage products and orders with a dashboard) ✔️
 - [x] Deployment to azure k8s ✔️ (https://eshoponabp.com)
 ### Version 2.0
 - [x] Product-detail page on the shopping application (with CMS-kit integration for comments and rating components) ✔️
 - [x] Switch to Keycloak from IdentityServer in AuthServer
 - [ ] Re-design authorization/permission management
-- [ ] Integrate a new sample microservice written in GoLang (Or python/java)
+- [ ] Integrate a new sample microservice written in GoLang (Or Python / Java)
 ### Documentation
 
 - [ ] We will create an e-book to explain the solution
