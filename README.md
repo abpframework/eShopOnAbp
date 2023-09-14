@@ -2,7 +2,7 @@
 
 This is a reference project for those who want to build microservice solutions with the ABP Framework.
 
-See [the announcement](https://blog.abp.io/abp/Introducing-the-eShopOnAbp-Project) post for more info.
+See [the blog post](https://blog.abp.io/abp/Introducing-the-eShopOnAbp-Project) for more info.
 
 Live demo 👉 https://www.eshoponabp.com/
 
