@@ -19,42 +19,53 @@
 @model EShopOnAbp.PublicWeb.Pages.ProductDetailModel
 
 @section styles{
-    <abp-style src="/Pages/index.css" />
+    <abp-style src="/Pages/index.css"/>
 }
 
-    @section scripts {
-    <abp-script src="/client-proxies/basket-proxy.js" />
-    <abp-script src="/Pages/index.js" />
-    <abp-script src="/Pages/productDetail.js" />
+@section scripts {
+    <abp-script src="/client-proxies/basket-proxy.js"/>
+    <abp-script src="/Pages/index.js"/>
+    <abp-script src="/Pages/productDetail.js"/>
 }
 
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-6 col-md-6 col-sm-6 ">
-                <div class="product-list">
-                    @{
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-6 col-sm-6 ">
+            <div class="product-container">
+                @{
                     var product = Model.Product;
                     var productPrice = product.Price.ToString("C", new CultureInfo("en-US"));
                     string productImage = !product.ImageName.IsNullOrEmpty() ? $"{options.Value.RemoteServices.Default.BaseUrl}product-images/{product.ImageName}" : $"{options.Value.RemoteServices.Default.BaseUrl}product-images/@product.ImageName";
                     string buyText = L["Index:AddToBasket"];
-                    <div class="product-list-item" data-product-id="@product.Id.ToString()" style="cursor:auto">
-                        <div class="col">
-                            <div class="product-info-box">
-                                <h6>@product.Name</h6>
-                                <em class="d-block text-muted">@product.Code - @L["StockCount"]: @product.StockCount</em>
+                    <div class="product-list-item" data-product-id="@product.Id.ToString()">
+                        <a href="/products/@product.Id.ToString()">
+                            <div class="product-title">
+                                <span>
+                                    <h6>@product.Name</h6>
+                                    <span class="d-block text-muted">@product.Code</span>
+                                </span>
                             </div>
-                        </div>
-                        <img src="@productImage" />
-                        <div class="row mt-5 ">
+                            <div class="product-image">
+                                <img src="@productImage" loading="lazy"/>
+                            </div>
+                            <div class="product-count">
+                                <span class="d-block">@L["StockCount"]: @product.StockCount</span>
+                            </div>
+                        </a>
+                        <div class="product-item-bottom">
+                            <div class="item-added">
+                                <div class="fa fa-check" style="color: yellowgreen; padding-right: 1em;"></div>
+                                <span style="display: flex">Added to cart</span>
+                            </div>
                             @if (product.StockCount > 0)
                             {
                                 <abp-button class="add-basket-button" button-type="Warning" text="@buyText" data-product-id="@product.Id.ToString()"></abp-button>
                             }
                             else
                             {
-                                <abp-button disabled="true" class="add-basket-button" button-type="Warning" text="@L["Index:OutOfStock"]" />
+                                <abp-button disabled="true" class="add-basket-button" button-type="Warning" text="@L["Index:OutOfStock"]"/>
                             }
-                            <div class="info-section col" style="text-align: center">
+                            <div class="info-section col">
                                 <span class="product-price">@productPrice</span>
                             </div>
                         </div>
@@ -66,13 +77,13 @@
                 <abp-column size-md="_6">
                     @if (GlobalFeatureManager.Instance.IsEnabled<RatingsFeature>() && Model.IsPurschased)
                     {
-                        @await Component.InvokeAsync(typeof(RatingViewComponent), new {entityType = "quote", entityId = @product.Id.ToString()})
+                        @await Component.InvokeAsync(typeof(RatingViewComponent), new { entityType = "quote", entityId = @product.Id.ToString() })
                     }
                 </abp-column>
                 <abp-column size-md="_12">
                     @if (GlobalFeatureManager.Instance.IsEnabled<CommentsFeature>())
                     {
-                        @await Component.InvokeAsync(typeof(CommentingViewComponent), new {entityType = "quote", entityId = @product.Id.ToString()})
+                        @await Component.InvokeAsync(typeof(CommentingViewComponent), new { entityType = "quote", entityId = @product.Id.ToString() })
                     }
                 </abp-column>
             </abp-row>

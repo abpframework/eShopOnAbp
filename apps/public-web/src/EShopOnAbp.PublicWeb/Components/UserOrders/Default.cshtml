@@ -72,14 +72,14 @@
                             </abp-column>
                             <abp-column offset="_3" size="_2">
                                 <abp-row class="pb-3">
-                                    <abp-button class="btn btn-light shadow" disabled="true" abp-tooltip-right="Not available yet">
+                                    <a class="btn btn-light" disabled="true" abp-tooltip-right="Not available yet">
                                         @L["UserOrders:ReturnProducts"]
-                                    </abp-button>
+                                    </a>
                                 </abp-row>
                                 <abp-row>
-                                    <abp-button class="btn btn-light shadow" disabled="true" abp-tooltip-right="Not available yet">
+                                    <a class="btn btn-outline-light shadow" href="/products/@item.ProductId.ToString()" abp-tooltip-right="Add review">
                                         @L["UserOrders:AddReview"]
-                                    </abp-button>
+                                    </a>
                                 </abp-row>
                             </abp-column>
                         </abp-row>
