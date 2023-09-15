@@ -5,20 +5,54 @@
 a, a:hover, a:visited, a:active {
     color: inherit;
     text-decoration: none;
+    padding-bottom: 1em;
 }
 
-.product-list-item {
+.product-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1em 2em; /* row-gap column gap */
+}
+
+.product-container {
+    text-align: center;
     background-color: #fff;
-    padding: 2em;
+    padding: 2em 2em 1em 2em;
     border: 1px solid #eee;
     border-radius: 3px;
     box-shadow: 0 0 10px rgba(0, 0, 0, .05);
     margin-bottom: 2em;
     transition: all .2s;
+    display: flex;
+    flex: 0 0 20%;
+    flex-direction: column;
 }
 
-.product-list-item:hover {
-    box-shadow: 0 0 20px rgba(0, 0, 0, .1);
+.product-list-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.product-item-bottom {
+    display: flex;
+    flex-direction: column;
+    min-height: 70px;
+}
+
+.product-title {
+    min-height: 70px;
+    padding-bottom: 1em;
+}
+
+.product-count {
+    display: flex;
+    justify-content: center;
+    padding: 1em 0 1em 0em;
+}
+
+.product-container:hover {
+    box-shadow: 1px 1px 20px rgba(0, 0, 0, .2);
     cursor: pointer;
 }
 
@@ -30,10 +64,6 @@ a, a:hover, a:visited, a:active {
     opacity: .8
 }
 
-.product-info-box {
-    min-height: 80px;
-}
-
 .add-basket-button {
     display: none;
     font-weight: 500;
@@ -41,6 +71,11 @@ a, a:hover, a:visited, a:active {
 
 .product-list-item:hover .add-basket-button {
     display: inline-block;
+    width: -webkit-fill-available;
+}
+
+.info-section {
+    text-align: center;
 }
 
 .product-list-item:hover .info-section {
@@ -51,4 +86,10 @@ a, a:hover, a:visited, a:active {
     font-weight: bolder;
     font-size: larger;
     line-height: 40px;
+}
+
+.item-added {
+    display: none;
+    justify-content: center;
+    align-items: baseline;
 }
