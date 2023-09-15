@@ -30,7 +30,7 @@ export const environment = {
       rootNamespace: 'EShopOnAbp.OrderingService',
     }
   },
-  mediaServerUrl:'https://localhost:44335'
+  mediaServerUrl:'https://localhost:44373'
 } as MyEnvironment;
 
 

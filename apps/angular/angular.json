@@ -69,6 +69,11 @@
                 "input": "node_modules/@abp/ng.theme.lepton-x/assets/css/abp-bundle.css",
                 "inject": false,
                 "bundleName": "abp-bundle"
+              },              
+              {
+                "input": "node_modules/@abp/ng.theme.lepton-x/assets/css/abp-bundle.rtl.css",
+                "inject": false,
+                "bundleName": "abp-bundle.rtl"
               },
               {
                 "input": "node_modules/@volo/ngx-lepton-x.lite/assets/css/bootstrap-dim.rtl.css",
@@ -81,14 +86,14 @@
                 "bundleName": "ng-bundle.rtl"
               },
               {
-                "input": "node_modules/@volo/ngx-lepton-x.lite/assets/css/side-menu/layout-bundle.rtl.css",
+                "input": "node_modules/@volo/ngx-lepton-x.lite/assets/css/font-bundle.rtl.css",
                 "inject": false,
-                "bundleName": "layout-bundle.rtl"
+                "bundleName": "font-bundle.rtl"
               },
               {
-                "input": "node_modules/@abp/ng.theme.lepton-x/assets/css/abp-bundle.rtl.css",
+                "input": "node_modules/@volo/ngx-lepton-x.lite/assets/css/font-bundle.css",
                 "inject": false,
-                "bundleName": "abp-bundle.rtl"
+                "bundleName": "font-bundle"
               },
               "node_modules/bootstrap-icons/font/bootstrap-icons.css",
 
