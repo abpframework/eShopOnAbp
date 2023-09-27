@@ -3,3 +3,17 @@
 @{
     Layout = ThemeManager.CurrentTheme.GetPublicLayout();
 }
+<div class="logo" >
+    <a href="/" >
+        <img src="/logo.png" style="height: 2.2rem" />
+    </a>
+</div>
+<style>
+    .logo {
+        position: sticky;
+        top: 0;
+        z-index: 101;
+        padding-bottom: 1em;
+        margin-top: -90px;
+    }
+</style>
