@@ -27,4 +27,12 @@
             });
         });
     });
+
+    $(function () {
+        $(".item-link").click(function () {
+            var $this = $(this);
+            var productId = $this.attr('data-product-id');
+            location.href += "products/" + productId;
+        });
+    })
 })();

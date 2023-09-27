@@ -4,6 +4,7 @@
 @using System.Globalization
 @using Microsoft.Extensions.Options
 @using Volo.Abp.Http.Client
+@using Volo.CmsKit.Public.Web.Pages.CmsKit.Shared.Components.Rating
 @model EShopOnAbp.PublicWeb.Pages.IndexModel
 @inject IStringLocalizer<EShopOnAbpResource> L
 @inject IOptions<AbpRemoteServiceOptions> options
@@ -37,20 +38,27 @@
                 string buyText = L["Index:AddToBasket"];
                 <div class="product-container">
                     <div class="product-list-item" data-product-id="@product.Id.ToString()">
-                        <a href="/products/@product.Id.ToString()">
+                        <div class="item-link" href="/products/@product.Id.ToString()" data-product-id="@product.Id.ToString()">
                             <div class="product-title">
                                 <span>
                                     <h6>@product.Name</h6>
                                     <span class="d-block text-muted">@product.Code</span>
                                 </span>
                             </div>
+                            @* Need read-only ratings system *@
+                            @* <div class="product-ratings"> *@
+                            @*     @if (GlobalFeatureManager.Instance.IsEnabled<RatingsFeature>()) *@
+                            @*     { *@
+                            @*         @await Component.InvokeAsync(typeof(RatingViewComponent), new { entityType = "quote", entityId = @product.Id.ToString() }) *@
+                            @*     } *@
+                            @* </div> *@
                             <div class="product-image">
                                 <img src="@productImage" loading="lazy"/>
                             </div>
                             <div class="product-count">
                                 <span class="d-block">@L["StockCount"]: @product.StockCount</span>
                             </div>
-                        </a>
+                        </div>
                         <div class="product-item-bottom">
                             <div class="item-added">
                                 <div class="fa fa-check" style="color: yellowgreen; padding-right: 1em;"></div>

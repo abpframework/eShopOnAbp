@@ -1,25 +1,22 @@
 ﻿@page "/products/{id:guid}"
 @using EShopOnAbp.Localization
-@using EShopOnAbp.PublicWeb.Components.Basket
 @using Microsoft.Extensions.Localization
 @using System.Globalization
 @using Microsoft.Extensions.Options
 @using Volo.Abp.GlobalFeatures
 @using Volo.Abp.Http.Client
-@using Volo.Abp.Users
 @using Volo.CmsKit.GlobalFeatures
-@using Volo.CmsKit.Public.Comments
 @using Volo.CmsKit.Public.Web.Pages.CmsKit.Shared.Components.Commenting
 @using Volo.CmsKit.Public.Web.Pages.CmsKit.Shared.Components.Rating
 
 @inject IStringLocalizer<EShopOnAbpResource> L
 @inject IOptions<AbpRemoteServiceOptions> options
-@inject ICurrentUser CurrentUser
 
 @model EShopOnAbp.PublicWeb.Pages.ProductDetailModel
 
+
 @section styles{
-    <abp-style src="/Pages/index.css"/>
+    <abp-style src="/Pages/productDetails.css"/>
 }
 
 @section scripts {
@@ -81,7 +78,8 @@
                     }
                 </abp-column>
                 <abp-column size-md="_12">
-                    @if (GlobalFeatureManager.Instance.IsEnabled<CommentsFeature>())
+                    @* Need read-only commenting system *@
+                    @if (GlobalFeatureManager.Instance.IsEnabled<CommentsFeature>() && Model.IsPurschased)
                     {
                         @await Component.InvokeAsync(typeof(CommentingViewComponent), new { entityType = "quote", entityId = @product.Id.ToString() })
                     }
