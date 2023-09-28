@@ -17,8 +17,22 @@
                     .data('abp-widget-manager')
                     .refresh();
 
-                abp.notify.success("Added product to your basket.", "Successfully added");
+                abp.notify.success("Added product to your basket.", "Successfully added"); //TODO: localize the msg
+                var $itemAdded = $this.parent(".product-item-bottom").find(".item-added");
+                $($itemAdded).css({display: "flex"});
+                $this.css({opacity: 0.5});
+                $this.animate({opacity: 1}, 2000);
+            }).catch(err => {
+                abp.notify.error(err.message, "Failed while adding item");  //TODO: localize the msg
             });
         });
     });
+
+    $(function () {
+        $(".item-link").click(function () {
+            var $this = $(this);
+            var productId = $this.attr('data-product-id');
+            location.href += "products/" + productId;
+        });
+    })
 })();

@@ -39,14 +39,6 @@ a, a:hover, a:visited, a:active {
     justify-content: center;
 }
 
-.text-muted.ms-1.text-decoration-none {
-    display: none;
-}
-
-.rating-undo-link.text-decoration-none {
-    display: none;
-}
-
 .product-title {
     min-height: 70px;
     padding-bottom: 1em;
