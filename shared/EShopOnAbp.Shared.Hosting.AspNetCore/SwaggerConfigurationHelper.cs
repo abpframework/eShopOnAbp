@@ -36,6 +36,9 @@ public static class SwaggerConfigurationHelper
                 options.SwaggerDoc(apiName, new OpenApiInfo { Title = apiTitle, Version = apiVersion });
                 options.DocInclusionPredicate((docName, description) => true);
                 options.CustomSchemaIds(type => type.FullName);
-            });
+            },
+            authorizationEndpoint: "/protocol/openid-connect/auth",
+            tokenEndpoint: "/protocol/openid-connect/token"
+        );
     }
 }
