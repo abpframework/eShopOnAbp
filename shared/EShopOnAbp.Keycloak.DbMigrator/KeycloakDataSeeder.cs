@@ -137,7 +137,8 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
     private async Task CreateClientsAsync()
     {
         await CreatePublicWebClientAsync();
-        await CreateSwaggerClientAsync(); // TODO: Test when Volo.Abp.Swashbuckle v6.0.1 is released (https://github.com/abpframework/abp/pull/14409)
+        await CreateSwaggerClientAsync(clientId: "SwaggerClient", name: "Swagger Client Application");
+        await CreateSwaggerClientAsync(clientId: "WebGateway_Swagger", name: "Web Gateway Swagger Client Application");
         await CreateWebClientAsync();
         await CreateCmskitClientAsync();
         await CreateAdministrationClientAsync();
@@ -286,10 +287,10 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
         }
     }
 
-    private async Task CreateSwaggerClientAsync()
+    private async Task CreateSwaggerClientAsync(string clientId, string name)
     {
         var swaggerClient =
-            (await _keycloakClient.GetClientsAsync(_keycloakOptions.RealmName, clientId: "SwaggerClient"))
+            (await _keycloakClient.GetClientsAsync(_keycloakOptions.RealmName, clientId: clientId))
             .FirstOrDefault();
 
         if (swaggerClient == null)
@@ -307,8 +308,8 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
 
             swaggerClient = new Client
             {
-                ClientId = "SwaggerClient",
-                Name = "Swagger Client Application",
+                ClientId = clientId,
+                Name = name,
                 Protocol = "openid-connect",
                 Enabled = true,
                 RedirectUris = new List<string>
@@ -329,6 +330,16 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
             };
 
             await _keycloakClient.CreateClientAsync(_keycloakOptions.RealmName, swaggerClient);
+
+            // Add Scopes For ClientId
+            await AddOptionalClientScopesAsync(
+                clientId,
+                new List<string>
+                {
+                    "AdministrationService", "IdentityService", "BasketService", "CatalogService",
+                    "OrderingService", "PaymentService", "CmskitService"
+                }
+            );
         }
     }
 
