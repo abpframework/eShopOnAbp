@@ -12,14 +12,13 @@ using Volo.Abp.Caching.StackExchangeRedis;
 using Volo.Abp.DistributedLocking;
 using Volo.Abp.EventBus.RabbitMq;
 using Volo.Abp.Modularity;
-using Volo.Abp.MultiTenancy;
 
 namespace EShopOnAbp.Shared.Hosting.Microservices;
 
 [DependsOn(
     typeof(EShopOnAbpSharedHostingAspNetCoreModule),
     typeof(AbpBackgroundJobsRabbitMqModule),
-    typeof(AbpAspNetCoreMultiTenancyModule),
+    typeof(AbpAspNetCoreAuthenticationJwtBearerModule),
     typeof(AbpEventBusRabbitMqModule),
     typeof(AbpCachingStackExchangeRedisModule),
     typeof(AdministrationServiceEntityFrameworkCoreModule),
@@ -31,11 +30,6 @@ public class EShopOnAbpSharedHostingMicroservicesModule : AbpModule
     {
         Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
         var configuration = context.Services.GetConfiguration();
-
-        Configure<AbpMultiTenancyOptions>(options =>
-        {
-            options.IsEnabled = true;
-        });
 
         Configure<AbpDistributedCacheOptions>(options =>
         {
