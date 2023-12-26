@@ -24,6 +24,7 @@ namespace EShopOnAbp.IdentityService.EntityFrameworkCore
         public DbSet<OrganizationUnit> OrganizationUnits { get; set; }
         public DbSet<IdentitySecurityLog> SecurityLogs { get; set; }
         public DbSet<IdentityLinkUser> LinkUsers { get; set; }
+        public DbSet<IdentityUserDelegation> UserDelegations { get; }
 
         public IdentityServiceDbContext(DbContextOptions<IdentityServiceDbContext> options)
             : base(options)
