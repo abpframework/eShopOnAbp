@@ -37,6 +37,7 @@ namespace EShopOnAbp.AdministrationService.EntityFrameworkCore
 
         public DbSet<PermissionGrant> PermissionGrants { get; set; }
         public DbSet<Setting> Settings { get; set; }
+        public DbSet<SettingDefinitionRecord> SettingDefinitionRecords { get; }
         public DbSet<AuditLog> AuditLogs { get; set; }
         public DbSet<DatabaseBlobContainer> BlobContainers { get; set; }
         public DbSet<DatabaseBlob> Blobs { get; set; }
