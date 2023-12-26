@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.Http.Client.IdentityModel" Version="7.0.0" />
+    <PackageReference Include="Volo.Abp.Http.Client.IdentityModel" Version="8.0.0" />
     <ProjectReference Include="..\..\src\EShopOnAbp.OrderingService.HttpApi.Client\EShopOnAbp.OrderingService.HttpApi.Client.csproj" />
   </ItemGroup>
 

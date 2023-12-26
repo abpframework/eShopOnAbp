@@ -10,8 +10,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.Http.Client.IdentityModel.Web" Version="7.0.0" />
-    <PackageReference Include="Volo.Abp.Identity.HttpApi.Client" Version="7.0.0" />
+    <PackageReference Include="Volo.Abp.Http.Client.IdentityModel.Web" Version="8.0.0" />
+    <PackageReference Include="Volo.Abp.Identity.HttpApi.Client" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -11,9 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.PermissionManagement.Domain.Shared" Version="7.0.0" />
-    <PackageReference Include="Volo.Abp.SettingManagement.Domain.Shared" Version="7.0.0" />
-    <PackageReference Include="Volo.Abp.AuditLogging.Domain.Shared" Version="7.0.0" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.Domain.Shared" Version="8.0.0" />
+    <PackageReference Include="Volo.Abp.SettingManagement.Domain.Shared" Version="8.0.0" />
+    <PackageReference Include="Volo.Abp.AuditLogging.Domain.Shared" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>

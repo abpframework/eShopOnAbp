@@ -10,7 +10,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Volo.Abp.Identity.HttpApi" Version="7.0.0" />
+        <PackageReference Include="Volo.Abp.Identity.HttpApi" Version="8.0.0" />
     </ItemGroup>
 
 </Project>
