@@ -5,7 +5,7 @@ using Medallion.Threading.Redis;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Redis;
-using Volo.Abp.AspNetCore.MultiTenancy;
+using Volo.Abp.AspNetCore.Authentication.JwtBearer;
 using Volo.Abp.BackgroundJobs.RabbitMQ;
 using Volo.Abp.Caching;
 using Volo.Abp.Caching.StackExchangeRedis;
