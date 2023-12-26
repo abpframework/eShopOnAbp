@@ -4,7 +4,7 @@ namespace EShopOnAbp.BasketService.Entities;
 
 public class Basket : AggregateRoot<Guid>
 {
-    public List<BasketItem> Items { get; set; }
+    public List<BasketItem> Items { get; set; } = new();
 
     private Basket()
     {

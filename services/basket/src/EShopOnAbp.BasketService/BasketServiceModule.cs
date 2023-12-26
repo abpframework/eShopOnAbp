@@ -35,7 +35,7 @@ public class BasketServiceModule : AbpModule
     {
         PreConfigure<AbpHttpClientBuilderOptions>(options =>
         {
-            options.ProxyClientBuildActions.Add((remoteServiceName, clientBuilder) =>
+            options.ProxyClientBuildActions.Add((_, clientBuilder) =>
             {
                 clientBuilder.AddTransientHttpErrorPolicy(policyBuilder =>
                     policyBuilder.WaitAndRetryAsync(
@@ -132,7 +132,7 @@ public class BasketServiceModule : AbpModule
             {
                 builder
                     .WithOrigins(
-                        configuration["App:CorsOrigins"]
+                        configuration["App:CorsOrigins"]!
                             .Split(",", StringSplitOptions.RemoveEmptyEntries)
                             .Select(o => o.Trim().RemovePostFix("/"))
                             .ToArray()
@@ -164,7 +164,7 @@ public class BasketServiceModule : AbpModule
             var catalogServiceConfiguration = remoteServiceOptions.RemoteServices.GetConfigurationOrDefault("Catalog");
             var catalogGrpcUrl = catalogServiceConfiguration.GetOrDefault("GrpcUrl");
 
-            options.Address = new Uri(catalogGrpcUrl);
+            if (catalogGrpcUrl != null) options.Address = new Uri(catalogGrpcUrl);
         });
     }
 

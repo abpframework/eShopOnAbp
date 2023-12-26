@@ -15,7 +15,7 @@ public class BasketRepository : IBasketRepository
 
     public async Task<Basket> GetAsync(Guid id)
     {
-        return await _cache.GetOrAddAsync(id, () => Task.FromResult(new Basket(id)));
+        return (await _cache.GetOrAddAsync(id, () => Task.FromResult(new Basket(id))))!;
     }
 
     public async Task UpdateAsync(Basket basket)
