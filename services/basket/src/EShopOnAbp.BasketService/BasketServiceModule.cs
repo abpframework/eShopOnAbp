@@ -110,14 +110,12 @@ public class BasketServiceModule : AbpModule
 
     private void ConfigureSwagger(ServiceConfigurationContext context, IConfiguration configuration)
     {
-        SwaggerConfigurationHelper.ConfigureWithAuth(
+        SwaggerConfigurationHelper.ConfigureWithOidc(
             context: context,
-            authority: configuration["AuthServer:Authority"],
-            scopes: new
-                Dictionary<string, string> /* Requested scopes for authorization code request and descriptions for swagger UI only */
-                {
-                    {"BasketService", "Basket Service API"}
-                },
+            authority: configuration["AuthServer:Authority"]!,
+            scopes: ["BasketService"],
+            flows: ["authorization_code"],
+            discoveryEndpoint: configuration["AuthServer:MetadataAddress"],
             apiTitle: "Basket Service API"
         );
     }

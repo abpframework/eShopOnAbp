@@ -12,10 +12,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp;
-using Volo.Abp.AspNetCore.Mvc.UI.MultiTenancy;
 using Volo.Abp.Http.Client.IdentityModel.Web;
 using Volo.Abp.Identity;
 using Volo.Abp.Modularity;
+using Volo.Abp.PermissionManagement;
+using Volo.Abp.Security.Claims;
+using Volo.Abp.SettingManagement;
 
 namespace EShopOnAbp.AdministrationService;
 
@@ -25,7 +27,6 @@ namespace EShopOnAbp.AdministrationService;
     typeof(AdministrationServiceEntityFrameworkCoreModule),
     typeof(EShopOnAbpSharedHostingMicroservicesModule),
     typeof(AbpHttpClientIdentityModelWebModule),
-    typeof(AbpAspNetCoreMvcUiMultiTenancyModule),
     typeof(AbpIdentityHttpApiClientModule)
 )]
 public class AdministrationServiceHttpApiHostModule : AbpModule
@@ -36,16 +37,19 @@ public class AdministrationServiceHttpApiHostModule : AbpModule
 
         JwtBearerConfigurationHelper.Configure(context, "AdministrationService");
 
-        SwaggerConfigurationHelper.ConfigureWithAuth(
+        SwaggerConfigurationHelper.ConfigureWithOidc(
             context: context,
-            authority: configuration["AuthServer:Authority"],
-            scopes: new
-                Dictionary<string, string> /* Requested scopes for authorization code request and descriptions for swagger UI only */
-                {
-                    {"AdministrationService", "Administration Service API"}
-                },
+            authority: configuration["AuthServer:Authority"]!,
+            scopes: ["AdministrationService"],
+            flows: ["authorization_code"],
+            discoveryEndpoint: configuration["AuthServer:MetadataAddress"],
             apiTitle: "Administration Service API"
         );
+        
+        context.Services.Configure<AbpClaimsPrincipalFactoryOptions>(options =>
+        {
+            options.IsDynamicClaimsEnabled = true;
+        });
 
         context.Services.AddCors(options =>
         {
@@ -53,7 +57,7 @@ public class AdministrationServiceHttpApiHostModule : AbpModule
             {
                 builder
                     .WithOrigins(
-                        configuration["App:CorsOrigins"]
+                        configuration["App:CorsOrigins"]!
                             .Split(",", StringSplitOptions.RemoveEmptyEntries)
                             .Select(o => o.Trim().RemovePostFix("/"))
                             .ToArray()
@@ -64,6 +68,16 @@ public class AdministrationServiceHttpApiHostModule : AbpModule
                     .AllowAnyMethod()
                     .AllowCredentials();
             });
+        });
+        
+        Configure<PermissionManagementOptions>(options =>
+        {
+            options.IsDynamicPermissionStoreEnabled = true;
+        });
+
+        Configure<SettingManagementOptions>(options =>
+        {
+            options.IsDynamicSettingStoreEnabled = true;
         });
     }
 
@@ -91,7 +105,6 @@ public class AdministrationServiceHttpApiHostModule : AbpModule
             var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
             options.SwaggerEndpoint("/swagger/v1/swagger.json", "Administration Service API");
             options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
-            // options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
         });
         app.UseAbpSerilogEnrichers();
         app.UseAuditing();

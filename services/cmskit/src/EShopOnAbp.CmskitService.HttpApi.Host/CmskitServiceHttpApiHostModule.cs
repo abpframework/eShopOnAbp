@@ -42,16 +42,14 @@ public class CmskitServiceHttpApiHostModule : AbpModule
 
         var configuration = context.Services.GetConfiguration();
 
-        SwaggerConfigurationHelper.ConfigureWithAuth(
+        SwaggerConfigurationHelper.ConfigureWithOidc(
             context: context,
-            authority: configuration["AuthServer:Authority"],
-            scopes: new
-                Dictionary<string, string>
-                {
-                    { "CmskitService", "Cmskit Service API" }
-                },
-            apiTitle: "Cmskit Service API"
-        );
+            authority: configuration["AuthServer:Authority"]!,
+            scopes: ["CmskitService"],
+            flows: ["authorization_code"],
+            discoveryEndpoint: configuration["AuthServer:MetadataAddress"],
+            apiTitle: "Cmskit Service API" 
+            );
 
         context.Services.AddCors(options =>
         {
@@ -59,7 +57,7 @@ public class CmskitServiceHttpApiHostModule : AbpModule
             {
                 builder
                     .WithOrigins(
-                        configuration["App:CorsOrigins"]
+                        configuration["App:CorsOrigins"]!
                             .Split(",", StringSplitOptions.RemoveEmptyEntries)
                             .Select(o => o.Trim().RemovePostFix("/"))
                             .ToArray()
@@ -122,7 +120,6 @@ public class CmskitServiceHttpApiHostModule : AbpModule
             var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
             options.SwaggerEndpoint("/swagger/v1/swagger.json", "Cmskit Service API");
             options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
-            options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
         });
         app.UseAbpSerilogEnrichers();
         app.UseAuditing();

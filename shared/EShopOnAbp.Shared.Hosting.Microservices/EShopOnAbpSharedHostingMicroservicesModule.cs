@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Redis;
 using Volo.Abp.AspNetCore.Authentication.JwtBearer;
+using Volo.Abp.AspNetCore.Authentication.JwtBearer.DynamicClaims;
 using Volo.Abp.BackgroundJobs.RabbitMQ;
 using Volo.Abp.Caching;
 using Volo.Abp.Caching.StackExchangeRedis;
@@ -26,6 +27,14 @@ namespace EShopOnAbp.Shared.Hosting.Microservices;
 )]
 public class EShopOnAbpSharedHostingMicroservicesModule : AbpModule
 {
+    public override void PreConfigureServices(ServiceConfigurationContext context)
+    {
+        PreConfigure<WebRemoteDynamicClaimsPrincipalContributorOptions>(options =>
+        {
+            options.IsEnabled = true;
+        });
+    }
+    
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
@@ -36,15 +45,17 @@ public class EShopOnAbpSharedHostingMicroservicesModule : AbpModule
             options.KeyPrefix = "EShopOnAbp:";
         });
 
-        var redis = ConnectionMultiplexer.Connect(configuration["Redis:Configuration"]);
+        var redis = ConnectionMultiplexer.Connect(configuration["Redis:Configuration"]!);
         context.Services
             .AddDataProtection()
             .PersistKeysToStackExchangeRedis(redis, "EShopOnAbp-Protection-Keys");
             
         context.Services.AddSingleton<IDistributedLockProvider>(sp =>
         {
-            var connection = ConnectionMultiplexer.Connect(configuration["Redis:Configuration"]);
+            var connection = ConnectionMultiplexer.Connect(configuration["Redis:Configuration"]!);
             return new RedisDistributedSynchronizationProvider(connection.GetDatabase());
         });
+        
+        context.Services.AddHttpClient();
     }
 }

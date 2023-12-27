@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using System.Collections.Generic;
 using Volo.Abp;
 using Volo.Abp.Modularity;
+using Volo.Abp.Swashbuckle;
 
 namespace EShopOnAbp.WebPublicGateway;
 
@@ -21,25 +22,19 @@ public class EShopOnAbpWebPublicGatewayModule : AbpModule
         var configuration = context.Services.GetConfiguration();
         var hostingEnvironment = context.Services.GetHostingEnvironment();
 
-        SwaggerConfigurationHelper.ConfigureWithAuth(
+        SwaggerConfigurationHelper.ConfigureWithOidc(
             context: context,
-            authority: configuration["AuthServer:Authority"],
-            scopes: new Dictionary<string, string> /* Requested scopes for authorization code request and descriptions for swagger UI only */
-            {
-                { "AccountService", "Account Service API" },
-                { "IdentityService", "Identity Service API" },
-                { "AdministrationService", "Administration Service API" },
-                { "CatalogService", "Catalog Service API" },
-                { "BasketService", "Basket Service API" },
-                { "PaymentService", "Payment Service API" },
-                { "OrderingService", "Ordering Service API" },
-                { "CmskitService", "Cmskit Service API" },
-            },
-            apiTitle: "WebPublic Gateway"
+            authority: configuration["AuthServer:Authority"]!,
+            scopes:
+            [
+                /* Requested scopes for authorization code request and descriptions for swagger UI only */
+                "IdentityService", "AdministrationService", "CatalogService", "BasketService", "PaymentService",
+                "OrderingService", "CmskitService"
+            ],
+            flows: [AbpSwaggerOidcFlows.AuthorizationCode],
+            apiTitle: "Web Gateway API",
+            discoveryEndpoint: configuration["AuthServer:MetadataAddress"]
         );
-
-        // context.Services.AddReverseProxy()
-        //     .LoadFromConfig(configuration.GetSection("ReverseProxy"));
     }
 
     public override void OnApplicationInitialization(ApplicationInitializationContext context)

@@ -34,16 +34,14 @@ public class CatalogServiceHttpApiHostModule : AbpModule
 
         JwtBearerConfigurationHelper.Configure(context, "CatalogService");
 
-        SwaggerConfigurationHelper.ConfigureWithAuth(
+        SwaggerConfigurationHelper.ConfigureWithOidc(
             context: context,
-            authority: configuration["AuthServer:Authority"],
-            scopes: new
-                Dictionary<string, string> /* Requested scopes for authorization code request and descriptions for swagger UI only */
-                {
-                    { "CatalogService", "Catalog Service API" }
-                },
-            apiTitle: "Catalog Service API"
-        );
+            authority: configuration["AuthServer:Authority"]!,
+            scopes: ["CatalogService"],
+            flows: ["authorization_code"],
+            discoveryEndpoint: configuration["AuthServer:MetadataAddress"],
+            apiTitle: "Catalog Service API" 
+            );
 
         context.Services.AddCors(options =>
         {
@@ -51,7 +49,7 @@ public class CatalogServiceHttpApiHostModule : AbpModule
             {
                 builder
                     .WithOrigins(
-                        configuration["App:CorsOrigins"]
+                        configuration["App:CorsOrigins"]!
                             .Split(",", StringSplitOptions.RemoveEmptyEntries)
                             .Select(o => o.Trim().RemovePostFix("/"))
                             .ToArray()
@@ -110,7 +108,6 @@ public class CatalogServiceHttpApiHostModule : AbpModule
             var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
             options.SwaggerEndpoint("/swagger/v1/swagger.json", "Catalog Service API");
             options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
-            options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
         });
         app.UseAbpSerilogEnrichers();
         app.UseAuditing();
