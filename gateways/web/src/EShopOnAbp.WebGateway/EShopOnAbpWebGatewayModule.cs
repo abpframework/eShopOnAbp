@@ -6,12 +6,9 @@ using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Volo.Abp;
 using Volo.Abp.Modularity;
-using Volo.Abp.Swashbuckle;
-using Yarp.ReverseProxy.Configuration;
 
 namespace EShopOnAbp.WebGateway;
 
@@ -34,7 +31,6 @@ public class EShopOnAbpWebGatewayModule : AbpModule
                 "IdentityService", "AdministrationService", "CatalogService", "BasketService", "PaymentService",
                 "OrderingService", "CmskitService"
             ],
-            flows: ["authorization_code"],
             apiTitle: "Web Gateway API",
             discoveryEndpoint: configuration["AuthServer:MetadataAddress"]
         );
@@ -45,7 +41,7 @@ public class EShopOnAbpWebGatewayModule : AbpModule
             {
                 builder
                     .WithOrigins(
-                        configuration["App:CorsOrigins"]
+                        configuration["App:CorsOrigins"]!
                             .Split(",", StringSplitOptions.RemoveEmptyEntries)
                             .Select(o => o.Trim().RemovePostFix("/"))
                             .ToArray()
@@ -70,15 +66,16 @@ public class EShopOnAbpWebGatewayModule : AbpModule
         }
 
         app.UseCorrelationId();
-        app.UseAbpSerilogEnrichers();
-        app.UseCors();
+        app.UseStaticFiles();
+        app.UseRouting();
+        app.UseAuthorization();
         app.UseSwaggerUIWithYarp(context);
+        app.UseAbpSerilogEnrichers();
 
         app.UseRewriter(new RewriteOptions()
             // Regex for "", "/" and "" (whitespace)
             .AddRedirect("^(|\\|\\s+)$", "/swagger"));
-
-        app.UseRouting();
+        
         app.UseEndpoints(endpoints => { endpoints.MapReverseProxy(); });
     }
 }

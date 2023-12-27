@@ -1,14 +1,11 @@
 ﻿using EShopOnAbp.Shared.Hosting.AspNetCore;
 using EShopOnAbp.Shared.Hosting.Gateways;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Collections.Generic;
 using Volo.Abp;
 using Volo.Abp.Modularity;
-using Volo.Abp.Swashbuckle;
 
 namespace EShopOnAbp.WebPublicGateway;
 
@@ -31,7 +28,6 @@ public class EShopOnAbpWebPublicGatewayModule : AbpModule
                 "IdentityService", "AdministrationService", "CatalogService", "BasketService", "PaymentService",
                 "OrderingService", "CmskitService"
             ],
-            flows: [AbpSwaggerOidcFlows.AuthorizationCode],
             apiTitle: "Web Gateway API",
             discoveryEndpoint: configuration["AuthServer:MetadataAddress"]
         );
@@ -48,17 +44,18 @@ public class EShopOnAbpWebPublicGatewayModule : AbpModule
         }
 
         app.UseCorrelationId();
-        app.UseAbpSerilogEnrichers();
+        app.UseStaticFiles();
+        app.UseRouting();
+        app.UseAuthorization();
         app.UseSwaggerUIWithYarp(context);
+        app.UseAbpSerilogEnrichers();
 
         app.UseRewriter(new RewriteOptions()
             // Regex for "", "/" and "" (whitespace)
             .AddRedirect("^(|\\|\\s+)$", "/swagger"));
 
-        app.UseRouting();
         app.UseEndpoints(endpoints =>
         {
-            endpoints.MapGet("", ctx => ctx.Response.WriteAsync("YAG"));
             endpoints.MapReverseProxy();
         });
     }

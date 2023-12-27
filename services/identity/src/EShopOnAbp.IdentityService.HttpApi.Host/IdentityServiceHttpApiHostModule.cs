@@ -9,7 +9,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -37,7 +36,6 @@ public class IdentityServiceHttpApiHostModule : AbpModule
             context: context,
             authority: configuration["AuthServer:Authority"]!,
             scopes: ["IdentityService"],
-            flows: ["authorization_code"],
             discoveryEndpoint: configuration["AuthServer:MetadataAddress"],
             apiTitle: "Identity Service API"
             );

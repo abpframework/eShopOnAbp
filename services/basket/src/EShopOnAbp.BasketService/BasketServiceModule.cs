@@ -114,7 +114,6 @@ public class BasketServiceModule : AbpModule
             context: context,
             authority: configuration["AuthServer:Authority"]!,
             scopes: ["BasketService"],
-            flows: ["authorization_code"],
             discoveryEndpoint: configuration["AuthServer:MetadataAddress"],
             apiTitle: "Basket Service API"
         );
