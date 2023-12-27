@@ -42,6 +42,8 @@ services:
   redis:
     container_name: redis
     image: redis:alpine
+    volumes:
+      - redis_data:/data
     healthcheck:
       test: ["CMD", "redis-cli","ping"]
     networks: 
@@ -51,7 +53,7 @@ services:
     container_name: postgres-db
     image: postgres:14.1
     volumes:
-      - postgres_data:/var/opt/postgres
+      - postgres_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
@@ -81,6 +83,7 @@ volumes:
   postgres_data:
   pgadmin_data:
   mongodb_data:
+  redis_data:
 
 networks:
   eshoponabp-network:
