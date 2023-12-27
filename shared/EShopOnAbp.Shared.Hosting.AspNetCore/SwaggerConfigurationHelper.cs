@@ -6,18 +6,6 @@ namespace EShopOnAbp.Shared.Hosting.AspNetCore;
 
 public static class SwaggerConfigurationHelper
 {
-    public static void Configure(
-        ServiceConfigurationContext context,
-        string apiTitle
-    )
-    {
-        context.Services.AddSwaggerGen(options =>
-        {
-            options.SwaggerDoc("v1", new OpenApiInfo {Title = apiTitle, Version = "v1"});
-            options.DocInclusionPredicate((docName, description) => true);
-            options.CustomSchemaIds(type => type.FullName);
-        });
-    }
     public static void ConfigureWithOidc(
         ServiceConfigurationContext context,
         string authority,

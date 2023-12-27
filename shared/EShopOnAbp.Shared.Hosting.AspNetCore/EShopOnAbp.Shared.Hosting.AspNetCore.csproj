@@ -14,6 +14,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\EShopOnAbp.Shared.Hosting\EShopOnAbp.Shared.Hosting.csproj" />
+        <ProjectReference Include="..\EShopOnAbp.Shared.Localization\EShopOnAbp.Shared.Localization.csproj" />
     </ItemGroup>
 
 </Project>

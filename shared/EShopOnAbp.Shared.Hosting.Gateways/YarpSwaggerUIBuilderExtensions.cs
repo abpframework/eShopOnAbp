@@ -14,7 +14,7 @@ public static class YarpSwaggerUIBuilderExtensions
         ApplicationInitializationContext context)
     {
         app.UseSwagger();
-        app.UseSwaggerUI(options =>
+        app.UseAbpSwaggerUI(options =>
         {
             var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
             var logger = context.ServiceProvider.GetRequiredService<ILogger<ApplicationInitializationContext>>();

@@ -8,7 +8,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp;
@@ -41,7 +40,6 @@ public class AdministrationServiceHttpApiHostModule : AbpModule
             context: context,
             authority: configuration["AuthServer:Authority"]!,
             scopes: ["AdministrationService"],
-            flows: ["authorization_code"],
             discoveryEndpoint: configuration["AuthServer:MetadataAddress"],
             apiTitle: "Administration Service API"
         );
@@ -98,9 +96,11 @@ public class AdministrationServiceHttpApiHostModule : AbpModule
         app.UseRouting();
         app.UseAuthentication();
         app.UseAbpClaimsMap();
+        app.UseUnitOfWork();
+        app.UseDynamicClaims();
         app.UseAuthorization();
         app.UseSwagger();
-        app.UseSwaggerUI(options =>
+        app.UseAbpSwaggerUI(options =>
         {
             var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
             options.SwaggerEndpoint("/swagger/v1/swagger.json", "Administration Service API");
@@ -108,7 +108,6 @@ public class AdministrationServiceHttpApiHostModule : AbpModule
         });
         app.UseAbpSerilogEnrichers();
         app.UseAuditing();
-        app.UseUnitOfWork();
         app.UseConfiguredEndpoints();
     }
 
