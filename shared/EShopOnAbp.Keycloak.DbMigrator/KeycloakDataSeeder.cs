@@ -119,8 +119,7 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
                         _ProtocolMapper = "oidc-audience-mapper",
                         Config =
                             new
-                                Dictionary<string,
-                                    string>() //TODO: Update when //https://github.com/AnderssonPeter/Keycloak.Net/pull/5 is merged
+                                Dictionary<string, string>
                                 {
                                     { "id.token.claim", "false" },
                                     { "access.token.claim", "true" },
@@ -137,7 +136,7 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
     private async Task CreateClientsAsync()
     {
         await CreatePublicWebClientAsync();
-        await CreateSwaggerClientAsync(); // TODO: Test when Volo.Abp.Swashbuckle v6.0.1 is released (https://github.com/abpframework/abp/pull/14409)
+        await CreateSwaggerClientAsync();
         await CreateWebClientAsync();
         await CreateCmskitClientAsync();
         await CreateAdministrationClientAsync();
@@ -329,6 +328,15 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
             };
 
             await _keycloakClient.CreateClientAsync(_keycloakOptions.RealmName, swaggerClient);
+            
+            await AddOptionalClientScopesAsync(
+                "SwaggerClient",
+                new List<string>
+                {
+                    "AdministrationService", "IdentityService", "BasketService", "CatalogService",
+                    "OrderingService", "PaymentService", "CmskitService"
+                }
+            );
         }
     }
 
