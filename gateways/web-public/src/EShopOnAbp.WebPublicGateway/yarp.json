@@ -64,6 +64,19 @@
           { "PathRemovePrefix": "/swagger-json/Catalog" }
         ]
       },
+      "product-picture-route": {
+        "ClusterId": "productPictureCluster",
+        "Match": {
+          "Path": "/product-images/{**everything}",
+          "Methods": [ "GET" ]
+        }
+      },
+      "Basket Service": {
+        "ClusterId": "basketCluster",
+        "Match": {
+          "Path": "/api/basket/{**everything}"
+        }
+      },
       "Ordering Service": {
         "ClusterId": "orderingCluster",
         "Match": {
@@ -93,6 +106,12 @@
         "Transforms": [
           { "PathRemovePrefix": "/swagger-json/Cmskit" }
         ]
+      },
+      "Payment Service": {
+        "ClusterId": "paymentCluster",
+        "Match": {
+          "Path": "/api/payment/{**everything}"
+        }
       }
     },
     "Clusters": {
@@ -131,6 +150,13 @@
           }
         }
       },
+      "basketCluster": {
+        "Destinations": {
+          "destination1": {
+            "Address": "https://localhost:44355"
+          }
+        }
+      },
       "orderingCluster": {
         "Destinations": {
           "destination1": {
@@ -142,6 +168,20 @@
         "Destinations": {
           "destination1": {
             "Address": "https://localhost:44358"
+          }
+        }
+      },
+      "productPictureCluster": {
+        "Destinations": {
+          "destination1": {
+            "Address": "https://localhost:44354"
+          }
+        }
+      },
+      "paymentCluster": {
+        "Destinations": {
+          "destination1": {
+            "Address": "https://localhost:44357"
           }
         }
       }
