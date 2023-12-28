@@ -138,8 +138,8 @@ public class KeyCloakDataSeeder : IDataSeedContributor, ITransientDependency
         await CreatePublicWebClientAsync();
         await CreateSwaggerClientAsync();
         await CreateWebClientAsync();
-        await CreateCmskitClientAsync();
-        await CreateAdministrationClientAsync();
+        // await CreateCmskitClientAsync();
+        // await CreateAdministrationClientAsync();
     }
 
     private async Task CreateAdministrationClientAsync()
