@@ -11,7 +11,6 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp;
-using Volo.Abp.Http.Client.IdentityModel.Web;
 using Volo.Abp.Identity;
 using Volo.Abp.Modularity;
 using Volo.Abp.PermissionManagement;
@@ -24,7 +23,6 @@ namespace EShopOnAbp.AdministrationService;
     typeof(AdministrationServiceApplicationModule),
     typeof(AdministrationServiceEntityFrameworkCoreModule),
     typeof(EShopOnAbpSharedHostingMicroservicesModule),
-    typeof(AbpHttpClientIdentityModelWebModule),
     typeof(AbpIdentityHttpApiClientModule)
 )]
 public class AdministrationServiceHttpApiHostModule : AbpModule

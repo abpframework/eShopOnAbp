@@ -26,8 +26,8 @@ public class AdministrationServiceDataSeedContributor : IDataSeedContributor, IT
 
     private async Task SeedClientCredentialPermissionsAsync()
     {
-        await _permissionManager.SetAsync(IdentityUsersDefaultPermission, ClientPermissionValueProvider.ProviderName, "EShopOnAbp_AdministrationService", true);
-        await _permissionManager.SetAsync(IdentityUsersDefaultPermission, ClientPermissionValueProvider.ProviderName, "EShopOnAbp_CmskitService", true);
-        await _permissionManager.SetAsync(IdentityUsersLookupPermission, ClientPermissionValueProvider.ProviderName, "EShopOnAbp_CmskitService", true);
+        // await _permissionManager.SetAsync(IdentityUsersDefaultPermission, ClientPermissionValueProvider.ProviderName, "EShopOnAbp_AdministrationService", true);
+        // await _permissionManager.SetAsync(IdentityUsersDefaultPermission, ClientPermissionValueProvider.ProviderName, "EShopOnAbp_CmskitService", true);
+        // await _permissionManager.SetAsync(IdentityUsersLookupPermission, ClientPermissionValueProvider.ProviderName, "EShopOnAbp_CmskitService", true);
     }
 }
