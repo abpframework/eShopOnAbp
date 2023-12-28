@@ -13,6 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Volo.Abp;
+using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.Modularity;
 
 namespace EShopOnAbp.IdentityService;
@@ -63,6 +64,11 @@ public class IdentityServiceHttpApiHostModule : AbpModule
         Configure<IdentityOptions>(options =>
         {
             options.User.AllowedUserNameCharacters = null;
+        });
+        
+        Configure<AbpAspNetCoreMvcOptions>(options =>
+        {
+            options.ExposeIntegrationServices = true;
         });
     }
 
