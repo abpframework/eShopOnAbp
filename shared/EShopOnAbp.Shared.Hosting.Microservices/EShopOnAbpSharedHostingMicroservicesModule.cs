@@ -27,14 +27,6 @@ namespace EShopOnAbp.Shared.Hosting.Microservices;
 )]
 public class EShopOnAbpSharedHostingMicroservicesModule : AbpModule
 {
-    public override void PreConfigureServices(ServiceConfigurationContext context)
-    {
-        PreConfigure<WebRemoteDynamicClaimsPrincipalContributorOptions>(options =>
-        {
-            options.IsEnabled = true;
-        });
-    }
-    
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
@@ -55,7 +47,5 @@ public class EShopOnAbpSharedHostingMicroservicesModule : AbpModule
             var connection = ConnectionMultiplexer.Connect(configuration["Redis:Configuration"]!);
             return new RedisDistributedSynchronizationProvider(connection.GetDatabase());
         });
-        
-        context.Services.AddHttpClient();
     }
 }

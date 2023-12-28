@@ -97,7 +97,6 @@ public class AdministrationServiceHttpApiHostModule : AbpModule
         app.UseAuthentication();
         app.UseAbpClaimsMap();
         app.UseUnitOfWork();
-        app.UseDynamicClaims();
         app.UseAuthorization();
         app.UseSwagger();
         app.UseAbpSwaggerUI(options =>
