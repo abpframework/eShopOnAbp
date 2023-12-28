@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.PermissionManagement;
@@ -25,8 +26,8 @@ public class AdministrationServiceDataSeedContributor : IDataSeedContributor, IT
 
     private async Task SeedClientCredentialPermissionsAsync()
     {
-        await _permissionManager.SetAsync(IdentityUsersDefaultPermission, "C", "EShopOnAbp_AdministrationService", true);
-        await _permissionManager.SetAsync(IdentityUsersDefaultPermission, "C", "EShopOnAbp_CmskitService", true);
-        await _permissionManager.SetAsync(IdentityUsersLookupPermission, "C", "EShopOnAbp_CmskitService", true);
+        await _permissionManager.SetAsync(IdentityUsersDefaultPermission, ClientPermissionValueProvider.ProviderName, "EShopOnAbp_AdministrationService", true);
+        await _permissionManager.SetAsync(IdentityUsersDefaultPermission, ClientPermissionValueProvider.ProviderName, "EShopOnAbp_CmskitService", true);
+        await _permissionManager.SetAsync(IdentityUsersLookupPermission, ClientPermissionValueProvider.ProviderName, "EShopOnAbp_CmskitService", true);
     }
 }

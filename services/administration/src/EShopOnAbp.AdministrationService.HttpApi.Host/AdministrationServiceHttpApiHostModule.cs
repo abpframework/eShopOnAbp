@@ -15,7 +15,6 @@ using Volo.Abp.Http.Client.IdentityModel.Web;
 using Volo.Abp.Identity;
 using Volo.Abp.Modularity;
 using Volo.Abp.PermissionManagement;
-using Volo.Abp.Security.Claims;
 using Volo.Abp.SettingManagement;
 
 namespace EShopOnAbp.AdministrationService;
@@ -43,11 +42,6 @@ public class AdministrationServiceHttpApiHostModule : AbpModule
             discoveryEndpoint: configuration["AuthServer:MetadataAddress"],
             apiTitle: "Administration Service API"
         );
-        
-        context.Services.Configure<AbpClaimsPrincipalFactoryOptions>(options =>
-        {
-            options.IsDynamicClaimsEnabled = true;
-        });
 
         context.Services.AddCors(options =>
         {
@@ -77,6 +71,14 @@ public class AdministrationServiceHttpApiHostModule : AbpModule
         {
             options.IsDynamicSettingStoreEnabled = true;
         });
+        
+        // Configure<AbpPermissionOptions>(options =>
+        // {
+        //     options.ValueProviders.Clear();
+        //     options.ValueProviders.Add<UserPermissionValueProvider>();
+        //     options.ValueProviders.Add<RolePermissionValueProvider>();
+        //     options.ValueProviders.Add<ClientPermissionValueProvider>();
+        // });
     }
 
     public override void OnApplicationInitialization(ApplicationInitializationContext context)
