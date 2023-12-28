@@ -13,7 +13,6 @@ using System.Threading.Tasks;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.AntiForgery;
-using Volo.Abp.Http.Client.IdentityModel.Web;
 using Volo.Abp.Identity;
 using Volo.Abp.Modularity;
 using Volo.CmsKit.Comments;
@@ -25,8 +24,7 @@ namespace EShopOnAbp.CmskitService;
     typeof(CmskitServiceApplicationModule),
     typeof(CmskitServiceHttpApiModule),
     typeof(CmskitServiceEntityFrameworkCoreModule),
-    typeof(AbpIdentityHttpApiClientModule),
-    typeof(AbpHttpClientIdentityModelWebModule)
+    typeof(AbpIdentityHttpApiClientModule)
     )]
 public class CmskitServiceHttpApiHostModule : AbpModule
 {
