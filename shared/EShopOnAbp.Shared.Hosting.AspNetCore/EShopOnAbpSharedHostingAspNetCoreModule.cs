@@ -6,8 +6,9 @@ namespace EShopOnAbp.Shared.Hosting.AspNetCore;
 
 [DependsOn(
     typeof(EShopOnAbpSharedHostingModule),
-    typeof(AbpSwashbuckleModule),
-    typeof(AbpAspNetCoreSerilogModule)
+    typeof(EShopOnAbpSharedLocalizationModule),
+    typeof(AbpAspNetCoreSerilogModule),
+    typeof(AbpSwashbuckleModule)
 )]
 public class EShopOnAbpSharedHostingAspNetCoreModule : AbpModule
 {

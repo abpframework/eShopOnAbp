@@ -45,7 +45,7 @@ namespace EShopOnAbp.PublicWeb.ServiceProviders
                     });
             }
 
-            return anonymousUserId;
+            return await Task.FromResult(anonymousUserId);
         }
     }
 }

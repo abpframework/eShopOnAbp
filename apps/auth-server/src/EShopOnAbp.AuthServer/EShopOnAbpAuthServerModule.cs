@@ -221,17 +221,13 @@ public class EShopOnAbpAuthServerModule : AbpModule
 
     private void ConfigureSwagger(ServiceConfigurationContext context, IConfiguration configuration)
     {
-        SwaggerConfigurationHelper.ConfigureWithAuth(
+        SwaggerConfigurationHelper.ConfigureWithOidc(
+            
             context: context,
-            authority: configuration["AuthServer:Authority"],
-            scopes: new Dictionary<string, string>
-            {
-                /* Requested scopes for authorization code request and descriptions for swagger UI only */
-                {
-                    "AccountService",
-                    "Account Service API"
-                },
-            },
+            authority: configuration["AuthServer:Authority"]!,
+            scopes: ["AccountService"],
+            flows: ["authorization_code"],
+            discoveryEndpoint: configuration["AuthServer:MetadataAddress"],
             apiTitle: "Account Service API"
         );
     }

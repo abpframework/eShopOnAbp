@@ -9,11 +9,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Volo.Abp;
+using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.Modularity;
 
 namespace EShopOnAbp.IdentityService;
@@ -33,16 +33,13 @@ public class IdentityServiceHttpApiHostModule : AbpModule
 
         JwtBearerConfigurationHelper.Configure(context, "IdentityService");
 
-        SwaggerConfigurationHelper.ConfigureWithAuth(
+        SwaggerConfigurationHelper.ConfigureWithOidc(
             context: context,
-            authority: configuration["AuthServer:Authority"],
-            scopes: new
-                Dictionary<string, string> /* Requested scopes for authorization code request and descriptions for swagger UI only */
-                {
-                    { "IdentityService", "Identity Service API" }
-                },
-            apiTitle: "IdentityService API"
-        );
+            authority: configuration["AuthServer:Authority"]!,
+            scopes: ["IdentityService"],
+            discoveryEndpoint: configuration["AuthServer:MetadataAddress"],
+            apiTitle: "Identity Service API"
+            );
 
         context.Services.AddCors(options =>
         {
@@ -50,7 +47,7 @@ public class IdentityServiceHttpApiHostModule : AbpModule
             {
                 builder
                     .WithOrigins(
-                        configuration["App:CorsOrigins"]
+                        configuration["App:CorsOrigins"]!
                             .Split(",", StringSplitOptions.RemoveEmptyEntries)
                             .Select(o => o.Trim().RemovePostFix("/"))
                             .ToArray()
@@ -67,6 +64,11 @@ public class IdentityServiceHttpApiHostModule : AbpModule
         Configure<IdentityOptions>(options =>
         {
             options.User.AllowedUserNameCharacters = null;
+        });
+        
+        Configure<AbpAspNetCoreMvcOptions>(options =>
+        {
+            options.ExposeIntegrationServices = true;
         });
     }
 
@@ -89,12 +91,11 @@ public class IdentityServiceHttpApiHostModule : AbpModule
         app.UseAbpClaimsMap();
         app.UseAuthorization();
         app.UseSwagger();
-        app.UseSwaggerUI(options =>
+        app.UseAbpSwaggerUI(options =>
         {
             var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
             options.SwaggerEndpoint("/swagger/v1/swagger.json", "Identity Service API");
             options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
-            options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
         });
         app.UseAbpSerilogEnrichers();
         app.UseAuditing();

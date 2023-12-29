@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Volo.Abp;
 using Volo.Abp.Modularity;
@@ -23,22 +22,17 @@ public class EShopOnAbpWebGatewayModule : AbpModule
         var configuration = context.Services.GetConfiguration();
         var hostingEnvironment = context.Services.GetHostingEnvironment();
 
-        SwaggerConfigurationHelper.ConfigureWithAuth(
+        SwaggerConfigurationHelper.ConfigureWithOidc(
             context: context,
-            authority: configuration["AuthServer:Authority"],
-            scopes: new
-                Dictionary<string, string> /* Requested scopes for authorization code request and descriptions for swagger UI only */
-                {
-                    {"AccountService", "Account Service API"},
-                    {"IdentityService", "Identity Service API"},
-                    {"AdministrationService", "Administration Service API"},
-                    {"CatalogService", "Catalog Service API"},
-                    {"BasketService", "Basket Service API"},
-                    {"PaymentService", "Payment Service API"},
-                    {"OrderingService", "Ordering Service API"},
-                    {"CmskitService", "Cmskit Service API"},
-                },
-            apiTitle: "Web Gateway"
+            authority: configuration["AuthServer:Authority"]!,
+            scopes:
+            [
+                /* Requested scopes for authorization code request and descriptions for swagger UI only */
+                "IdentityService", "AdministrationService", "CatalogService", "BasketService", "PaymentService",
+                "OrderingService", "CmskitService"
+            ],
+            apiTitle: "Web Gateway API",
+            discoveryEndpoint: configuration["AuthServer:MetadataAddress"]
         );
 
         context.Services.AddCors(options =>
@@ -47,7 +41,7 @@ public class EShopOnAbpWebGatewayModule : AbpModule
             {
                 builder
                     .WithOrigins(
-                        configuration["App:CorsOrigins"]
+                        configuration["App:CorsOrigins"]!
                             .Split(",", StringSplitOptions.RemoveEmptyEntries)
                             .Select(o => o.Trim().RemovePostFix("/"))
                             .ToArray()
@@ -70,19 +64,18 @@ public class EShopOnAbpWebGatewayModule : AbpModule
         {
             app.UseDeveloperExceptionPage();
         }
+
         app.UseCorrelationId();
-        app.UseAbpSerilogEnrichers();
-        app.UseCors();
+        app.UseStaticFiles();
+        app.UseRouting();
+        app.UseAuthorization();
         app.UseSwaggerUIWithYarp(context);
+        app.UseAbpSerilogEnrichers();
 
         app.UseRewriter(new RewriteOptions()
             // Regex for "", "/" and "" (whitespace)
             .AddRedirect("^(|\\|\\s+)$", "/swagger"));
-
-        app.UseRouting();
-        app.UseEndpoints(endpoints =>
-        {
-            endpoints.MapReverseProxy();
-        });
+        
+        app.UseEndpoints(endpoints => { endpoints.MapReverseProxy(); });
     }
 }

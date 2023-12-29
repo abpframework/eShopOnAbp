@@ -23,7 +23,6 @@ namespace EShopOnAbp.Shared.Hosting
                     database.MappedConnections.Add("AbpAuditLogging");
                     database.MappedConnections.Add("AbpPermissionManagement");
                     database.MappedConnections.Add("AbpSettingManagement");
-                    database.MappedConnections.Add("AbpFeatureManagement");
                     database.MappedConnections.Add("AbpBlobStoring");
                 });
                 

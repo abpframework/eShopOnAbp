@@ -1,18 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
         <RootNamespace>EShopOnAbp.Shared.Hosting.AspNetCore</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Serilog.AspNetCore" Version="5.0.0" />
-        <PackageReference Include="Volo.Abp.AspNetCore.Serilog" Version="7.0.0" />
-        <PackageReference Include="Volo.Abp.Swashbuckle" Version="7.0.0" />
+        <PackageReference Include="Volo.Abp.AspNetCore.Serilog" Version="8.0.0" />
+        <PackageReference Include="Volo.Abp.Swashbuckle" Version="8.0.0" />
     </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\EShopOnAbp.Shared.Hosting\EShopOnAbp.Shared.Hosting.csproj" />
+        <ProjectReference Include="..\EShopOnAbp.Shared.Localization\EShopOnAbp.Shared.Localization.csproj" />
     </ItemGroup>
 
 </Project>

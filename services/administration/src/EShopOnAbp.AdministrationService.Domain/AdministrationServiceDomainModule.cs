@@ -2,7 +2,6 @@
 using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
 using Volo.Abp.PermissionManagement.Identity;
-using Volo.Abp.PermissionManagement.IdentityServer;
 using Volo.Abp.SettingManagement;
 
 namespace EShopOnAbp.AdministrationService
@@ -11,8 +10,7 @@ namespace EShopOnAbp.AdministrationService
         typeof(AdministrationServiceDomainSharedModule),
         typeof(AbpSettingManagementDomainModule),
         typeof(AbpAuditLoggingDomainModule),
-        typeof(AbpPermissionManagementDomainIdentityModule),
-        typeof(AbpPermissionManagementDomainIdentityServerModule)
+        typeof(AbpPermissionManagementDomainIdentityModule)
     )]
     public class AdministrationServiceDomainModule : AbpModule
     {

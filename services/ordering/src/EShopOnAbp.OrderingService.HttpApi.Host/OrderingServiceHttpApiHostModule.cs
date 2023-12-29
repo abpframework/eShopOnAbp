@@ -8,7 +8,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp;
@@ -32,16 +31,13 @@ public class OrderingServiceHttpApiHostModule : AbpModule
 
         JwtBearerConfigurationHelper.Configure(context, "OrderingService");
 
-        SwaggerConfigurationHelper.ConfigureWithAuth(
+        SwaggerConfigurationHelper.ConfigureWithOidc(
             context: context,
-            authority: configuration["AuthServer:Authority"],
-            scopes: new
-                Dictionary<string, string> /* Requested scopes for authorization code request and descriptions for swagger UI only */
-                {
-                    { "OrderingService", "Ordering Service API" }
-                },
+            authority: configuration["AuthServer:Authority"]!,
+            scopes: ["OrderingService"],
+            discoveryEndpoint: configuration["AuthServer:MetadataAddress"],
             apiTitle: "Ordering Service API"
-        );
+            );
 
         context.Services.AddCors(options =>
         {
@@ -49,7 +45,7 @@ public class OrderingServiceHttpApiHostModule : AbpModule
             {
                 builder
                     .WithOrigins(
-                        configuration["App:CorsOrigins"]
+                        configuration["App:CorsOrigins"]!
                             .Split(",", StringSplitOptions.RemoveEmptyEntries)
                             .Select(o => o.Trim().RemovePostFix("/"))
                             .ToArray()
@@ -92,12 +88,11 @@ public class OrderingServiceHttpApiHostModule : AbpModule
         app.UseAbpClaimsMap();
         app.UseAuthorization();
         app.UseSwagger();
-        app.UseSwaggerUI(options =>
+        app.UseAbpSwaggerUI(options =>
         {
             var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
             options.SwaggerEndpoint("/swagger/v1/swagger.json", "Ordering Service API");
             options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
-            options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
         });
         app.UseAbpSerilogEnrichers();
         app.UseAuditing();

@@ -3,15 +3,15 @@
   <Import Project="..\..\..\..\common.props" />
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <RootNamespace>EShopOnAbp.CatalogService</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.TestBase" Version="7.0.0" />
-    <PackageReference Include="Volo.Abp.Autofac" Version="7.0.0" />
-    <PackageReference Include="Volo.Abp.Authorization" Version="7.0.0" />
-    <PackageReference Include="Volo.Abp.BackgroundJobs.Abstractions" Version="7.0.0" />
+    <PackageReference Include="Volo.Abp.TestBase" Version="8.0.0" />
+    <PackageReference Include="Volo.Abp.Autofac" Version="8.0.0" />
+    <PackageReference Include="Volo.Abp.Authorization" Version="8.0.0" />
+    <PackageReference Include="Volo.Abp.BackgroundJobs.Abstractions" Version="8.0.0" />
     <ProjectReference Include="..\..\src\EShopOnAbp.CatalogService.Domain\EShopOnAbp.CatalogService.Domain.csproj" />
   </ItemGroup>
 

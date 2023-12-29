@@ -1,10 +1,10 @@
 ﻿{
   "ReverseProxy": {
     "Routes": {
-      "Account Service": {
-        "ClusterId": "accountCluster",
+      "AbpApi": {
+        "ClusterId": "administrationCluster",
         "Match": {
-          "Path": "/api/account/{**everything}"
+          "Path": "/api/abp/{**catch-all}"
         }
       },
       "Identity Service": {
@@ -13,29 +13,41 @@
           "Path": "/api/identity/{**everything}"
         }
       },
-      "Administration Service": {
-        "ClusterId": "administrationCluster",
+      "Identity Service Swagger": {
+        "ClusterId": "identityCluster",
         "Match": {
-          "Path": "/api/abp/{**everything}"
-        }
+          "Path": "/swagger-json/Identity/swagger/v1/swagger.json"
+        },
+        "Transforms": [
+          { "PathRemovePrefix": "/swagger-json/Identity" }
+        ]
       },
-      "feature-management-route": {
+      "FeatureManagement": {
         "ClusterId": "feature-management-cluster",
         "Match": {
           "Path": "/api/feature-management/{**everything}"
         }
       },
-      "permission-management-route": {
+      "PermissionManagement": {
         "ClusterId": "permission-management-cluster",
         "Match": {
           "Path": "/api/permission-management/{**everything}"
         }
       },
-      "setting-management-route": {
+      "SettingManagement": {
         "ClusterId": "setting-management-cluster",
         "Match": {
           "Path": "/api/setting-management/{**everything}"
         }
+      },
+      "Administration Service Swagger": {
+        "ClusterId": "administrationCluster",
+        "Match": {
+          "Path": "/swagger-json/Administration/swagger/v1/swagger.json"
+        },
+        "Transforms": [
+          { "PathRemovePrefix": "/swagger-json/Administration" }
+        ]
       },
       "Catalog Service": {
         "ClusterId": "catalogCluster",
@@ -43,27 +55,47 @@
           "Path": "/api/catalog/{**everything}"
         }
       },
+      "Catalog Service Swagger": {
+        "ClusterId": "catalogCluster",
+        "Match": {
+          "Path": "/swagger-json/Catalog/swagger/v1/swagger.json"
+        },
+        "Transforms": [
+          { "PathRemovePrefix": "/swagger-json/Catalog" }
+        ]
+      },
       "Ordering Service": {
         "ClusterId": "orderingCluster",
         "Match": {
           "Path": "/api/ordering/{**everything}"
         }
       },
+      "Ordering Service Swagger": {
+        "ClusterId": "orderingCluster",
+        "Match": {
+          "Path": "/swagger-json/Ordering/swagger/v1/swagger.json"
+        },
+        "Transforms": [
+          { "PathRemovePrefix": "/swagger-json/Ordering" }
+        ]
+      },
       "Cmskit Service": {
         "ClusterId": "cmskitCluster",
         "Match": {
           "Path": "/api/cmskit/{**everything}"
         }
+      },
+      "Cmskit Service Swagger": {
+        "ClusterId": "cmskitCluster",
+        "Match": {
+          "Path": "/swagger-json/Cmskit/swagger/v1/swagger.json"
+        },
+        "Transforms": [
+          { "PathRemovePrefix": "/swagger-json/Cmskit" }
+        ]
       }
     },
     "Clusters": {
-      "accountCluster": {
-        "Destinations": {
-          "destination1": {
-            "Address": "https://localhost:44330"
-          }
-        }
-      },
       "identityCluster": {
         "Destinations": {
           "destination1": {
@@ -72,13 +104,6 @@
         }
       },
       "administrationCluster": {
-        "Destinations": {
-          "destination1": {
-            "Address": "https://localhost:44353"
-          }
-        }
-      },
-      "feature-management-cluster": {
         "Destinations": {
           "destination1": {
             "Address": "https://localhost:44353"

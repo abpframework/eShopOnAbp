@@ -14,7 +14,7 @@ public static class YarpSwaggerUIBuilderExtensions
         ApplicationInitializationContext context)
     {
         app.UseSwagger();
-        app.UseSwaggerUI(options =>
+        app.UseAbpSwaggerUI(options =>
         {
             var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
             var logger = context.ServiceProvider.GetRequiredService<ILogger<ApplicationInitializationContext>>();
@@ -43,7 +43,6 @@ public static class YarpSwaggerUIBuilderExtensions
 
                 options.SwaggerEndpoint($"{clusterGroup.Value.Address}/swagger/v1/swagger.json", $"{routeConfig.RouteId} API");
                 options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
-                options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
             }
         });
         

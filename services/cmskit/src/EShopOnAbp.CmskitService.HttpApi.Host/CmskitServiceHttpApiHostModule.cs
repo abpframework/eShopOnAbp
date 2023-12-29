@@ -8,13 +8,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.AntiForgery;
-using Volo.Abp.Http.Client.IdentityModel.Web;
 using Volo.Abp.Identity;
 using Volo.Abp.Modularity;
 using Volo.CmsKit.Comments;
@@ -26,8 +24,7 @@ namespace EShopOnAbp.CmskitService;
     typeof(CmskitServiceApplicationModule),
     typeof(CmskitServiceHttpApiModule),
     typeof(CmskitServiceEntityFrameworkCoreModule),
-    typeof(AbpIdentityHttpApiClientModule),
-    typeof(AbpHttpClientIdentityModelWebModule)
+    typeof(AbpIdentityHttpApiClientModule)
     )]
 public class CmskitServiceHttpApiHostModule : AbpModule
 {
@@ -42,16 +39,13 @@ public class CmskitServiceHttpApiHostModule : AbpModule
 
         var configuration = context.Services.GetConfiguration();
 
-        SwaggerConfigurationHelper.ConfigureWithAuth(
+        SwaggerConfigurationHelper.ConfigureWithOidc(
             context: context,
-            authority: configuration["AuthServer:Authority"],
-            scopes: new
-                Dictionary<string, string>
-                {
-                    { "CmskitService", "Cmskit Service API" }
-                },
-            apiTitle: "Cmskit Service API"
-        );
+            authority: configuration["AuthServer:Authority"]!,
+            scopes: ["CmskitService"],
+            discoveryEndpoint: configuration["AuthServer:MetadataAddress"],
+            apiTitle: "Cmskit Service API" 
+            );
 
         context.Services.AddCors(options =>
         {
@@ -59,7 +53,7 @@ public class CmskitServiceHttpApiHostModule : AbpModule
             {
                 builder
                     .WithOrigins(
-                        configuration["App:CorsOrigins"]
+                        configuration["App:CorsOrigins"]!
                             .Split(",", StringSplitOptions.RemoveEmptyEntries)
                             .Select(o => o.Trim().RemovePostFix("/"))
                             .ToArray()
@@ -117,12 +111,11 @@ public class CmskitServiceHttpApiHostModule : AbpModule
         app.UseAbpClaimsMap();
         app.UseAuthorization();
         app.UseSwagger();
-        app.UseSwaggerUI(options =>
+        app.UseAbpSwaggerUI(options =>
         {
             var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
             options.SwaggerEndpoint("/swagger/v1/swagger.json", "Cmskit Service API");
             options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
-            options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
         });
         app.UseAbpSerilogEnrichers();
         app.UseAuditing();

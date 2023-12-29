@@ -28,10 +28,10 @@ public class BasketProductService : IBasketProductService, ITransientDependency
 
     public async Task<ProductDto> GetAsync(Guid productId)
     {
-        return await _cache.GetOrAddAsync(
+        return (await _cache.GetOrAddAsync(
             productId,
             () => GetProductAsync(productId)
-        );
+        ))!;
     }
 
     private async Task<ProductDto> GetProductAsync(Guid productId)

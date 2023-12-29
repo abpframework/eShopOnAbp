@@ -7,15 +7,15 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EShopOnAbp.AdministrationService.Domain.Shared\EShopOnAbp.AdministrationService.Domain.Shared.csproj" />
-    <ProjectReference Include="..\..\..\catalog\src\EShopOnAbp.CatalogService.Application.Contracts\EShopOnAbp.CatalogService.Application.Contracts.csproj" />
-    <ProjectReference Include="..\..\..\ordering\src\EShopOnAbp.OrderingService.Application.Contracts\EShopOnAbp.OrderingService.Application.Contracts.csproj" />
-    <ProjectReference Include="..\..\..\cmskit\src\EShopOnAbp.CmskitService.Application.Contracts\EShopOnAbp.CmskitService.Application.Contracts.csproj" />
+<!--    <ProjectReference Include="..\..\..\catalog\src\EShopOnAbp.CatalogService.Application.Contracts\EShopOnAbp.CatalogService.Application.Contracts.csproj" />-->
+<!--    <ProjectReference Include="..\..\..\ordering\src\EShopOnAbp.OrderingService.Application.Contracts\EShopOnAbp.OrderingService.Application.Contracts.csproj" />-->
+<!--    <ProjectReference Include="..\..\..\cmskit\src\EShopOnAbp.CmskitService.Application.Contracts\EShopOnAbp.CmskitService.Application.Contracts.csproj" />-->
 
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Volo.Abp.PermissionManagement.Application.Contracts" Version="7.0.0" />
-    <PackageReference Include="Volo.Abp.SettingManagement.Application.Contracts" Version="7.0.0" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.Application.Contracts" Version="8.0.0" />
+    <PackageReference Include="Volo.Abp.SettingManagement.Application.Contracts" Version="8.0.0" />
     
   </ItemGroup>
 

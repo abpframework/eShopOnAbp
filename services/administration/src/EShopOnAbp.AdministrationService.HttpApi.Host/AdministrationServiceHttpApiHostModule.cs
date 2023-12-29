@@ -8,14 +8,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp;
-using Volo.Abp.AspNetCore.Mvc.UI.MultiTenancy;
-using Volo.Abp.Http.Client.IdentityModel.Web;
 using Volo.Abp.Identity;
 using Volo.Abp.Modularity;
+using Volo.Abp.PermissionManagement;
+using Volo.Abp.SettingManagement;
 
 namespace EShopOnAbp.AdministrationService;
 
@@ -24,8 +23,6 @@ namespace EShopOnAbp.AdministrationService;
     typeof(AdministrationServiceApplicationModule),
     typeof(AdministrationServiceEntityFrameworkCoreModule),
     typeof(EShopOnAbpSharedHostingMicroservicesModule),
-    typeof(AbpHttpClientIdentityModelWebModule),
-    typeof(AbpAspNetCoreMvcUiMultiTenancyModule),
     typeof(AbpIdentityHttpApiClientModule)
 )]
 public class AdministrationServiceHttpApiHostModule : AbpModule
@@ -36,14 +33,11 @@ public class AdministrationServiceHttpApiHostModule : AbpModule
 
         JwtBearerConfigurationHelper.Configure(context, "AdministrationService");
 
-        SwaggerConfigurationHelper.ConfigureWithAuth(
+        SwaggerConfigurationHelper.ConfigureWithOidc(
             context: context,
-            authority: configuration["AuthServer:Authority"],
-            scopes: new
-                Dictionary<string, string> /* Requested scopes for authorization code request and descriptions for swagger UI only */
-                {
-                    {"AdministrationService", "Administration Service API"}
-                },
+            authority: configuration["AuthServer:Authority"]!,
+            scopes: ["AdministrationService"],
+            discoveryEndpoint: configuration["AuthServer:MetadataAddress"],
             apiTitle: "Administration Service API"
         );
 
@@ -53,7 +47,7 @@ public class AdministrationServiceHttpApiHostModule : AbpModule
             {
                 builder
                     .WithOrigins(
-                        configuration["App:CorsOrigins"]
+                        configuration["App:CorsOrigins"]!
                             .Split(",", StringSplitOptions.RemoveEmptyEntries)
                             .Select(o => o.Trim().RemovePostFix("/"))
                             .ToArray()
@@ -65,6 +59,24 @@ public class AdministrationServiceHttpApiHostModule : AbpModule
                     .AllowCredentials();
             });
         });
+        
+        Configure<PermissionManagementOptions>(options =>
+        {
+            options.IsDynamicPermissionStoreEnabled = true;
+        });
+
+        Configure<SettingManagementOptions>(options =>
+        {
+            options.IsDynamicSettingStoreEnabled = true;
+        });
+        
+        // Configure<AbpPermissionOptions>(options =>
+        // {
+        //     options.ValueProviders.Clear();
+        //     options.ValueProviders.Add<UserPermissionValueProvider>();
+        //     options.ValueProviders.Add<RolePermissionValueProvider>();
+        //     options.ValueProviders.Add<ClientPermissionValueProvider>();
+        // });
     }
 
     public override void OnApplicationInitialization(ApplicationInitializationContext context)
@@ -84,18 +96,17 @@ public class AdministrationServiceHttpApiHostModule : AbpModule
         app.UseRouting();
         app.UseAuthentication();
         app.UseAbpClaimsMap();
+        app.UseUnitOfWork();
         app.UseAuthorization();
         app.UseSwagger();
-        app.UseSwaggerUI(options =>
+        app.UseAbpSwaggerUI(options =>
         {
             var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
             options.SwaggerEndpoint("/swagger/v1/swagger.json", "Administration Service API");
             options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
-            // options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
         });
         app.UseAbpSerilogEnrichers();
         app.UseAuditing();
-        app.UseUnitOfWork();
         app.UseConfiguredEndpoints();
     }
 

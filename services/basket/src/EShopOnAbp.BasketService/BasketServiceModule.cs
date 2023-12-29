@@ -35,7 +35,7 @@ public class BasketServiceModule : AbpModule
     {
         PreConfigure<AbpHttpClientBuilderOptions>(options =>
         {
-            options.ProxyClientBuildActions.Add((remoteServiceName, clientBuilder) =>
+            options.ProxyClientBuildActions.Add((_, clientBuilder) =>
             {
                 clientBuilder.AddTransientHttpErrorPolicy(policyBuilder =>
                     policyBuilder.WaitAndRetryAsync(
@@ -95,7 +95,7 @@ public class BasketServiceModule : AbpModule
         app.UseAbpClaimsMap();
         app.UseAuthorization();
         app.UseSwagger();
-        app.UseSwaggerUI(options =>
+        app.UseAbpSwaggerUI(options =>
         {
             var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
             options.SwaggerEndpoint("/swagger/v1/swagger.json", "Basket Service API");
@@ -110,14 +110,11 @@ public class BasketServiceModule : AbpModule
 
     private void ConfigureSwagger(ServiceConfigurationContext context, IConfiguration configuration)
     {
-        SwaggerConfigurationHelper.ConfigureWithAuth(
+        SwaggerConfigurationHelper.ConfigureWithOidc(
             context: context,
-            authority: configuration["AuthServer:Authority"],
-            scopes: new
-                Dictionary<string, string> /* Requested scopes for authorization code request and descriptions for swagger UI only */
-                {
-                    {"BasketService", "Basket Service API"}
-                },
+            authority: configuration["AuthServer:Authority"]!,
+            scopes: ["BasketService"],
+            discoveryEndpoint: configuration["AuthServer:MetadataAddress"],
             apiTitle: "Basket Service API"
         );
     }
@@ -132,7 +129,7 @@ public class BasketServiceModule : AbpModule
             {
                 builder
                     .WithOrigins(
-                        configuration["App:CorsOrigins"]
+                        configuration["App:CorsOrigins"]!
                             .Split(",", StringSplitOptions.RemoveEmptyEntries)
                             .Select(o => o.Trim().RemovePostFix("/"))
                             .ToArray()
@@ -164,7 +161,7 @@ public class BasketServiceModule : AbpModule
             var catalogServiceConfiguration = remoteServiceOptions.RemoteServices.GetConfigurationOrDefault("Catalog");
             var catalogGrpcUrl = catalogServiceConfiguration.GetOrDefault("GrpcUrl");
 
-            options.Address = new Uri(catalogGrpcUrl);
+            if (catalogGrpcUrl != null) options.Address = new Uri(catalogGrpcUrl);
         });
     }
 

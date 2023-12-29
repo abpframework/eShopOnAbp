@@ -1,22 +1,74 @@
 ﻿{
   "ReverseProxy": {
     "Routes": {
-      "Account Service": {
-        "ClusterId": "accountCluster",
-        "Match": {
-          "Path": "/api/account/{**everything}"
-        }
-      },
-      "Administration Service": {
+      "AbpApi": {
         "ClusterId": "administrationCluster",
         "Match": {
-          "Path": "/api/abp/{**everything}"
+          "Path": "/api/abp/{**catch-all}"
         }
+      },
+      "Identity Service": {
+        "ClusterId": "identityCluster",
+        "Match": {
+          "Path": "/api/identity/{**everything}"
+        }
+      },
+      "Identity Service Swagger": {
+        "ClusterId": "identityCluster",
+        "Match": {
+          "Path": "/swagger-json/Identity/swagger/v1/swagger.json"
+        },
+        "Transforms": [
+          { "PathRemovePrefix": "/swagger-json/Identity" }
+        ]
+      },
+      "FeatureManagement": {
+        "ClusterId": "feature-management-cluster",
+        "Match": {
+          "Path": "/api/feature-management/{**everything}"
+        }
+      },
+      "PermissionManagement": {
+        "ClusterId": "permission-management-cluster",
+        "Match": {
+          "Path": "/api/permission-management/{**everything}"
+        }
+      },
+      "SettingManagement": {
+        "ClusterId": "setting-management-cluster",
+        "Match": {
+          "Path": "/api/setting-management/{**everything}"
+        }
+      },
+      "Administration Service Swagger": {
+        "ClusterId": "administrationCluster",
+        "Match": {
+          "Path": "/swagger-json/Administration/swagger/v1/swagger.json"
+        },
+        "Transforms": [
+          { "PathRemovePrefix": "/swagger-json/Administration" }
+        ]
       },
       "Catalog Service": {
         "ClusterId": "catalogCluster",
         "Match": {
           "Path": "/api/catalog/{**everything}"
+        }
+      },
+      "Catalog Service Swagger": {
+        "ClusterId": "catalogCluster",
+        "Match": {
+          "Path": "/swagger-json/Catalog/swagger/v1/swagger.json"
+        },
+        "Transforms": [
+          { "PathRemovePrefix": "/swagger-json/Catalog" }
+        ]
+      },
+      "product-picture-route": {
+        "ClusterId": "productPictureCluster",
+        "Match": {
+          "Path": "/product-images/{**everything}",
+          "Methods": [ "GET" ]
         }
       },
       "Basket Service": {
@@ -31,11 +83,14 @@
           "Path": "/api/ordering/{**everything}"
         }
       },
-      "Payment Service": {
-        "ClusterId": "paymentCluster",
+      "Ordering Service Swagger": {
+        "ClusterId": "orderingCluster",
         "Match": {
-          "Path": "/api/payment/{**everything}"
-        }
+          "Path": "/swagger-json/Ordering/swagger/v1/swagger.json"
+        },
+        "Transforms": [
+          { "PathRemovePrefix": "/swagger-json/Ordering" }
+        ]
       },
       "Cmskit Service": {
         "ClusterId": "cmskitCluster",
@@ -43,35 +98,45 @@
           "Path": "/api/cmskit/{**everything}"
         }
       },
-      "Cmskit Public Service": {
+      "Cmskit Service Swagger": {
         "ClusterId": "cmskitCluster",
         "Match": {
-          "Path": "/api/cms-kit-public/{**everything}"
-        }
+          "Path": "/swagger-json/Cmskit/swagger/v1/swagger.json"
+        },
+        "Transforms": [
+          { "PathRemovePrefix": "/swagger-json/Cmskit" }
+        ]
       },
-      "Cmskit Admin Service": {
-        "ClusterId": "cmskitCluster",
+      "Payment Service": {
+        "ClusterId": "paymentCluster",
         "Match": {
-          "Path": "/api/cms-kit-admin/{**everything}"
-        }
-      },
-      "product-picture-route": {
-        "ClusterId": "productPictureCluster",
-        "Match": {
-          "Path": "/product-images/{**everything}",
-          "Methods": [ "GET" ]
+          "Path": "/api/payment/{**everything}"
         }
       }
     },
     "Clusters": {
-      "accountCluster": {
+      "identityCluster": {
         "Destinations": {
           "destination1": {
-            "Address": "https://localhost:44330"
+            "Address": "https://localhost:44351"
           }
         }
       },
       "administrationCluster": {
+        "Destinations": {
+          "destination1": {
+            "Address": "https://localhost:44353"
+          }
+        }
+      },
+      "permission-management-cluster": {
+        "Destinations": {
+          "destination1": {
+            "Address": "https://localhost:44353"
+          }
+        }
+      },
+      "setting-management-cluster": {
         "Destinations": {
           "destination1": {
             "Address": "https://localhost:44353"
@@ -91,18 +156,11 @@
             "Address": "https://localhost:44355"
           }
         }
-      },            
+      },
       "orderingCluster": {
         "Destinations": {
           "destination1": {
             "Address": "https://localhost:44356"
-          }
-        }
-      },
-      "paymentCluster": {
-        "Destinations": {
-          "destination1": {
-            "Address": "https://localhost:44357"
           }
         }
       },
@@ -117,6 +175,13 @@
         "Destinations": {
           "destination1": {
             "Address": "https://localhost:44354"
+          }
+        }
+      },
+      "paymentCluster": {
+        "Destinations": {
+          "destination1": {
+            "Address": "https://localhost:44357"
           }
         }
       }

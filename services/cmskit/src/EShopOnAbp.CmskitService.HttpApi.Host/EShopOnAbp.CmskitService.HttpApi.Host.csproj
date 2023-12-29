@@ -3,12 +3,12 @@
   <Import Project="..\..\..\..\common.props" />
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <RootNamespace>EShopOnAbp.CmskitService</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.1">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
@@ -22,8 +22,7 @@
     <ProjectReference Include="..\EShopOnAbp.CmskitService.Application\EShopOnAbp.CmskitService.Application.csproj" />
     <ProjectReference Include="..\EShopOnAbp.CmskitService.EntityFrameworkCore\EShopOnAbp.CmskitService.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\EShopOnAbp.CmskitService.HttpApi\EShopOnAbp.CmskitService.HttpApi.csproj" />
-    <PackageReference Include="Volo.Abp.Identity.HttpApi.Client" Version="7.0.0" />
-    <PackageReference Include="Volo.Abp.Http.Client.IdentityModel.Web" Version="7.0.0" />
+    <PackageReference Include="Volo.Abp.Identity.HttpApi.Client" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>
