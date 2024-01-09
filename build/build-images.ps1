@@ -4,7 +4,6 @@ $currentFolder = $PSScriptRoot
 $slnFolder = Join-Path $currentFolder "../"
 # Apps
 $webAppFolder = Join-Path $slnFolder "apps/angular"
-$authserverFolder = Join-Path $slnFolder "apps/auth-server/src/EShopOnAbp.AuthServer"
 $publicWebFolder = Join-Path $slnFolder "apps/public-web/src/EShopOnAbp.PublicWeb"
 # Gateways
 $webGatewayFolder = Join-Path $slnFolder "gateways/web/src/EShopOnAbp.WebGateway"
@@ -26,11 +25,6 @@ Write-Host "===== BUILDING APPLICATIONS =====" -ForegroundColor Yellow
 Write-Host "*** BUILDING ANGULAR WEB APPLICATION 1/$total ***" -ForegroundColor Green
 Set-Location $webAppFolder
 docker build -f "$webAppFolder/Dockerfile" -t eshoponabp/app-web:$version .
-
-### AUTH-SERVER
-Write-Host "**************** BUILDING AUTH-SERVER 2/$total ****************" -ForegroundColor Green
-Set-Location $slnFolder
-docker build -f "$authserverFolder/Dockerfile" -t eshoponabp/app-authserver:$version .
 
 ### PUBLIC-WEB
 Write-Host "**************** BUILDING WEB-PUBLIC 3/$total ****************" -ForegroundColor Green

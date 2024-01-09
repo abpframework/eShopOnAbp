@@ -4,7 +4,6 @@ $currentFolder = $PSScriptRoot
 $slnFolder = Join-Path $currentFolder "../"
 # Apps
 $webAppFolder = Join-Path $slnFolder "apps/angular"
-$authserverFolder = Join-Path $slnFolder "apps/auth-server/src/EShopOnAbp.AuthServer"
 $publicWebFolder = Join-Path $slnFolder "apps/public-web/src/EShopOnAbp.PublicWeb"
 # Gateways
 $webGatewayFolder = Join-Path $slnFolder "gateways/web/src/EShopOnAbp.WebGateway"
@@ -27,12 +26,6 @@ yarn
 # ng build --prod
 npm run build:prod
 docker build -f Dockerfile.local -t eshoponabp/app-web:$version .
-
-### AUTH-SERVER
-Write-Host "*** BUILDING AUTH-SERVER 2/$total ****************" -ForegroundColor Green
-Set-Location $authserverFolder
-dotnet publish -c Release
-docker build -f Dockerfile.local -t eshoponabp/app-authserver:$version .
 
 ### PUBLIC-WEB
 Write-Host "*** BUILDING WEB-PUBLIC 3/$total ****************" -ForegroundColor Green

@@ -15,12 +15,6 @@ npm run build:prod
 docker build -f Dockerfile.local --force-rm -t "eshoponabp/app-web:${IMAGE_TAG}" .
 
 
-echo "*** BUILDING AUTH-SERVER 2/$total ****************"
-cd ${currentFolder}/apps/auth-server/src/EShopOnAbp.AuthServer
-dotnet publish -c Release
-docker build -f Dockerfile.local --force-rm -t "eshoponabp/app-authserver:${IMAGE_TAG}" .
-
-
 echo "*** BUILDING WEB-PUBLIC 3/$total ****************"
 cd ${currentFolder}/apps/public-web/src/EShopOnAbp.PublicWeb
 dotnet publish -c Release
