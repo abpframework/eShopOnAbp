@@ -11,7 +11,6 @@ WORKDIR /src
 COPY "EShopOnAbp.sln" "EShopOnAbp.sln"
 
 # Applications
-COPY "apps/auth-server/src/EShopOnAbp.AuthServer/EShopOnAbp.AuthServer.csproj" "apps/auth-server/src/EShopOnAbp.AuthServer/EShopOnAbp.AuthServer.csproj"
 COPY "apps/public-web/src/EShopOnAbp.PublicWeb/EShopOnAbp.PublicWeb.csproj" "apps/public-web/src/EShopOnAbp.PublicWeb/EShopOnAbp.PublicWeb.csproj"
 
 # Shared

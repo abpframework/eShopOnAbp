@@ -11,11 +11,6 @@ cd ${currentFolder}/apps/angular
 docker build --force-rm -t "eshoponabp/app-web:${IMAGE_TAG}" .
 
 
-echo "*** BUILDING AUTH-SERVER 2/$total ****************"
-cd ${currentFolder}/apps/auth-server/src/EShopOnAbp.AuthServer
-docker build --force-rm -t "eshoponabp/app-authserver:${IMAGE_TAG}" .
-
-
 echo "*** BUILDING WEB-PUBLIC 3/$total ****************"
 cd ${currentFolder}/apps/public-web/src/EShopOnAbp.PublicWeb
 docker build --force-rm -t "eshoponabp/app-publicweb:${IMAGE_TAG}" .
