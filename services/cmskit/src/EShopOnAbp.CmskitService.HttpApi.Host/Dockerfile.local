@@ -1,4 +1,4 @@
-  FROM mcr.microsoft.com/dotnet/aspnet:7.0
+  FROM mcr.microsoft.com/dotnet/aspnet:8.0
   COPY bin/Release/net7.0/publish/ app/
   WORKDIR /app
   ENTRYPOINT ["dotnet", "EShopOnAbp.CmskitService.HttpApi.Host.dll"]
