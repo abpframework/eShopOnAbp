@@ -1,0 +1,29 @@
+config:
+  dbVendor: postgres
+  dbAddr: eshop-st-postgresdb
+  dbDatabase: keycloak
+  dbUser: postgres
+  dbPassword: myPassw0rd
+  keycloakAdmin: admin
+  keycloakAdminPassword: 1q2w3E*
+  kcHealthEnabled: true
+
+ingress:
+  host: account.eshoponabp.dev
+  tlsSecret: eshop-wildcard-tls
+
+image:
+  repository: quay.io/keycloak/keycloak
+  tag: 19.0.2
+  pullPolicy: IfNotPresent
+
+# command:
+#     - "/opt/keycloak/bin/kc.sh"
+#     - "start"
+#     - "--auto-build"
+#     - "--http-enabled=true"
+#     - "--http-port=8080"
+#     - "--hostname-strict=false"
+#     - "--hostname-strict-https=false"
+
+env: {}

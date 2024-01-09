@@ -1,27 +1,21 @@
 # auth-server sub-chart override
-authserver:
+keycloak:
   config:
-    selfUrl: https://eshop-st-authserver    
-    corsOrigins: https://eshop-st-gateway-web,https://eshop-st-gateway-web-public,https://eshop-st-identity,https://eshop-st-administration,https://eshop-st-basket,https://eshop-st-catalog,https://eshop-st-ordering,https://eshop-st-cmskit,https://eshop-st-payment,https://eshop-st-web,https://eshop-st-public-web
-    allowedRedirectUrls: https://eshop-st-web
-    authServer:
-      authority: http://eshop-st-authserver
-      requireHttpsMetadata: "false"
-      swaggerClientId: WebGateway_Swagger
-      swaggerClientSecret: "1q2w3e*"
-    connectionStrings:
-      administrationService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
-      identityService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Identity;User ID=postgres;password=myPassw0rd;Pooling=false"
-    dotnetEnv: Staging
-    redisHost: eshop-st-redis
-    rabbitmqHost: eshop-st-rabbitmq
-    elasticsearchHost: eshop-st-elasticsearch
+    dbVendor: postgres
+    dbAddr: eshop-st-postgresdb
+    dbDatabase: keycloak
+    dbUser: postgres
+    dbPassword: myPassw0rd
+    keycloakAdmin: admin
+    keycloakAdminPassword: 1q2w3E*
+    kcHealthEnabled: true
   ingress:
-    host: eshop-st-authserver
+    host: eshop-st-keycloak
     tlsSecret: eshop-wildcard-tls
   image:
-    repository: "ghcr.io/volosoft/eshoponabp/app-authserver"
-    tag: latest
+    repository: quay.io/keycloak/keycloak
+    tag: 19.0.2
+    pullPolicy: IfNotPresent
 
 # web sub-chart override
 web:
@@ -29,7 +23,7 @@ web:
     selfUrl: https://eshop-st-web
     gatewayUrl: https://eshop-st-gateway-web
     authServer:
-      authority: http://eshop-st-authserver
+      authority: http://eshop-st-keycloak
       requireHttpsMetadata: false
       responseType: "code"
       strictDiscoveryDocumentValidation: false
@@ -47,10 +41,10 @@ public-web:
     selfUrl: https://eshop-st-public-web
     gatewayUrl: http://eshop-st-gateway-web-public/
     authServer:
-      authority: http://eshop-st-authserver
+      authority: http://eshop-st-keycloak
       requireHttpsMetadata: "false"
       isOnProd: "false"
-      metaAddress: http://eshop-st-authserver
+      metaAddress: http://eshop-st-keycloak
     dotnetEnv: Staging
     redisHost: eshop-st-redis
     rabbitmqHost: eshop-st-rabbitmq
@@ -71,7 +65,7 @@ identity:
       identityService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Identity;User ID=postgres;password=myPassw0rd;Pooling=false"
       administrationService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
     authServer:
-      authority: http://eshop-st-authserver
+      authority: http://eshop-st-keycloak
       requireHttpsMetadata: "false"
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
@@ -107,7 +101,7 @@ administration:
     connectionStrings:
       administrationService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
     authServer:
-      authority: http://eshop-st-authserver
+      authority: http://eshop-st-keycloak
       requireHttpsMetadata: "false"
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
@@ -134,7 +128,7 @@ gateway-web:
     corsOrigins: https://eshop-st-web
     globalConfigurationBaseUrl: http://eshop-st-gateway-public
     authServer:
-      authority: http://eshop-st-authserver
+      authority: http://eshop-st-keycloak
       requireHttpsMetadata: "false"
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
@@ -150,7 +144,7 @@ gateway-web:
     tag: 1.0.0
   reRoutes:
     accountService:
-      url: http://eshop-st-authserver
+      url: http://eshop-st-keycloak
     identityService:
       url: http://eshop-st-identity
     administrationService:
@@ -167,7 +161,7 @@ gateway-web-public:
   config:
     selfUrl: https://eshop-st-gateway-web-public
     authServer:
-      authority: http://eshop-st-authserver
+      authority: http://eshop-st-keycloak
       requireHttpsMetadata: "false"
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
@@ -183,7 +177,7 @@ gateway-web-public:
     tag: 1.0.0
   reRoutes:
     accountService:
-      url: http://eshop-st-authserver
+      url: http://eshop-st-keycloak
     identityService:
       url: http://eshop-st-identity
     administrationService:
@@ -207,7 +201,7 @@ basket:
     connectionStrings:
       administrationService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
     authServer:
-      authority: http://eshop-st-authserver
+      authority: http://eshop-st-keycloak
       requireHttpsMetadata: "false"
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
@@ -234,7 +228,7 @@ catalog:
       catalogService: "mongodb://eshop-st-mongodb/EShopOnAbp_Catalog"
       administrationService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
     authServer:
-      authority: http://eshop-st-authserver
+      authority: http://eshop-st-keycloak
       requireHttpsMetadata: "false"
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
@@ -263,7 +257,7 @@ ordering:
       orderingService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Ordering;User ID=postgres;password=myPassw0rd;Pooling=false"
       administrationService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
     authServer:
-      authority: http://eshop-st-authserver
+      authority: http://eshop-st-keycloak
       requireHttpsMetadata: "false"
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
@@ -287,7 +281,7 @@ cmskit:
       cmskitService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Cmskit;User ID=postgres;password=myPassw0rd;Pooling=false"
       administrationService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
     authServer:
-      authority: http://eshop-st-authserver
+      authority: http://eshop-st-keycloak
       requireHttpsMetadata: "false"
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
@@ -315,7 +309,7 @@ payment:
       paymentService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Payment;User ID=postgres;password=myPassw0rd;Pooling=false"
       administrationService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
     authServer:
-      authority: http://eshop-st-authserver
+      authority: http://eshop-st-keycloak
       requireHttpsMetadata: "false"
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"

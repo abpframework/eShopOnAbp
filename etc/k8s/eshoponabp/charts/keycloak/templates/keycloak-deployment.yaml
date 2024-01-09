@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-{{ .Chart.Name }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-{{ .Chart.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-{{ .Chart.Name }}
+    spec:
+      containers:
+      - image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        command: ["/opt/keycloak/bin/kc.sh", "start", "--optimized", "--http-enabled=true", "--http-port=8080", "--hostname-strict=false", "--hostname-strict-https=false"]
+        name: {{ .Release.Name }}-{{ .Chart.Name }}
+        ports:
+        - name: http
+          containerPort: 80
+        - name: https
+          containerPort: 443
+        env:
+        - name: DB_VENDOR
+          value: "{{ .Values.config.dbVendor }}"
+        - name: DB_ADDR
+          value: "{{ .Values.config.dbAddr }}"        
+        - name: DB_DATABASE
+          value: "{{ .Values.config.dbDatabase }}"
+        - name: "DB_USER"
+          value: "{{ .Values.config.dbUser }}"
+        - name: "DB_PASSWORD"
+          value: "{{ .Values.config.dbPassword }}"
+        - name: "KEYCLOAK_ADMIN"
+          value: "{{ .Values.config.keycloakAdmin }}"
+        - name: "KEYCLOAK_ADMIN_PASSWORD"
+          value: "{{ .Values.config.keycloakAdminPassword }}"
+        - name: "KC_HEALTH_ENABLED"
+          value: "{{ .Values.config.kcHealthEnabled }}"
+          {{- if .Values.env }}
+{{ toYaml .Values.env | indent 8 }}
+          {{- end }}
+        
