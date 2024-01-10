@@ -23,19 +23,19 @@
         ]
       },
       "FeatureManagement": {
-        "ClusterId": "feature-management-cluster",
+        "ClusterId": "administrationCluster",
         "Match": {
           "Path": "/api/feature-management/{**everything}"
         }
       },
       "PermissionManagement": {
-        "ClusterId": "permission-management-cluster",
+        "ClusterId": "administrationCluster",
         "Match": {
           "Path": "/api/permission-management/{**everything}"
         }
       },
       "SettingManagement": {
-        "ClusterId": "setting-management-cluster",
+        "ClusterId": "administrationCluster",
         "Match": {
           "Path": "/api/setting-management/{**everything}"
         }
@@ -64,8 +64,8 @@
           { "PathRemovePrefix": "/swagger-json/Catalog" }
         ]
       },
-      "product-picture-route": {
-        "ClusterId": "productPictureCluster",
+      "ProductPictures": {
+        "ClusterId": "catalogCluster",
         "Match": {
           "Path": "/product-images/{**everything}",
           "Methods": [ "GET" ]
@@ -76,6 +76,15 @@
         "Match": {
           "Path": "/api/basket/{**everything}"
         }
+      },
+      "Basket Service Swagger": {
+        "ClusterId": "basketCluster",
+        "Match": {
+          "Path": "/swagger-json/Basket/swagger/v1/swagger.json"
+        },
+        "Transforms": [
+          { "PathRemovePrefix": "/swagger-json/Basket" }
+        ]
       },
       "Ordering Service": {
         "ClusterId": "orderingCluster",
@@ -112,6 +121,15 @@
         "Match": {
           "Path": "/api/payment/{**everything}"
         }
+      },
+      "Payment Service Swagger": {
+        "ClusterId": "paymentCluster",
+        "Match": {
+          "Path": "/swagger-json/Payment/swagger/v1/swagger.json"
+        },
+        "Transforms": [
+          { "PathRemovePrefix": "/swagger-json/Payment" }
+        ]
       }
     },
     "Clusters": {
@@ -123,20 +141,6 @@
         }
       },
       "administrationCluster": {
-        "Destinations": {
-          "destination1": {
-            "Address": "https://localhost:44353"
-          }
-        }
-      },
-      "permission-management-cluster": {
-        "Destinations": {
-          "destination1": {
-            "Address": "https://localhost:44353"
-          }
-        }
-      },
-      "setting-management-cluster": {
         "Destinations": {
           "destination1": {
             "Address": "https://localhost:44353"
@@ -168,13 +172,6 @@
         "Destinations": {
           "destination1": {
             "Address": "https://localhost:44358"
-          }
-        }
-      },
-      "productPictureCluster": {
-        "Destinations": {
-          "destination1": {
-            "Address": "https://localhost:44354"
           }
         }
       },
