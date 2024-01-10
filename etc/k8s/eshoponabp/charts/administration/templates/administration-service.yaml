@@ -7,7 +7,7 @@ metadata:
 spec:
   ports:
     - name: "80"
-      port: 80
+      port: 8080
     - name: "443"
       port: 443
   selector:
