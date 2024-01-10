@@ -11,8 +11,6 @@ config:
   elasticsearchHost: eshop-st-elasticsearch
 
 reRoutes:
-  accountService:
-    url: https://eshop-st-authserver
   identityService:
     url: https://eshop-st-identity
   administrationService:

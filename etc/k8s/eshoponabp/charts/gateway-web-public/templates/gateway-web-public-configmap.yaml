@@ -7,107 +7,172 @@ data:
     {
     "ReverseProxy": {
       "Routes": {
-        "Account Service": {
-          "ClusterId": "account-cluster",
+        "AbpApi": {
+          "ClusterId": "administrationCluster",
           "Match": {
-            "Path": "/api/account/{**everything}"
+            "Path": "/api/abp/{**catch-all}"
           }
         },
-        "Administration Service": {
-          "ClusterId": "administration-cluster",
+        "IdentityService": {
+          "ClusterId": "identityCluster",
           "Match": {
-            "Path": "/api/abp/{**everything}"
+            "Path": "/api/identity/{**everything}"
           }
         },
-        "Catalog Service": {
-          "ClusterId": "catalog-cluster",
+        "IdentityServiceSwagger": {
+          "ClusterId": "identityCluster",
+          "Match": {
+            "Path": "/swagger-json/Identity/swagger/v1/swagger.json"
+          },
+          "Transforms": [
+            { "PathRemovePrefix": "/swagger-json/Identity" }
+          ]
+        },
+        "FeatureManagement": {
+          "ClusterId": "administrationCluster",
+          "Match": {
+            "Path": "/api/feature-management/{**everything}"
+          }
+        },
+        "PermissionManagement": {
+          "ClusterId": "administrationCluster",
+          "Match": {
+            "Path": "/api/permission-management/{**everything}"
+          }
+        },
+        "SettingManagement": {
+          "ClusterId": "administrationCluster",
+          "Match": {
+            "Path": "/api/setting-management/{**everything}"
+          }
+        },
+        "AdministrationServiceSwagger": {
+          "ClusterId": "administrationCluster",
+          "Match": {
+            "Path": "/swagger-json/Administration/swagger/v1/swagger.json"
+          },
+          "Transforms": [
+            { "PathRemovePrefix": "/swagger-json/Administration" }
+          ]
+        },
+        "CatalogService": {
+          "ClusterId": "catalogCluster",
           "Match": {
             "Path": "/api/catalog/{**everything}"
           }
-        },      
-        "Basket Service": {
-          "ClusterId": "basket-cluster",
+        },
+        "CatalogServiceSwagger": {
+          "ClusterId": "catalogCluster",
+          "Match": {
+            "Path": "/swagger-json/Catalog/swagger/v1/swagger.json"
+          },
+          "Transforms": [
+            { "PathRemovePrefix": "/swagger-json/Catalog" }
+          ]
+        },
+        "product-picture-route": {
+          "ClusterId": "catalogCluster",
+          "Match": {
+            "Path": "/product-images/{**everything}",
+            "Methods": [ "GET" ]
+          }
+        },
+        "BasketService": {
+          "ClusterId": "basketCluster",
           "Match": {
             "Path": "/api/basket/{**everything}"
           }
         },
-        "Ordering Service": {
-          "ClusterId": "ordering-cluster",
+        "OrderingService": {
+          "ClusterId": "orderingCluster",
           "Match": {
             "Path": "/api/ordering/{**everything}"
           }
         },
-        "Cmskit Service": {
-          "ClusterId": "cmskit-cluster",
+        "OrderingServiceSwagger": {
+          "ClusterId": "orderingCluster",
+          "Match": {
+            "Path": "/swagger-json/Ordering/swagger/v1/swagger.json"
+          },
+          "Transforms": [
+            { "PathRemovePrefix": "/swagger-json/Ordering" }
+          ]
+        },
+        "CmskitService": {
+          "ClusterId": "cmskitCluster",
           "Match": {
             "Path": "/api/cmskit/{**everything}"
           }
         },
-        "Payment Service": {
-          "ClusterId": "payment-cluster",
+        "CmskitServiceSwagger": {
+          "ClusterId": "cmskitCluster",
+          "Match": {
+            "Path": "/swagger-json/Cmskit/swagger/v1/swagger.json"
+          },
+          "Transforms": [
+            { "PathRemovePrefix": "/swagger-json/Cmskit" }
+          ]
+        },
+        "PaymentService": {
+          "ClusterId": "paymentCluster",
           "Match": {
             "Path": "/api/payment/{**everything}"
           }
         },
-        "product-picture-route": {
-          "ClusterId": "product-picture-cluster",
+        "PaymentServiceSwagger": {
+          "ClusterId": "paymentCluster",
           "Match": {
-            "Path": "/product-images/{**everything}",
-            "Methods" : [ "GET" ]
-          }
-        }
+            "Path": "/swagger-json/payment/swagger/v1/swagger.json"
+          },
+          "Transforms": [
+            { "PathRemovePrefix": "/swagger-json/payment" }
+          ]
+        },
       },
       "Clusters": {
-        "account-cluster": {
+        "identityCluster": {
           "Destinations": {
             "destination1": {
-              "Address": "{{ .Values.reRoutes.accountService.url }}"
+              "Address": "{{ .Values.reRoutes.identityService.url }}"
             }
           }
         },
-        "administration-cluster": {
+        "administrationCluster": {
           "Destinations": {
             "destination1": {
               "Address": "{{ .Values.reRoutes.administrationService.url }}"
             }
           }
         },
-        "catalog-cluster": {
+        "catalogCluster": {
           "Destinations": {
             "destination1": {
               "Address": "{{ .Values.reRoutes.catalogService.url }}"
             }
           }
         },
-        "product-picture-cluster": {
-          "Destinations": {
-            "destination1": {
-              "Address": "{{ .Values.reRoutes.catalogService.url }}"
-            }
-          }
-        },
-        "basket-cluster": {
+        "basketCluster": {
           "Destinations": {
             "destination1": {
               "Address": "{{ .Values.reRoutes.basketService.url }}"
             }
           }
         },
-        "ordering-cluster": {
+        "orderingCluster": {
           "Destinations": {
             "destination1": {
               "Address": "{{ .Values.reRoutes.orderingService.url }}"
             }
           }
         },
-        "cmskit-cluster": {
+        "cmskitCluster": {
           "Destinations": {
             "destination1": {
               "Address": "{{ .Values.reRoutes.cmskitService.url }}"
             }
           }
         },
-        "payment-cluster": {
+        "paymentCluster": {
           "Destinations": {
             "destination1": {
               "Address": "{{ .Values.reRoutes.paymentService.url }}"

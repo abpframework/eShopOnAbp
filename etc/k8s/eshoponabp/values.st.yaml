@@ -1,41 +1,35 @@
 # auth-server sub-chart override
-authserver:
+keycloak:
   config:
-    selfUrl: https://eshop-st-authserver    
-    corsOrigins: https://eshop-st-gateway-web,https://eshop-st-gateway-web-public,https://eshop-st-identity,https://eshop-st-administration,https://eshop-st-basket,https://eshop-st-catalog,https://eshop-st-ordering,https://eshop-st-cmskit,https://eshop-st-payment,https://eshop-st-web,https://eshop-st-public-web
-    allowedRedirectUrls: https://eshop-st-web
-    authServer:
-      authority: http://eshop-st-authserver
-      requireHttpsMetadata: "false"
-      swaggerClientId: WebGateway_Swagger
-      swaggerClientSecret: "1q2w3e*"
-    connectionStrings:
-      administrationService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
-      identityService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Identity;User ID=postgres;password=myPassw0rd;Pooling=false"
-    dotnetEnv: Staging
-    redisHost: eshop-st-redis
-    rabbitmqHost: eshop-st-rabbitmq
-    elasticsearchHost: eshop-st-elasticsearch
+    dbVendor: postgres
+    dbAddr: eshop-st-postgresdb
+    dbDatabase: keycloak
+    dbUser: postgres
+    dbPassword: myPassw0rd
+    keycloakAdmin: admin
+    keycloakAdminPassword: 1q2w3E*
+    kcHealthEnabled: true
   ingress:
-    host: eshop-st-authserver
+    host: account.eshoponabp.dev
     tlsSecret: eshop-wildcard-tls
   image:
-    repository: "eshoponabp/app-authserver"
-    tag: 1.0.0
+    repository: quay.io/keycloak/keycloak
+    tag: 19.0.2
+    pullPolicy: IfNotPresent
 
 # web sub-chart override
 web:
   config:
-    selfUrl: https://eshop-st-web
-    gatewayUrl: https://eshop-st-gateway-web
+    selfUrl: https://admin.eshoponabp.dev
+    gatewayUrl: https://gateway-web.eshoponabp.dev
     authServer:
-      authority: http://eshop-st-authserver
+      authority: http://account.eshoponabp.dev
       requireHttpsMetadata: false
       responseType: "code"
       strictDiscoveryDocumentValidation: false
       skipIssuerCheck: true
   ingress:
-    host: eshop-st-web
+    host: admin.eshoponabp.dev
     tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/app-web"
@@ -44,19 +38,19 @@ web:
 # public-web sub-chart override
 public-web:
   config:
-    selfUrl: https://eshop-st-public-web
-    gatewayUrl: http://eshop-st-gateway-web-public/
+    selfUrl: https://eshoponabp.dev
+    gatewayUrl: http://gateway-public.eshoponabp.dev/
     authServer:
-      authority: http://eshop-st-authserver
+      authority: http://account.eshoponabp.dev
       requireHttpsMetadata: "false"
       isOnProd: "false"
-      metaAddress: http://eshop-st-authserver
+      metaAddress: http://account.eshoponabp.dev
     dotnetEnv: Staging
     redisHost: eshop-st-redis
     rabbitmqHost: eshop-st-rabbitmq
     elasticsearchHost: eshop-st-elasticsearch
   ingress:
-    host: eshop-st-public-web
+    host: eshoponabp.dev
     tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/app-publicweb"
@@ -65,13 +59,13 @@ public-web:
 # identity-service sub-chart override
 identity:
   config:
-    selfUrl: https://eshop-st-identity
-    corsOrigins: https://eshop-st-gateway-web,https://eshop-st-gateway-web-public
+    selfUrl: https://identity.eshoponabp.dev
+    corsOrigins: https://gateway-web.eshoponabp.dev,https://gateway-public.eshoponabp.dev
     connectionStrings:
       identityService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Identity;User ID=postgres;password=myPassw0rd;Pooling=false"
       administrationService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
     authServer:
-      authority: http://eshop-st-authserver
+      authority: http://account.eshoponabp.dev
       requireHttpsMetadata: "false"
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
@@ -80,20 +74,20 @@ identity:
     rabbitmqHost: eshop-st-rabbitmq
     elasticsearchHost: eshop-st-elasticsearch    
   identityServerClients: # Seeded Clients
-    webRootUrl: https://eshop-st-web/  
-    publicWebRootUrl: https://eshop-st-public-web/
-    webGatewayRootUrl: https://eshop-st-gateway-web/
-    publicWebGatewayRootUrl: https://eshop-st-gateway-web-public/
-    identityServiceRootUrl: https://eshop-st-identity/
-    administrationServiceRootUrl: https://eshop-st-administration/
-    accountServiceRootUrl: https://eshop-st-authserver/
-    basketServiceRootUrl: https://eshop-st-basket/
-    catalogServiceRootUrl: https://eshop-st-catalog/
-    orderingServiceRootUrl: https://eshop-st-ordering/
-    cmskitServiceRootUrl: https://eshop-st-cmskit/
-    paymentServiceRootUrl: https://eshop-st-payment/
+    webRootUrl: https://admin.eshoponabp.dev/  
+    publicWebRootUrl: https://eshoponabp.dev/
+    webGatewayRootUrl: https://gateway-web.eshoponabp.dev/
+    publicWebGatewayRootUrl: https://gateway-public.eshoponabp.dev/
+    identityServiceRootUrl: https://identity.eshoponabp.dev/
+    administrationServiceRootUrl: https://administration.eshoponabp.dev/
+    accountServiceRootUrl: https://account.eshoponabp.dev/
+    basketServiceRootUrl: https://basket.eshoponabp.dev/
+    catalogServiceRootUrl: https://catalog.eshoponabp.dev/
+    orderingServiceRootUrl: https://ordering.eshoponabp.dev/
+    cmskitServiceRootUrl: https://cmskit.eshoponabp.dev/
+    paymentServiceRootUrl: https://payment.eshoponabp.dev/
   ingress:
-    host: eshop-st-identity
+    host: identity.eshoponabp.dev
     tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/service-identity"
@@ -102,26 +96,26 @@ identity:
 # administration sub-chart override
 administration:
   config:
-    selfUrl: https://eshop-st-administration
-    corsOrigins: https://eshop-st-gateway-web,https://eshop-st-gateway-web-public
+    selfUrl: https://administration.eshoponabp.dev
+    corsOrigins: https://gateway-web.eshoponabp.dev,https://gateway-public.eshoponabp.dev
     connectionStrings:
       administrationService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
     authServer:
-      authority: http://eshop-st-authserver
+      authority: http://account.eshoponabp.dev
       requireHttpsMetadata: "false"
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
     remoteServices:
-      abpIdentityBaseUrl: http://eshop-st-identity
+      abpIdentityBaseUrl: http://identity.eshoponabp.dev
       useCurrentToken: "false"  
     dotnetEnv: Staging
     redisHost: eshop-st-redis
     rabbitmqHost: eshop-st-rabbitmq
     elasticsearchHost: eshop-st-elasticsearch
   synchedCommunication: # Used for server-to-server (client-credentials) communication with identityService for user permissions
-    authority: http://eshop-st-authserver
+    authority: http://account.eshoponabp.dev
   ingress:
-    host: eshop-st-administration
+    host: administration.eshoponabp.dev
     tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/service-administration"
@@ -130,11 +124,11 @@ administration:
 # gateway-web sub-chart override
 gateway-web:
   config:
-    selfUrl: https://eshop-st-gateway-web
-    corsOrigins: https://eshop-st-web
+    selfUrl: https://gateway-web.eshoponabp.dev
+    corsOrigins: https://admin.eshoponabp.dev
     globalConfigurationBaseUrl: http://eshop-st-gateway-public
     authServer:
-      authority: http://eshop-st-authserver
+      authority: http://account.eshoponabp.dev
       requireHttpsMetadata: "false"
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
@@ -143,31 +137,31 @@ gateway-web:
     rabbitmqHost: eshop-st-rabbitmq
     elasticsearchHost: eshop-st-elasticsearch
   ingress:
-    host: eshop-st-gateway-web
+    host: gateway-web.eshoponabp.dev
     tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/gateway-web"
     tag: 1.0.0
   reRoutes:
     accountService:
-      url: http://eshop-st-authserver
+      url: http://account.eshoponabp.dev
     identityService:
-      url: http://eshop-st-identity
+      url: http://identity.eshoponabp.dev
     administrationService:
-      url: http://eshop-st-administration
+      url: http://administration.eshoponabp.dev
     catalogService:
-      url: http://eshop-st-catalog
+      url: http://catalog.eshoponabp.dev
     orderingService:
-      url: http://eshop-st-ordering
+      url: http://ordering.eshoponabp.dev
     cmskitService:
-      url: http://eshop-st-cmskit
+      url: http://cmskit.eshoponabp.dev
 
 # gateway-web-public sub-chart override
 gateway-web-public:
   config:
-    selfUrl: https://eshop-st-gateway-web-public
+    selfUrl: https://gateway-public.eshoponabp.dev
     authServer:
-      authority: http://eshop-st-authserver
+      authority: http://account.eshoponabp.dev
       requireHttpsMetadata: "false"
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
@@ -176,38 +170,36 @@ gateway-web-public:
     rabbitmqHost: eshop-st-rabbitmq
     elasticsearchHost: eshop-st-elasticsearch
   ingress:
-    host: eshop-st-gateway-web-public
+    host: gateway-public.eshoponabp.dev
     tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/gateway-web-public"
     tag: 1.0.0
   reRoutes:
-    accountService:
-      url: http://eshop-st-authserver
     identityService:
-      url: http://eshop-st-identity
+      url: https://identity.eshoponabp.dev
     administrationService:
-      url: http://eshop-st-administration
+      url: https://administration.eshoponabp.dev
     catalogService:
-      url: http://eshop-st-catalog
+      url: https://catalog.eshoponabp.dev
     basketService:
-      url: http://eshop-st-basket
+      url: https://basket.eshoponabp.dev
     orderingService:
-      url: http://eshop-st-ordering
+      url: https://ordering.eshoponabp.dev
     cmskitService:
-      url: http://eshop-st-cmskit
+      url: https://cmskit.eshoponabp.dev
     paymentService:
-      url: http://eshop-st-payment  
+      url: https://payment.eshoponabp.dev  
 
 # basket-service sub-chart override
 basket:
   config:
-    selfUrl: https://eshop-st-basket
-    corsOrigins: https://eshop-st-gateway-web,https://eshop-st-gateway-web-public,https://eshop-st-public-web
+    selfUrl: https://basket.eshoponabp.dev
+    corsOrigins: https://gateway-web.eshoponabp.dev,https://gateway-public.eshoponabp.dev,https://eshoponabp.dev
     connectionStrings:
       administrationService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
     authServer:
-      authority: http://eshop-st-authserver
+      authority: http://account.eshoponabp.dev
       requireHttpsMetadata: "false"
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
@@ -216,10 +208,10 @@ basket:
     rabbitmqHost: eshop-st-rabbitmq
     elasticsearchHost: eshop-st-elasticsearch
     remoteServices:
-      catalogBaseUrl: http://eshop-st-catalog:80
-      catalogGrpcUrl: http://eshop-st-catalog:81
+      catalogBaseUrl: http://catalog.eshoponabp.dev:80
+      catalogGrpcUrl: http://catalog.eshoponabp.dev:81
   ingress:
-    host: eshop-st-basket
+    host: basket.eshoponabp.dev
     tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/service-basket"
@@ -228,13 +220,13 @@ basket:
 # catalog-service sub-chart override
 catalog:
   config:
-    selfUrl: https://eshop-st-catalog
-    corsOrigins: https://eshop-st-gateway-web,https://eshop-st-gateway-web-public,https://eshop-st-public-web,https://eshop-st-web
+    selfUrl: https://catalog.eshoponabp.dev
+    corsOrigins: https://gateway-web.eshoponabp.dev,https://gateway-public.eshoponabp.dev,https://eshoponabp.dev,https://admin.eshoponabp.dev
     connectionStrings:
       catalogService: "mongodb://eshop-st-mongodb/EShopOnAbp_Catalog"
       administrationService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
     authServer:
-      authority: http://eshop-st-authserver
+      authority: http://account.eshoponabp.dev
       requireHttpsMetadata: "false"
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
@@ -243,12 +235,12 @@ catalog:
     rabbitmqHost: eshop-st-rabbitmq
     elasticsearchHost: eshop-st-elasticsearch
     kestrel:
-      httpUrl: http://eshop-st-catalog:80
+      httpUrl: http://catalog.eshoponabp.dev:80
       httpProtocols: Http1AndHttp2
-      grpcUrl: http://eshop-st-catalog:81
+      grpcUrl: http://catalog.eshoponabp.dev:81
       grpcProtocols: Http2
   ingress:
-    host: eshop-st-catalog
+    host: catalog.eshoponabp.dev
     tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/service-catalog"
@@ -257,13 +249,13 @@ catalog:
 # ordering-service sub-chart override
 ordering:
   config:
-    selfUrl: https://eshop-st-ordering
-    corsOrigins: https://eshop-st-gateway-web,https://eshop-st-gateway-web-public
+    selfUrl: https://ordering.eshoponabp.dev
+    corsOrigins: https://gateway-web.eshoponabp.dev,https://gateway-public.eshoponabp.dev
     connectionStrings:
       orderingService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Ordering;User ID=postgres;password=myPassw0rd;Pooling=false"
       administrationService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
     authServer:
-      authority: http://eshop-st-authserver
+      authority: http://account.eshoponabp.dev
       requireHttpsMetadata: "false"
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
@@ -272,7 +264,7 @@ ordering:
     rabbitmqHost: eshop-st-rabbitmq
     elasticsearchHost: eshop-st-elasticsearch
   ingress:
-    host: eshop-st-ordering
+    host: ordering.eshoponabp.dev
     tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/service-ordering"
@@ -281,26 +273,26 @@ ordering:
 # cmskit-service sub-chart override
 cmskit:
   config:
-    selfUrl: https://eshop-st-cmskit
-    corsOrigins: https://eshop-st-gateway-web,https://eshop-st-gateway-web-public
+    selfUrl: https://cmskit.eshoponabp.dev
+    corsOrigins: https://gateway-web.eshoponabp.dev,https://gateway-public.eshoponabp.dev
     connectionStrings:
       cmskitervice: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Cmskit;User ID=postgres;password=myPassw0rd;Pooling=false"
       administrationService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
     authServer:
-      authority: http://eshop-st-authserver
+      authority: http://account.eshoponabp.dev
       requireHttpsMetadata: "false"
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
     remoteServices:
-      abpIdentityBaseUrl: https://eshop-st-identity
+      abpIdentityBaseUrl: https://identity.eshoponabp.dev
     dotnetEnv: Staging
     redisHost: eshop-st-redis
     rabbitmqHost: eshop-st-rabbitmq
     elasticsearchHost: eshop-st-elasticsearch
   synchedCommunication: # Used for server-to-server (client-credentials) communication with identityService for user permissions
-    authority: http://eshop-st-authserver
+    authority: http://account.eshoponabp.dev
   ingress:
-    host: eshop-st-cmskit
+    host: cmskit.eshoponabp.dev
     tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/service-cmskit"
@@ -309,24 +301,24 @@ cmskit:
 # payment-service sub-chart override
 payment:
   config:
-    selfUrl: https://eshop-st-payment
-    corsOrigins: https://eshop-st-gateway-web,https://eshop-st-gateway-web-public
+    selfUrl: https://payment.eshoponabp.dev
+    corsOrigins: https://gateway-web.eshoponabp.dev,https://gateway-public.eshoponabp.dev
     connectionStrings:
       paymentService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Payment;User ID=postgres;password=myPassw0rd;Pooling=false"
       administrationService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
     authServer:
-      authority: http://eshop-st-authserver
+      authority: http://account.eshoponabp.dev
       requireHttpsMetadata: "false"
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
     remoteServices:
-      abpIdentityBaseUrl: https://eshop-st-identity
+      abpIdentityBaseUrl: https://identity.eshoponabp.dev
     dotnetEnv: Staging
     redisHost: eshop-st-redis
     rabbitmqHost: eshop-st-rabbitmq
     elasticsearchHost: eshop-st-elasticsearch
   ingress:
-    host: eshop-st-payment
+    host: payment.eshoponabp.dev
     tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/service-payment"
