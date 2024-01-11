@@ -143,18 +143,16 @@ gateway-web:
     repository: "eshoponabp/gateway-web"
     tag: 1.0.0
   reRoutes:
-    accountService:
-      url: http://account.eshoponabp.dev
     identityService:
-      url: http://identity.eshoponabp.dev
+      url: http://eshop-st-identity
     administrationService:
-      url: http://administration.eshoponabp.dev
+      url: http://eshop-st-administration
     catalogService:
-      url: http://catalog.eshoponabp.dev
+      url: http://eshop-st-catalog
     orderingService:
-      url: http://ordering.eshoponabp.dev
+      url: http://eshop-st-ordering
     cmskitService:
-      url: http://cmskit.eshoponabp.dev
+      url: http://eshop-st-cmskit
 
 # gateway-web-public sub-chart override
 gateway-web-public:
@@ -177,19 +175,19 @@ gateway-web-public:
     tag: 1.0.0
   reRoutes:
     identityService:
-      url: https://identity.eshoponabp.dev
+      url: http://identity.eshoponabp.dev
     administrationService:
-      url: https://administration.eshoponabp.dev
+      url: http://administration.eshoponabp.dev
     catalogService:
-      url: https://catalog.eshoponabp.dev
+      url: http://catalog.eshoponabp.dev
     basketService:
-      url: https://basket.eshoponabp.dev
+      url: http://basket.eshoponabp.dev
     orderingService:
-      url: https://ordering.eshoponabp.dev
+      url: http://ordering.eshoponabp.dev
     cmskitService:
-      url: https://cmskit.eshoponabp.dev
+      url: http://cmskit.eshoponabp.dev
     paymentService:
-      url: https://payment.eshoponabp.dev  
+      url: http://payment.eshoponabp.dev
 
 # basket-service sub-chart override
 basket:
