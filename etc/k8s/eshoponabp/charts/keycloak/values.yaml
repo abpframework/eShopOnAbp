@@ -6,6 +6,7 @@ config:
   dbPassword: myPassw0rd
   keycloakAdmin: admin
   keycloakAdminPassword: 1q2w3E*
+  kcHostname: account.eshoponabp.dev
   kcHealthEnabled: true
 
 ingress:

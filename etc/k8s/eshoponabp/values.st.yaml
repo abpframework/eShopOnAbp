@@ -1,20 +1,30 @@
 # auth-server sub-chart override
 keycloak:
   config:
-    dbVendor: postgres
-    dbAddr: eshop-st-postgresdb
-    dbDatabase: keycloak
-    dbUser: postgres
-    dbPassword: myPassw0rd
+    kcDb: postgres
+    kcDbUrl: jdbc:postgresql://eshop-st-postgresdb:5432/keycloak
+    kcDbUrlHost: eshop-st-postgresdb
+    kcDbUrlPort: 5432
+    kcDbUrlDatabase: keycloak
+    kcDbUsername: postgres
+    kcDbPassword: myPassw0rd
     keycloakAdmin: admin
     keycloakAdminPassword: 1q2w3E*
     kcHealthEnabled: true
+    kcHttpRelativePath : /
+    kcProxy: edge
+    proxyAddressForwarding: true
+    kcHttpEnabled: true
+    kcHostnameUrl: https://account.eshoponabp.dev
+    kcHostnameAdminUrl: https://account.eshoponabp.dev
+    jgroupsDnsQuery: eshop-st-keycloak
+
   ingress:
     host: account.eshoponabp.dev
     tlsSecret: eshop-wildcard-tls
   image:
     repository: quay.io/keycloak/keycloak
-    tag: 19.0.2
+    tag: 21.1.1
     pullPolicy: IfNotPresent
 
 # web sub-chart override
@@ -23,7 +33,7 @@ web:
     selfUrl: https://admin.eshoponabp.dev
     gatewayUrl: https://gateway-web.eshoponabp.dev
     authServer:
-      authority: http://account.eshoponabp.dev
+      authority: https://account.eshoponabp.dev
       requireHttpsMetadata: false
       responseType: "code"
       strictDiscoveryDocumentValidation: false
@@ -33,18 +43,18 @@ web:
     tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/app-web"
-    tag: 1.0.0
+    tag: 2.0.0
 
 # public-web sub-chart override
 public-web:
   config:
     selfUrl: https://eshoponabp.dev
-    gatewayUrl: http://gateway-public.eshoponabp.dev/
+    gatewayUrl: https://gateway-public.eshoponabp.dev/
     authServer:
-      authority: http://account.eshoponabp.dev
+      authority: https://account.eshoponabp.dev
       requireHttpsMetadata: "false"
       isOnProd: "false"
-      metaAddress: http://account.eshoponabp.dev
+      metaAddress: http://eshop-st-keycloak
     dotnetEnv: Staging
     redisHost: eshop-st-redis
     rabbitmqHost: eshop-st-rabbitmq
@@ -54,7 +64,7 @@ public-web:
     tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/app-publicweb"
-    tag: 1.0.0
+    tag: 2.0.0
 
 # identity-service sub-chart override
 identity:
@@ -65,7 +75,7 @@ identity:
       identityService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Identity;User ID=postgres;password=myPassw0rd;Pooling=false"
       administrationService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
     authServer:
-      authority: http://account.eshoponabp.dev
+      authority: http://eshop-st-keycloak
       requireHttpsMetadata: "false"
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
@@ -91,7 +101,7 @@ identity:
     tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/service-identity"
-    tag: 1.0.0
+    tag: 2.0.0
 
 # administration sub-chart override
 administration:
@@ -101,34 +111,34 @@ administration:
     connectionStrings:
       administrationService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
     authServer:
-      authority: http://account.eshoponabp.dev
+      authority: http://eshop-st-keycloak
       requireHttpsMetadata: "false"
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
     remoteServices:
-      abpIdentityBaseUrl: http://identity.eshoponabp.dev
+      abpIdentityBaseUrl: https://identity.eshoponabp.dev
       useCurrentToken: "false"  
     dotnetEnv: Staging
     redisHost: eshop-st-redis
     rabbitmqHost: eshop-st-rabbitmq
     elasticsearchHost: eshop-st-elasticsearch
   synchedCommunication: # Used for server-to-server (client-credentials) communication with identityService for user permissions
-    authority: http://account.eshoponabp.dev
+    authority: https://account.eshoponabp.dev
   ingress:
     host: administration.eshoponabp.dev
     tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/service-administration"
-    tag: 1.0.0
+    tag: 2.0.0
 
 # gateway-web sub-chart override
 gateway-web:
   config:
     selfUrl: https://gateway-web.eshoponabp.dev
     corsOrigins: https://admin.eshoponabp.dev
-    globalConfigurationBaseUrl: http://eshop-st-gateway-public
+    globalConfigurationBaseUrl: http://eshop-st-gateway-web-public
     authServer:
-      authority: http://account.eshoponabp.dev
+      authority: http://eshop-st-keycloak
       requireHttpsMetadata: "false"
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
@@ -141,27 +151,25 @@ gateway-web:
     tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/gateway-web"
-    tag: 1.0.0
+    tag: 2.0.0
   reRoutes:
-    accountService:
-      url: http://account.eshoponabp.dev
     identityService:
-      url: http://identity.eshoponabp.dev
+      url: https://identity.eshoponabp.dev
     administrationService:
-      url: http://administration.eshoponabp.dev
+      url: https://administration.eshoponabp.dev
     catalogService:
-      url: http://catalog.eshoponabp.dev
+      url: https://catalog.eshoponabp.dev
     orderingService:
-      url: http://ordering.eshoponabp.dev
+      url: https://ordering.eshoponabp.dev
     cmskitService:
-      url: http://cmskit.eshoponabp.dev
+      url: https://cmskit.eshoponabp.dev
 
 # gateway-web-public sub-chart override
 gateway-web-public:
   config:
     selfUrl: https://gateway-public.eshoponabp.dev
     authServer:
-      authority: http://account.eshoponabp.dev
+      authority: http://eshop-st-keycloak
       requireHttpsMetadata: "false"
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
@@ -174,7 +182,7 @@ gateway-web-public:
     tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/gateway-web-public"
-    tag: 1.0.0
+    tag: 2.0.0
   reRoutes:
     identityService:
       url: https://identity.eshoponabp.dev
@@ -189,7 +197,7 @@ gateway-web-public:
     cmskitService:
       url: https://cmskit.eshoponabp.dev
     paymentService:
-      url: https://payment.eshoponabp.dev  
+      url: https://payment.eshoponabp.dev 
 
 # basket-service sub-chart override
 basket:
@@ -199,7 +207,7 @@ basket:
     connectionStrings:
       administrationService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
     authServer:
-      authority: http://account.eshoponabp.dev
+      authority: http://eshop-st-keycloak
       requireHttpsMetadata: "false"
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
@@ -208,14 +216,14 @@ basket:
     rabbitmqHost: eshop-st-rabbitmq
     elasticsearchHost: eshop-st-elasticsearch
     remoteServices:
-      catalogBaseUrl: http://catalog.eshoponabp.dev:80
-      catalogGrpcUrl: http://catalog.eshoponabp.dev:81
+      catalogBaseUrl: http://eshop-st-catalog:80
+      catalogGrpcUrl: http://eshop-st-catalog:81
   ingress:
     host: basket.eshoponabp.dev
     tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/service-basket"
-    tag: 1.0.0
+    tag: 2.0.0
 
 # catalog-service sub-chart override
 catalog:
@@ -226,7 +234,7 @@ catalog:
       catalogService: "mongodb://eshop-st-mongodb/EShopOnAbp_Catalog"
       administrationService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
     authServer:
-      authority: http://account.eshoponabp.dev
+      authority: http://eshop-st-keycloak
       requireHttpsMetadata: "false"
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
@@ -235,16 +243,16 @@ catalog:
     rabbitmqHost: eshop-st-rabbitmq
     elasticsearchHost: eshop-st-elasticsearch
     kestrel:
-      httpUrl: http://catalog.eshoponabp.dev:80
+      httpUrl: http://eshop-st-catalog:80
       httpProtocols: Http1AndHttp2
-      grpcUrl: http://catalog.eshoponabp.dev:81
+      grpcUrl: http://eshop-st-catalog:81
       grpcProtocols: Http2
   ingress:
     host: catalog.eshoponabp.dev
     tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/service-catalog"
-    tag: 1.0.0
+    tag: 2.0.0
 
 # ordering-service sub-chart override
 ordering:
@@ -255,7 +263,7 @@ ordering:
       orderingService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Ordering;User ID=postgres;password=myPassw0rd;Pooling=false"
       administrationService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
     authServer:
-      authority: http://account.eshoponabp.dev
+      authority: http://eshop-st-keycloak
       requireHttpsMetadata: "false"
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
@@ -268,7 +276,7 @@ ordering:
     tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/service-ordering"
-    tag: 1.0.0
+    tag: 2.0.0
 
 # cmskit-service sub-chart override
 cmskit:
@@ -279,7 +287,7 @@ cmskit:
       cmskitervice: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Cmskit;User ID=postgres;password=myPassw0rd;Pooling=false"
       administrationService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
     authServer:
-      authority: http://account.eshoponabp.dev
+      authority: http://eshop-st-keycloak
       requireHttpsMetadata: "false"
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
@@ -290,13 +298,13 @@ cmskit:
     rabbitmqHost: eshop-st-rabbitmq
     elasticsearchHost: eshop-st-elasticsearch
   synchedCommunication: # Used for server-to-server (client-credentials) communication with identityService for user permissions
-    authority: http://account.eshoponabp.dev
+    authority: https://admin.eshoponabp.dev
   ingress:
     host: cmskit.eshoponabp.dev
     tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/service-cmskit"
-    tag: 1.0.0
+    tag: 2.0.0
 
 # payment-service sub-chart override
 payment:
@@ -307,7 +315,7 @@ payment:
       paymentService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Payment;User ID=postgres;password=myPassw0rd;Pooling=false"
       administrationService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
     authServer:
-      authority: http://account.eshoponabp.dev
+      authority: http://eshop-st-keycloak
       requireHttpsMetadata: "false"
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
@@ -322,7 +330,7 @@ payment:
     tlsSecret: eshop-wildcard-tls
   image:
     repository: "eshoponabp/service-payment"
-    tag: 1.0.0
+    tag: 2.0.0
 
 # Default values for eshoponabp.
 # This is a YAML-formatted file.

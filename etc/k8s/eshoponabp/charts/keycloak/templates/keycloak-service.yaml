@@ -10,7 +10,7 @@ spec:
     - name: "80"
       port: 8080
     - name: "443"
-      port: 443
+      port: 8443
   selector:
     app: {{ .Release.Name }}-{{ .Chart.Name }}
 
