@@ -28,6 +28,8 @@ spec:
           env:
           - name: POSTGRES_PASSWORD
             value: "myPassw0rd"
+          - name: POSTGRES_DB
+            value: "keycloak"
 {{- if eq .Release.Name "eshop-az" }}
   volumeClaimTemplates:
   - metadata:
