@@ -1,14 +1,10 @@
-param ($version='latest')
+param ($version='2.0.0')
 
 az acr login --name volosoft
 
 docker tag eshoponabp/app-web:$version volosoft.azurecr.io/eshoponabp/app-web:$version
 docker push volosoft.azurecr.io/eshoponabp/app-web:$version
 docker tag volosoft.azurecr.io/eshoponabp/app-web:$version volosoft.azurecr.io/eshoponabp/dbmigrator:latest
-
-docker tag eshoponabp/app-authserver:$version volosoft.azurecr.io/eshoponabp/app-authserver:$version
-docker push volosoft.azurecr.io/eshoponabp/app-authserver:$version
-docker tag volosoft.azurecr.io/eshoponabp/app-authserver:$version volosoft.azurecr.io/eshoponabp/app-authserver:latest
 
 docker tag eshoponabp/app-publicweb:$version volosoft.azurecr.io/eshoponabp/app-publicweb:$version
 docker push volosoft.azurecr.io/eshoponabp/app-publicweb:$version
