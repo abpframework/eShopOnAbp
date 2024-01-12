@@ -13,7 +13,7 @@ services:
       - ./nginx/conf.d:/etc/nginx/conf.d:ro
     depends_on:
       - eshop-st-administration
-      - eshop-st-authserver
+      - eshop-st-keycloak
       - eshop-st-identity
       - eshop-st-basket
       - eshop-st-catalog
@@ -42,7 +42,7 @@ services:
       - RemoteServices__AbpIdentity__BaseUrl=eshop-st-identity
       - RemoteServices__AbpIdentity__UseCurrentAccessToken=false
       - ConnectionStrings__AdministrationService=User ID=postgres;Password=myPassw0rd;Host=postgres-db;Port=5432;Database=EShopOnAbp_Administration;Pooling=false;
-      - AuthServer__Authority=http://eshop-st-authserver
+      - AuthServer__Authority=http://eshop-st-keycloak
       - AuthServer__RequireHttpsMetadata=false
       - IdentityClients__Default__Authority=http://eshop-st-identity
       - Redis__Configuration=redis
@@ -68,7 +68,7 @@ services:
       - ASPNETCORE_URLS=http://+:80
       - App__SelfUrl=https://eshop-st-identity
       - App__CorsOrigins=https://gateway-web,gateway-web-public
-      - AuthServer__Authority=http://eshop-st-authserver
+      - AuthServer__Authority=http://eshop-st-keycloak
       - AuthServer__RequireHttpsMetadata=false
       - ConnectionStrings__IdentityService=User ID=postgres;Password=myPassw0rd;Host=postgres-db;Port=5432;Database=EShopOnAbp_Identity;Pooling=false;
       - ConnectionStrings__AdministrationService=User ID=postgres;Password=myPassw0rd;Host=postgres-db;Port=5432;Database=EShopOnAbp_Administration;Pooling=false;
@@ -80,7 +80,7 @@ services:
       - IdentityServerClients__PublicWebGateway__RootUrl=https://eshop-st-gateway-web-public
       - IdentityServerClients__IdentityService__RootUrl=https://eshop-st-identity
       - IdentityServerClients__AdministrationService__RootUrl=https://eshop-st-administration
-      - IdentityServerClients__AccountService__RootUrl=https://eshop-st-authserver
+      - IdentityServerClients__AccountService__RootUrl=https://eshop-st-keycloak
       - IdentityServerClients__CatalogService__RootUrl=https://eshop-st-catalog
       - IdentityServerClients__BasketService__RootUrl=https://eshop-st-basket     
       - IdentityServerClients__OrderingService__RootUrl=https://eshop-st-ordering
@@ -107,7 +107,7 @@ services:
       - ASPNETCORE_URLS=http://+:80;http://+:81;
       - App__SelfUrl=https://eshop-st-catalog
       - App__CorsOrigins=https://eshop-st-gateway-web,https://eshop-st-gateway-web-public,https://eshop-st-public-web,https://eshop-st-web
-      - AuthServer__Authority=http://eshop-st-authserver
+      - AuthServer__Authority=http://eshop-st-keycloak
       - AuthServer__RequireHttpsMetadata=false
       - Kestrel__EndPoints__Http__Url=http://docker.host.internal:80
       - Kestrel__EndPoints__gRPC__Url=http://docker.host.internal:81
@@ -140,7 +140,7 @@ services:
       - RemoteServices__Catalog__BaseUrl=http://eshop-st-catalog:80
       - RemoteServices__Catalog__GrpcUrl=http://eshop-st-catalog:81
       - ConnectionStrings__AdministrationService=User ID=postgres;Password=myPassw0rd;Host=postgres-db;Port=5432;Database=EShopOnAbp_Administration;Pooling=false;
-      - AuthServer__Authority=http://eshop-st-authserver
+      - AuthServer__Authority=http://eshop-st-keycloak
       - AuthServer__RequireHttpsMetadata=false
       - Redis__Configuration=redis
       - RabbitMQ__Connections__Default__HostName=rabbitmq    
@@ -167,7 +167,7 @@ services:
       - App__CorsOrigins=https://eshop-st-gateway-web,https://eshop-st-gateway-web-public,https://eshop-st-web
       - ConnectionStrings__OrderingService=User ID=postgres;Password=myPassw0rd;Host=postgres-db;Port=5432;Database=EShopOnAbp_Ordering;Pooling=false;
       - ConnectionStrings__AdministrationService=User ID=postgres;Password=myPassw0rd;Host=postgres-db;Port=5432;Database=EShopOnAbp_Administration;Pooling=false;
-      - AuthServer__Authority=http://eshop-st-authserver
+      - AuthServer__Authority=http://eshop-st-keycloak
       - AuthServer__RequireHttpsMetadata=false
       - Redis__Configuration=redis
       - RabbitMQ__Connections__Default__HostName=rabbitmq
@@ -196,7 +196,7 @@ services:
       - App__CorsOrigins=https://eshop-st-gateway-web,https://eshop-st-gateway-web-public
       - ConnectionStrings__CmskitService=User ID=postgres;Password=myPassw0rd;Host=postgres-db;Port=5432;Database=EShopOnAbp_Cmskit;Pooling=false;
       - ConnectionStrings__AdministrationService=User ID=postgres;Password=myPassw0rd;Host=postgres-db;Port=5432;Database=EShopOnAbp_Administration;Pooling=false;
-      - AuthServer__Authority=http://eshop-st-authserver
+      - AuthServer__Authority=http://eshop-st-keycloak
       - AuthServer__RequireHttpsMetadata=false
       - Redis__Configuration=redis
       - RabbitMQ__Connections__Default__HostName=rabbitmq
@@ -227,7 +227,7 @@ services:
       - App__CorsOrigins=https://eshop-st-gateway-web,https://eshop-st-gateway-web-public      
       - ConnectionStrings__PaymentService=User ID=postgres;Password=myPassw0rd;Host=postgres-db;Port=5432;Database=EShopOnAbp_Payment;Pooling=false;
       - ConnectionStrings__AdministrationService=User ID=postgres;Password=myPassw0rd;Host=postgres-db;Port=5432;Database=EShopOnAbp_Administration;Pooling=false;
-      - AuthServer__Authority=http://eshop-st-authserver
+      - AuthServer__Authority=http://eshop-st-keycloak
       - AuthServer__RequireHttpsMetadata=false
       - Redis__Configuration=redis
       - RabbitMQ__Connections__Default__HostName=rabbitmq
@@ -244,7 +244,7 @@ services:
     restart: on-failure  
     networks: 
       - eshoponabp-network
-  eshop-st-authserver:
+  eshop-st-keycloak:
     image: eshoponabp/app-authserver:latest
     container_name: app-authserver-container
     build:
@@ -253,10 +253,10 @@ services:
     environment:
       # - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_URLS=http://+:80;
-      - App__SelfUrl=https://eshop-st-authserver
+      - App__SelfUrl=https://eshop-st-keycloak
       - App__CorsOrigins=https://eshop-st-web,https://eshop-st-public-web,https://eshop-st-identity,http://eshop-st-administration,https://eshop-st-administration,https://eshop-st-catalog,https://eshop-st-basket,https://eshop-st-ordering,https://eshop-st-cmskit,https://eshop-st-payment
       - App__RedirectAllowedUrls=http://eshop-st-web
-      - AuthServer__Authority=http://eshop-st-authserver
+      - AuthServer__Authority=http://eshop-st-keycloak
       - AuthServer__RequireHttpsMetadata=false
       - ConnectionStrings__IdentityService=User ID=postgres;Password=myPassw0rd;Host=postgres-db;Port=5432;Database=EShopOnAbp_Identity;Pooling=false;
       - ConnectionStrings__AdministrationService=User ID=postgres;Password=myPassw0rd;Host=postgres-db;Port=5432;Database=EShopOnAbp_Administration;Pooling=false;   
@@ -298,7 +298,7 @@ services:
       # - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_URLS=http://+:80;
       - App__SelfUrl=https://eshop-st-public-web
-      - AuthServer__Authority=http://eshop-st-authserver
+      - AuthServer__Authority=http://eshop-st-keycloak
       - AuthServer__RequireHttpsMetadata=false
       - RemoteServices__Default__BaseUrl=http://eshop-st-gateway-web-public/                
       - Redis__Configuration=redis
@@ -323,10 +323,10 @@ services:
       - ASPNETCORE_URLS=http://+:80;
       - App__SelfUrl=https://eshop-st-gateway-web
       - App__CorsOrigins=https://eshop-st-web
-      - AuthServer__Authority=http://eshop-st-authserver
+      - AuthServer__Authority=http://eshop-st-keycloak
       - AuthServer__RequireHttpsMetadata=false
       - Redis__Configuration=redis
-      - ReverseProxy__Clusters__accountCluster__Destinations__destination1__Address=http://eshop-st-authserver
+      - ReverseProxy__Clusters__accountCluster__Destinations__destination1__Address=http://eshop-st-keycloak
       - ReverseProxy__Clusters__identityCluster__Destinations__destination1__Address=http://eshop-st-identity
       - ReverseProxy__Clusters__administrationCluster__Destinations__destination1__Address=http://eshop-st-administration
       - ReverseProxy__Clusters__catalogCluster__Destinations__destination1__Address=http://eshop-st-catalog
@@ -353,10 +353,10 @@ services:
       # - ASPNETCORE_ENVIRONMENT=Docker # Yarp can't resolve dns, needs to be overridden
       - ASPNETCORE_URLS=http://+:80;
       - App__SelfUrl=https://eshop-st-gateway-web-public
-      - AuthServer__Authority=http://eshop-st-authserver
+      - AuthServer__Authority=http://eshop-st-keycloak
       - AuthServer__RequireHttpsMetadata=false
       - Redis__Configuration=redis
-      - ReverseProxy__Clusters__accountCluster__Destinations__destination1__Address=http://eshop-st-authserver
+      - ReverseProxy__Clusters__accountCluster__Destinations__destination1__Address=http://eshop-st-keycloak
       - ReverseProxy__Clusters__administrationCluster__Destinations__destination1__Address=http://eshop-st-administration
       - ReverseProxy__Clusters__catalogCluster__Destinations__destination1__Address=http://eshop-st-catalog
       - ReverseProxy__Clusters__basketCluster__Destinations__destination1__Address=http://eshop-st-basket

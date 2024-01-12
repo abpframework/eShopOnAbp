@@ -4,7 +4,7 @@ config:
   connectionStrings:
     administrationService: #
   authServer:
-    authority: http://eshop-st-authserver
+    authority: http://eshop-st-keycloak
     requireHttpsMetadata: "false"
     swaggerClientId: "WebGateway_Swagger"
     swaggerClientSecret: "1q2w3e*"

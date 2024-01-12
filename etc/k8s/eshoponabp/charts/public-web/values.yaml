@@ -2,7 +2,7 @@ config:
   selfUrl: https://eshop-st-public-web
   gatewayUrl: https://eshop-st-gateway-web-public
   authServer:
-    authority: http://eshop-st-authserver
+    authority: http://eshop-st-keycloak
     requireHttpsMetadata: "false"
     isOnProd: false
     metaAddress: #

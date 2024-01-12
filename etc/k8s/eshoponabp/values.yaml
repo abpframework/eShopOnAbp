@@ -80,7 +80,7 @@ identity:
     publicWebGatewayRootUrl: https://eshop-st-gateway-web-public/
     identityServiceRootUrl: https://eshop-st-identity/
     administrationServiceRootUrl: https://eshop-st-administration/
-    accountServiceRootUrl: https://eshop-st-authserver/
+    accountServiceRootUrl: https://eshop-st-keycloak/
     basketServiceRootUrl: https://eshop-st-basket/
     catalogServiceRootUrl: https://eshop-st-catalog/
     orderingServiceRootUrl: https://eshop-st-ordering/
@@ -113,7 +113,7 @@ administration:
     rabbitmqHost: eshop-st-rabbitmq
     elasticsearchHost: eshop-st-elasticsearch
   synchedCommunication: # Used for server-to-server (client-credentials) communication with identityService for user permissions
-    authority: https://eshop-st-authserver
+    authority: https://eshop-st-keycloak
   ingress:
     host: eshop-st-administration
     tlsSecret: eshop-wildcard-tls
@@ -292,7 +292,7 @@ cmskit:
     rabbitmqHost: eshop-st-rabbitmq
     elasticsearchHost: eshop-st-elasticsearch
   synchedCommunication: # Used for server-to-server (client-credentials) communication with identityService for user permissions
-    authority: https://eshop-st-authserver
+    authority: https://eshop-st-keycloak
   ingress:
     host: eshop-st-cmskit
     tlsSecret: eshop-wildcard-tls

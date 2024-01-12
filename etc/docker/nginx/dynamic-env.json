@@ -6,7 +6,7 @@
     "logoUrl": ""
   },
   "oAuthConfig": {
-    "issuer": "https://eshop-st-authserver",
+    "issuer": "https://eshop-st-keycloak",
     "redirectUri": "https://eshop-st-web",
     "clientId": "Web",
     "responseType": "code",

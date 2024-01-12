@@ -5,7 +5,7 @@ config:
     cmskitService: #
     administrationService: #
   authServer:
-    authority: http://eshop-st-authserver
+    authority: http://eshop-st-keycloak
     requireHttpsMetadata: "false"
     swaggerClientId: WebGateway_Swagger
     swaggerClientSecret: "1q2w3e*"
@@ -21,7 +21,7 @@ synchedCommunication:
   grantType: # "client_credentials"
   clientId: # 
   clientSecret: #
-  authority: # "https://eshop-st-authserver"
+  authority: # "https://eshop-st-keycloak"
   scope: # "IdentityService"
 
 ingress:
