@@ -1,12 +1,21 @@
 config:
-  dbVendor: postgres
-  dbAddr: eshop-st-postgresdb
-  dbDatabase: keycloak
-  dbUser: postgres
-  dbPassword: myPassw0rd
+  kcDb: postgres
+  kcDbUrl: jdbc:postgresql://eshop-st-postgresdb:5432/keycloak
+  kcDbUrlHost: eshop-st-postgresdb
+  kcDbUrlPort: 5432
+  kcDbUrlDatabase: keycloak
+  kcDbUsername: postgres
+  kcDbPassword: myPassw0rd
   keycloakAdmin: admin
   keycloakAdminPassword: 1q2w3E*
   kcHealthEnabled: true
+  kcHttpRelativePath : /
+  kcProxy: edge
+  proxyAddressForwarding: true
+  kcHttpEnabled: true
+  kcHostnameUrl: https://account.eshoponabp.dev
+  kcHostnameAdminUrl: https://account.eshoponabp.dev
+  jgroupsDnsQuery: eshop-st-keycloak
 
 ingress:
   host: account.eshoponabp.dev
@@ -14,7 +23,7 @@ ingress:
 
 image:
   repository: quay.io/keycloak/keycloak
-  tag: 19.0.2
+  tag: 21.1.1
   pullPolicy: IfNotPresent
 
 # command:
