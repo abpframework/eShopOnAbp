@@ -17,14 +17,14 @@ spec:
         name: {{ .Release.Name }}-{{ .Chart.Name }}
         ports:
         - name: http
-          containerPort: 80
+          containerPort: 8080
           protocol: TCP
         - name: grpc
           containerPort: 81
           protocol: TCP
         env:
         - name: "ASPNETCORE_URLS"
-          value: "http://+:80;http://+:81" 
+          value: "http://+:8080;http://+:81" 
         - name: "DOTNET_ENVIRONMENT"
           value: "{{ .Values.config.dotnetEnv }}"         
         - name: App__SelfUrl

@@ -16,7 +16,7 @@ config:
   stringEncryptionDefaultPassPhrase: gsKnGZ041HLL4IM8
   grpcPort: 81
   kestrel:
-    httpUrl: http://eshop-st-catalog:80
+    httpUrl: http://eshop-st-catalog:8080
     httpProtocols: Http1AndHttp2
     grpcUrl: http://eshop-st-catalog:81
     grpcProtocols: Http2

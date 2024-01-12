@@ -28,6 +28,7 @@ reRoutes:
   cmskitService:
     url: http://eshop-st-cmskit
     dns: https://cmskit.eshoponabp.dev
+    
 ingress:
   host: # eshop-st-gateway-web
   tlsSecret: eshop-wildcard-tls
