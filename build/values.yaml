@@ -1,0 +1,9 @@
+externalDatabase:
+  host: eshop-st-postgresdb
+  port: 5432
+  user: postgres
+  database: keycloak
+  password: myPassw0rd
+
+postgresql:
+  enabled: false

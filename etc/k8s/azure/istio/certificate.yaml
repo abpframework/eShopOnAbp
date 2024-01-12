@@ -1,0 +1,25 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: eshop-domain-cert-prod
+  namespace: istio-system
+spec:
+  secretName: eshop-domain-cert-prod
+  dnsNames:
+    - account.eshoponabp.com 
+    - admin.eshoponabp.com
+    - eshoponabp.com
+    - identity.eshoponabp.com
+    - administration.eshoponabp.com
+    - gateway.eshoponabp.com
+    - gateway-public.eshoponabp.com
+    - basket.eshoponabp.com
+    - catalog.eshoponabp.com
+    - order.eshoponabp.com
+    - payment.eshoponabp.com
+    - cmskit.eshoponabp.com
+  issuerRef:
+    name: production-cluster-issuer
+    kind: ClusterIssuer
+    group: cert-manager.io

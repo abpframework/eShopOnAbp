@@ -1,0 +1,1 @@
+helm upgrade --install eshop-az . --namespace eshop --create-namespace -f values-az-cr.yaml

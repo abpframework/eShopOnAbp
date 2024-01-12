@@ -1,0 +1,49 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: eshop-gateway
+  namespace: eshop
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "admin.eshoponabp.dev"
+    - "eshoponabp.dev"
+    - "account.eshoponabp.dev"
+    - "identity.eshoponabp.dev"
+    - "administration.eshoponabp.dev"
+    - "gateway-web.eshoponabp.dev"
+    - "gateway-public.eshoponabp.dev"
+    - "basket.eshoponabp.dev"
+    - "catalog.eshoponabp.dev"
+    - "ordering.eshoponabp.dev"
+    - "payment.eshoponabp.dev"
+    - "cmskit.eshoponabp.dev"
+
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    hosts:
+    - "admin.eshoponabp.dev"
+    - "eshoponabp.dev"
+    - "account.eshoponabp.dev"
+    - "identity.eshoponabp.dev"
+    - "administration.eshoponabp.dev"
+    - "gateway-web.eshoponabp.dev"
+    - "gateway-public.eshoponabp.dev"
+    - "basket.eshoponabp.dev"
+    - "catalog.eshoponabp.dev"
+    - "ordering.eshoponabp.dev"
+    - "payment.eshoponabp.dev"
+    - "cmskit.eshoponabp.dev"
+    # tls:
+    #   mode: PASSTHROUGH
+    tls:
+      mode: SIMPLE
+      credentialName: "istio-ingressgateway-certs"

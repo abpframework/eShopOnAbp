@@ -20,18 +20,18 @@ helm upgrade --install --version=4.0.19 ingress-nginx ingress-nginx/ingress-ngin
 * Add entries to the hosts file (in Windows: `C:\Windows\System32\drivers\etc\hosts`, in linux and macos: `/etc/hosts` ):
 
 ````powershell
-127.0.0.1 eshop-st-web
-127.0.0.1 eshop-st-public-web
-127.0.0.1 eshop-st-authserver
-127.0.0.1 eshop-st-identity
-127.0.0.1 eshop-st-administration
-127.0.0.1 eshop-st-basket
-127.0.0.1 eshop-st-catalog
-127.0.0.1 eshop-st-ordering
-127.0.0.1 eshop-st-cmskit
-127.0.0.1 eshop-st-payment
-127.0.0.1 eshop-st-gateway-web
-127.0.0.1 eshop-st-gateway-web-public
+198.19.249.2 admin.eshoponabp.dev
+198.19.249.2 eshoponabp.dev
+198.19.249.2 account.eshoponabp.dev
+198.19.249.2 identity.eshoponabp.dev
+198.19.249.2 administration.eshoponabp.dev
+198.19.249.2 basket.eshoponabp.dev
+198.19.249.2 catalog.eshoponabp.dev
+198.19.249.2 ordering.eshoponabp.dev
+198.19.249.2 cmskit.eshoponabp.dev
+198.19.249.2 payment.eshoponabp.dev
+198.19.249.2 gateway-web.eshoponabp.dev
+198.19.249.2 gateway-public.eshoponabp.dev
 ````
 Once Helm is set up properly, add the repo as follows:
 

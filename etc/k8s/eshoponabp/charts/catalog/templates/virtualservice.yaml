@@ -1,0 +1,18 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: {{ .Release.Name }}-{{ .Chart.Name }}-vs
+spec:
+  hosts:
+  - "{{ .Values.ingress.host }}"
+  gateways:
+  - eshop-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        host: {{ .Release.Name }}-{{ .Chart.Name }}
+        port:
+          number: 80
