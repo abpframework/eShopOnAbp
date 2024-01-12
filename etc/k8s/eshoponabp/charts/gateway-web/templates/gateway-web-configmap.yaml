@@ -105,35 +105,50 @@ data:
           "Identity": {
             "Destinations": {
               "destination1": {
-                "Address": "{{ .Values.reRoutes.identityService.url }}"
+                "Address": "{{ .Values.reRoutes.identityService.url }}",
+                "MetaData": {
+                  "PublicAddress": "{{ .Values.reRoutes.identityService.dns }}"
+                }
               }
             }
           },
           "Administration": {
             "Destinations": {
               "destination1": {
-                "Address": "{{ .Values.reRoutes.administrationService.url }}"
+                "Address": "{{ .Values.reRoutes.administrationService.url }}",
+                "MetaData": {
+                  "PublicAddress": "{{ .Values.reRoutes.administrationService.dns }}"
+                }
               }
             }
           },
           "Catalog": {
             "Destinations": {
               "destination1": {
-                "Address": "{{ .Values.reRoutes.catalogService.url }}"
+                "Address": "{{ .Values.reRoutes.catalogService.url }}",
+                "MetaData": {
+                  "PublicAddress": "{{ .Values.reRoutes.catalogService.dns }}"
+                }
               }
             }
           },
           "Ordering": {
             "Destinations": {
               "destination1": {
-                "Address": "{{ .Values.reRoutes.orderingService.url }}"
+                "Address": "{{ .Values.reRoutes.orderingService.url }}",
+                "MetaData": {
+                  "PublicAddress": "{{ .Values.reRoutes.orderingService.dns }}"
+                }
               }
             }
           },
           "Cmskit": {
             "Destinations": {
               "destination1": {
-                "Address": "{{ .Values.reRoutes.cmskitService.url }}"
+                "Address": "{{ .Values.reRoutes.cmskitService.url }}",
+                "MetaData": {
+                  "PublicAddress": "{{ .Values.reRoutes.cmskitService.dns }}"
+                }
               }
             }
           }

@@ -2,19 +2,19 @@
   "ReverseProxy": {
     "Routes": {
       "AbpApi": {
-        "ClusterId": "administrationCluster",
+        "ClusterId": "Administration",
         "Match": {
           "Path": "/api/abp/{**catch-all}"
         }
       },
       "Identity Service": {
-        "ClusterId": "identityCluster",
+        "ClusterId": "Identity",
         "Match": {
           "Path": "/api/identity/{**everything}"
         }
       },
       "Identity Service Swagger": {
-        "ClusterId": "identityCluster",
+        "ClusterId": "Identity",
         "Match": {
           "Path": "/swagger-json/Identity/swagger/v1/swagger.json"
         },
@@ -41,7 +41,7 @@
         }
       },
       "Administration Service Swagger": {
-        "ClusterId": "administrationCluster",
+        "ClusterId": "Administration",
         "Match": {
           "Path": "/swagger-json/Administration/swagger/v1/swagger.json"
         },
@@ -50,13 +50,13 @@
         ]
       },
       "Catalog Service": {
-        "ClusterId": "catalogCluster",
+        "ClusterId": "Catalog",
         "Match": {
           "Path": "/api/catalog/{**everything}"
         }
       },
       "Catalog Service Swagger": {
-        "ClusterId": "catalogCluster",
+        "ClusterId": "Catalog",
         "Match": {
           "Path": "/swagger-json/Catalog/swagger/v1/swagger.json"
         },
@@ -65,13 +65,13 @@
         ]
       },
       "Ordering Service": {
-        "ClusterId": "orderingCluster",
+        "ClusterId": "Ordering",
         "Match": {
           "Path": "/api/ordering/{**everything}"
         }
       },
       "Ordering Service Swagger": {
-        "ClusterId": "orderingCluster",
+        "ClusterId": "Ordering",
         "Match": {
           "Path": "/swagger-json/Ordering/swagger/v1/swagger.json"
         },
@@ -80,13 +80,13 @@
         ]
       },
       "Cmskit Service": {
-        "ClusterId": "cmskitCluster",
+        "ClusterId": "CmsKit",
         "Match": {
           "Path": "/api/cmskit/{**everything}"
         }
       },
       "Cmskit Service Swagger": {
-        "ClusterId": "cmskitCluster",
+        "ClusterId": "CmsKit",
         "Match": {
           "Path": "/swagger-json/Cmskit/swagger/v1/swagger.json"
         },
@@ -96,52 +96,53 @@
       }
     },
     "Clusters": {
-      "identityCluster": {
+      "Identity": {
         "Destinations": {
           "destination1": {
-            "Address": "https://localhost:44351"
+            "Address": "https://localhost:44351",
+            "MetaData": {
+              "PublicAddress": "https://identity.eshoponabp.dev"
+            }
           }
         }
       },
-      "administrationCluster": {
+      "Administration": {
         "Destinations": {
           "destination1": {
-            "Address": "https://localhost:44353"
+            "Address": "https://localhost:44353",
+            "MetaData": {
+              "PublicAddress": "https://administration.eshoponabp.dev"
+            }
           }
         }
       },
-      "permission-management-cluster": {
+      "Catalog": {
         "Destinations": {
           "destination1": {
-            "Address": "https://localhost:44353"
+            "Address": "https://localhost:44354",
+            "MetaData": {
+              "PublicAddress": "https://catalog.eshoponabp.dev"
+            }
           }
         }
       },
-      "setting-management-cluster": {
+      "Ordering": {
         "Destinations": {
           "destination1": {
-            "Address": "https://localhost:44353"
+            "Address": "https://localhost:44356",
+            "MetaData": {
+              "PublicAddress": "https://ordering.eshoponabp.dev"
+            }
           }
         }
       },
-      "catalogCluster": {
+      "CmsKit": {
         "Destinations": {
           "destination1": {
-            "Address": "https://localhost:44354"
-          }
-        }
-      },
-      "orderingCluster": {
-        "Destinations": {
-          "destination1": {
-            "Address": "https://localhost:44356"
-          }
-        }
-      },
-      "cmskitCluster": {
-        "Destinations": {
-          "destination1": {
-            "Address": "https://localhost:44358"
+            "Address": "https://localhost:44358",
+            "MetaData": {
+              "PublicAddress": "https://cmskit.eshoponabp.dev"
+            }
           }
         }
       }

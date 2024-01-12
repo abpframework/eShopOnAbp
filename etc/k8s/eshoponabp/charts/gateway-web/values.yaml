@@ -1,7 +1,7 @@
 config:
   selfUrl: # https://eshop-st-gateway-web
   corsOrigins: # localhost:4200
-  globalConfigurationBaseUrl: # http://eshop-st-gateway-web
+  isOnK8s: "true"
   authServer:
     authority: http://eshop-st-authserver
     requireHttpsMetadata: "false"
@@ -14,15 +14,20 @@ config:
   stringEncryptionDefaultPassPhrase: gsKnGZ041HLL4IM8
 reRoutes:
   identityService:
-    url: https://eshop-st-identity
+    url: http://eshop-st-identity
+    dns: https://identity.eshoponabp.dev
   administrationService:
-    url: https://eshop-st-administration
+    url: http://eshop-st-administration
+    dns: https://administration.eshoponabp.dev
   catalogService:
-    url: https://eshop-st-catalog
+    url: http://eshop-st-catalog
+    dns: https://catalog.eshoponabp.dev
   orderingService:
-    url: https://eshop-st-ordering
+    url: http://eshop-st-ordering
+    dns: https://ordering.eshoponabp.dev
   cmskitService:
-    url: https://eshop-st-cmskit
+    url: http://eshop-st-cmskit
+    dns: https://cmskit.eshoponabp.dev
 ingress:
   host: # eshop-st-gateway-web
   tlsSecret: eshop-wildcard-tls

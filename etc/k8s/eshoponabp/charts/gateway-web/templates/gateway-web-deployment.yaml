@@ -29,6 +29,8 @@ spec:
           value: "{{ .Values.config.selfUrl }}"
         - name: App__CorsOrigins
           value: "{{ .Values.config.corsOrigins }}"
+        - name: App__IsOnK8s
+          value: "{{ .Values.config.isOnK8s }}"
         - name: "DOTNET_ENVIRONMENT"
           value: "{{ .Values.config.dotnetEnv }}"
         - name: "Redis__Configuration"
