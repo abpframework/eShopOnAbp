@@ -23,7 +23,7 @@ web:
     selfUrl: https://admin.eshoponabp.dev
     gatewayUrl: https://gateway-web.eshoponabp.dev
     authServer:
-      authority: http://account.eshoponabp.dev
+      authority: https://account.eshoponabp.dev
       requireHttpsMetadata: false
       responseType: "code"
       strictDiscoveryDocumentValidation: false
@@ -126,7 +126,6 @@ gateway-web:
   config:
     selfUrl: https://gateway-web.eshoponabp.dev
     corsOrigins: https://admin.eshoponabp.dev
-    globalConfigurationBaseUrl: http://eshop-st-gateway-public
     authServer:
       authority: http://account.eshoponabp.dev
       requireHttpsMetadata: "false"
@@ -175,19 +174,19 @@ gateway-web-public:
     tag: 1.0.0
   reRoutes:
     identityService:
-      url: http://identity.eshoponabp.dev
+      url: http://eshop-st-identity
     administrationService:
-      url: http://administration.eshoponabp.dev
+      url: http://eshop-st-administration
     catalogService:
-      url: http://catalog.eshoponabp.dev
+      url: http://eshop-st-catalog
     basketService:
-      url: http://basket.eshoponabp.dev
+      url: http://eshop-st-basket
     orderingService:
-      url: http://ordering.eshoponabp.dev
+      url: http://eshop-st-ordering
     cmskitService:
-      url: http://cmskit.eshoponabp.dev
+      url: http://eshop-st-cmskit
     paymentService:
-      url: http://payment.eshoponabp.dev
+      url: http://eshop-st-payment
 
 # basket-service sub-chart override
 basket:

@@ -28,9 +28,7 @@ spec:
         - name: App__SelfUrl
           value: "{{ .Values.config.selfUrl }}"
         - name: App__CorsOrigins
-          value: "{{ .Values.config.corsOrigins }}"  
-        - name: GlobalConfiguration__BaseUrl
-          value: "{{ .Values.config.globalConfigurationBaseUrl }}"
+          value: "{{ .Values.config.corsOrigins }}"
         - name: "DOTNET_ENVIRONMENT"
           value: "{{ .Values.config.dotnetEnv }}"
         - name: "Redis__Configuration"
