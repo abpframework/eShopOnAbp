@@ -9,6 +9,11 @@ config:
     requireHttpsMetadata: "false"
     swaggerClientId: WebGateway_Swagger
     swaggerClientSecret: "1q2w3e*"
+  keycloak:
+    url: http://eshop-st-keycloak:8080
+    adminUsername: admin
+    adminPassword: 1q2w3E*
+    realmName: master
   dotnetEnv: Staging
   redisHost: eshop-st-redis
   rabbitmqHost: eshop-st-rabbitmq
@@ -16,7 +21,7 @@ config:
   stringEncryptionDefaultPassPhrase: gsKnGZ041HLL4IM8
 
 # Seeded clients 
-identityServerClients:
+keycloakClients:
   webRootUrl: #  
   publicWebRootUrl: #
   webGatewayRootUrl: #

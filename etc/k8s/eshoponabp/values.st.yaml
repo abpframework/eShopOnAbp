@@ -51,10 +51,10 @@ public-web:
     selfUrl: https://eshoponabp.dev
     gatewayUrl: http://eshop-st-gateway-web-public:8080/
     authServer:
-      authority: https://account.eshoponabp.dev
+      authority: https://account.eshoponabp.dev/realms/master
       requireHttpsMetadata: "false"
       isOnProd: "true"
-      metaAddress: http://eshop-st-keycloak:8080/
+      metaAddress: http://eshop-st-keycloak:8080/realms/master
     dotnetEnv: Staging
     redisHost: eshop-st-redis
     rabbitmqHost: eshop-st-rabbitmq
@@ -74,6 +74,11 @@ identity:
     connectionStrings:
       identityService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Identity;User ID=postgres;password=myPassw0rd;Pooling=false"
       administrationService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
+    keycloak:
+      url: http://eshop-st-keycloak:8080
+      adminUsername: admin
+      adminPassword: 1q2w3E*
+      realmName: master
     authServer:
       authority: http://account.eshoponabp.dev
       requireHttpsMetadata: "false"
@@ -83,7 +88,7 @@ identity:
     redisHost: eshop-st-redis
     rabbitmqHost: eshop-st-rabbitmq
     elasticsearchHost: eshop-st-elasticsearch    
-  identityServerClients: # Seeded Clients
+  keycloakClients: # Seeded Clients
     webRootUrl: https://admin.eshoponabp.dev/  
     publicWebRootUrl: https://eshoponabp.dev/
     webGatewayRootUrl: https://gateway-web.eshoponabp.dev/

@@ -215,7 +215,7 @@ public class EShopOnAbpPublicWebModule : AbpModule
                 {
                     // Intercept the redirection so the browser navigates to the right URL in your host
                     ctx.ProtocolMessage.IssuerAddress = configuration["AuthServer:Authority"].EnsureEndsWith('/') +
-                                                        "connect/authorize";
+                                                        "protocol/openid-connect/auth";
 
                     if (previousOnRedirectToIdentityProvider != null)
                     {
@@ -228,7 +228,7 @@ public class EShopOnAbpPublicWebModule : AbpModule
                 {
                     // Intercept the redirection for signout so the browser navigates to the right URL in your host
                     ctx.ProtocolMessage.IssuerAddress = configuration["AuthServer:Authority"].EnsureEndsWith('/') +
-                                                        "connect/endsession";
+                                                        "protocol/openid-connect/logout";
 
                     if (previousOnRedirectToIdentityProviderForSignOut != null)
                     {
