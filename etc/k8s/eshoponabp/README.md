@@ -63,18 +63,19 @@ kubectl create secret tls -n eshop eshop-wildcard-tls --cert=./eshoponabp.dev+1.
 * Add entries to the hosts file (in Windows: `C:\Windows\System32\drivers\etc\hosts`, in linux and macos: `/etc/hosts` ):
 
   ````powershell
-  127.0.0.1 eshop-st-web
-  127.0.0.1 eshop-st-public-web
-  127.0.0.1 eshop-st-authserver
-  127.0.0.1 eshop-st-identity
-  127.0.0.1 eshop-st-administration
-  127.0.0.1 eshop-st-basket
-  127.0.0.1 eshop-st-catalog
-  127.0.0.1 eshop-st-ordering
-  127.0.0.1 eshop-st-cmskit
-  127.0.0.1 eshop-st-payment
-  127.0.0.1 eshop-st-gateway-web
-  127.0.0.1 eshop-st-gateway-web-public
+127.0.0.1 admin.eshoponabp.dev
+127.0.0.1 eshoponabp.dev
+127.0.0.1 account.eshoponabp.dev
+127.0.0.1 identity.eshoponabp.dev
+127.0.0.1 administration.eshoponabp.dev
+127.0.0.1 product.eshoponabp.dev
+127.0.0.1 basket.eshoponabp.dev
+127.0.0.1 catalog.eshoponabp.dev
+127.0.0.1 ordering.eshoponabp.dev
+127.0.0.1 cmskit.eshoponabp.dev
+127.0.0.1 payment.eshoponabp.dev
+127.0.0.1 gateway-web.eshoponabp.dev
+127.0.0.1 gateway-public.eshoponabp.dev
   ````
 
 * Run `helm upgrade --install eshop-st abp-charts/eshoponabp --namespace eshop --create-namespace`
