@@ -29,10 +29,6 @@ spec:
           value: "{{ .Values.config.remoteServices.useCurrentToken }}" 
         - name: App__CorsOrigins
           value: "{{ .Values.config.corsOrigins }}"
-        - name: IdentityClients__Default__Authority
-          value: "{{ .Values.synchedCommunication.authority }}"
-        - name: IdentityClients__Default__RequireHttps
-          value: "{{ .Values.config.authServer.requireHttpsMetadata }}"
         - name: "ConnectionStrings__AdministrationService"
           value: "{{ .Values.config.connectionStrings.administrationService }}"
         - name: "DOTNET_ENVIRONMENT"
@@ -43,6 +39,8 @@ spec:
           value: "{{ .Values.config.authServer.authority }}"
         - name: "AuthServer__RequireHttpsMetadata"
           value: "{{ .Values.config.authServer.requireHttpsMetadata }}"
+        - name: "AuthServer__MetadataAddress"
+          value: "{{ .Values.config.authServer.metadataAddress }}"
         - name: "AuthServer__SwaggerClientId"
           value: "{{ .Values.config.authServer.swaggerClientId }}"
         - name: "AuthServer__SwaggerClientSecret"

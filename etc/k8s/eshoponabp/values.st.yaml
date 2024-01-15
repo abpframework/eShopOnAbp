@@ -70,7 +70,7 @@ public-web:
 identity:
   config:
     selfUrl: https://identity.eshoponabp.dev
-    corsOrigins: https://gateway-web.eshoponabp.dev,https://gateway-public.eshoponabp.dev
+    corsOrigins: https://gateway-web.eshoponabp.dev,https://gateway-public.eshoponabp.dev,https://admin.eshoponabp.dev
     connectionStrings:
       identityService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Identity;User ID=postgres;password=myPassw0rd;Pooling=false"
       administrationService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
@@ -80,8 +80,9 @@ identity:
       adminPassword: 1q2w3E*
       realmName: master
     authServer:
-      authority: http://account.eshoponabp.dev
+      authority: https://account.eshoponabp.dev/realms/master
       requireHttpsMetadata: "false"
+      metadataAddress: http://eshop-st-keycloak:8080/realms/master
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
     dotnetEnv: Staging
@@ -116,8 +117,9 @@ administration:
     connectionStrings:
       administrationService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
     authServer:
-      authority: http://account.eshoponabp.dev
+      authority: https://account.eshoponabp.dev/realms/master
       requireHttpsMetadata: "false"
+      metadataAddress: http://eshop-st-keycloak:8080/realms/master
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
     remoteServices:
@@ -223,8 +225,9 @@ basket:
     connectionStrings:
       administrationService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
     authServer:
-      authority: http://account.eshoponabp.dev
+      authority: https://account.eshoponabp.dev/realms/master
       requireHttpsMetadata: "false"
+      metadataAddress: http://eshop-st-keycloak:8080/realms/master
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
     dotnetEnv: Staging
@@ -250,8 +253,9 @@ catalog:
       catalogService: "mongodb://eshop-st-mongodb/EShopOnAbp_Catalog"
       administrationService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
     authServer:
-      authority: http://account.eshoponabp.dev
+      authority: https://account.eshoponabp.dev/realms/master
       requireHttpsMetadata: "false"
+      metadataAddress: http://eshop-st-keycloak:8080/realms/master
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
     dotnetEnv: Staging
@@ -274,13 +278,14 @@ catalog:
 ordering:
   config:
     selfUrl: https://ordering.eshoponabp.dev
-    corsOrigins: https://gateway-web.eshoponabp.dev,https://gateway-public.eshoponabp.dev
+    corsOrigins: https://gateway-web.eshoponabp.dev,https://gateway-public.eshoponabp.dev,https://admin.eshoponabp.dev
     connectionStrings:
       orderingService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Ordering;User ID=postgres;password=myPassw0rd;Pooling=false"
       administrationService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
     authServer:
-      authority: http://account.eshoponabp.dev
+      authority: https://account.eshoponabp.dev/realms/master
       requireHttpsMetadata: "false"
+      metadataAddress: http://eshop-st-keycloak:8080/realms/master
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
     dotnetEnv: Staging
@@ -298,13 +303,14 @@ ordering:
 cmskit:
   config:
     selfUrl: https://cmskit.eshoponabp.dev
-    corsOrigins: https://gateway-web.eshoponabp.dev,https://gateway-public.eshoponabp.dev
+    corsOrigins: https://gateway-web.eshoponabp.dev,https://gateway-public.eshoponabp.dev,https://admin.eshoponabp.dev
     connectionStrings:
       cmskitervice: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Cmskit;User ID=postgres;password=myPassw0rd;Pooling=false"
       administrationService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
     authServer:
-      authority: http://account.eshoponabp.dev
+      authority: https://account.eshoponabp.dev/realms/master
       requireHttpsMetadata: "false"
+      metadataAddress: http://eshop-st-keycloak:8080/realms/master
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
     remoteServices:
@@ -326,13 +332,14 @@ cmskit:
 payment:
   config:
     selfUrl: https://payment.eshoponabp.dev
-    corsOrigins: https://gateway-web.eshoponabp.dev,https://gateway-public.eshoponabp.dev
+    corsOrigins: https://gateway-web.eshoponabp.dev,https://gateway-public.eshoponabp.dev,https://admin.eshoponabp.dev
     connectionStrings:
       paymentService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Payment;User ID=postgres;password=myPassw0rd;Pooling=false"
       administrationService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
     authServer:
       authority: http://account.eshoponabp.dev
       requireHttpsMetadata: "false"
+      metadataAddress: http://eshop-st-keycloak:8080/realms/master
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
     remoteServices:

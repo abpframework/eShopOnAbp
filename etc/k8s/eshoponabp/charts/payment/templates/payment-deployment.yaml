@@ -41,6 +41,8 @@ spec:
           value: "{{ .Values.config.authServer.authority }}"
         - name: "AuthServer__RequireHttpsMetadata"
           value: "{{ .Values.config.authServer.requireHttpsMetadata }}"
+        - name: "AuthServer__MetadataAddress"
+          value: "{{ .Values.config.authServer.metadataAddress }}"
         - name: "AuthServer__SwaggerClientId"
           value: "{{ .Values.config.authServer.swaggerClientId }}"
         - name: "AuthServer__SwaggerClientSecret"
