@@ -18,7 +18,7 @@ data:
             "clientId": "Web",
             "responseType": "code",
             "responseType": "{{ .Values.config.authServer.responseType }}",
-            "scope": "offline_access openid profile email phone AccountService IdentityService AdministrationService CatalogService OrderingService",
+            "scope": "offline_access openid profile email phone roles AdministrationService IdentityService BasketService CatalogService OrderingService PaymentService CmskitService",
             "strictDiscoveryDocumentValidation": {{ .Values.config.authServer.strictDiscoveryDocumentValidation }},
             "skipIssuerCheck": {{ .Values.config.authServer.skipIssuerCheck }}
         },

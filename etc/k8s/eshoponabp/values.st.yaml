@@ -33,7 +33,7 @@ web:
     selfUrl: https://admin.eshoponabp.dev
     gatewayUrl: https://gateway-web.eshoponabp.dev
     authServer:
-      authority: https://account.eshoponabp.dev
+      authority: https://account.eshoponabp.dev/realms/master
       requireHttpsMetadata: false
       responseType: "code"
       strictDiscoveryDocumentValidation: false
@@ -112,7 +112,7 @@ identity:
 administration:
   config:
     selfUrl: https://administration.eshoponabp.dev
-    corsOrigins: https://gateway-web.eshoponabp.dev,https://gateway-public.eshoponabp.dev
+    corsOrigins: https://gateway-web.eshoponabp.dev,https://gateway-public.eshoponabp.dev,https://admin.eshoponabp.dev
     connectionStrings:
       administrationService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
     authServer:
