@@ -17,7 +17,8 @@ keycloak:
     kcHttpEnabled: true
     kcHostnameUrl: https://account.eshoponabp.dev
     kcHostnameAdminUrl: https://account.eshoponabp.dev
-    jgroupsDnsQuery: eshop-st-keycloak
+    jgroupsDnsQuery: eshop-st-keycloak:8080
+    kcHostnameStrictBackchannel: false
 
   ingress:
     host: account.eshoponabp.dev
@@ -54,7 +55,7 @@ public-web:
       authority: https://account.eshoponabp.dev/realms/master
       requireHttpsMetadata: "false"
       isOnProd: "true"
-      metaAddress: http://eshop-st-keycloak:8080/realms/master
+      metaAddress: http://eshop-st-keycloak/realms/master
     dotnetEnv: Staging
     redisHost: eshop-st-redis
     rabbitmqHost: eshop-st-rabbitmq
@@ -75,14 +76,14 @@ identity:
       identityService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Identity;User ID=postgres;password=myPassw0rd;Pooling=false"
       administrationService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
     keycloak:
-      url: http://eshop-st-keycloak:8080
+      url: http://eshop-st-keycloak
       adminUsername: admin
       adminPassword: 1q2w3E*
       realmName: master
     authServer:
       authority: https://account.eshoponabp.dev/realms/master
       requireHttpsMetadata: "false"
-      metadataAddress: http://eshop-st-keycloak:8080/realms/master
+      metadataAddress: http://eshop-st-keycloak/realms/master
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
     dotnetEnv: Staging
@@ -119,7 +120,7 @@ administration:
     authServer:
       authority: https://account.eshoponabp.dev/realms/master
       requireHttpsMetadata: "false"
-      metadataAddress: http://eshop-st-keycloak:8080/realms/master
+      metadataAddress: http://eshop-st-keycloak/realms/master
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
     remoteServices:
@@ -227,7 +228,7 @@ basket:
     authServer:
       authority: https://account.eshoponabp.dev/realms/master
       requireHttpsMetadata: "false"
-      metadataAddress: http://eshop-st-keycloak:8080/realms/master
+      metadataAddress: http://eshop-st-keycloak/realms/master
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
     dotnetEnv: Staging
@@ -255,7 +256,7 @@ catalog:
     authServer:
       authority: https://account.eshoponabp.dev/realms/master
       requireHttpsMetadata: "false"
-      metadataAddress: http://eshop-st-keycloak:8080/realms/master
+      metadataAddress: http://eshop-st-keycloak/realms/master
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
     dotnetEnv: Staging
@@ -263,9 +264,9 @@ catalog:
     rabbitmqHost: eshop-st-rabbitmq
     elasticsearchHost: eshop-st-elasticsearch
     kestrel:
-      httpUrl: http://catalog.eshoponabp.dev:8080
+      httpUrl: http://eshop-st-catalog:8080
       httpProtocols: Http1AndHttp2
-      grpcUrl: http://catalog.eshoponabp.dev:81
+      grpcUrl: http://eshop-st-catalog:81
       grpcProtocols: Http2
   ingress:
     host: catalog.eshoponabp.dev
@@ -285,7 +286,7 @@ ordering:
     authServer:
       authority: https://account.eshoponabp.dev/realms/master
       requireHttpsMetadata: "false"
-      metadataAddress: http://eshop-st-keycloak:8080/realms/master
+      metadataAddress: http://eshop-st-keycloak/realms/master
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
     dotnetEnv: Staging
@@ -305,12 +306,12 @@ cmskit:
     selfUrl: https://cmskit.eshoponabp.dev
     corsOrigins: https://gateway-web.eshoponabp.dev,https://gateway-public.eshoponabp.dev,https://admin.eshoponabp.dev
     connectionStrings:
-      cmskitervice: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Cmskit;User ID=postgres;password=myPassw0rd;Pooling=false"
+      cmskitService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Cmskit;User ID=postgres;password=myPassw0rd;Pooling=false"
       administrationService: "Host=eshop-st-postgresdb;Port=5432;Database=EShopOnAbp_Administration;User ID=postgres;password=myPassw0rd;Pooling=false"
     authServer:
       authority: https://account.eshoponabp.dev/realms/master
       requireHttpsMetadata: "false"
-      metadataAddress: http://eshop-st-keycloak:8080/realms/master
+      metadataAddress: http://eshop-st-keycloak/realms/master
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
     remoteServices:
@@ -339,7 +340,7 @@ payment:
     authServer:
       authority: http://account.eshoponabp.dev
       requireHttpsMetadata: "false"
-      metadataAddress: http://eshop-st-keycloak:8080/realms/master
+      metadataAddress: http://eshop-st-keycloak/realms/master
       swaggerClientId: WebGateway_Swagger
       swaggerClientSecret: "1q2w3e*"
     remoteServices:

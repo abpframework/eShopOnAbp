@@ -14,42 +14,52 @@ spec:
       containers:
       - image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
         imagePullPolicy: {{ .Values.image.pullPolicy }}
+        args: ["start", "--cache-stack=kubernetes"]
         name: {{ .Release.Name }}-{{ .Chart.Name }}
         ports:
         - name: http
           containerPort: 8080
         - name: https
-          containerPort: 443
-        env:
-        - name: App__SelfUrl
-          value: "{{ .Values.config.selfUrl }}"
-        - name: App__CorsOrigins
-          value: "{{ .Values.config.corsOrigins }}"
-        - name: "ConnectionStrings__OrderingService"
-          value: {{ .Values.config.connectionStrings.orderingService }}  
-        - name: "ConnectionStrings__AdministrationService"
-          value: {{ .Values.config.connectionStrings.administrationService }}
-        - name: "DOTNET_ENVIRONMENT"
-          value: "{{ .Values.config.dotnetEnv }}"
-        - name: "Redis__Configuration"
-          value: "{{ .Values.config.redisHost }}"
-        - name: "RabbitMQ__Connections__Default__HostName"
-          value: "{{ .Values.config.rabbitmqHost }}"
-        - name: "ElasticSearch__Url"
-          value: "{{ .Values.config.elasticsearchHost }}"   
-        - name: "AuthServer__Authority"
-          value: "{{ .Values.config.authServer.authority }}"
-        - name: "AuthServer__RequireHttpsMetadata"
-          value: "{{ .Values.config.authServer.requireHttpsMetadata }}"
-        - name: "AuthServer__MetadataAddress"
-          value: "{{ .Values.config.authServer.metadataAddress }}"
-        - name: "AuthServer__SwaggerClientId"
-          value: "{{ .Values.config.authServer.swaggerClientId }}"
-        - name: "AuthServer__SwaggerClientSecret"
-          value: "{{ .Values.config.authServer.swaggerClientSecret }}"
-        - name: "StringEncryption__DefaultPassPhrase"
-          value: "{{ .Values.config.stringEncryptionDefaultPassPhrase }}"
+          containerPort: 8443
+        env:      
+        - name: "KC_DB"
+          value: "{{ .Values.config.kcDb }}"
+        - name: "KC_DB_URL"
+          value: "{{ .Values.config.kcDbUrl }}"
+        - name: "KC_DB_URL_HOST"
+          value: "{{ .Values.config.kcDbUrlHost }}"
+        - name: "KC_DB_URL_PORT"
+          value: "{{ .Values.config.kcDbUrlPort }}"
+        - name: "KC_DB_URL_DATABASE"
+          value: "{{ .Values.config.kcDbUrlDatabase }}"
+        - name: "KC_DB_USERNAME"
+          value: "{{ .Values.config.kcDbUsername }}"
+        - name: "KC_DB_PASSWORD"
+          value: "{{ .Values.config.kcDbPassword }}"
+        - name: "KEYCLOAK_ADMIN"
+          value: "{{ .Values.config.keycloakAdmin }}"
+        - name: "KEYCLOAK_ADMIN_PASSWORD"
+          value: "{{ .Values.config.keycloakAdminPassword }}"
+        - name: "KC_HEALTH_ENABLED"
+          value: "{{ .Values.config.kcHealthEnabled }}"
+        - name: "KC_HTTP_RELATIVE_PATH"
+          value: "{{ .Values.config.kcHttpRelativePath }}"
+        - name: "KC_PROXY"
+          value: "{{ .Values.config.kcProxy }}"
+        - name: "PROXY_ADDRESS_FORWARDING"
+          value: "{{ .Values.config.proxyAddressForwarding }}"
+        - name: "KC_HTTP_ENABLED"
+          value: "{{ .Values.config.kcHttpEnabled }}"
+        - name: "KC_HOSTNAME_URL"
+          value: "{{ .Values.config.kcHostnameUrl }}"
+        - name: "KC_HOSTNAME_ADMIN_URL"
+          value: "{{ .Values.config.kcHostnameAdminUrl }}"
+        - name: "jgroups.dns.query"
+          value: "{{ .Values.config.jgroupsDnsQuery }}"
+        - name: "KC_HOSTNAME_STRICT_BACKCHANNEL"
+          value: "{{ .Values.config.kcHostnameStrictBackchannel }}"
+        
           {{- if .Values.env }}
 {{ toYaml .Values.env | indent 8 }}
           {{- end }}
-
+        
