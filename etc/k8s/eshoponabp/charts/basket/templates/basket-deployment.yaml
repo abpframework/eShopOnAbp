@@ -17,7 +17,7 @@ spec:
         name: {{ .Release.Name }}-{{ .Chart.Name }}
         ports:
         - name: http
-          containerPort: 80
+          containerPort: 8080
         - name: https
           containerPort: 443
         env:
@@ -39,6 +39,8 @@ spec:
           value: "{{ .Values.config.authServer.authority }}"
         - name: "AuthServer__RequireHttpsMetadata"
           value: "{{ .Values.config.authServer.requireHttpsMetadata }}"
+        - name: "AuthServer__MetadataAddress"
+          value: "{{ .Values.config.authServer.metadataAddress }}"
         - name: "AuthServer__SwaggerClientId"
           value: "{{ .Values.config.swaggerClientId }}"
         - name: "AuthServer__SwaggerClientSecret"

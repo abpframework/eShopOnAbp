@@ -1,0 +1,6 @@
+apiVersion: v2
+name: keycloak
+appVersion: "1.0"
+description: Keycloak openid-provider instance
+version: 1.0.0
+type: application

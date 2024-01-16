@@ -56,8 +56,6 @@ spec:
           value: "{{ .Values.config.kcHostnameAdminUrl }}"
         - name: "jgroups.dns.query"
           value: "{{ .Values.config.jgroupsDnsQuery }}"
-        - name: "KC_HOSTNAME_STRICT_BACKCHANNEL"
-          value: "{{ .Values.config.kcHostnameStrictBackchannel }}"
         
           {{- if .Values.env }}
 {{ toYaml .Values.env | indent 8 }}

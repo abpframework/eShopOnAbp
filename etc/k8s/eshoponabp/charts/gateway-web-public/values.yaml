@@ -1,5 +1,6 @@
 config:
   selfUrl: https://eshop-st-gateway-public-web
+  isOnK8s: "true"
   authServer:
     authority: http://eshop-st-authserver
     requireHttpsMetadata: "false"
@@ -11,22 +12,27 @@ config:
   elasticsearchHost: eshop-st-elasticsearch
 
 reRoutes:
-  accountService:
-    url: https://eshop-st-authserver
   identityService:
-    url: https://eshop-st-identity
+    url: http://eshop-st-identity
+    dns: https://identity.eshoponabp.dev
   administrationService:
-    url: https://eshop-st-administration
+    url: http://eshop-st-administration
+    dns: https://administration.eshoponabp.dev
   catalogService:
-    url: https://eshop-st-catalog
+    url: http://eshop-st-catalog
+    dns: https://catalog.eshoponabp.dev
   basketService:
-    url: https://eshop-st-basket
+    url: http://eshop-st-basket
+    dns: https://basket.eshoponabp.dev
   orderingService:
-    url: https://eshop-st-ordering
+    url: http://eshop-st-ordering
+    dns: https://ordering.eshoponabp.dev
   cmskitService:
-    url: https://eshop-st-cmskit
+    url: http://eshop-st-cmskit
+    dns: https://cmskit.eshoponabp.dev
   paymentService:
-    url: https://eshop-st-payment  
+    url: http://eshop-st-payment
+    dns: https://payment.eshoponabp.dev
 
 ingress:
   host: eshop-st-gateway-web-public

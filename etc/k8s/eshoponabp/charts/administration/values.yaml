@@ -4,10 +4,10 @@ config:
   connectionStrings:
     administrationService: #
   authServer:
-    authority: http://eshop-st-authserver
+    authority: http://eshop-st-keycloak:8080
     requireHttpsMetadata: "false"
+    metadataAddress: http://eshop-st-keycloak:8080
     swaggerClientId: WebGateway_Swagger
-    swaggerClientSecret: "1q2w3e*"
   remoteServices:
     abpIdentityBaseUrl: #
     useCurrentToken: "false"
@@ -25,7 +25,7 @@ synchedCommunication:
   scope: # "IdentityService"
 
 ingress:
-  host: eshop-st-administration
+  host: administration.eshoponabp.dev
   tlsSecret: eshop-wildcard-tls
 
 image:

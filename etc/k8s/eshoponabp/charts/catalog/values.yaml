@@ -7,6 +7,7 @@ config:
   authServer:
     authority: http://eshop-st-authserver
     requireHttpsMetadata: "false"
+    metadataAddress: http://eshop-st-keycloak:8080
     swaggerClientId: WebGateway_Swagger
     swaggerClientSecret: "1q2w3e*"
   dotnetEnv: Staging
@@ -16,7 +17,7 @@ config:
   stringEncryptionDefaultPassPhrase: gsKnGZ041HLL4IM8
   grpcPort: 81
   kestrel:
-    httpUrl: http://eshop-st-catalog:80
+    httpUrl: http://eshop-st-catalog:8080
     httpProtocols: Http1AndHttp2
     grpcUrl: http://eshop-st-catalog:81
     grpcProtocols: Http2

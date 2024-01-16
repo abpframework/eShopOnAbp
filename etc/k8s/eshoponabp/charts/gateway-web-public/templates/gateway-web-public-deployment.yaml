@@ -27,6 +27,8 @@ spec:
         env:
         - name: App__SelfUrl
           value: "{{ .Values.config.selfUrl }}"
+        - name: App__IsOnK8s
+          value: "{{ .Values.config.isOnK8s }}"
         - name: "DOTNET_ENVIRONMENT"
           value: "{{ .Values.config.dotnetEnv }}"
         - name: "Redis__Configuration"

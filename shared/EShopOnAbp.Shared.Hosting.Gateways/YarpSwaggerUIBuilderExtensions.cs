@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -41,7 +42,14 @@ public static class YarpSwaggerUIBuilderExtensions
                     continue;
                 }
 
-                options.SwaggerEndpoint($"{clusterGroup.Value.Address}/swagger/v1/swagger.json", $"{routeConfig.RouteId} API");
+                var baseUrl = clusterGroup.Value.Address;
+
+                if (Convert.ToBoolean(configuration["App:IsOnK8s"])) // If the application is running on K8s, the swagger.json should be reached from public dns.
+                {
+                    baseUrl = clusterGroup.Value.Metadata?["PublicAddress"];
+                }
+
+                options.SwaggerEndpoint($"{baseUrl}/swagger/v1/swagger.json", $"{routeConfig.RouteId} API");
                 options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
             }
         });

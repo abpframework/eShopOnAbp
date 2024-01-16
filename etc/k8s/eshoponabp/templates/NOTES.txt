@@ -1,6 +1,6 @@
 1. Web (Back Office) angular application URL:{{- if .Values.web.config.selfUrl }} {{ .Values.web.config.selfUrl }} {{- end }}
 2. Public Web mvc application URL:{{- if index .Values "public-web" "config" "selfUrl" }} {{ index .Values "public-web" "config" "selfUrl" }} {{- end }}
-3. Authentication Server URL:{{- if .Values.authserver.config.selfUrl }} {{ .Values.authserver.config.selfUrl }}
+3. Authentication Server URL:{{- if .Values.keycloak.ingress.host }} {{ .Values.keycloak.ingress.host }}
 
 For RabbitMq Administration use:
 "kubectl port-forward services/{{ .Release.Name }}-rabbitmq 15672:15672 -n {{ .Release.Namespace }}"

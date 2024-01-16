@@ -73,7 +73,7 @@ mkcert -install
 
 Create certificate for the eshopOnAbp domains using the mkcert command below:
 ```powershell
-mkcert "eshop-st-web" "eshop-st-public-web" "eshop-st-authserver" "eshop-st-identity" "eshop-st-administration" "eshop-st-basket" "eshop-st-catalog" "eshop-st-ordering" "eshop-st-cmskit" "eshop-st-payment" "eshop-st-gateway-web" "eshop-st-gateway-web-public"
+mkcert "eshoponabp.dev" "*.eshoponabp.dev"
 ```
 
 At the end of the output you will see something like
@@ -84,5 +84,5 @@ Copy the cert name and key name below to create tls secret
 
 ```powershell
 kubectl create namespace eshop
-kubectl create secret tls -n eshop eshop-wildcard-tls --cert=./eshop-st-web+10.pem  --key=./eshop-st-web+10-key.pem
+kubectl create secret tls -n eshop eshop-wildcard-tls --cert=./eshoponabp.dev+1.pem  --key=./eshoponabp.dev+1-key.pem
 ```

@@ -44,18 +44,18 @@ mkcert -install
 
 Create certificate for the eshopOnAbp domains using the mkcert command below:
 ```powershell
-mkcert "eshop-st-web" "eshop-st-public-web" "eshop-st-authserver" "eshop-st-identity" "eshop-st-administration" "eshop-st-basket" "eshop-st-catalog" "eshop-st-ordering" "eshop-st-cmskit" "eshop-st-payment" "eshop-st-gateway-web" "eshop-st-gateway-web-public"
+mkcert "eshoponabp.dev" "*.eshoponabp.dev"
 ```
 
 At the end of the output you will see something like
 
-The certificate is at "./eshop-st-web+10.pem" and the key at "./eshop-st-web+10-key.pem"
+The certificate is at "./eshoponabp.dev+1.pem" and the key at "./eshoponabp.dev+1-key.pem"
 
 Copy the cert name and key name below to create tls secret
 
 ```powershell
 kubectl create namespace eshop
-kubectl create secret tls -n eshop eshop-wildcard-tls --cert=./eshop-st-web+10.pem --key=./eshop-st-web+10-key.pem
+kubectl create secret tls -n eshop eshop-wildcard-tls --cert=./eshoponabp.dev+1.pem --key=./eshoponabp.dev+1-key.pem
 ```
 
 ## How to run?
@@ -63,18 +63,19 @@ kubectl create secret tls -n eshop eshop-wildcard-tls --cert=./eshop-st-web+10.p
 * Add entries to the hosts file (in Windows: `C:\Windows\System32\drivers\etc\hosts`, in linux and macos: `/etc/hosts` ):
 
   ````powershell
-  127.0.0.1 eshop-st-web
-  127.0.0.1 eshop-st-public-web
-  127.0.0.1 eshop-st-authserver
-  127.0.0.1 eshop-st-identity
-  127.0.0.1 eshop-st-administration
-  127.0.0.1 eshop-st-basket
-  127.0.0.1 eshop-st-catalog
-  127.0.0.1 eshop-st-ordering
-  127.0.0.1 eshop-st-cmskit
-  127.0.0.1 eshop-st-payment
-  127.0.0.1 eshop-st-gateway-web
-  127.0.0.1 eshop-st-gateway-web-public
+127.0.0.1 admin.eshoponabp.dev
+127.0.0.1 eshoponabp.dev
+127.0.0.1 account.eshoponabp.dev
+127.0.0.1 identity.eshoponabp.dev
+127.0.0.1 administration.eshoponabp.dev
+127.0.0.1 product.eshoponabp.dev
+127.0.0.1 basket.eshoponabp.dev
+127.0.0.1 catalog.eshoponabp.dev
+127.0.0.1 ordering.eshoponabp.dev
+127.0.0.1 cmskit.eshoponabp.dev
+127.0.0.1 payment.eshoponabp.dev
+127.0.0.1 gateway-web.eshoponabp.dev
+127.0.0.1 gateway-public.eshoponabp.dev
   ````
 
 * Run `helm upgrade --install eshop-st abp-charts/eshoponabp --namespace eshop --create-namespace`

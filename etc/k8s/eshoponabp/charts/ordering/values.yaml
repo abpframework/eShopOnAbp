@@ -7,6 +7,7 @@ config:
   authServer:
     authority: http://eshop-st-authserver
     requireHttpsMetadata: "false"
+    metadataAddress: http://eshop-st-keycloak:8080
     swaggerClientId: WebGateway_Swagger
     swaggerClientSecret: "1q2w3e*"
   dotnetEnv: Staging

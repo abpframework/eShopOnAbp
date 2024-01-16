@@ -5,9 +5,11 @@ metadata:
     name: {{ .Release.Name }}-{{ .Chart.Name }}
   name: {{ .Release.Name }}-{{ .Chart.Name }}
 spec:
+  type: ClusterIP
   ports:
     - name: "80"
       port: 80
+      targetPort: 8080
     - name: "443"
       port: 443
   selector:
