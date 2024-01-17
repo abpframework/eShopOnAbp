@@ -1,4 +1,4 @@
-param ($version='1.0.0')
+param ($version='latest')
 
 $currentFolder = $PSScriptRoot
 $slnFolder = Join-Path $currentFolder "../"
@@ -17,7 +17,7 @@ $paymentServiceFolder = Join-Path $slnFolder "services/payment/src/EShopOnAbp.Pa
 $orderingServiceFolder = Join-Path $slnFolder "services/ordering/src/EShopOnAbp.OrderingService.HttpApi.Host"
 $cmskitServiceFolder = Join-Path $slnFolder "services/cmskit/src/EShopOnAbp.CmskitService.HttpApi.Host"
 
-$total = 12
+$total = 11
 
 ### Angular WEB App(WWW)
 Write-Host "*** BUILDING WEB (WWW) 1/$total ****************" -ForegroundColor Green
@@ -28,61 +28,61 @@ npm run build:prod
 docker build -f Dockerfile.local -t eshoponabp/app-web:$version .
 
 ### PUBLIC-WEB
-Write-Host "*** BUILDING WEB-PUBLIC 3/$total ****************" -ForegroundColor Green
+Write-Host "*** BUILDING WEB-PUBLIC 2/$total ****************" -ForegroundColor Green
 Set-Location $publicWebFolder
 dotnet publish -c Release
 docker build -f Dockerfile.local -t eshoponabp/app-publicweb:$version .
 
 ### WEB-GATEWAY
-Write-Host "*** BUILDING WEB-GATEWAY 4/$total ****************" -ForegroundColor Green
+Write-Host "*** BUILDING WEB-GATEWAY 3/$total ****************" -ForegroundColor Green
 Set-Location $webGatewayFolder
 dotnet publish -c Release
 docker build -f Dockerfile.local -t eshoponabp/gateway-web:$version .
 
 ### PUBLICWEB-GATEWAY
-Write-Host "*** BUILDING WEB-PUBLIC-GATEWAY 5/$total ****************" -ForegroundColor Green
+Write-Host "*** BUILDING WEB-PUBLIC-GATEWAY 4/$total ****************" -ForegroundColor Green
 Set-Location $webPublicGatewayFolder
 dotnet publish -c Release
 docker build -f Dockerfile.local -t eshoponabp/gateway-web-public:$version .
 
 ### IDENTITY-SERVICE
-Write-Host "*** BUILDING IDENTITY-SERVICE 6/$total ****************" -ForegroundColor Green
+Write-Host "*** BUILDING IDENTITY-SERVICE 5/$total ****************" -ForegroundColor Green
 Set-Location $identityServiceFolder
 dotnet publish -c Release
 docker build -f Dockerfile.local -t eshoponabp/service-identity:$version .
 
 ### ADMINISTRATION-SERVICE
-Write-Host "*** BUILDING ADMINISTRATION-SERVICE 7/$total ****************" -ForegroundColor Green
+Write-Host "*** BUILDING ADMINISTRATION-SERVICE 6/$total ****************" -ForegroundColor Green
 Set-Location $administrationServiceFolder
 dotnet publish -c Release
 docker build -f Dockerfile.local -t eshoponabp/service-administration:$version .
 
 ### BASKET-SERVICE
-Write-Host "**************** BUILDING BASKET-SERVICE 8/$total ****************" -ForegroundColor Green
+Write-Host "**************** BUILDING BASKET-SERVICE 7/$total ****************" -ForegroundColor Green
 Set-Location $basketServiceFolder
 dotnet publish -c Release
 docker build -f Dockerfile.local -t eshoponabp/service-basket:$version .
 
 ### CATALOG-SERVICE
-Write-Host "**************** BUILDING CATALOG-SERVICE 9/$total ****************" -ForegroundColor Green
+Write-Host "**************** BUILDING CATALOG-SERVICE 8/$total ****************" -ForegroundColor Green
 Set-Location $catalogServiceFolder
 dotnet publish -c Release
 docker build -f Dockerfile.local -t eshoponabp/service-catalog:$version .
 
 ### PAYMENT-SERVICE
-Write-Host "**************** BUILDING PAYMENT-SERVICE 10/$total ****************" -ForegroundColor Green
+Write-Host "**************** BUILDING PAYMENT-SERVICE 9/$total ****************" -ForegroundColor Green
 Set-Location $paymentServiceFolder
 dotnet publish -c Release
 docker build -f Dockerfile.local -t eshoponabp/service-payment:$version .
 
 ### ORDERING-SERVICE
-Write-Host "**************** BUILDING ORDERING-SERVICE 11/$total ****************" -ForegroundColor Green
+Write-Host "**************** BUILDING ORDERING-SERVICE 10/$total ****************" -ForegroundColor Green
 Set-Location $orderingServiceFolder
 dotnet publish -c Release
 docker build -f Dockerfile.local -t eshoponabp/service-ordering:$version .
 
 ### CMSKIT-SERVICE
-Write-Host "**************** BUILDING CMSKIT-SERVICE 12/$total ****************" -ForegroundColor Green
+Write-Host "**************** BUILDING CMSKIT-SERVICE 11/$total ****************" -ForegroundColor Green
 Set-Location $cmskitServiceFolder
 dotnet publish -c Release
 docker build -f Dockerfile.local -t eshoponabp/service-cmskit:$version .
