@@ -22,6 +22,8 @@ spec:
         - name: grpc
           containerPort: 81
           protocol: TCP
+        - name: https
+          containerPort: 443
         env:
         - name: "ASPNETCORE_URLS"
           value: "http://+:8080;http://+:81" 

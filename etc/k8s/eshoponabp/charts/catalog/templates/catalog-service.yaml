@@ -14,5 +14,7 @@ spec:
       targetPort: grpc
       protocol: TCP
       port: {{ .Values.config.grpcPort }}
+    - name: "https"
+      port: 443
   selector:
     app: {{ .Release.Name }}-{{ .Chart.Name }}
