@@ -6,7 +6,6 @@ config:
     authority: http://eshop-st-authserver
     requireHttpsMetadata: "false"
     swaggerClientId: WebGateway_Swagger
-    swaggerClientSecret: "1q2w3e*"
   dotnetEnv: # 
   redisHost: #
   rabbitmqHost: #
