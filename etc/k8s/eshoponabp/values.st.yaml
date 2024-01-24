@@ -83,9 +83,8 @@ identity:
     authServer:
       authority: https://account.eshoponabp.dev/realms/master
       requireHttpsMetadata: "false"
-      metadataAddress: http://eshop-st-keycloak/realms/master
-      swaggerClientId: WebGateway_Swagger
-      swaggerClientSecret: "1q2w3e*"
+      metadataAddress: https://account.eshoponabp.dev/realms/master
+      swaggerClientId: SwaggerClient
     dotnetEnv: Staging
     redisHost: eshop-st-redis
     rabbitmqHost: eshop-st-rabbitmq
@@ -120,9 +119,8 @@ administration:
     authServer:
       authority: https://account.eshoponabp.dev/realms/master
       requireHttpsMetadata: "false"
-      metadataAddress: http://eshop-st-keycloak/realms/master
-      swaggerClientId: WebGateway_Swagger
-      swaggerClientSecret: "1q2w3e*"
+      metadataAddress: https://account.eshoponabp.dev/realms/master
+      swaggerClientId: SwaggerClient
     remoteServices:
       abpIdentityBaseUrl: http://identity.eshoponabp.dev
       useCurrentToken: "false"  
@@ -147,8 +145,7 @@ gateway-web:
     authServer:
       authority: http://account.eshoponabp.dev
       requireHttpsMetadata: "false"
-      swaggerClientId: WebGateway_Swagger
-      swaggerClientSecret: "1q2w3e*"
+      swaggerClientId: SwaggerClient
     dotnetEnv: Staging
     redisHost: eshop-st-redis
     rabbitmqHost: eshop-st-rabbitmq
@@ -181,10 +178,10 @@ gateway-web-public:
   config:
     selfUrl: https://gateway-public.eshoponabp.dev
     authServer:
-      authority: http://account.eshoponabp.dev
+      authority: https://account.eshoponabp.dev/realms/master
       requireHttpsMetadata: "false"
-      swaggerClientId: WebGateway_Swagger
-      swaggerClientSecret: "1q2w3e*"
+      metadataAddress: https://account.eshoponabp.dev/realms/master
+      swaggerClientId: SwaggerClient
     dotnetEnv: Staging
     redisHost: eshop-st-redis
     rabbitmqHost: eshop-st-rabbitmq
@@ -228,9 +225,8 @@ basket:
     authServer:
       authority: https://account.eshoponabp.dev/realms/master
       requireHttpsMetadata: "false"
-      metadataAddress: http://eshop-st-keycloak/realms/master
-      swaggerClientId: WebGateway_Swagger
-      swaggerClientSecret: "1q2w3e*"
+      metadataAddress: https://account.eshoponabp.dev/realms/master
+      swaggerClientId: SwaggerClient
     dotnetEnv: Staging
     redisHost: eshop-st-redis
     rabbitmqHost: eshop-st-rabbitmq
@@ -256,9 +252,8 @@ catalog:
     authServer:
       authority: https://account.eshoponabp.dev/realms/master
       requireHttpsMetadata: "false"
-      metadataAddress: http://eshop-st-keycloak/realms/master
-      swaggerClientId: WebGateway_Swagger
-      swaggerClientSecret: "1q2w3e*"
+      metadataAddress: https://account.eshoponabp.dev/realms/master
+      swaggerClientId: SwaggerClient
     dotnetEnv: Staging
     redisHost: eshop-st-redis
     rabbitmqHost: eshop-st-rabbitmq
@@ -286,9 +281,8 @@ ordering:
     authServer:
       authority: https://account.eshoponabp.dev/realms/master
       requireHttpsMetadata: "false"
-      metadataAddress: http://eshop-st-keycloak/realms/master
-      swaggerClientId: WebGateway_Swagger
-      swaggerClientSecret: "1q2w3e*"
+      metadataAddress: https://account.eshoponabp.dev/realms/master
+      swaggerClientId: SwaggerClient
     dotnetEnv: Staging
     redisHost: eshop-st-redis
     rabbitmqHost: eshop-st-rabbitmq
@@ -311,9 +305,8 @@ cmskit:
     authServer:
       authority: https://account.eshoponabp.dev/realms/master
       requireHttpsMetadata: "false"
-      metadataAddress: http://eshop-st-keycloak/realms/master
-      swaggerClientId: WebGateway_Swagger
-      swaggerClientSecret: "1q2w3e*"
+      metadataAddress: https://account.eshoponabp.dev/realms/master
+      swaggerClientId: SwaggerClient
     remoteServices:
       abpIdentityBaseUrl: https://identity.eshoponabp.dev
     dotnetEnv: Staging
@@ -340,9 +333,8 @@ payment:
     authServer:
       authority: http://account.eshoponabp.dev
       requireHttpsMetadata: "false"
-      metadataAddress: http://eshop-st-keycloak/realms/master
-      swaggerClientId: WebGateway_Swagger
-      swaggerClientSecret: "1q2w3e*"
+      metadataAddress: https://account.eshoponabp.dev/realms/master
+      swaggerClientId: SwaggerClient
     remoteServices:
       abpIdentityBaseUrl: https://identity.eshoponabp.dev
     dotnetEnv: Staging
