@@ -100,7 +100,6 @@ public class BasketServiceModule : AbpModule
             var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
             options.SwaggerEndpoint("/swagger/v1/swagger.json", "Basket Service API");
             options.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
-            options.OAuthClientSecret(configuration["AuthServer:SwaggerClientSecret"]);
         });
         app.UseAbpSerilogEnrichers();
         app.UseAuditing();

@@ -9,7 +9,6 @@ config:
     requireHttpsMetadata: "false"
     metadataAddress: http://eshop-st-keycloak:8080
     swaggerClientId: WebGateway_Swagger
-    swaggerClientSecret: "1q2w3e*"
   keycloak:
     url: http://eshop-st-keycloak:8080
     adminUsername: admin
