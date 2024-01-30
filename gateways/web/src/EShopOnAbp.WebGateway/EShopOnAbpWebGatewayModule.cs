@@ -7,7 +7,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Linq;
+using EShopOnAbp.WebGateway.Aggregations;
+using Microsoft.AspNetCore.Http;
 using Volo.Abp;
+using Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations;
 using Volo.Abp.Modularity;
 
 namespace EShopOnAbp.WebGateway;
@@ -76,6 +79,9 @@ public class EShopOnAbpWebGatewayModule : AbpModule
             // Regex for "", "/" and "" (whitespace)
             .AddRedirect("^(|\\|\\s+)$", "/swagger"));
         
-        app.UseEndpoints(endpoints => { endpoints.MapReverseProxy(); });
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapReverseProxyWithLocalization();
+        });
     }
 }

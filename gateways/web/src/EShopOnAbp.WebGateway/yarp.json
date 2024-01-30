@@ -7,6 +7,12 @@
           "Path": "/api/abp/{**catch-all}"
         }
       },
+      "EshopOnAbpLocalization": {
+        "ClusterId": "Administration",
+        "Match": {
+          "Path": "/api/abp/application-localization"
+        }
+      },
       "Identity Service": {
         "ClusterId": "Identity",
         "Match": {
