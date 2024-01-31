@@ -1,21 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.Json;
 using EShopOnAbp.WebGateway.Aggregations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
-using Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations;
 using Yarp.ReverseProxy.Configuration;
 
 namespace EShopOnAbp.WebGateway;
 
 public static class ReverseProxyBuilderExtensions
 {
-    public static string LocalizationPath = "/api/abp/application-localization?cultureName=tr&onlyDynamics=false";
+    public static string LocalizationPath = "api/abp/application-localization";
 
     public static ReverseProxyConventionBuilder MapReverseProxyWithLocalization(this IEndpointRouteBuilder endpoints)
     {
@@ -53,11 +51,12 @@ public static class ReverseProxyBuilderExtensions
         context.Request.Query.TryGetValue("CultureName", out var cultureName);
 
         var input = new LocalizationRequest(cultureName);
+        string path = $"{LocalizationPath}?cultureName={cultureName}&onlyDynamics=false";
 
         var clusterList = GetClusters(proxyConfig);
         foreach (var cluster in clusterList)
         {
-            var hostUrl = new Uri(cluster.Value.Address) + $"{LocalizationPath}";
+            var hostUrl = new Uri(cluster.Value.Address) + $"{path}";
             input.LocalizationEndpoints.Add($"{cluster.Key}_{cultureName}", hostUrl);
         }
 

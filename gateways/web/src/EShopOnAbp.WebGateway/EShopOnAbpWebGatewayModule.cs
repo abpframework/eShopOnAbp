@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Linq;
 using EShopOnAbp.WebGateway.Aggregations;
+using EShopOnAbp.WebGateway.Aggregations.Localization;
 using Microsoft.AspNetCore.Http;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations;
@@ -69,6 +70,7 @@ public class EShopOnAbpWebGatewayModule : AbpModule
         }
 
         app.UseCorrelationId();
+        app.UseCors();
         app.UseStaticFiles();
         app.UseRouting();
         app.UseAuthorization();

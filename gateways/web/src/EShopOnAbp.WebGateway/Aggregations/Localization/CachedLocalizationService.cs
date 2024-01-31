@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 using Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations;
 using Volo.Abp.DependencyInjection;
@@ -10,7 +9,7 @@ namespace EShopOnAbp.WebGateway.Aggregations.Localization;
 
 public class CachedLocalizationService :  ISingletonDependency
 {
-    protected ConcurrentDictionary<string, ApplicationLocalizationDto> LocalizationDictionary { get; }
+    protected static ConcurrentDictionary<string, ApplicationLocalizationDto> LocalizationDictionary { get; private set; }
 
     public CachedLocalizationService()
     {
@@ -32,6 +31,6 @@ public class CachedLocalizationService :  ISingletonDependency
     {
         return LocalizationDictionary
             .Where(kv => serviceNamesWithCulture.Contains(kv.Key))
-            .ToImmutableDictionary();
+            .ToDictionary();
     }
 }
