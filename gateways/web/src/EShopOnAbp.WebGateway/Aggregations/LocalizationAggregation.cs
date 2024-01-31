@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using EShopOnAbp.WebGateway.Aggregations.Localization;
-using Microsoft.Extensions.Logging;
 using Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations;
 
 namespace EShopOnAbp.WebGateway.Aggregations;
@@ -10,48 +9,64 @@ namespace EShopOnAbp.WebGateway.Aggregations;
 public class LocalizationAggregation : ILocalizationAggregation
 {
     //Yarp localization route name
-    public string LocalizationEndpoint { get; } = "EshopOnAbpLocalization";
-    private readonly ILogger<LocalizationAggregation> _logger;
-    private readonly CachedLocalizationService _cachedLocalizationService;
-    private readonly RemoteLocalizationService _remoteLocalizationService;
+    public string LocalizationRouteName { get; } = "EshopOnAbpLocalization";
+    public string LocalizationEndpoint { get; } = "api/abp/application-localization";
 
-    public LocalizationAggregation(ILogger<LocalizationAggregation> logger, CachedLocalizationService cachedLocalizationService, RemoteLocalizationService remoteLocalizationService)
+    private readonly CachedLocalizationService _cachedLocalizationService;
+    private readonly IRemoteLocalizationService _remoteLocalizationService;
+
+    public LocalizationAggregation(CachedLocalizationService cachedLocalizationService,
+        IRemoteLocalizationService remoteLocalizationService)
     {
-        _logger = logger;
         _cachedLocalizationService = cachedLocalizationService;
         _remoteLocalizationService = remoteLocalizationService;
     }
 
+
     public async Task<ApplicationLocalizationDto> GetLocalizationAsync(LocalizationRequest input)
     {
         // Check the cache service
-        var cachedLocalization = _cachedLocalizationService.GetMultipleLocalizationsAsync(input.LocalizationEndpoints.Keys.ToArray());
-        
+        var cachedLocalization = _cachedLocalizationService
+            .GetLocalizationsFromCacheAsync(input.LocalizationEndpoints.Keys.ToArray());
+
         // Compare cache with input service list
         var missingLocalizationKeys = GetMissingLocalizations(cachedLocalization, input.LocalizationEndpoints);
-        
+
         if (missingLocalizationKeys.Count != 0)
         {
-            // Make request to remote localization service
-            var remoteLocalizationResults = await _remoteLocalizationService
-                .GetMultipleLocalizationsAsync(input.LocalizationEndpoints
-                    .Where(kv=> missingLocalizationKeys.Contains(kv.Key))
-                    .ToDictionary(k=>k.Key,v=>v.Value));
+            // Make request to remote localization service to get missing localizations
+            var remoteLocalizationResults =
+                await GetLocalizationsFromRemoteAsync(missingLocalizationKeys, input.LocalizationEndpoints);
+
+            // Update localization cache
             foreach (var result in remoteLocalizationResults)
             {
                 _cachedLocalizationService.AddOrUpdate(result.Key, result.Value);
             }
-            cachedLocalization = _cachedLocalizationService.GetMultipleLocalizationsAsync(input.LocalizationEndpoints.Keys.ToArray());
+
+            cachedLocalization = _cachedLocalizationService
+                .GetLocalizationsFromCacheAsync(input.LocalizationEndpoints.Keys.ToArray());
         }
-        
+
         //merge result
         ApplicationLocalizationDto mergedResult = MergeLocalizations(cachedLocalization);
-        
+
         //return result
         return mergedResult;
     }
 
-    private List<string> GetMissingLocalizations(IDictionary<string,ApplicationLocalizationDto> serviceNameWithLocalization, Dictionary<string,string> serviceNameWithUrls)
+    private async Task<Dictionary<string, ApplicationLocalizationDto>> GetLocalizationsFromRemoteAsync(
+        List<string> missingLocalizationKeys, Dictionary<string, string> localizationEndpoints)
+    {
+        return await _remoteLocalizationService
+            .GetMultipleLocalizationsAsync(localizationEndpoints
+                .Where(kv => missingLocalizationKeys.Contains(kv.Key))
+                .ToDictionary(k => k.Key, v => v.Value));
+    }
+
+    private List<string> GetMissingLocalizations(
+        IDictionary<string, ApplicationLocalizationDto> serviceNameWithLocalization,
+        Dictionary<string, string> serviceNameWithUrls)
     {
         List<string> missingKeysInCache = serviceNameWithUrls.Keys.Except(serviceNameWithLocalization.Keys).ToList();
         List<string> missingKeysInUrls = serviceNameWithLocalization.Keys.Except(serviceNameWithUrls.Keys).ToList();
@@ -59,10 +74,11 @@ public class LocalizationAggregation : ILocalizationAggregation
         return missingKeysInCache.Concat(missingKeysInUrls).ToList();
     }
 
-    private ApplicationLocalizationDto MergeLocalizations(IDictionary<string, ApplicationLocalizationDto> localizationResults)
+    private ApplicationLocalizationDto MergeLocalizations(
+        IDictionary<string, ApplicationLocalizationDto> localizationResults)
     {
         var localizationDto = new ApplicationLocalizationDto();
-        
+
         foreach (var localization in localizationResults)
         {
             foreach (var resource in localization.Value.Resources)

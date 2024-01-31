@@ -6,6 +6,7 @@ namespace EShopOnAbp.WebGateway.Aggregations;
 
 public interface ILocalizationAggregation : ITransientDependency
 {
+    public string LocalizationRouteName { get; }
     public string LocalizationEndpoint { get; }
     public Task<ApplicationLocalizationDto> GetLocalizationAsync(LocalizationRequest input);
 }

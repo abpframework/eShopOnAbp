@@ -13,8 +13,6 @@ namespace EShopOnAbp.WebGateway;
 
 public static class ReverseProxyBuilderExtensions
 {
-    public static string LocalizationPath = "api/abp/application-localization";
-
     public static ReverseProxyConventionBuilder MapReverseProxyWithLocalization(this IEndpointRouteBuilder endpoints)
     {
         return endpoints.MapReverseProxy(proxyBuilder =>
@@ -24,11 +22,11 @@ public static class ReverseProxyBuilderExtensions
                 var endpoint = context.GetEndpoint();
 
                 var localizationAggregation = context.RequestServices.GetRequiredService<ILocalizationAggregation>();
-                if (localizationAggregation.LocalizationEndpoint == endpoint?.DisplayName)
+                if (localizationAggregation.LocalizationRouteName == endpoint?.DisplayName)
                 {
-                    LocalizationRequest input = CreateLocalizationRequestInput(context);
+                    LocalizationRequest requestInput = CreateLocalizationRequestInput(context, localizationAggregation.LocalizationEndpoint);
 
-                    var result = await localizationAggregation.GetLocalizationAsync(input);
+                    var result = await localizationAggregation.GetLocalizationAsync(requestInput);
                     await context.Response.WriteAsync(JsonSerializer.Serialize(result, new JsonSerializerOptions
                     {
                         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
@@ -44,14 +42,14 @@ public static class ReverseProxyBuilderExtensions
         });
     }
 
-    private static LocalizationRequest CreateLocalizationRequestInput(HttpContext context)
+    private static LocalizationRequest CreateLocalizationRequestInput(HttpContext context, string localizationPath)
     {
         var proxyConfig = context.RequestServices.GetRequiredService<IProxyConfigProvider>();
 
         context.Request.Query.TryGetValue("CultureName", out var cultureName);
 
         var input = new LocalizationRequest(cultureName);
-        string path = $"{LocalizationPath}?cultureName={cultureName}&onlyDynamics=false";
+        string path = $"{localizationPath}?cultureName={cultureName}&onlyDynamics=false";
 
         var clusterList = GetClusters(proxyConfig);
         foreach (var cluster in clusterList)

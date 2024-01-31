@@ -46,7 +46,7 @@ public class RemoteLocalizationService : IRemoteLocalizationService, ITransientD
                     completedTasks.Add(completedTask.Key, completedTask.Value);
                     completedResult.Add(completedTask.Key, result);
 
-                    _logger.LogInformation($"Key: {completedTask.Key}, Value: {result}");
+                    _logger.LogInformation($"Localization Key: {completedTask.Key}, Value: {result}");
                 }
                 catch (Exception ex)
                 {
@@ -70,23 +70,14 @@ public class RemoteLocalizationService : IRemoteLocalizationService, ITransientD
 
     private async Task<T> MakeRequestAsync<T>(HttpClient httpClient, string url)
     {
-        try
-        {
-            HttpResponseMessage response = await httpClient.GetAsync(url);
-            response.EnsureSuccessStatusCode();
+        HttpResponseMessage response = await httpClient.GetAsync(url);
+        response.EnsureSuccessStatusCode();
 
-            string content = await response.Content.ReadAsStringAsync();
-            var options = new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            };
-            return JsonSerializer.Deserialize<T>(content, options);
-        }
-        catch (Exception ex)
+        string content = await response.Content.ReadAsStringAsync();
+        var options = new JsonSerializerOptions
         {
-            // Log or handle the exception, and return a default value or throw it again if needed
-            Console.WriteLine($"Error making request to {url}: {ex.Message}");
-            throw;
-        }
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        };
+        return JsonSerializer.Deserialize<T>(content, options);
     }
 }
