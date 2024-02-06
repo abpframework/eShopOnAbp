@@ -57,6 +57,8 @@ public class EShopOnAbpWebGatewayModule : AbpModule
                     .AllowCredentials();
             });
         });
+        
+        context.Services.AddMemoryCache();
     }
 
     public override void OnApplicationInitialization(ApplicationInitializationContext context)

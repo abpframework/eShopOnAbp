@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
-using EShopOnAbp.WebGateway.Aggregations;
+using EShopOnAbp.WebGateway.Aggregations.ApplicationConfiguration;
+using EShopOnAbp.WebGateway.Aggregations.Localization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -13,6 +14,12 @@ namespace EShopOnAbp.WebGateway;
 
 public static class ReverseProxyBuilderExtensions
 {
+    private static readonly JsonSerializerOptions JsonSerializerOptions = new()
+    {
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        WriteIndented = true
+    };
+
     public static ReverseProxyConventionBuilder MapReverseProxyWithLocalization(this IEndpointRouteBuilder endpoints)
     {
         return endpoints.MapReverseProxy(proxyBuilder =>
@@ -21,17 +28,31 @@ public static class ReverseProxyBuilderExtensions
             {
                 var endpoint = context.GetEndpoint();
 
-                var localizationAggregation = context.RequestServices.GetRequiredService<ILocalizationAggregation>();
-                if (localizationAggregation.LocalizationRouteName == endpoint?.DisplayName)
+                var localizationAggregation = context.RequestServices
+                    .GetRequiredService<ILocalizationAggregation>();
+                
+                // The "/api/abp/application-localization" endpoint
+                if (localizationAggregation.RouteName == endpoint?.DisplayName)
                 {
-                    LocalizationRequest requestInput = CreateLocalizationRequestInput(context, localizationAggregation.LocalizationEndpoint);
+                    var localizationRequestInput =
+                        CreateLocalizationRequestInput(context, localizationAggregation.Endpoint);
 
-                    var result = await localizationAggregation.GetLocalizationAsync(requestInput);
-                    await context.Response.WriteAsync(JsonSerializer.Serialize(result, new JsonSerializerOptions
-                    {
-                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                        WriteIndented = true
-                    }));
+                    var result = await localizationAggregation.GetAsync(localizationRequestInput);
+                    await context.Response.WriteAsync(JsonSerializer.Serialize(result, JsonSerializerOptions));
+                    return;
+                }
+
+                var appConfigurationAggregation = context.RequestServices
+                    .GetRequiredService<IAppConfigurationAggregation>();
+                
+                // The "/api/abp/application-configuration" endpoint
+                if (appConfigurationAggregation.RouteName == endpoint?.DisplayName)
+                {
+                    var appConfigurationRequestInput =
+                        CreateAppConfigurationRequestInput(context, appConfigurationAggregation.Endpoint);
+
+                    var result = await appConfigurationAggregation.GetAsync(appConfigurationRequestInput);
+                    await context.Response.WriteAsync(JsonSerializer.Serialize(result, JsonSerializerOptions));
                     return;
                 }
 
@@ -40,6 +61,25 @@ public static class ReverseProxyBuilderExtensions
 
             proxyBuilder.UseLoadBalancing();
         });
+    }
+
+    private static AppConfigurationRequest CreateAppConfigurationRequestInput(HttpContext context,
+        string appConfigurationPath)
+    {
+        var proxyConfig = context.RequestServices.GetRequiredService<IProxyConfigProvider>();
+
+        var input = new AppConfigurationRequest();
+        string path = $"{appConfigurationPath}?includeLocalizationResources=false";
+        
+        var clusterList = GetClusters(proxyConfig);
+        foreach (var cluster in clusterList)
+        {
+            var hostUrl = new Uri(cluster.Value.Address) + $"{path}";
+            // CacheKey/Endpoint dictionary key -> ex: ("Administration_AppConfig")
+            input.Endpoints.Add($"{cluster.Key}_AppConfig", hostUrl);
+        }
+
+        return input;
     }
 
     private static LocalizationRequest CreateLocalizationRequestInput(HttpContext context, string localizationPath)
@@ -55,7 +95,8 @@ public static class ReverseProxyBuilderExtensions
         foreach (var cluster in clusterList)
         {
             var hostUrl = new Uri(cluster.Value.Address) + $"{path}";
-            input.LocalizationEndpoints.Add($"{cluster.Key}_{cultureName}", hostUrl);
+            // Endpoint dictionary key -> ex: ("Administration_en")
+            input.Endpoints.Add($"{cluster.Key}_{cultureName}", hostUrl);
         }
 
         return input;
