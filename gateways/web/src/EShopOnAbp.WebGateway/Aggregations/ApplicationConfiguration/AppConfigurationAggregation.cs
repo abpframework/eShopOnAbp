@@ -13,44 +13,22 @@ public class AppConfigurationAggregation : AggregateServiceBase<ApplicationConfi
     public string AppConfigRouteName => "EshopOnAbpApplicationConfiguration";
     public string AppConfigEndpoint => "api/abp/application-configuration";
 
-
-    protected AppConfigurationCachedService AppConfigurationCachedService { get; }
+    protected IAppConfigurationRemoteService AppConfigurationRemoteService { get; }
 
     public AppConfigurationAggregation(
-        AppConfigurationCachedService appConfigurationCachedService,
         IAppConfigurationRemoteService appConfigurationRemoteService) : base(
         appConfigurationRemoteService)
     {
-        AppConfigurationCachedService = appConfigurationCachedService;
+        AppConfigurationRemoteService = appConfigurationRemoteService;
     }
 
     public async Task<ApplicationConfigurationDto> GetAppConfigurationAsync(AppConfigurationRequest input)
     {
-        // Check the cache service
-        var cachedAppConfiguration = AppConfigurationCachedService
-            .GetManyAsync(input.Endpoints.Keys.ToArray());
-
-        // Compare cache with input service list
-        var missingAppConfigurations = GetMissingServiceKeys(cachedAppConfiguration, input.Endpoints);
-
-        if (missingAppConfigurations.Count != 0)
-        {
-            // Make request to remote appConfiguration service to get missing localizations
-            var remoteAppConfigurationResults =
-                await GetMultipleFromRemoteAsync(missingAppConfigurations, input.Endpoints);
-
-            // Update appConfiguration cache
-            foreach (var result in remoteAppConfigurationResults)
-            {
-                AppConfigurationCachedService.Add(result.Key, result.Value);
-            }
-
-            cachedAppConfiguration = AppConfigurationCachedService
-                .GetManyAsync(input.Endpoints.Keys.ToArray());
-        }
+        var remoteAppConfigurationResults =
+            await AppConfigurationRemoteService.GetMultipleAsync(input.Endpoints);
 
         //merge only application configuration settings data
-        var mergedResult = MergeAppConfigurationSettingsData(cachedAppConfiguration);
+        var mergedResult = MergeAppConfigurationSettingsData(remoteAppConfigurationResults);
 
         //return result
         return mergedResult;
@@ -59,7 +37,7 @@ public class AppConfigurationAggregation : AggregateServiceBase<ApplicationConfi
     private static ApplicationConfigurationDto MergeAppConfigurationSettingsData(
         IDictionary<string, ApplicationConfigurationDto> appConfigurations)
     {
-        ApplicationConfigurationDto appConfigurationDto = CreateInitialAppConfigDto(appConfigurations);
+        var appConfigurationDto = CreateInitialAppConfigDto(appConfigurations);
 
         foreach (var (_, appConfig) in appConfigurations)
         {
@@ -86,9 +64,6 @@ public class AppConfigurationAggregation : AggregateServiceBase<ApplicationConfi
         {
             return new ApplicationConfigurationDto();
         }
-
-        var exist = appConfigurations.ContainsKey("Administration_AppConfig");
-        var dodo = appConfigurations["Administration_AppConfig"];
 
         if (appConfigurations.TryGetValue("Administration_AppConfig", out var administrationServiceData))
         {
