@@ -2,24 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using Volo.Abp.Json;
 
 namespace EShopOnAbp.WebGateway.Aggregations.Base;
 
 public abstract class AggregateRemoteServiceBase<TDto> : IAggregateRemoteService<TDto>
 {
     private readonly ILogger<AggregateRemoteServiceBase<TDto>> _logger;
-    protected JsonSerializerOptions JsonSerializerOptions { get; }
+    protected IJsonSerializer JsonSerializer { get; }
 
-    protected AggregateRemoteServiceBase(ILogger<AggregateRemoteServiceBase<TDto>> logger)
+    protected AggregateRemoteServiceBase(ILogger<AggregateRemoteServiceBase<TDto>> logger, IJsonSerializer jsonSerializer)
     {
         _logger = logger;
-        JsonSerializerOptions = new JsonSerializerOptions()
-        {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-        };
+        JsonSerializer = jsonSerializer;
     }
 
     public async Task<Dictionary<string, TDto>> GetMultipleAsync(
@@ -71,7 +68,7 @@ public abstract class AggregateRemoteServiceBase<TDto> : IAggregateRemoteService
             response.EnsureSuccessStatusCode();
 
             var content = await response.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<T>(content, JsonSerializerOptions);
+            return JsonSerializer.Deserialize<T>(content);
         }
         catch (Exception e)
         {

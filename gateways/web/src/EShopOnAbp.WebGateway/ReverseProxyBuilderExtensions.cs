@@ -8,18 +8,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
+using Volo.Abp.Json;
 using Yarp.ReverseProxy.Configuration;
 
 namespace EShopOnAbp.WebGateway;
 
 public static class ReverseProxyBuilderExtensions
 {
-    private static readonly JsonSerializerOptions JsonSerializerOptions = new()
-    {
-        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-        WriteIndented = true
-    };
-
     public static ReverseProxyConventionBuilder MapReverseProxyWithLocalization(this IEndpointRouteBuilder endpoints)
     {
         return endpoints.MapReverseProxy(proxyBuilder =>
@@ -27,34 +22,36 @@ public static class ReverseProxyBuilderExtensions
             proxyBuilder.Use(async (context, next) =>
             {
                 var endpoint = context.GetEndpoint();
-
+                
                 var localizationAggregation = context.RequestServices
                     .GetRequiredService<ILocalizationAggregation>();
+                
+                var appConfigurationAggregation = context.RequestServices
+                    .GetRequiredService<IAppConfigurationAggregation>();
+
+                var jsonSerializer = context.RequestServices.GetRequiredService<IJsonSerializer>();
                 
                 // The "/api/abp/application-localization" endpoint
                 if (localizationAggregation.LocalizationRouteName == endpoint?.DisplayName)
                 {
                     var localizationRequestInput =
                         CreateLocalizationRequestInput(context, localizationAggregation.LocalizationEndpoint);
-
-                    var result = await localizationAggregation.GetLocalizationAsync(localizationRequestInput);
-                    await context.Response.WriteAsync(JsonSerializer.Serialize(result, JsonSerializerOptions));
-                    return;
-                }
-
-                var appConfigurationAggregation = context.RequestServices
-                    .GetRequiredService<IAppConfigurationAggregation>();
                 
-                // The "/api/abp/application-configuration" endpoint
-                if (appConfigurationAggregation.AppConfigRouteName == endpoint?.DisplayName)
-                {
-                    var appConfigurationRequestInput =
-                        CreateAppConfigurationRequestInput(context, appConfigurationAggregation.AppConfigEndpoint);
-
-                    var result = await appConfigurationAggregation.GetAppConfigurationAsync(appConfigurationRequestInput);
-                    await context.Response.WriteAsync(JsonSerializer.Serialize(result, JsonSerializerOptions));
+                    var result = await localizationAggregation.GetLocalizationAsync(localizationRequestInput);
+                    await context.Response.WriteAsync(jsonSerializer.Serialize(result));
                     return;
                 }
+                
+                // // The "/api/abp/application-configuration" endpoint
+                // if (appConfigurationAggregation.AppConfigRouteName == endpoint?.DisplayName)
+                // {
+                //     var appConfigurationRequestInput =
+                //         CreateAppConfigurationRequestInput(context, appConfigurationAggregation.AppConfigEndpoint);
+                //
+                //     var result = await appConfigurationAggregation.GetAppConfigurationAsync(appConfigurationRequestInput);
+                //     await context.Response.WriteAsync(jsonSerializer.Serialize(result));
+                //     return;
+                // }
 
                 await next();
             });
