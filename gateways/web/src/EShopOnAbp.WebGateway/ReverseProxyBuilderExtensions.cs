@@ -32,12 +32,12 @@ public static class ReverseProxyBuilderExtensions
                     .GetRequiredService<ILocalizationAggregation>();
                 
                 // The "/api/abp/application-localization" endpoint
-                if (localizationAggregation.RouteName == endpoint?.DisplayName)
+                if (localizationAggregation.LocalizationRouteName == endpoint?.DisplayName)
                 {
                     var localizationRequestInput =
-                        CreateLocalizationRequestInput(context, localizationAggregation.Endpoint);
+                        CreateLocalizationRequestInput(context, localizationAggregation.LocalizationEndpoint);
 
-                    var result = await localizationAggregation.GetAsync(localizationRequestInput);
+                    var result = await localizationAggregation.GetLocalizationAsync(localizationRequestInput);
                     await context.Response.WriteAsync(JsonSerializer.Serialize(result, JsonSerializerOptions));
                     return;
                 }
@@ -46,12 +46,12 @@ public static class ReverseProxyBuilderExtensions
                     .GetRequiredService<IAppConfigurationAggregation>();
                 
                 // The "/api/abp/application-configuration" endpoint
-                if (appConfigurationAggregation.RouteName == endpoint?.DisplayName)
+                if (appConfigurationAggregation.AppConfigRouteName == endpoint?.DisplayName)
                 {
                     var appConfigurationRequestInput =
-                        CreateAppConfigurationRequestInput(context, appConfigurationAggregation.Endpoint);
+                        CreateAppConfigurationRequestInput(context, appConfigurationAggregation.AppConfigEndpoint);
 
-                    var result = await appConfigurationAggregation.GetAsync(appConfigurationRequestInput);
+                    var result = await appConfigurationAggregation.GetAppConfigurationAsync(appConfigurationRequestInput);
                     await context.Response.WriteAsync(JsonSerializer.Serialize(result, JsonSerializerOptions));
                     return;
                 }

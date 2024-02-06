@@ -10,8 +10,8 @@ namespace EShopOnAbp.WebGateway.Aggregations.Localization;
 public class LocalizationAggregation : AggregateServiceBase<ApplicationLocalizationDto>, ILocalizationAggregation,
     ITransientDependency
 {
-    public string RouteName => "EshopOnAbpLocalization";
-    public string Endpoint => "api/abp/application-localization";
+    public string LocalizationRouteName => "EshopOnAbpLocalization";
+    public string LocalizationEndpoint => "api/abp/application-localization";
     protected LocalizationCachedService LocalizationCachedService { get; }
 
     public LocalizationAggregation(
@@ -22,7 +22,7 @@ public class LocalizationAggregation : AggregateServiceBase<ApplicationLocalizat
         LocalizationCachedService = localizationCachedService;
     }
 
-    public async Task<ApplicationLocalizationDto> GetAsync(LocalizationRequest input)
+    public async Task<ApplicationLocalizationDto> GetLocalizationAsync(LocalizationRequest input)
     {
         // Check the cache service
         var cachedLocalization = LocalizationCachedService

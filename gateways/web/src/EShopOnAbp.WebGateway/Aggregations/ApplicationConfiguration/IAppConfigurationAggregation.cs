@@ -5,7 +5,7 @@ namespace EShopOnAbp.WebGateway.Aggregations.ApplicationConfiguration;
 
 public interface IAppConfigurationAggregation
 {
-    string RouteName { get; }
-    string Endpoint { get; }
-    Task<ApplicationConfigurationDto> GetAsync(AppConfigurationRequest input);
+    string AppConfigRouteName { get; }
+    string AppConfigEndpoint { get; }
+    Task<ApplicationConfigurationDto> GetAppConfigurationAsync(AppConfigurationRequest input);
 }

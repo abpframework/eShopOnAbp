@@ -8,11 +8,10 @@ using Volo.Abp.DependencyInjection;
 namespace EShopOnAbp.WebGateway.Aggregations.ApplicationConfiguration;
 
 public class AppConfigurationAggregation : AggregateServiceBase<ApplicationConfigurationDto>,
-    IAppConfigurationAggregation,
-    ITransientDependency
+    IAppConfigurationAggregation, ITransientDependency
 {
-    public string RouteName => "EshopOnAbpApplicationConfiguration";
-    public string Endpoint => "api/abp/application-configuration";
+    public string AppConfigRouteName => "EshopOnAbpApplicationConfiguration";
+    public string AppConfigEndpoint => "api/abp/application-configuration";
 
 
     protected AppConfigurationCachedService AppConfigurationCachedService { get; }
@@ -25,7 +24,7 @@ public class AppConfigurationAggregation : AggregateServiceBase<ApplicationConfi
         AppConfigurationCachedService = appConfigurationCachedService;
     }
 
-    public async Task<ApplicationConfigurationDto> GetAsync(AppConfigurationRequest input)
+    public async Task<ApplicationConfigurationDto> GetAppConfigurationAsync(AppConfigurationRequest input)
     {
         // Check the cache service
         var cachedAppConfiguration = AppConfigurationCachedService
@@ -90,8 +89,8 @@ public class AppConfigurationAggregation : AggregateServiceBase<ApplicationConfi
 
         var exist = appConfigurations.ContainsKey("Administration_AppConfig");
         var dodo = appConfigurations["Administration_AppConfig"];
-        
-        if(appConfigurations.TryGetValue("Administration_AppConfig", out var administrationServiceData))
+
+        if (appConfigurations.TryGetValue("Administration_AppConfig", out var administrationServiceData))
         {
             return MapServiceData(administrationServiceData);
         }

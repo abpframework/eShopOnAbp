@@ -5,7 +5,7 @@ namespace EShopOnAbp.WebGateway.Aggregations.Localization;
 
 public interface ILocalizationAggregation
 {
-    string RouteName { get; }
-    string Endpoint { get; }
-    Task<ApplicationLocalizationDto> GetAsync(LocalizationRequest input);
+    string LocalizationRouteName { get; }
+    string LocalizationEndpoint { get; }
+    Task<ApplicationLocalizationDto> GetLocalizationAsync(LocalizationRequest input);
 }
