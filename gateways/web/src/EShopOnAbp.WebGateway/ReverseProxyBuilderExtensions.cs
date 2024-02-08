@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
 using EShopOnAbp.WebGateway.Aggregations.ApplicationConfiguration;
 using EShopOnAbp.WebGateway.Aggregations.Localization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
-using Volo.Abp.Json;
 using Yarp.ReverseProxy.Configuration;
 
 namespace EShopOnAbp.WebGateway;
@@ -22,36 +20,35 @@ public static class ReverseProxyBuilderExtensions
             proxyBuilder.Use(async (context, next) =>
             {
                 var endpoint = context.GetEndpoint();
-                
+
                 var localizationAggregation = context.RequestServices
                     .GetRequiredService<ILocalizationAggregation>();
-                
+
                 var appConfigurationAggregation = context.RequestServices
                     .GetRequiredService<IAppConfigurationAggregation>();
 
-                var jsonSerializer = context.RequestServices.GetRequiredService<IJsonSerializer>();
-                
                 // The "/api/abp/application-localization" endpoint
                 if (localizationAggregation.LocalizationRouteName == endpoint?.DisplayName)
                 {
                     var localizationRequestInput =
                         CreateLocalizationRequestInput(context, localizationAggregation.LocalizationEndpoint);
-                
+
                     var result = await localizationAggregation.GetLocalizationAsync(localizationRequestInput);
-                    await context.Response.WriteAsync(jsonSerializer.Serialize(result));
+                    await context.Response.WriteAsJsonAsync(result);
                     return;
                 }
-                
-                // // The "/api/abp/application-configuration" endpoint
-                // if (appConfigurationAggregation.AppConfigRouteName == endpoint?.DisplayName)
-                // {
-                //     var appConfigurationRequestInput =
-                //         CreateAppConfigurationRequestInput(context, appConfigurationAggregation.AppConfigEndpoint);
-                //
-                //     var result = await appConfigurationAggregation.GetAppConfigurationAsync(appConfigurationRequestInput);
-                //     await context.Response.WriteAsync(jsonSerializer.Serialize(result));
-                //     return;
-                // }
+
+                // The "/api/abp/application-configuration" endpoint
+                if (appConfigurationAggregation.AppConfigRouteName == endpoint?.DisplayName)
+                {
+                    var appConfigurationRequestInput =
+                        CreateAppConfigurationRequestInput(context, appConfigurationAggregation.AppConfigEndpoint);
+
+                    var result =
+                        await appConfigurationAggregation.GetAppConfigurationAsync(appConfigurationRequestInput);
+                    await context.Response.WriteAsJsonAsync(result);
+                    return;
+                }
 
                 await next();
             });
@@ -67,7 +64,7 @@ public static class ReverseProxyBuilderExtensions
 
         var input = new AppConfigurationRequest();
         string path = $"{appConfigurationPath}?includeLocalizationResources=false";
-        
+
         var clusterList = GetClusters(proxyConfig);
         foreach (var cluster in clusterList)
         {
