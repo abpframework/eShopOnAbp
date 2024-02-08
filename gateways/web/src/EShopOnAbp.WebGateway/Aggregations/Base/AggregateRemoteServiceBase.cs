@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Volo.Abp.Json;
 
@@ -10,13 +11,16 @@ namespace EShopOnAbp.WebGateway.Aggregations.Base;
 
 public abstract class AggregateRemoteServiceBase<TDto> : IAggregateRemoteService<TDto>
 {
+    private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly ILogger<AggregateRemoteServiceBase<TDto>> _logger;
     protected IJsonSerializer JsonSerializer { get; }
 
-    protected AggregateRemoteServiceBase(ILogger<AggregateRemoteServiceBase<TDto>> logger, IJsonSerializer jsonSerializer)
+    protected AggregateRemoteServiceBase(IHttpContextAccessor httpContextAccessor, IJsonSerializer jsonSerializer,
+        ILogger<AggregateRemoteServiceBase<TDto>> logger)
     {
-        _logger = logger;
+        _httpContextAccessor = httpContextAccessor;
         JsonSerializer = jsonSerializer;
+        _logger = logger;
     }
 
     public async Task<Dictionary<string, TDto>> GetMultipleAsync(
@@ -26,7 +30,7 @@ public abstract class AggregateRemoteServiceBase<TDto> : IAggregateRemoteService
         Dictionary<string, Task<TDto>> runningTasks = new Dictionary<string, Task<TDto>>();
         Dictionary<string, TDto> completedResult = new Dictionary<string, TDto>();
 
-        using (HttpClient httpClient = new HttpClient())
+        using (HttpClient httpClient = CreateHttpClient())
         {
             foreach (var service in serviceNameWithUrlDictionary)
             {
@@ -48,16 +52,32 @@ public abstract class AggregateRemoteServiceBase<TDto> : IAggregateRemoteService
                     completedTasks.Add(completedTask.Key, completedTask.Value);
                     completedResult.Add(completedTask.Key, result);
 
-                    _logger.LogInformation($"Localization Key: {completedTask.Key}, Value: {result}");
+                    _logger.LogInformation("Localization Key: {0}, Value: {1}", completedTask.Key, result);
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogInformation($"Error for the {completedTask.Key}: {ex.Message}");
+                    _logger.LogInformation("Error for the {0}: {1}", completedTask.Key, ex.Message);
                 }
             }
         }
 
         return completedResult;
+    }
+
+    private HttpClient CreateHttpClient()
+    {
+        var httpClient = new HttpClient();
+
+        var headers = _httpContextAccessor.HttpContext?.Request.Headers;
+        if (headers != null)
+        {
+            foreach (var header in headers)
+            {
+                httpClient.DefaultRequestHeaders.Add(header.Key, header.Value.ToArray());
+            }
+        }
+
+        return httpClient;
     }
 
     public async Task<T> MakeRequestAsync<T>(HttpClient httpClient, string url)
@@ -72,7 +92,7 @@ public abstract class AggregateRemoteServiceBase<TDto> : IAggregateRemoteService
         }
         catch (Exception e)
         {
-            _logger.LogInformation($"Error making request to {url}: {e.Message}");
+            _logger.LogInformation("Error making request to {0}: {1}", url, e.Message);
             throw;
         }
     }

@@ -1,4 +1,5 @@
 ﻿using EShopOnAbp.WebGateway.Aggregations.Base;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations;
 using Volo.Abp.DependencyInjection;
@@ -9,8 +10,11 @@ namespace EShopOnAbp.WebGateway.Aggregations.Localization;
 public class LocalizationRemoteService : AggregateRemoteServiceBase<ApplicationLocalizationDto>,
     ILocalizationRemoteService, ITransientDependency
 {
-    public LocalizationRemoteService(ILogger<AggregateRemoteServiceBase<ApplicationLocalizationDto>> logger, IJsonSerializer jsonSerializer) :
-        base(logger, jsonSerializer)
+    public LocalizationRemoteService(
+        IHttpContextAccessor httpContextAccessor,
+        IJsonSerializer jsonSerializer,
+        ILogger<AggregateRemoteServiceBase<ApplicationLocalizationDto>> logger)
+        : base(httpContextAccessor, jsonSerializer, logger)
     {
     }
 }
