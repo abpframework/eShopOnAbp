@@ -6,9 +6,9 @@
         successfully running!
       </h5>
     </div>
-    <h1>{{ '::Welcome' | abpLocalization }}</h1>
+    <h1>{{ 'AdministrationService::Welcome' | abpLocalization }}</h1>
 
-    <p class="lead px-lg-5 mx-lg-5">{{ '::LongWelcomeMessage' | abpLocalization }}</p>
+    <p class="lead px-lg-5 mx-lg-5">{{ 'AdministrationService::LongWelcomeMessage' | abpLocalization }}</p>
 
     <a *ngIf="!hasLoggedIn" (click)="login()" class="px-4 btn btn-primary ml-1" role="button"
       ><i class="fa fa-sign-in"></i> {{ 'AdministrationService::Login' | abpLocalization }}</a
