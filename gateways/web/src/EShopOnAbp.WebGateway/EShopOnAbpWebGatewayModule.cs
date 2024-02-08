@@ -7,11 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Linq;
-using EShopOnAbp.WebGateway.Aggregations;
-using EShopOnAbp.WebGateway.Aggregations.Localization;
-using Microsoft.AspNetCore.Http;
 using Volo.Abp;
-using Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations;
 using Volo.Abp.Modularity;
 
 namespace EShopOnAbp.WebGateway;
@@ -73,6 +69,7 @@ public class EShopOnAbpWebGatewayModule : AbpModule
 
         app.UseCorrelationId();
         app.UseCors();
+        app.UseAbpRequestLocalization();
         app.UseStaticFiles();
         app.UseRouting();
         app.UseAuthorization();
