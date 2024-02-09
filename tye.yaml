@@ -1,14 +1,5 @@
 name: EShopOnAbp
 services:
-# - name: auth-server
-#   project: apps/auth-server/src/EShopOnAbp.AuthServer/EShopOnAbp.AuthServer.csproj
-#   bindings:
-#     - protocol: https
-#       port: 44330
-#   env:
-#     - Kestrel__Certificates__Default__Path=../../../../etc/dev-cert/localhost.pfx
-#     - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49
-
 - name: identity-service
   project: services/identity/src/EShopOnAbp.IdentityService.HttpApi.Host/EShopOnAbp.IdentityService.HttpApi.Host.csproj
   bindings:

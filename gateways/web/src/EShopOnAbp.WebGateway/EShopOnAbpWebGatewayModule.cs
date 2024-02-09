@@ -53,6 +53,8 @@ public class EShopOnAbpWebGatewayModule : AbpModule
                     .AllowCredentials();
             });
         });
+        
+        context.Services.AddMemoryCache();
     }
 
     public override void OnApplicationInitialization(ApplicationInitializationContext context)
@@ -66,6 +68,8 @@ public class EShopOnAbpWebGatewayModule : AbpModule
         }
 
         app.UseCorrelationId();
+        app.UseCors();
+        app.UseAbpRequestLocalization();
         app.UseStaticFiles();
         app.UseRouting();
         app.UseAuthorization();
@@ -76,6 +80,9 @@ public class EShopOnAbpWebGatewayModule : AbpModule
             // Regex for "", "/" and "" (whitespace)
             .AddRedirect("^(|\\|\\s+)$", "/swagger"));
         
-        app.UseEndpoints(endpoints => { endpoints.MapReverseProxy(); });
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapReverseProxyWithLocalization();
+        });
     }
 }
