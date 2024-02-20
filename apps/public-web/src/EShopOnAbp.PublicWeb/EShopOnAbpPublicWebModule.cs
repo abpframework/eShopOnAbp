@@ -26,6 +26,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Security.Claims;
+using EShopOnAbp.PublicWeb.Components.Toolbar.Footer;
 using Microsoft.AspNetCore.Authentication.OAuth.Claims;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -51,6 +52,7 @@ using Volo.Abp.Http.Client.IdentityModel.Web;
 using Volo.Abp.Modularity;
 using Volo.Abp.MultiTenancy;
 using Volo.Abp.Security.Claims;
+using Volo.Abp.Ui.LayoutHooks;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.VirtualFileSystem;
@@ -117,14 +119,23 @@ public class EShopOnAbpPublicWebModule : AbpModule
         context.Services.AddAutoMapperObjectMapper<EShopOnAbpPublicWebModule>();
         Configure<AbpAutoMapperOptions>(options => { options.AddMaps<EShopOnAbpPublicWebModule>(validate: true); });
 
+        Configure<AbpLayoutHookOptions>(options =>
+        {
+            options.Add(
+                LayoutHooks.Body.Last,
+                typeof(FooterComponent)
+            );
+        });
+
         Configure<AbpBundlingOptions>(options =>
         {
             options.StyleBundles.Configure(
                 LeptonXLiteThemeBundles.Styles.Global,
-                bundle => { 
+                bundle =>
+                {
                     bundle.AddContributors(typeof(CartWidgetStyleContributor));
-					bundle.AddFiles("/global.css");
-				}
+                    bundle.AddFiles("/global.css");
+                }
             );
         });
 
