@@ -1,10 +1,15 @@
-﻿<div class="lpx-footbar-container" style="z-index: 10000; background: none !important;">
+﻿@model EShopOnAbp.PublicWeb.Components.Toolbar.Footer.FooterModel
+
+<div class="lpx-footbar-container" style="z-index: 10000; background: none !important;">
     <div class="lpx-footbar">
         <div class="lpx-footbar-copyright">
             <span>This website is built on top of the </span>
             <a href="https://abp.io/" target="_blank">ABP Framework</a>
             <span> and the source code is available at </span>
             <a href="https://github.com/abpframework/eShopOnAbp" target="_blank">github.com/abpframework/eShopOnAbp</a>
+        </div>
+        <div class="lpx-footbar-solo-links">
+            <a href="javascript:void(0)">ABP @Model.AbpVersion</a>
         </div>
     </div>
 </div>
