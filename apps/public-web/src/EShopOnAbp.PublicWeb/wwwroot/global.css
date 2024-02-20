@@ -1,5 +1,22 @@
-﻿.lpx-content-container {
+﻿/* hide sidebar */
+.lpx-sidebar-container {
+    z-index: 0;
+}
+
+.lpx-content-container {
     margin: 0 !important;
-    z-index: 1100 !important;
     position: relative !important;
+}
+
+.lpx-topbar-content {
+    padding-right: 1rem;
+}
+
+.logo {
+    width: fit-content;
+    position: sticky;
+    top: 0;
+    z-index: 101;
+    padding-bottom: 2em;
+    margin-top: -5.2em;
 }
