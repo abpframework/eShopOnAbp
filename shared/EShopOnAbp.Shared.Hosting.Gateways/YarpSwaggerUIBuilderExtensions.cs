@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using EShopOnAbp.Shared.Hosting.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,7 +16,7 @@ public static class YarpSwaggerUIBuilderExtensions
         ApplicationInitializationContext context)
     {
         app.UseSwagger();
-        app.UseAbpSwaggerUI(options =>
+        app.UseAbpSwaggerWithCustomScriptUI(options =>
         {
             var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
             var logger = context.ServiceProvider.GetRequiredService<ILogger<ApplicationInitializationContext>>();

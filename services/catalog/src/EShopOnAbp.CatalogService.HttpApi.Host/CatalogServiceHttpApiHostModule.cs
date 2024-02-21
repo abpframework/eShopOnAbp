@@ -101,7 +101,7 @@ public class CatalogServiceHttpApiHostModule : AbpModule
         app.UseAbpClaimsMap();
         app.UseAuthorization();
         app.UseSwagger();
-        app.UseAbpSwaggerUI(options =>
+        app.UseAbpSwaggerWithCustomScriptUI(options =>
         {
             var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
             options.SwaggerEndpoint("/swagger/v1/swagger.json", "Catalog Service API");

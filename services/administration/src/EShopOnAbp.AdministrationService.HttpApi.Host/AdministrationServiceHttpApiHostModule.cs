@@ -59,17 +59,11 @@ public class AdministrationServiceHttpApiHostModule : AbpModule
                     .AllowCredentials();
             });
         });
-        
-        Configure<PermissionManagementOptions>(options =>
-        {
-            options.IsDynamicPermissionStoreEnabled = true;
-        });
 
-        Configure<SettingManagementOptions>(options =>
-        {
-            options.IsDynamicSettingStoreEnabled = true;
-        });
-        
+        Configure<PermissionManagementOptions>(options => { options.IsDynamicPermissionStoreEnabled = true; });
+
+        Configure<SettingManagementOptions>(options => { options.IsDynamicSettingStoreEnabled = true; });
+
         // Configure<AbpPermissionOptions>(options =>
         // {
         //     options.ValueProviders.Clear();
@@ -99,7 +93,7 @@ public class AdministrationServiceHttpApiHostModule : AbpModule
         app.UseUnitOfWork();
         app.UseAuthorization();
         app.UseSwagger();
-        app.UseAbpSwaggerUI(options =>
+        app.UseAbpSwaggerWithCustomScriptUI(options =>
         {
             var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
             options.SwaggerEndpoint("/swagger/v1/swagger.json", "Administration Service API");

@@ -22,8 +22,7 @@ namespace EShopOnAbp.IdentityService;
     typeof(EShopOnAbpSharedHostingMicroservicesModule),
     typeof(IdentityServiceHttpApiModule),
     typeof(IdentityServiceApplicationModule),
-    typeof(IdentityServiceEntityFrameworkCoreModule),
-    typeof(EShopOnAbpSharedHostingGatewaysModule)
+    typeof(IdentityServiceEntityFrameworkCoreModule)
 )]
 public class IdentityServiceHttpApiHostModule : AbpModule
 {
@@ -91,7 +90,7 @@ public class IdentityServiceHttpApiHostModule : AbpModule
         app.UseAbpClaimsMap();
         app.UseAuthorization();
         app.UseSwagger();
-        app.UseAbpSwaggerUI(options =>
+        app.UseAbpSwaggerWithCustomScriptUI(options =>
         {
             var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
             options.SwaggerEndpoint("/swagger/v1/swagger.json", "Identity Service API");

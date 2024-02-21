@@ -12,7 +12,4 @@ namespace EShopOnAbp.Shared.Hosting.AspNetCore;
 )]
 public class EShopOnAbpSharedHostingAspNetCoreModule : AbpModule
 {
-    public override void ConfigureServices(ServiceConfigurationContext context)
-    {
-    }
 }

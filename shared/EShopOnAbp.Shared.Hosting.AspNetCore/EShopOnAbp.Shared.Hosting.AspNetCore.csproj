@@ -17,4 +17,8 @@
         <ProjectReference Include="..\EShopOnAbp.Shared.Localization\EShopOnAbp.Shared.Localization.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+        <None Remove="wwwroot\swagger\ui\requestinterceptor.js" />
+    </ItemGroup>
+
 </Project>

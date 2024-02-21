@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <RootNamespace>EShopOnAbp.IdentityService</RootNamespace>
+    <PreserveCompilationReferences>true</PreserveCompilationReferences>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,6 +26,11 @@
     <Content Remove="Logs\**" />
     <EmbeddedResource Remove="Logs\**" />
     <None Remove="Logs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="wwwroot\swagger\ui\requestinterceptor.js" />
+    <EmbeddedResource Include="wwwroot\swagger\ui\requestinterceptor.js" />
   </ItemGroup>
   
 </Project>
