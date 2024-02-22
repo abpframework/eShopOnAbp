@@ -1,6 +1,7 @@
 ﻿using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.Modularity;
 using Volo.Abp.Swashbuckle;
+using Volo.Abp.VirtualFileSystem;
 
 namespace EShopOnAbp.Shared.Hosting.AspNetCore;
 
@@ -12,4 +13,11 @@ namespace EShopOnAbp.Shared.Hosting.AspNetCore;
 )]
 public class EShopOnAbpSharedHostingAspNetCoreModule : AbpModule
 {
+    public override void ConfigureServices(ServiceConfigurationContext context)
+    {
+        Configure<AbpVirtualFileSystemOptions>(options =>
+        {
+            options.FileSets.AddEmbedded<EShopOnAbpSharedHostingAspNetCoreModule>("EShopOnAbp.Shared.Hosting.AspNetCore");
+        });
+    }
 }

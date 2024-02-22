@@ -31,11 +31,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="wwwroot\swagger\ui\requestinterceptor.js" />
-    <EmbeddedResource Include="wwwroot\swagger\ui\requestinterceptor.js" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="wwwroot\product-images\*.jpg" />
   </ItemGroup>
 

@@ -27,10 +27,5 @@
     <EmbeddedResource Remove="Logs\**" />
     <None Remove="Logs\**" />
   </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="wwwroot\swagger\ui\requestinterceptor.js" />
-    <EmbeddedResource Include="wwwroot\swagger\ui\requestinterceptor.js" />
-  </ItemGroup>
   
 </Project>
