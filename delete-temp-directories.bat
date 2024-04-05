@@ -12,7 +12,7 @@ for /d /r . %%d in (%directories%) do if exist "%%d" (
     echo. Deleting: %%d
     rd /s/q "%%d"
     set /a count += 1
-    )
+)
 
 echo.
 echo The specified directories were successfully scanned.
