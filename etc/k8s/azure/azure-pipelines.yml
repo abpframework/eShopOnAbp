@@ -1,7 +1,7 @@
 trigger:
   branches:
     include:
-      - main
+      - skoc/azure-pipeline
   paths:
     include:
       - apps/angular/src/**
@@ -74,7 +74,7 @@ stages:
       inputs:
         command: build
         repository: eshoponabp/app-web
-        dockerfile: $(buildContextBasePath)/eShopOnAbp/apps/angular/Dockerfile.azure
+        dockerfile: $(buildContextBasePath)/eShopOnAbp/apps/angular/Dockerfile
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
