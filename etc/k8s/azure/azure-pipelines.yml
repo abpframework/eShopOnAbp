@@ -1,0 +1,453 @@
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - apps/angular/src/**
+      - apps/public-web/src/EShopOnAbp.PublicWeb/**
+      - gateways/web/src/EShopOnAbp.WebGateway/**
+      - gateways/web-public/src/EShopOnAbp.WebPublicGateway/**
+      - services/administration/src/**
+      - services/basket/src/**
+      - services/catalog/src/**
+      - services/cmskit/src/**
+      - services/identity/src/**
+      - services/ordering/src/**
+      - services/payment/src/**
+
+resources:
+  repositories:
+    - repository: devops
+      type: github
+      endpoint: github.com_skoc10
+      name: volosoft/devops
+      ref: master
+
+variables:
+  dockerRegistryServiceConnection: 'volosoft-reg'
+  buildContextBasePath: '$(Build.SourcesDirectory)'
+  tag: $(Build.BuildNumber)
+  DOCKER_BUILDKIT: 1
+
+pool:
+  name: aks-deployer-agent
+
+stages:
+- stage: Build
+  displayName: Build
+  jobs:
+  - job: Build
+    displayName: Build and Deploy Microservices
+    pool:
+      name: aks-deployer-agent
+    steps:
+    - checkout: self
+    - checkout: devops
+
+    - script: |
+        function hasChanged {
+          local path=$1
+          if git diff --name-only HEAD HEAD~1 | grep -q $path; then
+            echo "true"
+          else
+            echo "false"
+          fi
+        }
+        echo "##vso[task.setvariable variable=hasChangedAngular]$(hasChanged 'apps/angular/src/')"
+        echo "##vso[task.setvariable variable=hasChangedPublicWeb]$(hasChanged 'apps/public-web/src/EShopOnAbp.PublicWeb/')"
+        echo "##vso[task.setvariable variable=hasChangedWebGateway]$(hasChanged 'gateways/web/src/EShopOnAbp.WebGateway/')"
+        echo "##vso[task.setvariable variable=hasChangedWebPublicGateway]$(hasChanged 'gateways/web-public/src/EShopOnAbp.WebPublicGateway/')"
+        echo "##vso[task.setvariable variable=hasChangedAdministration]$(hasChanged 'services/administration/src/')"
+        echo "##vso[task.setvariable variable=hasChangedBasket]$(hasChanged 'services/basket/src/')"
+        echo "##vso[task.setvariable variable=hasChangedCatalog]$(hasChanged 'services/catalog/src/')"
+        echo "##vso[task.setvariable variable=hasChangedCmsKit]$(hasChanged 'services/cmskit/src/')"
+        echo "##vso[task.setvariable variable=hasChangedIdentity]$(hasChanged 'services/identity/src/')"
+        echo "##vso[task.setvariable variable=hasChangedOrdering]$(hasChanged 'services/ordering/src/')"
+        echo "##vso[task.setvariable variable=hasChangedPayment]$(hasChanged 'services/payment/src/')"
+      displayName: 'Check if the services have changed'
+
+# Angular App
+    - task: Docker@2
+      condition: and(succeeded(), eq(variables['hasChangedAngular'], 'true'))
+      displayName: 'Build Angular App'
+      inputs:
+        command: build
+        repository: eshoponabp/app-web
+        dockerfile: $(buildContextBasePath)/eShopOnAbp/apps/angular/Dockerfile.azure
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+    - task: Docker@2
+      condition: and(succeeded(), eq(variables['hasChangedAngular'], 'true'))
+      displayName: 'Push Angular App'
+      inputs:
+        command: push
+        repository: eshoponabp/app-web
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+    - task: HelmDeploy@0
+      condition: and(succeeded(), eq(variables['hasChangedAngular'], 'true'))
+      displayName: 'Deploy Angular App'
+      inputs:
+        connectionType: Kubernetes Service Connection
+        kubernetesServiceConnection: 'aks-demoms'
+        namespace: 'eshop'
+        command: 'upgrade'
+        hartType: 'FilePath'
+        chartPath: 'devops/eshoponabp/k8s/eshoponabp-istio/charts/web'
+        releaseName: 'administration'
+        overrideValues: 'image.tag=$(tag)'
+        valueFile: 'devops/eshoponabp/k8s/eshoponabp-istio/charts/web/values.yaml'
+        waitForExecution: false
+
+# Public Web
+    - task: Docker@2
+      condition: and(succeeded(), eq(variables['hasChangedPublicWeb'], 'true'))
+      displayName: 'Build Public Web'
+      inputs:
+        command: build
+        repository: eshoponabp/app-publicweb
+        dockerfile: $(buildContextBasePath)/eShopOnAbp/apps/public-web/Dockerfile.azure
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+    - task: Docker@2
+      condition: and(succeeded(), eq(variables['hasChangedPublicWeb'], 'true'))
+      displayName: 'Push Public Web'
+      inputs:
+        command: push
+        repository: eshoponabp/app-publicweb
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+    - task: HelmDeploy@0
+      condition: and(succeeded(), eq(variables['hasChangedPublicWeb'], 'true'))
+      displayName: 'Deploy Public Web'
+      inputs:
+        connectionType: Kubernetes Service Connection
+        kubernetesServiceConnection: 'aks-demoms'
+        namespace: 'eshop'
+        command: 'upgrade'
+        hartType: 'FilePath'
+        chartPath: 'devops/eshoponabp/k8s/eshoponabp-istio/charts/public-web'
+        releaseName: 'public-web'
+        overrideValues: 'image.tag=$(tag)'
+        valueFile: 'devops/eshoponabp/k8s/eshoponabp-istio/charts/public-web/values.yaml'
+        waitForExecution: false
+
+# Web Gateway
+    - task: Docker@2
+      condition: and(succeeded(), eq(variables['hasChangedWebGateway'], 'true'))
+      displayName: 'Build Web Gateway'
+      inputs:
+        command: build
+        repository: eshoponabp/gateway-web
+        dockerfile: $(buildContextBasePath)/eShopOnAbp/gateways/web/src/EShopOnAbp.WebGateway/Dockerfile.azure
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+    - task: Docker@2
+      condition: and(succeeded(), eq(variables['hasChangedWebGateway'], 'true'))
+      displayName: 'Push Web Gateway'
+      inputs:
+        command: push
+        repository: eshoponabp/gateway-web
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+    - task: HelmDeploy@0
+      condition: and(succeeded(), eq(variables['hasChangedWebGateway'], 'true'))
+      displayName: 'Deploy Web Gateway'
+      inputs:
+        connectionType: Kubernetes Service Connection
+        kubernetesServiceConnection: 'aks-demoms'
+        namespace: 'eshop'
+        command: 'upgrade'
+        hartType: 'FilePath'
+        chartPath: 'devops/eshoponabp/k8s/eshoponabp-istio/charts/gateway-web'
+        releaseName: 'web-gateway'
+        overrideValues: 'image.tag=$(tag)'
+        valueFile: 'devops/eshoponabp/k8s/eshoponabp-istio/charts/gateway-web/values.yaml'
+        waitForExecution: false
+
+# Web Public Gateway
+    - task: Docker
+      condition: and(succeeded(), eq(variables['hasChangedWebPublicGateway'], 'true'))
+      displayName: 'Build Web Public Gateway'
+      inputs:
+        command: build
+        repository: eshoponabp/gateway-web-public
+        dockerfile: $(buildContextBasePath)/eShopOnAbp/gateways/web-public/src/EShopOnAbp.WebPublicGateway/Dockerfile.azure
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+    - task: Docker
+      condition: and(succeeded(), eq(variables['hasChangedWebPublicGateway'], 'true'))
+      displayName: 'Push Web Public Gateway'
+      inputs:
+        command: push
+        repository: eshoponabp/gateway-web-public
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+    - task: HelmDeploy
+      condition: and(succeeded(), eq(variables['hasChangedWebPublicGateway'], 'true'))
+      displayName: 'Deploy Web Public Gateway'
+      inputs:
+        connectionType: Kubernetes Service Connection
+        kubernetesServiceConnection: 'aks-demoms'
+        namespace: 'eshop'
+        command: 'upgrade'
+        hartType: 'FilePath'
+        chartPath: 'devops/eshoponabp/k8s/eshoponabp-istio/charts/gateway-web-public'
+        releaseName: 'web-public-gateway'
+        overrideValues: 'image.tag=$(tag)'
+        valueFile: 'devops/eshoponabp/k8s/eshoponabp-istio/charts/gateway-web-public/values.yaml'
+        waitForExecution: false
+
+# Administration
+    - task: Docker
+      condition: and(succeeded(), eq(variables['hasChangedAdministration'], 'true'))
+      displayName: 'Build Administration'
+      inputs:
+        command: build
+        repository: eshoponabp/service-administration
+        dockerfile: $(buildContextBasePath)/eShopOnAbp/services/administration/src/EShopOnAbp.AdministrationService.HttpApi.Host/Dockerfile.azure
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+    - task: Docker
+      condition: and(succeeded(), eq(variables['hasChangedAdministration'], 'true'))
+      displayName: 'Push Administration'
+      inputs:
+        command: push
+        repository: eshoponabp/service-administration
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+    - task: HelmDeploy
+      condition: and(succeeded(), eq(variables['hasChangedAdministration'], 'true'))
+      displayName: 'Deploy Administration'
+      inputs:
+        connectionType: Kubernetes Service Connection
+        kubernetesServiceConnection: 'aks-demoms'
+        namespace: 'eshop'
+        command: 'upgrade'
+        hartType: 'FilePath'
+        chartPath: 'devops/eshoponabp/k8s/eshoponabp-istio/charts/administration'
+        releaseName: 'administration'
+        overrideValues: 'image.tag=$(tag)'
+        valueFile: 'devops/eshoponabp/k8s/eshoponabp-istio/charts/administration/values.yaml'
+        waitForExecution: false
+
+# Basket
+    - task: Docker
+      condition: and(succeeded(), eq(variables['hasChangedBasket'], 'true'))
+      displayName: 'Build Basket'
+      inputs:
+        command: build
+        repository: eshoponabp/service-basket
+        dockerfile: $(buildContextBasePath)/eShopOnAbp/services/basket/src/EShopOnAbp.BasketService/Dockerfile.azure
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+    - task: Docker
+      condition: and(succeeded(), eq(variables['hasChangedBasket'], 'true'))
+      displayName: 'Push Basket'
+      inputs:
+        command: push
+        repository: eshoponabp/service-basket
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+    - task: HelmDeploy
+      condition: and(succeeded(), eq(variables['hasChangedBasket'], 'true'))
+      displayName: 'Deploy Basket'
+      inputs:
+        connectionType: Kubernetes Service Connection
+        kubernetesServiceConnection: 'aks-demoms'
+        namespace: 'eshop'
+        command: 'upgrade'
+        hartType: 'FilePath'
+        chartPath: 'devops/eshoponabp/k8s/eshoponabp-istio/charts/basket'
+        releaseName: 'basket'
+        overrideValues: 'image.tag=$(tag)'
+        valueFile: 'devops/eshoponabp/k8s/eshoponabp-istio/charts/basket/values.yaml'
+        waitForExecution: false
+
+# Catalog
+    - task: Docker
+      condition: and(succeeded(), eq(variables['hasChangedCatalog'], 'true'))
+      displayName: 'Build Catalog'
+      inputs:
+        command: build
+        repository: eshoponabp/service-catalog
+        dockerfile: $(buildContextBasePath)/eShopOnAbp/services/catalog/src/EShopOnAbp.CatalogService.HttpApi.Host/Dockerfile.azure
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+    - task: Docker
+      condition: and(succeeded(), eq(variables['hasChangedCatalog'], 'true'))
+      displayName: 'Push Catalog'
+      inputs:
+        command: push
+        repository: eshoponabp/service-catalog
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+    - task: HelmDeploy
+      condition: and(succeeded(), eq(variables['hasChangedCatalog'], 'true'))
+      displayName: 'Deploy Catalog'
+      inputs:
+        connectionType: Kubernetes Service Connection
+        kubernetesServiceConnection: 'aks-demoms'
+        namespace: 'eshop'
+        command: 'upgrade'
+        hartType: 'FilePath'
+        chartPath: 'devops/eshoponabp/k8s/eshoponabp-istio/charts/catalog'
+        releaseName: 'catalog'
+        overrideValues: 'image.tag=$(tag)'
+        valueFile: 'devops/eshoponabp/k8s/eshoponabp-istio/charts/catalog/values.yaml'
+        waitForExecution: false
+
+# cmskit
+    - task: Docker
+      condition: and(succeeded(), eq(variables['hasChangedCmsKit'], 'true'))
+      displayName: 'Build CmsKit'
+      inputs:
+        command: build
+        repository: eshoponabp/service-cmskit
+        dockerfile: $(buildContextBasePath)/eShopOnAbp/services/cmskit/src/EShopOnAbp.CmskitService.HttpApi.Host/Dockerfile.azure
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+    - task: Docker
+      condition: and(succeeded(), eq(variables['hasChangedCmsKit'], 'true'))
+      displayName: 'Push CmsKit'
+      inputs:
+        command: push
+        repository: eshoponabp/service-cmskit
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+    - task: HelmDeploy
+      condition: and(succeeded(), eq(variables['hasChangedCmsKit'], 'true'))
+      displayName: 'Deploy CmsKit'
+      inputs:
+        connectionType: Kubernetes Service Connection
+        kubernetesServiceConnection: 'aks-demoms'
+        namespace: 'eshop'
+        command: 'upgrade'
+        hartType: 'FilePath'
+        chartPath: 'devops/eshoponabp/k8s/eshoponabp-istio/charts/cmskit'
+        releaseName: 'cmskit'
+        overrideValues: 'image.tag=$(tag)'
+        valueFile: 'devops/eshoponabp/k8s/eshoponabp-istio/charts/cmskit/values.yaml'
+        waitForExecution: false
+
+# Identity
+    - task: Docker
+      condition: and(succeeded(), eq(variables['hasChangedIdentity'], 'true'))
+      displayName: 'Build Identity'
+      inputs:
+        command: build
+        repository: eshoponabp/service-identity
+        dockerfile: $(buildContextBasePath)/eShopOnAbp/services/identity/src/EShopOnAbp.IdentityService.HttpApi.Host/Dockerfile.azure
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+    - task: Docker
+      condition: and(succeeded(), eq(variables['hasChangedIdentity'], 'true'))
+      displayName: 'Push Identity'
+      inputs:
+        command: push
+        repository: eshoponabp/service-identity
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+    - task: HelmDeploy
+      condition: and(succeeded(), eq(variables['hasChangedIdentity'], 'true'))
+      displayName: 'Deploy Identity'
+      inputs:
+        connectionType: Kubernetes Service Connection
+        kubernetesServiceConnection: 'aks-demoms'
+        namespace: 'eshop'
+        command: 'upgrade'
+        hartType: 'FilePath'
+        chartPath: 'devops/eshoponabp/k8s/eshoponabp-istio/charts/identity'
+        releaseName: 'identity'
+        overrideValues: 'image.tag=$(tag)'
+        valueFile: 'devops/eshoponabp/k8s/eshoponabp-istio/charts/identity/values.yaml'
+        waitForExecution: false
+
+# Ordering
+    - task: Docker
+      condition: and(succeeded(), eq(variables['hasChangedOrdering'], 'true'))
+      displayName: 'Build Ordering'
+      inputs:
+        command: build
+        repository: eshoponabp/service-ordering
+        dockerfile: $(buildContextBasePath)/eShopOnAbp/services/ordering/src/EShopOnAbp.OrderingService.HttpApi.Host/Dockerfile.azure
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+    - task: Docker
+      condition: and(succeeded(), eq(variables['hasChangedOrdering'], 'true'))
+      displayName: 'Push Ordering'
+      inputs:
+        command: push
+        repository: eshoponabp/service-ordering
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+    - task: HelmDeploy
+      condition: and(succeeded(), eq(variables['hasChangedOrdering'], 'true'))
+      displayName: 'Deploy Ordering'
+      inputs:
+        connectionType: Kubernetes Service Connection
+        kubernetesServiceConnection: 'aks-demoms'
+        namespace: 'eshop'
+        command: 'upgrade'
+        hartType: 'FilePath'
+        chartPath: 'devops/eshoponabp/k8s/eshoponabp-istio/charts/ordering'
+        releaseName: 'ordering'
+        overrideValues: 'image.tag=$(tag)'
+        valueFile: 'devops/eshoponabp/k8s/eshoponabp-istio/charts/ordering/values.yaml'
+        waitForExecution: false
+
+# Payment
+    - task: Docker
+      condition: and(succeeded(), eq(variables['hasChangedPayment'], 'true'))
+      displayName: 'Build Payment'
+      inputs:
+        command: build
+        repository: eshoponabp/service-payment
+        dockerfile: $(buildContextBasePath)/eShopOnAbp/services/payment/src/EShopOnAbp.PaymentService.HttpApi.Host/Dockerfile.azure
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+    - task: Docker
+      condition: and(succeeded(), eq(variables['hasChangedPayment'], 'true'))
+      displayName: 'Push Payment'
+      inputs:
+        command: push
+        repository: eshoponabp/service-payment
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+    - task: HelmDeploy
+      condition: and(succeeded(), eq(variables['hasChangedPayment'], 'true'))
+      displayName: 'Deploy Payment'
+      inputs:
+        connectionType: Kubernetes Service Connection
+        kubernetesServiceConnection: 'aks-demoms'
+        namespace: 'eshop'
+        command: 'upgrade'
+        hartType: 'FilePath'
+        chartPath: 'devops/eshoponabp/k8s/eshoponabp-istio/charts/payment'
+        releaseName: 'payment'
+        overrideValues: 'image.tag=$(tag)'
+        valueFile: 'devops/eshoponabp/k8s/eshoponabp-istio/charts/payment/values.yaml'
+        waitForExecution: false
