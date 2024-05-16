@@ -175,7 +175,7 @@ stages:
     #     waitForExecution: false
 
 # Web Public Gateway
-    - task: Docker
+    - task: Docker@2
       #condition: and(succeeded(), eq(variables['hasChangedWebPublicGateway'], 'true'))
       displayName: 'Build Web Public Gateway'
       inputs:
@@ -186,7 +186,7 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
-    - task: Docker
+    - task: Docker@2
       #condition: and(succeeded(), eq(variables['hasChangedWebPublicGateway'], 'true'))
       displayName: 'Push Web Public Gateway'
       inputs:
@@ -211,7 +211,7 @@ stages:
     #     waitForExecution: false
 
 # Administration
-    - task: Docker
+    - task: Docker@2
       #condition: and(succeeded(), eq(variables['hasChangedAdministration'], 'true'))
       displayName: 'Build Administration'
       inputs:
@@ -222,7 +222,7 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
-    - task: Docker
+    - task: Docker@2
       #condition: and(succeeded(), eq(variables['hasChangedAdministration'], 'true'))
       displayName: 'Push Administration'
       inputs:
@@ -247,7 +247,7 @@ stages:
     #     waitForExecution: false
 
 # Basket
-    - task: Docker
+    - task: Docker@2
       #condition: and(succeeded(), eq(variables['hasChangedBasket'], 'true'))
       displayName: 'Build Basket'
       inputs:
@@ -258,7 +258,7 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
-    - task: Docker
+    - task: Docker@2
       #condition: and(succeeded(), eq(variables['hasChangedBasket'], 'true'))
       displayName: 'Push Basket'
       inputs:
@@ -283,7 +283,7 @@ stages:
     #     waitForExecution: false
 
 # Catalog
-    - task: Docker
+    - task: Docker@2
       #condition: and(succeeded(), eq(variables['hasChangedCatalog'], 'true'))
       displayName: 'Build Catalog'
       inputs:
@@ -294,7 +294,7 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
-    - task: Docker
+    - task: Docker@2
       #condition: and(succeeded(), eq(variables['hasChangedCatalog'], 'true'))
       displayName: 'Push Catalog'
       inputs:
@@ -319,7 +319,7 @@ stages:
     #     waitForExecution: false
 
 # cmskit
-    - task: Docker
+    - task: Docker@2
       #condition: and(succeeded(), eq(variables['hasChangedCmsKit'], 'true'))
       displayName: 'Build CmsKit'
       inputs:
@@ -330,7 +330,7 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
-    - task: Docker
+    - task: Docker@2
       #condition: and(succeeded(), eq(variables['hasChangedCmsKit'], 'true'))
       displayName: 'Push CmsKit'
       inputs:
@@ -355,7 +355,7 @@ stages:
     #     waitForExecution: false
 
 # Identity
-    - task: Docker
+    - task: Docker@2
       #condition: and(succeeded(), eq(variables['hasChangedIdentity'], 'true'))
       displayName: 'Build Identity'
       inputs:
@@ -366,7 +366,7 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
-    - task: Docker
+    - task: Docker@2
       #condition: and(succeeded(), eq(variables['hasChangedIdentity'], 'true'))
       displayName: 'Push Identity'
       inputs:
@@ -391,7 +391,7 @@ stages:
     #     waitForExecution: false
 
 # Ordering
-    - task: Docker
+    - task: Docker@2
       #condition: and(succeeded(), eq(variables['hasChangedOrdering'], 'true'))
       displayName: 'Build Ordering'
       inputs:
@@ -402,7 +402,7 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
-    - task: Docker
+    - task: Docker@2
       #condition: and(succeeded(), eq(variables['hasChangedOrdering'], 'true'))
       displayName: 'Push Ordering'
       inputs:
@@ -427,7 +427,7 @@ stages:
     #     waitForExecution: false
 
 # Payment
-    - task: Docker
+    - task: Docker@2
       #condition: and(succeeded(), eq(variables['hasChangedPayment'], 'true'))
       displayName: 'Build Payment'
       inputs:
@@ -438,7 +438,7 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
-    - task: Docker
+    - task: Docker@2
       #condition: and(succeeded(), eq(variables['hasChangedPayment'], 'true'))
       displayName: 'Push Payment'
       inputs:
