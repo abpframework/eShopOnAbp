@@ -109,7 +109,7 @@ stages:
       inputs:
         command: build
         repository: eshoponabp/app-publicweb
-        dockerfile: $(buildContextBasePath)/eShopOnAbp/apps/public-web/Dockerfile.azure
+        dockerfile: $(buildContextBasePath)/eShopOnAbp/apps/public-web/src/EShopOnAbp.PublicWeb/Dockerfile.azure
         buildContext: $(buildContextBasePath)
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
