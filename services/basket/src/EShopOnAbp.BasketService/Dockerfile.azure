@@ -1,0 +1,10 @@
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+COPY eShopOnAbp ./eShopOnAbp
+WORKDIR /src/eShopOnAbp/services/basket/src/EShopOnAbp.BasketService
+RUN dotnet publish -c Release -o bin/Release/publish
+
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
+WORKDIR /app
+COPY --from=build /src/eShopOnAbp/services/basket/src/EShopOnAbp.BasketService/bin/Release/publish/ .
+ENTRYPOINT ["dotnet", "EShopOnAbp.BasketService.dll"]

@@ -1,0 +1,10 @@
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+COPY eShopOnAbp ./eShopOnAbp
+WORKDIR /src/eShopOnAbp/services/catalog/src/EShopOnAbp.CatalogService.HttpApi.Host
+RUN dotnet publish -c Release -o bin/Release/publish
+
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
+WORKDIR /app
+COPY --from=build /src/eShopOnAbp/services/catalog/src/EShopOnAbp.CatalogService.HttpApi.Host/bin/Release/publish/ .
+ENTRYPOINT ["dotnet", "EShopOnAbp.CatalogService.HttpApi.Host.dll"]
