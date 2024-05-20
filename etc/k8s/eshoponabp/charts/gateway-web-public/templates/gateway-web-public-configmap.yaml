@@ -107,10 +107,16 @@ data:
               { "PathRemovePrefix": "/swagger-json/Ordering" }
             ]
           },
-          "Cmskit Service": {
+          "Cmskit Public Service": {
             "ClusterId": "CmsKit",
             "Match": {
-              "Path": "/api/cmskit/{**everything}"
+              "Path": "/api/cms-kit-public/{**everything}"
+            }
+          },
+          "Cmskit Admin Service": {
+            "ClusterId": "CmsKit",
+            "Match": {
+              "Path": "/api/cms-kit-admin/{**everything}"
             }
           },
           "Cmskit Service Swagger": {
