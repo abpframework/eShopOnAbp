@@ -15,6 +15,18 @@
       "applicationUrl": "https://localhost:44354",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "Kestrel": {
+        "Endpoints": {
+          "Http": {
+            "Url": "http://localhost:5000",
+            "Protocols": "Http1AndHttp2"
+          },
+          "gRPC": {
+            "Url": "http://localhost:81",
+            "Protocols": "Http2"
+          }
+        }
       }
     }
   }
