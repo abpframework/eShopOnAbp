@@ -97,7 +97,7 @@ stages:
         command: 'upgrade'
         chartType: 'FilePath'
         chartPath: 'devops/eshoponabp/k8s/eshoponabp-istio/charts/web'
-        releaseName: 'administration'
+        releaseName: 'web'
         overrideValues: 'image.tag=$(tag)'
         valueFile: 'devops/eshoponabp/k8s/eshoponabp-istio/charts/web/values.yaml'
         waitForExecution: false
