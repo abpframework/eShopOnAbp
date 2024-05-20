@@ -9,17 +9,9 @@
     }
   },
   "profiles": {
-    "IIS Express": {
-      "commandName": "IISExpress",
-      "launchBrowser": true,
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
-    },
     "EShopOnAbp.WebGateway": {
       "commandName": "Project",
-      "dotnetRunMessages": "true",
-      "launchBrowser": true,
+      "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:44372",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

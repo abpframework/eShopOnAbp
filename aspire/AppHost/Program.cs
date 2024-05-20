@@ -1,5 +1,6 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
+// Microservices
 var administrationService =
     builder.AddProject<Projects.EShopOnAbp_AdministrationService_HttpApi_Host>("administrationService");
 var identityService = builder.AddProject<Projects.EShopOnAbp_IdentityService_HttpApi_Host>("identityService");
@@ -9,6 +10,11 @@ var cmsKitService = builder.AddProject<Projects.EShopOnAbp_CmskitService_HttpApi
 var orderingService = builder.AddProject<Projects.EShopOnAbp_OrderingService_HttpApi_Host>("orderingService");
 var paymentService = builder.AddProject<Projects.EShopOnAbp_PaymentService_HttpApi_Host>("paymentService");
 
-// var publicWebApp = builder.AddProject<Projects.EShopOnAbp_PublicWeb>("public-web");
+// Gateways
+var webGateway = builder.AddProject<Projects.EShopOnAbp_WebGateway>("webGateway");
+var webPublicGateway = builder.AddProject<Projects.EShopOnAbp_WebPublicGateway>("webPublicGateway");
+
+// Apps
+var publicWebApp = builder.AddProject<Projects.EShopOnAbp_PublicWeb>("public-web");
 
 builder.Build().Run();
