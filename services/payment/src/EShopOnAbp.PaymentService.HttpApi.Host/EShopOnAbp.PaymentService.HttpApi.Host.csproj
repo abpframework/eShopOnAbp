@@ -10,6 +10,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\aspire\ServiceDefaults\eShopOnAbp.ServiceDefaults.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\EShopOnAbp.PaymentService.HttpApi\EShopOnAbp.PaymentService.HttpApi.csproj" />
     <ProjectReference Include="..\EShopOnAbp.PaymentService.Application\EShopOnAbp.PaymentService.Application.csproj" />
     <ProjectReference Include="..\EShopOnAbp.PaymentService.EntityFrameworkCore\EShopOnAbp.PaymentService.EntityFrameworkCore.csproj" />

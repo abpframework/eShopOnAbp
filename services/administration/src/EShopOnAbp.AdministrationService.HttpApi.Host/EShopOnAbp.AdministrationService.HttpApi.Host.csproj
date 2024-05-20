@@ -17,6 +17,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\aspire\ServiceDefaults\eShopOnAbp.ServiceDefaults.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>    
     <ProjectReference Include="..\EShopOnAbp.AdministrationService.EntityFrameworkCore\EShopOnAbp.AdministrationService.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\EShopOnAbp.AdministrationService.Application\EShopOnAbp.AdministrationService.Application.csproj" />
     <ProjectReference Include="..\EShopOnAbp.AdministrationService.HttpApi\EShopOnAbp.AdministrationService.HttpApi.csproj" />

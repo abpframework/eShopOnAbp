@@ -17,7 +17,6 @@
     },
     "EShopOnAbp.PublicWeb": {
       "commandName": "Project",
-      "dotnetRunMessages": "true",
       "launchBrowser": true,
       "applicationUrl": "https://localhost:44335",
       "environmentVariables": {
