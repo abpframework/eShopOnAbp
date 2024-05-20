@@ -22,7 +22,7 @@ resources:
       type: github
       endpoint: github.com_skoc10
       name: volosoft/devops
-      ref: master
+      ref: eshoponabp-charts
 
 variables:
   dockerRegistryServiceConnection: 'volosoft-reg'
