@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using EShopOnAbp.IdentityService.BackgroundJobs.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
+using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.BackgroundJobs;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Identity;
@@ -22,10 +23,12 @@ public class EShopIdentityUserAppService : IdentityUserAppService
         IIdentityUserRepository userRepository,
         IIdentityRoleRepository roleRepository,
         IOptions<IdentityOptions> identityOptions,
+        IPermissionChecker permissionChecker,
         IBackgroundJobManager backgroundJobManager) : base(userManager,
         userRepository,
         roleRepository,
-        identityOptions)
+        identityOptions,
+        permissionChecker)
     {
         _userRepository = userRepository;
         _roleRepository = roleRepository;
