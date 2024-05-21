@@ -1,7 +1,7 @@
 trigger:
   branches:
     include:
-      - skoc/azure-pipeline
+      - main
   paths:
     include:
       - apps/angular/src/**
@@ -22,7 +22,7 @@ resources:
       type: github
       endpoint: github.com_skoc10
       name: volosoft/devops
-      ref: eshoponabp-charts
+      ref: master
 
 variables:
   dockerRegistryServiceConnection: 'volosoft-reg'
