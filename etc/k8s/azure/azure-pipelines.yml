@@ -69,7 +69,7 @@ stages:
 
 # Angular App
     - task: Docker@2
-      #condition: and(succeeded(), eq(variables['hasChangedAngular'], 'true'))
+      condition: and(succeeded(), eq(variables['hasChangedAngular'], 'true'))
       displayName: 'Build Angular App'
       inputs:
         command: build
@@ -79,7 +79,7 @@ stages:
         tags: |
           $(tag)
     - task: Docker@2
-      #condition: and(succeeded(), eq(variables['hasChangedAngular'], 'true'))
+      condition: and(succeeded(), eq(variables['hasChangedAngular'], 'true'))
       displayName: 'Push Angular App'
       inputs:
         command: push
@@ -88,7 +88,7 @@ stages:
         tags: |
           $(tag)
     - task: HelmDeploy@0
-      #condition: and(succeeded(), eq(variables['hasChangedAngular'], 'true'))
+      condition: and(succeeded(), eq(variables['hasChangedAngular'], 'true'))
       displayName: 'Deploy Angular App'
       inputs:
         connectionType: Kubernetes Service Connection
@@ -104,7 +104,7 @@ stages:
 
 # Public Web
     - task: Docker@2
-      #condition: and(succeeded(), eq(variables['hasChangedPublicWeb'], 'true'))
+      condition: and(succeeded(), eq(variables['hasChangedPublicWeb'], 'true'))
       displayName: 'Build Public Web'
       inputs:
         command: build
@@ -115,7 +115,7 @@ stages:
         tags: |
           $(tag)
     - task: Docker@2
-      #condition: and(succeeded(), eq(variables['hasChangedPublicWeb'], 'true'))
+      condition: and(succeeded(), eq(variables['hasChangedPublicWeb'], 'true'))
       displayName: 'Push Public Web'
       inputs:
         command: push
@@ -124,7 +124,7 @@ stages:
         tags: |
           $(tag)
     - task: HelmDeploy@0
-      #condition: and(succeeded(), eq(variables['hasChangedPublicWeb'], 'true'))
+      condition: and(succeeded(), eq(variables['hasChangedPublicWeb'], 'true'))
       displayName: 'Deploy Public Web'
       inputs:
         connectionType: Kubernetes Service Connection
@@ -140,7 +140,7 @@ stages:
 
 # Web Gateway
     - task: Docker@2
-      #condition: and(succeeded(), eq(variables['hasChangedWebGateway'], 'true'))
+      condition: and(succeeded(), eq(variables['hasChangedWebGateway'], 'true'))
       displayName: 'Build Web Gateway'
       inputs:
         command: build
@@ -151,7 +151,7 @@ stages:
         tags: |
           $(tag)
     - task: Docker@2
-      #condition: and(succeeded(), eq(variables['hasChangedWebGateway'], 'true'))
+      condition: and(succeeded(), eq(variables['hasChangedWebGateway'], 'true'))
       displayName: 'Push Web Gateway'
       inputs:
         command: push
@@ -160,7 +160,7 @@ stages:
         tags: |
           $(tag)
     - task: HelmDeploy@0
-      #condition: and(succeeded(), eq(variables['hasChangedWebGateway'], 'true'))
+      condition: and(succeeded(), eq(variables['hasChangedWebGateway'], 'true'))
       displayName: 'Deploy Web Gateway'
       inputs:
         connectionType: Kubernetes Service Connection
@@ -176,7 +176,7 @@ stages:
 
 # Web Public Gateway
     - task: Docker@2
-      #condition: and(succeeded(), eq(variables['hasChangedWebPublicGateway'], 'true'))
+      condition: and(succeeded(), eq(variables['hasChangedWebPublicGateway'], 'true'))
       displayName: 'Build Web Public Gateway'
       inputs:
         command: build
@@ -187,7 +187,7 @@ stages:
         tags: |
           $(tag)
     - task: Docker@2
-      #condition: and(succeeded(), eq(variables['hasChangedWebPublicGateway'], 'true'))
+      condition: and(succeeded(), eq(variables['hasChangedWebPublicGateway'], 'true'))
       displayName: 'Push Web Public Gateway'
       inputs:
         command: push
@@ -196,7 +196,7 @@ stages:
         tags: |
           $(tag)
     - task: HelmDeploy@0
-      #condition: and(succeeded(), eq(variables['hasChangedWebPublicGateway'], 'true'))
+      condition: and(succeeded(), eq(variables['hasChangedWebPublicGateway'], 'true'))
       displayName: 'Deploy Web Public Gateway'
       inputs:
         connectionType: Kubernetes Service Connection
@@ -212,7 +212,7 @@ stages:
 
 # Administration
     - task: Docker@2
-      #condition: and(succeeded(), eq(variables['hasChangedAdministration'], 'true'))
+      condition: and(succeeded(), eq(variables['hasChangedAdministration'], 'true'))
       displayName: 'Build Administration'
       inputs:
         command: build
@@ -223,7 +223,7 @@ stages:
         tags: |
           $(tag)
     - task: Docker@2
-      #condition: and(succeeded(), eq(variables['hasChangedAdministration'], 'true'))
+      condition: and(succeeded(), eq(variables['hasChangedAdministration'], 'true'))
       displayName: 'Push Administration'
       inputs:
         command: push
@@ -232,7 +232,7 @@ stages:
         tags: |
           $(tag)
     - task: HelmDeploy@0
-      #condition: and(succeeded(), eq(variables['hasChangedAdministration'], 'true'))
+      condition: and(succeeded(), eq(variables['hasChangedAdministration'], 'true'))
       displayName: 'Deploy Administration'
       inputs:
         connectionType: Kubernetes Service Connection
@@ -248,7 +248,7 @@ stages:
 
 # Basket
     - task: Docker@2
-      #condition: and(succeeded(), eq(variables['hasChangedBasket'], 'true'))
+      condition: and(succeeded(), eq(variables['hasChangedBasket'], 'true'))
       displayName: 'Build Basket'
       inputs:
         command: build
@@ -259,7 +259,7 @@ stages:
         tags: |
           $(tag)
     - task: Docker@2
-      #condition: and(succeeded(), eq(variables['hasChangedBasket'], 'true'))
+      condition: and(succeeded(), eq(variables['hasChangedBasket'], 'true'))
       displayName: 'Push Basket'
       inputs:
         command: push
@@ -268,7 +268,7 @@ stages:
         tags: |
           $(tag)
     - task: HelmDeploy@0
-      #condition: and(succeeded(), eq(variables['hasChangedBasket'], 'true'))
+      condition: and(succeeded(), eq(variables['hasChangedBasket'], 'true'))
       displayName: 'Deploy Basket'
       inputs:
         connectionType: Kubernetes Service Connection
@@ -284,7 +284,7 @@ stages:
 
 # Catalog
     - task: Docker@2
-      #condition: and(succeeded(), eq(variables['hasChangedCatalog'], 'true'))
+      condition: and(succeeded(), eq(variables['hasChangedCatalog'], 'true'))
       displayName: 'Build Catalog'
       inputs:
         command: build
@@ -295,7 +295,7 @@ stages:
         tags: |
           $(tag)
     - task: Docker@2
-      #condition: and(succeeded(), eq(variables['hasChangedCatalog'], 'true'))
+      condition: and(succeeded(), eq(variables['hasChangedCatalog'], 'true'))
       displayName: 'Push Catalog'
       inputs:
         command: push
@@ -304,7 +304,7 @@ stages:
         tags: |
           $(tag)
     - task: HelmDeploy@0
-      #condition: and(succeeded(), eq(variables['hasChangedCatalog'], 'true'))
+      condition: and(succeeded(), eq(variables['hasChangedCatalog'], 'true'))
       displayName: 'Deploy Catalog'
       inputs:
         connectionType: Kubernetes Service Connection
@@ -320,7 +320,7 @@ stages:
 
 # cmskit
     - task: Docker@2
-      #condition: and(succeeded(), eq(variables['hasChangedCmsKit'], 'true'))
+      condition: and(succeeded(), eq(variables['hasChangedCmsKit'], 'true'))
       displayName: 'Build CmsKit'
       inputs:
         command: build
@@ -331,7 +331,7 @@ stages:
         tags: |
           $(tag)
     - task: Docker@2
-      #condition: and(succeeded(), eq(variables['hasChangedCmsKit'], 'true'))
+      condition: and(succeeded(), eq(variables['hasChangedCmsKit'], 'true'))
       displayName: 'Push CmsKit'
       inputs:
         command: push
@@ -340,7 +340,7 @@ stages:
         tags: |
           $(tag)
     - task: HelmDeploy@0
-      #condition: and(succeeded(), eq(variables['hasChangedCmsKit'], 'true'))
+      condition: and(succeeded(), eq(variables['hasChangedCmsKit'], 'true'))
       displayName: 'Deploy CmsKit'
       inputs:
         connectionType: Kubernetes Service Connection
@@ -356,7 +356,7 @@ stages:
 
 # Identity
     - task: Docker@2
-      #condition: and(succeeded(), eq(variables['hasChangedIdentity'], 'true'))
+      condition: and(succeeded(), eq(variables['hasChangedIdentity'], 'true'))
       displayName: 'Build Identity'
       inputs:
         command: build
@@ -367,7 +367,7 @@ stages:
         tags: |
           $(tag)
     - task: Docker@2
-      #condition: and(succeeded(), eq(variables['hasChangedIdentity'], 'true'))
+      condition: and(succeeded(), eq(variables['hasChangedIdentity'], 'true'))
       displayName: 'Push Identity'
       inputs:
         command: push
@@ -376,7 +376,7 @@ stages:
         tags: |
           $(tag)
     - task: HelmDeploy@0
-      #condition: and(succeeded(), eq(variables['hasChangedIdentity'], 'true'))
+      condition: and(succeeded(), eq(variables['hasChangedIdentity'], 'true'))
       displayName: 'Deploy Identity'
       inputs:
         connectionType: Kubernetes Service Connection
@@ -392,7 +392,7 @@ stages:
 
 # Ordering
     - task: Docker@2
-      #condition: and(succeeded(), eq(variables['hasChangedOrdering'], 'true'))
+      condition: and(succeeded(), eq(variables['hasChangedOrdering'], 'true'))
       displayName: 'Build Ordering'
       inputs:
         command: build
@@ -403,7 +403,7 @@ stages:
         tags: |
           $(tag)
     - task: Docker@2
-      #condition: and(succeeded(), eq(variables['hasChangedOrdering'], 'true'))
+      condition: and(succeeded(), eq(variables['hasChangedOrdering'], 'true'))
       displayName: 'Push Ordering'
       inputs:
         command: push
@@ -412,7 +412,7 @@ stages:
         tags: |
           $(tag)
     - task: HelmDeploy@0
-      #condition: and(succeeded(), eq(variables['hasChangedOrdering'], 'true'))
+      condition: and(succeeded(), eq(variables['hasChangedOrdering'], 'true'))
       displayName: 'Deploy Ordering'
       inputs:
         connectionType: Kubernetes Service Connection
@@ -428,7 +428,7 @@ stages:
 
 # Payment
     - task: Docker@2
-      #condition: and(succeeded(), eq(variables['hasChangedPayment'], 'true'))
+      condition: and(succeeded(), eq(variables['hasChangedPayment'], 'true'))
       displayName: 'Build Payment'
       inputs:
         command: build
@@ -439,7 +439,7 @@ stages:
         tags: |
           $(tag)
     - task: Docker@2
-      #condition: and(succeeded(), eq(variables['hasChangedPayment'], 'true'))
+      condition: and(succeeded(), eq(variables['hasChangedPayment'], 'true'))
       displayName: 'Push Payment'
       inputs:
         command: push
@@ -448,7 +448,7 @@ stages:
         tags: |
           $(tag)
     - task: HelmDeploy@0
-      #condition: and(succeeded(), eq(variables['hasChangedPayment'], 'true'))
+      condition: and(succeeded(), eq(variables['hasChangedPayment'], 'true'))
       displayName: 'Deploy Payment'
       inputs:
         connectionType: Kubernetes Service Connection
