@@ -1,11 +1,18 @@
 {
-  "$schema": "https://json.schemastore.org/launchsettings.json",
   "profiles": {
+    "HTTP": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "applicationUrl": "http://localhost:5058",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
     "EShopOnAbp.CmskitService": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:44358",
+      "applicationUrl": "http://localhost:5058;https://localhost:44358",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

@@ -1,19 +1,18 @@
 ﻿{
-  "$schema": "https://json.schemastore.org/launchsettings.json",
-  "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true,
-    "iisExpress": {
-      "applicationUrl": "https://localhost:44355",
-      "sslPort": 44353
-    }
-  },
   "profiles": {
+    "HTTP": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "applicationUrl": "http://localhost:5055",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
     "EShopOnAbp.BasketService": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:44355",
+      "applicationUrl": "http://localhost:5055;https://localhost:44355",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

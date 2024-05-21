@@ -1,11 +1,18 @@
 {
-  "$schema": "https://json.schemastore.org/launchsettings.json",
   "profiles": {
+    "HTTP": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "applicationUrl": "http://localhost:5053",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
     "EShopOnAbp.AdministrationService": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:44353",
+      "applicationUrl": "http://localhost:5053;https://localhost:44353",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

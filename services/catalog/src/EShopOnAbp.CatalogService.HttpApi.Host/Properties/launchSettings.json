@@ -1,25 +1,20 @@
 {
-  "$schema": "https://json.schemastore.org/launchsettings.json",
   "profiles": {
+    "HTTP": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "applicationUrl": "http://localhost:5054",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
     "EShopOnAbp.CatalogService": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:44354",
+      "applicationUrl": "http://localhost:5054;https://localhost:44354",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "Kestrel": {
-        "Endpoints": {
-          "Http": {
-            "Url": "http://localhost:5000",
-            "Protocols": "Http1AndHttp2"
-          },
-          "gRPC": {
-            "Url": "http://localhost:81",
-            "Protocols": "Http2"
-          }
-        }
       }
     }
   }
