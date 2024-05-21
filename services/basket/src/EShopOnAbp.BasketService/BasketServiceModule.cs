@@ -156,11 +156,12 @@ public class BasketServiceModule : AbpModule
     {
         context.Services.AddGrpcClient<ProductPublic.ProductPublicClient>((services, options) =>
         {
-            var remoteServiceOptions = services.GetRequiredService<IOptionsMonitor<AbpRemoteServiceOptions>>().CurrentValue;
-            var catalogServiceConfiguration = remoteServiceOptions.RemoteServices.GetConfigurationOrDefault("Catalog");
-            var catalogGrpcUrl = catalogServiceConfiguration.GetOrDefault("GrpcUrl");
-
-            if (catalogGrpcUrl != null) options.Address = new Uri(catalogGrpcUrl);
+            options.Address = new Uri("http://catalogService");
+            // var remoteServiceOptions = services.GetRequiredService<IOptionsMonitor<AbpRemoteServiceOptions>>().CurrentValue;
+            // var catalogServiceConfiguration = remoteServiceOptions.RemoteServices.GetConfigurationOrDefault("Catalog");
+            // var catalogGrpcUrl = catalogServiceConfiguration.GetOrDefault("GrpcUrl");
+            //
+            // if (catalogGrpcUrl != null) options.Address = new Uri(catalogGrpcUrl);
         });
     }
 

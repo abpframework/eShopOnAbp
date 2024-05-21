@@ -7,12 +7,16 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Serilog.AspNetCore" Version="5.0.0" />
+        <PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
         <PackageReference Include="Volo.Abp.AspNetCore.Serilog" Version="8.0.0" />
         <PackageReference Include="Volo.Abp.Swashbuckle" Version="8.0.0" />
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\aspire\ServiceDefaults\eShopOnAbp.ServiceDefaults.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>        
         <ProjectReference Include="..\EShopOnAbp.Shared.Hosting\EShopOnAbp.Shared.Hosting.csproj" />
         <ProjectReference Include="..\EShopOnAbp.Shared.Localization\EShopOnAbp.Shared.Localization.csproj" />
     </ItemGroup>
