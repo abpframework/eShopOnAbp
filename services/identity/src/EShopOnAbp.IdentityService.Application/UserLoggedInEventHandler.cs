@@ -1,8 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using EShopOnAbp.IdentityService.ETOs;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Volo.Abp;
 using Volo.Abp.DependencyInjection;
+using Volo.Abp.Domain.Repositories;
 using Volo.Abp.EventBus.Distributed;
 using Volo.Abp.Identity;
 using Volo.Abp.Uow;
@@ -13,16 +16,22 @@ public class UserLoggedInEventHandler : IDistributedEventHandler<UserLoggedInEto
 {
     private readonly IdentityUserManager _userManager;
     private readonly ILogger<UserLoggedInEventHandler> _logger;
+    private readonly IIdentityUserRepository _identityUserRepository;
+    private readonly ILookupNormalizer _lookupNormalizer;
 
-    public UserLoggedInEventHandler(IdentityUserManager userManager, ILogger<UserLoggedInEventHandler> logger)
+    public UserLoggedInEventHandler(IdentityUserManager userManager, 
+        ILogger<UserLoggedInEventHandler> logger,
+        IIdentityUserRepository identityUserRepository,
+        ILookupNormalizer lookupNormalizer)
     {
         _userManager = userManager;
         _logger = logger;
+        _identityUserRepository = identityUserRepository;
+        _lookupNormalizer = lookupNormalizer;
     }
-
-
+    
     [UnitOfWork]
-    public async virtual Task HandleEventAsync(UserLoggedInEto eventData)
+    public virtual async Task HandleEventAsync(UserLoggedInEto eventData)
     {
         if (eventData == null)
         {
@@ -59,8 +68,15 @@ public class UserLoggedInEventHandler : IDistributedEventHandler<UserLoggedInEto
         // This should run once to sync the admin userIds that seeded by IdentityModule and the Keycloak admin
         if (userInfo.UserName == "admin")
         {
-            var adminUser = await _userManager.FindByNameAsync("admin");
-            await _userManager.DeleteAsync(adminUser);
+            var normalizedName = _lookupNormalizer.NormalizeName(userInfo.UserName);
+            var adminUser = await _identityUserRepository.FindByNormalizedUserNameAsync(normalizedName);
+            foreach (var role in adminUser.Roles.ToList())
+            {
+                user.AddRole(role.RoleId);
+            }
+
+            // Hard delete the admin-user
+            await _identityUserRepository.HardDeleteAsync(adminUser, true);
         }
 
         var result = await _userManager.CreateAsync(user);
