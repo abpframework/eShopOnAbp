@@ -6,18 +6,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.5">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\EShopOnAbp.AdministrationService.Domain\EShopOnAbp.AdministrationService.Domain.csproj" />
-    <PackageReference Include="Volo.Abp.EntityFrameworkCore.PostgreSql" Version="8.0.0" />
-    <PackageReference Include="Volo.Abp.PermissionManagement.EntityFrameworkCore" Version="8.0.0" />
-    <PackageReference Include="Volo.Abp.SettingManagement.EntityFrameworkCore" Version="8.0.0" />
-    <PackageReference Include="Volo.Abp.AuditLogging.EntityFrameworkCore" Version="8.0.0" />
-    <PackageReference Include="Volo.Abp.BlobStoring.Database.EntityFrameworkCore" Version="8.0.0" />
+    <PackageReference Include="Volo.Abp.EntityFrameworkCore.PostgreSql" Version="8.1.3" />
+    <PackageReference Include="Volo.Abp.PermissionManagement.EntityFrameworkCore" Version="8.1.3" />
+    <PackageReference Include="Volo.Abp.SettingManagement.EntityFrameworkCore" Version="8.1.3" />
+    <PackageReference Include="Volo.Abp.AuditLogging.EntityFrameworkCore" Version="8.1.3" />
+    <PackageReference Include="Volo.Abp.BlobStoring.Database.EntityFrameworkCore" Version="8.1.3" />
   </ItemGroup>
 
 </Project>
