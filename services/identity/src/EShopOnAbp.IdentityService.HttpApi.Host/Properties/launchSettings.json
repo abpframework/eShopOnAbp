@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "HTTP": {
+    "http": {
       "commandName": "Project",
       "launchBrowser": true,
       "applicationUrl": "http://localhost:5051",
@@ -8,7 +8,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "EShopOnAbp.IdentityService": {
+    "https": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
