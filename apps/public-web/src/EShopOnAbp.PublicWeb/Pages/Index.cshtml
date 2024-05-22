@@ -2,12 +2,8 @@
 @using EShopOnAbp.Localization
 @using Microsoft.Extensions.Localization
 @using System.Globalization
-@using Microsoft.Extensions.Options
-@using Volo.Abp.Http.Client
-@using Volo.CmsKit.Public.Web.Pages.CmsKit.Shared.Components.Rating
 @model EShopOnAbp.PublicWeb.Pages.IndexModel
 @inject IStringLocalizer<EShopOnAbpResource> L
-@inject IOptions<AbpRemoteServiceOptions> options
 
 @{
     string pageHeader = L["OurProducts"];
@@ -34,7 +30,7 @@
             @foreach (var product in Model.Products)
             {
                 var productPrice = product.Price.ToString("C", new CultureInfo("en-US"));
-                string productImage = !product.ImageName.IsNullOrEmpty() ? $"{options.Value.RemoteServices.Default.BaseUrl}product-images/{product.ImageName}" : $"{options.Value.RemoteServices.Default.BaseUrl}product-images/@product.ImageName";
+                string productImage = !product.ImageName.IsNullOrEmpty() ? $"product-images/{product.ImageName}" : $"product-images/@product.ImageName";
                 string buyText = L["Index:AddToBasket"];
                 <div class="product-container">
                     <div class="product-list-item" data-product-id="@product.Id.ToString()">

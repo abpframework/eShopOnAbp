@@ -10,7 +10,7 @@
     <PackageReference Include="Volo.Abp.AutoMapper" Version="8.1.3" />
     <PackageReference Include="Volo.CmsKit.Public.Web" Version="8.1.3" />
     <PackageReference Include="Yarp.ReverseProxy" Version="2.1.0" />
-    <PackageReference Include="Microsoft.Extensions.ServiceDiscovery.Yarp" />
+    <PackageReference Include="Microsoft.Extensions.ServiceDiscovery.Yarp" Version="8.0.1" />
   </ItemGroup>
 
   <ItemGroup>

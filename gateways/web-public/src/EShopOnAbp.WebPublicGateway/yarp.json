@@ -64,13 +64,6 @@
           { "PathRemovePrefix": "/swagger-json/Catalog" }
         ]
       },
-      "ProductPictures": {
-        "ClusterId": "catalogCluster",
-        "Match": {
-          "Path": "/product-images/{**everything}",
-          "Methods": [ "GET" ]
-        }
-      },
       "Basket Service": {
         "ClusterId": "Basket",
         "Match": {

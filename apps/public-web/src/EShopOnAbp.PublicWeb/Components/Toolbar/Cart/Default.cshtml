@@ -38,7 +38,7 @@
 				{
 					foreach (var item in Model.Items)
 					{
-						string imageName = item.ImageName.IsNullOrEmpty() ? $"{options.Value.RemoteServices.Default.BaseUrl}product-images/noimage.jpg" : $"{options.Value.RemoteServices.Default.BaseUrl}product-images/{item.ImageName}";
+						string imageName = item.ImageName.IsNullOrEmpty() ? $"product-images/noimage.jpg" : $"product-images/{item.ImageName}";
 						var price = item.TotalPrice.ToString("0.00");
 						<div class="dropdown-item">
 
