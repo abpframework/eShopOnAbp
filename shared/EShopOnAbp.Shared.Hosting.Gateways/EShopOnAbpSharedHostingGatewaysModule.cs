@@ -13,15 +13,7 @@ namespace EShopOnAbp.Shared.Hosting.Gateways
         {
             var configuration = context.Services.GetConfiguration();
 
-            context.Services.AddServiceDiscovery();
-            context.Services.ConfigureHttpClientDefaults(http =>
-            {
-                // Turn on resilience by default
-                http.AddStandardResilienceHandler();
-
-                // Turn on service discovery by default
-                http.AddServiceDiscovery();
-            });
+            context.Services.AddHttpForwarderWithServiceDiscovery();
             
             context.Services.AddReverseProxy()
                 .LoadFromConfig(configuration.GetSection("ReverseProxy"))

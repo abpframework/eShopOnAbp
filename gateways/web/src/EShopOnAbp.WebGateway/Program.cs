@@ -26,6 +26,8 @@ public class Program
                 .UseAutofac()
                 .UseSerilog();
 
+            builder.AddServiceDefaults();
+
             await builder.AddApplicationAsync<EShopOnAbpWebGatewayModule>();
             var app = builder.Build();
             await app.InitializeApplicationAsync();

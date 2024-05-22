@@ -22,10 +22,11 @@ public class Program
             
             var builder = WebApplication.CreateBuilder(args);
             builder.Host
-                .AddAppSettingsSecretsJson()
                 .AddYarpJson()
                 .UseAutofac()
                 .UseSerilog();
+            
+            builder.AddServiceDefaults();
 
             await builder.AddApplicationAsync<EShopOnAbpWebPublicGatewayModule>();
             var app = builder.Build();
@@ -41,7 +42,7 @@ public class Program
         }
         finally
         {
-            Log.CloseAndFlush();
+            await Log.CloseAndFlushAsync();
         }
     }
 }

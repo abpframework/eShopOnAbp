@@ -113,6 +113,8 @@ public class EShopOnAbpPublicWebModule : AbpModule
     {
         Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
         var configuration = context.Services.GetConfiguration();
+        
+        context.Services.AddHttpForwarderWithServiceDiscovery();
 
         ConfigureBasketHttpClient(context);
 
