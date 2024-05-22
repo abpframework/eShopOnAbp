@@ -12,10 +12,16 @@ public class Program
         SerilogConfigurationHelper.Configure(assemblyName);
 
         try
-        {
-            Log.Information($"Starting {assemblyName}.");
-            var app = await ApplicationBuilderHelper
-                .BuildApplicationAsync<BasketServiceModule>(args);
+        {Log.Information($"Starting {assemblyName}.");
+            var builder = WebApplication.CreateBuilder(args);
+            builder.Host
+                .UseAutofac()
+                .UseSerilog();
+            
+            builder.AddServiceDefaults();
+
+            await builder.AddApplicationAsync<BasketServiceModule>();
+            var app = builder.Build();
             await app.InitializeApplicationAsync();
             await app.RunAsync();
 
@@ -28,7 +34,7 @@ public class Program
         }
         finally
         {
-            Log.CloseAndFlush();
+            await Log.CloseAndFlushAsync();
         }
     }
 }
