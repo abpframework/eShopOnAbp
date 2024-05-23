@@ -16,7 +16,7 @@ var catalogService = builder.AddProject<Projects.EShopOnAbp_CatalogService_HttpA
         endpointName: "grpc",
         callback: static endpoint =>
         {
-            endpoint.Port = 81;
+            endpoint.Port = 8181;
             endpoint.UriScheme = "http";
             endpoint.Transport = "http2";
             endpoint.IsProxied = false;
