@@ -5,7 +5,6 @@ using EShopOnAbp.Localization;
 using EShopOnAbp.OrderingService;
 using EShopOnAbp.PaymentService;
 using EShopOnAbp.PaymentService.PaymentMethods;
-using EShopOnAbp.PublicWeb.AnonymousUser;
 using EShopOnAbp.PublicWeb.Components.Toolbar.Cart;
 using EShopOnAbp.PublicWeb.Menus;
 using EShopOnAbp.PublicWeb.PaymentMethods;
@@ -22,7 +21,6 @@ using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Polly;
 using StackExchange.Redis;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Security.Claims;
@@ -56,7 +54,6 @@ using Volo.Abp.Ui.LayoutHooks;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.VirtualFileSystem;
-using Volo.CmsKit;
 using Volo.CmsKit.Public.Web;
 using Yarp.ReverseProxy.Transforms;
 
@@ -113,6 +110,8 @@ public class EShopOnAbpPublicWebModule : AbpModule
     {
         Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
         var configuration = context.Services.GetConfiguration();
+        
+        context.Services.AddHttpForwarderWithServiceDiscovery();
 
         ConfigureBasketHttpClient(context);
 
@@ -312,15 +311,14 @@ public class EShopOnAbpPublicWebModule : AbpModule
         app.UseCorrelationId();
         app.UseStaticFiles();
         app.UseRouting();
-        // app.UseHttpMetrics();
         app.UseAuthentication();
         app.UseAbpSerilogEnrichers();
         app.UseAuthorization();
-        // app.UseAnonymousUser();
         app.UseConfiguredEndpoints(endpoints =>
         {
             endpoints.MapReverseProxy();
-            // endpoints.MapMetrics();
+            endpoints.MapForwarder("*/product-images/{name}", "http://_http.catalogService/product-images", "/{name}");
+            endpoints.MapForwarder("/products/product-images/{name}", "http://_http.catalogService/product-images", "/{name}");
         });
     }
 

@@ -64,13 +64,6 @@
           { "PathRemovePrefix": "/swagger-json/Catalog" }
         ]
       },
-      "ProductPictures": {
-        "ClusterId": "catalogCluster",
-        "Match": {
-          "Path": "/product-images/{**everything}",
-          "Methods": [ "GET" ]
-        }
-      },
       "Basket Service": {
         "ClusterId": "Basket",
         "Match": {
@@ -101,10 +94,16 @@
           { "PathRemovePrefix": "/swagger-json/Ordering" }
         ]
       },
-      "Cmskit Service": {
+      "Cmskit Public Service": {
         "ClusterId": "CmsKit",
         "Match": {
-          "Path": "/api/cmskit/{**everything}"
+          "Path": "/api/cms-kit-public/{**everything}"
+        }
+      },
+      "Cmskit Admin Service": {
+        "ClusterId": "CmsKit",
+        "Match": {
+          "Path": "/api/cms-kit-admin/{**everything}"
         }
       },
       "Cmskit Service Swagger": {
@@ -136,7 +135,7 @@
       "Identity": {
         "Destinations": {
           "destination1": {
-            "Address": "https://localhost:44351",
+            "Address": "http://identityService",
             "MetaData": {
               "PublicAddress": "https://identity.eshoponabp.dev"
             }
@@ -146,7 +145,7 @@
       "Administration": {
         "Destinations": {
           "destination1": {
-            "Address": "https://localhost:44353",
+            "Address": "http://administrationService",
             "MetaData": {
               "PublicAddress": "https://admininstration.eshop.dev"
             }
@@ -156,9 +155,9 @@
       "catalogCluster": {
         "Destinations": {
           "destination1": {
-            "Address": "https://localhost:44354",
+            "Address": "http://catalogService",
             "MetaData": {
-              "PublicAddress": "https://admininstration.eshoponabp.dev"
+              "PublicAddress": "https://catalog.eshoponabp.dev"
             }
           }
         }
@@ -166,7 +165,7 @@
       "Basket": {
         "Destinations": {
           "destination1": {
-            "Address": "https://localhost:44355",
+            "Address": "http://basketService",
             "MetaData": {
               "PublicAddress": "https://basket.eshoponabp.dev"
             }
@@ -176,7 +175,7 @@
       "Ordering": {
         "Destinations": {
           "destination1": {
-            "Address": "https://localhost:44356",
+            "Address": "http://orderingService",
             "MetaData": {
               "PublicAddress": "https://ordering.eshoponabp.dev"
             }
@@ -186,7 +185,7 @@
       "CmsKit": {
         "Destinations": {
           "destination1": {
-            "Address": "https://localhost:44358",
+            "Address": "http://cmsKitService",
             "MetaData": {
               "PublicAddress": "https://cmskit.eshoponabp.dev"
             }
@@ -196,7 +195,7 @@
       "Payment": {
         "Destinations": {
           "destination1": {
-            "Address": "https://localhost:44357",
+            "Address": "http://paymentService",
             "MetaData": {
               "PublicAddress": "https://payment.eshoponabp.dev"
             }

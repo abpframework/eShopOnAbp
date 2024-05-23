@@ -2,6 +2,10 @@
 using System.Threading.Tasks;
 using EShopOnAbp.Shared.Hosting.AspNetCore;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Serilog;
 
 namespace EShopOnAbp.CatalogService;
@@ -17,8 +21,26 @@ public class Program
         try
         {
             Log.Information($"Starting {assemblyName}.");
+            var builder = WebApplication.CreateBuilder(args);
+            builder.Host
+                .UseAutofac()
+                .UseSerilog();
+            
+            builder.AddServiceDefaults();
+            builder.WebHost.ConfigureKestrel(options =>
+            {
+                options.ListenAnyIP(5054, listenOptions =>
+                {
+                    listenOptions.Protocols = HttpProtocols.Http1AndHttp2;
+                });
+                options.ListenAnyIP(8181, listenOptions =>
+                {
+                    listenOptions.Protocols = HttpProtocols.Http2;
+                });
+            });
 
-            var app = await ApplicationBuilderHelper.BuildApplicationAsync<CatalogServiceHttpApiHostModule>(args);
+            await builder.AddApplicationAsync<CatalogServiceHttpApiHostModule>();
+            var app = builder.Build();
             await app.InitializeApplicationAsync();
             await app.RunAsync();
 
@@ -31,7 +53,7 @@ public class Program
         }
         finally
         {
-            Log.CloseAndFlush();
+            await Log.CloseAndFlushAsync();
         }
     }
 }

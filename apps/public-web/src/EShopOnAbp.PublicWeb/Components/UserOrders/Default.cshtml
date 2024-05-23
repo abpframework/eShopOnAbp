@@ -56,7 +56,7 @@
                             <abp-column size="_2">
                                 <a href="/products/@item.ProductId.ToString()">
                                     @{
-                                        string imageUrl = $"{options.Value.RemoteServices.Default.BaseUrl}product-images/{item.PictureUrl}";
+                                        string imageUrl = $"product-images/{item.PictureUrl}";
                                         <img class="img-size" src="@imageUrl" />
                                     }
                                 </a>

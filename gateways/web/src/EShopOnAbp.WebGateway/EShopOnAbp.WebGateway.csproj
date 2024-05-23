@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\aspire\ServiceDefaults\eShopOnAbp.ServiceDefaults.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>    
     <ProjectReference Include="..\..\..\..\shared\EShopOnAbp.Shared.Hosting.Gateways\EShopOnAbp.Shared.Hosting.Gateways.csproj" />
   </ItemGroup>
 

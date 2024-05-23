@@ -2,6 +2,8 @@ using System;
 using System.Threading.Tasks;
 using EShopOnAbp.Shared.Hosting.AspNetCore;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Serilog;
 
 namespace EShopOnAbp.PublicWeb;
@@ -17,7 +19,15 @@ public class Program
         try
         {
             Log.Information($"Starting {assemblyName}.");
-            var app = await ApplicationBuilderHelper.BuildApplicationAsync<EShopOnAbpPublicWebModule>(args);
+            var builder = WebApplication.CreateBuilder(args);
+            builder.Host
+                .UseAutofac()
+                .UseSerilog();
+            
+            builder.AddServiceDefaults();
+
+            await builder.AddApplicationAsync<EShopOnAbpPublicWebModule>();
+            var app = builder.Build();
             await app.InitializeApplicationAsync();
             await app.RunAsync();
 
@@ -30,7 +40,7 @@ public class Program
         }
         finally
         {
-            Log.CloseAndFlush();
+            await Log.CloseAndFlushAsync();
         }
     }
 }

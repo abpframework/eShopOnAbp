@@ -2,15 +2,12 @@
 @using EShopOnAbp.Localization
 @using Microsoft.Extensions.Localization
 @using System.Globalization
-@using Microsoft.Extensions.Options
 @using Volo.Abp.GlobalFeatures
-@using Volo.Abp.Http.Client
 @using Volo.CmsKit.GlobalFeatures
 @using Volo.CmsKit.Public.Web.Pages.CmsKit.Shared.Components.Commenting
 @using Volo.CmsKit.Public.Web.Pages.CmsKit.Shared.Components.Rating
 
 @inject IStringLocalizer<EShopOnAbpResource> L
-@inject IOptions<AbpRemoteServiceOptions> options
 
 @model EShopOnAbp.PublicWeb.Pages.ProductDetailModel
 
@@ -32,7 +29,7 @@
                 @{
                     var product = Model.Product;
                     var productPrice = product.Price.ToString("C", new CultureInfo("en-US"));
-                    string productImage = !product.ImageName.IsNullOrEmpty() ? $"{options.Value.RemoteServices.Default.BaseUrl}product-images/{product.ImageName}" : $"{options.Value.RemoteServices.Default.BaseUrl}product-images/@product.ImageName";
+                    string productImage = !product.ImageName.IsNullOrEmpty() ? $"product-images/{product.ImageName}" : $"product-images/@product.ImageName";
                     string buyText = L["Index:AddToBasket"];
                     <div class="product-list-item" data-product-id="@product.Id.ToString()">
                         <a href="/products/@product.Id.ToString()">
@@ -74,14 +71,14 @@
                 <abp-column size-md="_6">
                     @if (GlobalFeatureManager.Instance.IsEnabled<RatingsFeature>() && Model.IsPurschased)
                     {
-                        @await Component.InvokeAsync(typeof(RatingViewComponent), new { entityType = "quote", entityId = @product.Id.ToString() })
+                        @await Component.InvokeAsync(typeof(RatingViewComponent), new { entityType = "quote", entityId = @product.Id.ToString(), isReadOnly = false })
                     }
                 </abp-column>
                 <abp-column size-md="_12">
                     @* Need read-only commenting system *@
                     @if (GlobalFeatureManager.Instance.IsEnabled<CommentsFeature>() && Model.IsPurschased)
                     {
-                        @await Component.InvokeAsync(typeof(CommentingViewComponent), new { entityType = "quote", entityId = @product.Id.ToString() })
+                        @await Component.InvokeAsync(typeof(CommentingViewComponent), new { entityType = "quote", entityId = @product.Id.ToString(), isReadOnly = true })
                     }
                 </abp-column>
             </abp-row>

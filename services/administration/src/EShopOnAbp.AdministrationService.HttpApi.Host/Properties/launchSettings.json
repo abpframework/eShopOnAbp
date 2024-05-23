@@ -1,24 +1,18 @@
 {
-  "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true,
-    "iisExpress": {
-      "applicationUrl": "https://localhost:44353",
-      "sslPort": 44353
-    }
-  },
   "profiles": {
-    "IIS Express": {
-      "commandName": "IISExpress",
+    "http": {
+      "commandName": "Project",
       "launchBrowser": true,
+      "applicationUrl": "http://localhost:5053",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "EShopOnAbp.AdministrationService.HttpApi.Host": {
+    "https": {
       "commandName": "Project",
+      "dotnetRunMessages": true,
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:44353",
+      "applicationUrl": "http://localhost:5053;https://localhost:44353",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

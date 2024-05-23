@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsAspireHost>true</IsAspireHost>
+    <UserSecretsId>40d1d3f9-6593-4f5a-9d74-ff6ea82eb14e</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.AppHost" Version="8.0.0-preview.7.24251.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\apps\public-web\src\EShopOnAbp.PublicWeb\EShopOnAbp.PublicWeb.csproj" />
+    <ProjectReference Include="..\..\gateways\web-public\src\EShopOnAbp.WebPublicGateway\EShopOnAbp.WebPublicGateway.csproj" />
+    <ProjectReference Include="..\..\gateways\web\src\EShopOnAbp.WebGateway\EShopOnAbp.WebGateway.csproj" />
+    <ProjectReference Include="..\..\services\administration\src\EShopOnAbp.AdministrationService.HttpApi.Host\EShopOnAbp.AdministrationService.HttpApi.Host.csproj" />
+    <ProjectReference Include="..\..\services\basket\src\EShopOnAbp.BasketService\EShopOnAbp.BasketService.csproj" />
+    <ProjectReference Include="..\..\services\catalog\src\EShopOnAbp.CatalogService.HttpApi.Host\EShopOnAbp.CatalogService.HttpApi.Host.csproj" />
+    <ProjectReference Include="..\..\services\cmskit\src\EShopOnAbp.CmskitService.HttpApi.Host\EShopOnAbp.CmskitService.HttpApi.Host.csproj" />
+    <ProjectReference Include="..\..\services\identity\src\EShopOnAbp.IdentityService.HttpApi.Host\EShopOnAbp.IdentityService.HttpApi.Host.csproj" />
+    <ProjectReference Include="..\..\services\ordering\src\EShopOnAbp.OrderingService.HttpApi.Host\EShopOnAbp.OrderingService.HttpApi.Host.csproj" />
+    <ProjectReference Include="..\..\services\payment\src\EShopOnAbp.PaymentService.HttpApi.Host\EShopOnAbp.PaymentService.HttpApi.Host.csproj" />
+    <ProjectReference Include="..\..\shared\EShopOnAbp.Keycloak.DbMigrator\EShopOnAbp.Keycloak.DbMigrator.csproj" />
+  </ItemGroup>
+
+</Project>

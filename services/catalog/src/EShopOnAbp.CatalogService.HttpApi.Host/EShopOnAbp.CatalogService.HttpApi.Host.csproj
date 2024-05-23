@@ -10,6 +10,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\aspire\ServiceDefaults\eShopOnAbp.ServiceDefaults.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\EShopOnAbp.CatalogService.Application\EShopOnAbp.CatalogService.Application.csproj" />
     <ProjectReference Include="..\EShopOnAbp.CatalogService.MongoDB\EShopOnAbp.CatalogService.MongoDB.csproj" />
     <ProjectReference Include="..\EShopOnAbp.CatalogService.HttpApi\EShopOnAbp.CatalogService.HttpApi.csproj" />
@@ -20,7 +24,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="Grpc.AspNetCore.Server" Version="2.42.0" />
+    <PackageReference Include="Grpc.AspNetCore.Server" Version="2.62.0" />
   </ItemGroup>
 
   <ItemGroup>
