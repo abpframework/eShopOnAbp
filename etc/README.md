@@ -22,7 +22,7 @@ helm upgrade --install --version=4.0.19 ingress-nginx ingress-nginx/ingress-ngin
 ````powershell
 127.0.0.1 eshop-st-web
 127.0.0.1 eshop-st-public-web
-127.0.0.1 eshop-st-authserver
+127.0.0.1 eshop-st-account
 127.0.0.1 eshop-st-identity
 127.0.0.1 eshop-st-administration
 127.0.0.1 eshop-st-basket
