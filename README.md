@@ -16,16 +16,19 @@ You can run it in Visual Studio or use [Microsoft Tye](https://github.com/dotnet
 
  ### Requirements
 
-- .NET 7.0+
+- .NET 6.0 Runtime (required for TYE)
+- .NET 8.0 SDK
 - Docker
-- Yarn
+- Yarn v1.20+(not v2) or npm v6+ (already installed with Node)
 
 ### Instructions
 
 - Clone the repository ( [eShopOnAbp](https://github.com/abpframework/eShopOnAbp) )
 
 - Install Tye (*follow [these steps](https://github.com/dotnet/tye/blob/main/docs/getting_started.md#installing-tye)*)
-
+    ```bash
+    dotnet tool update --global Microsoft.Tye --prerelease
+    ```
 - Rename `.env.example` file to `.env` file and provide PayPal ClientID and Secret.
 
 - Execute `run-tye.ps1`
