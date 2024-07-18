@@ -158,4 +158,29 @@ public class KeycloakService : IKeycloakService
 
         return result;
     }
+
+    public async Task<bool> SetNewPassword(string username, string newPassword, CancellationToken cancellationToken = default)
+    {
+        var users = await _keycloakClient.GetUsersAsync(_keycloakOptions.RealmName, username: username, cancellationToken: cancellationToken);
+
+        if (!users.Any()) return false;
+
+        var user = users.First();
+
+        var newCredentials = new Credentials
+        {
+            Type = "password",
+            Value = newPassword,
+            Temporary = false
+        };
+
+        var isSuccessReset = await _keycloakClient.ResetUserPasswordAsync(
+            realm: _keycloakOptions.RealmName,
+            userId: user.Id,
+            credentials: newCredentials,
+            cancellationToken: cancellationToken
+        );
+
+        return isSuccessReset;
+    }
 }

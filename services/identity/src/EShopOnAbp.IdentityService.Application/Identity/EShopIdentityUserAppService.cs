@@ -73,7 +73,7 @@ public class EShopIdentityUserAppService : IdentityUserAppService
     {
         var userRoles = existingUser.Roles.Select(q => q.RoleId).ToList();
         var roles = await _roleRepository.GetListAsync();
-        
+
         var args = new IdentityUserUpdatingArgs
         {
             Email = input.Email,
@@ -87,7 +87,8 @@ public class EShopIdentityUserAppService : IdentityUserAppService
             IsActive = input.IsActive,
             OldIsActive = existingUser.IsActive,
             RoleNames = input.RoleNames,
-            OldRoleNames = roles.Where(q => userRoles.Contains(q.Id)).Select(q => q.Name).ToArray()
+            OldRoleNames = roles.Where(q => userRoles.Contains(q.Id)).Select(q => q.Name).ToArray(),
+            Password = input.Password
         };
 
         return args;

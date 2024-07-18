@@ -92,6 +92,11 @@ public class KeycloakUserUpdatingJob : AsyncBackgroundJob<IdentityUserUpdatingAr
                     _logger.LogInformation($"Keycloak user with the username:{args.UserName} has been updated.");
                 }
             }
+
+            if (!args.Password.IsNullOrEmpty() && keycloakUser != null)
+            {
+                await _keycloakService.SetNewPassword(keycloakUser.UserName, args.Password);
+            }
         }
         catch (Exception e)
         {
@@ -116,6 +121,7 @@ public class IdentityUserUpdatingArgs
     public bool OldIsActive { get; init; }
     public string[] RoleNames { get; init; }
     public string[] OldRoleNames { get; init; }
+    public string Password { get; init; }
 
     public IEnumerable<FieldChange> GetDifferentFields()
     {

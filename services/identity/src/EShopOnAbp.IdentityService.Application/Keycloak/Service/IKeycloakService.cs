@@ -33,4 +33,6 @@ public interface IKeycloakService : ITransientDependency
     Task<bool> DeleteRoleByIdAsync(string id, CancellationToken cancellationToken = default);
     
     Task<bool> UpdateRoleAsync(string id, Role role, CancellationToken cancellationToken = default);
+
+    Task<bool> SetNewPassword(string username, string newPassword, CancellationToken cancellationToken = default);
 }
