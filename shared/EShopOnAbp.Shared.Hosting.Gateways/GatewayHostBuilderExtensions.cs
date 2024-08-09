@@ -12,10 +12,12 @@ public static class AbpHostingHostBuilderExtensions
         bool reloadOnChange = true,
         string path = AppYarpJsonPath)
     {
-        return hostBuilder.ConfigureAppConfiguration((_, builder) =>
+        return hostBuilder.ConfigureAppConfiguration((context, builder) =>
         {
+            string environmentName = context.HostingEnvironment.EnvironmentName;
+            string yarpJsonPath = environmentName == "Tye" ? "yarp.Tye.json" : AppYarpJsonPath;
             builder.AddJsonFile(
-                    path: AppYarpJsonPath,
+                    path: yarpJsonPath,
                     optional: optional,
                     reloadOnChange: reloadOnChange
                 )

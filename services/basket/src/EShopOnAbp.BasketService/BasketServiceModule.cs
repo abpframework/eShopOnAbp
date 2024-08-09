@@ -2,8 +2,10 @@
 using EShopOnAbp.CatalogService.Grpc;
 using EShopOnAbp.Shared.Hosting.AspNetCore;
 using EShopOnAbp.Shared.Hosting.Microservices;
+using Grpc.Net.ClientFactory;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Polly;
 using Volo.Abp;
@@ -56,7 +58,7 @@ public class BasketServiceModule : AbpModule
 
         ConfigureAutoMapper();
         ConfigureAspNetCoreRouting();
-        ConfigureGrpc(context);
+        ConfigureGrpc(context,configuration);
         ConfigureDistributedCache();
         ConfigureVirtualFileSystem();
         ConfigureAuthentication(context, configuration);
@@ -152,12 +154,12 @@ public class BasketServiceModule : AbpModule
         });
     }
 
-    private void ConfigureGrpc(ServiceConfigurationContext context)
+    private void ConfigureGrpc(ServiceConfigurationContext context, IConfiguration configuration)
     {
-        // context.Services.AddHttpForwarderWithServiceDiscovery();
+       
         context.Services.AddGrpcClient<ProductPublic.ProductPublicClient>((services, options) =>
         {
-            options.Address = new Uri("http://_grpc.catalogService");
+            options.Address = new Uri(configuration.GetRequiredSection("GrpcService:Address").Value);
         });
     }
 
