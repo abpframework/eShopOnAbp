@@ -18,12 +18,12 @@ namespace EShopOnAbp.AdministrationService
         {
             Configure<AbpLocalizationOptions>(options =>
             {
-                options.Languages.Add(new LanguageInfo("en", "en", "English", "gb"));
-                options.Languages.Add(new LanguageInfo("tr", "tr", "Türkçe", "tr"));
-                options.Languages.Add(new LanguageInfo("sl", "sl", "Slovenščina", "si"));
-                options.Languages.Add(new LanguageInfo("zh-Hans", "zh-Hans", "简体中文", "cn"));
-                options.Languages.Add(new LanguageInfo("de-DE", "de-DE", "Deutsche", "de"));
-                options.Languages.Add(new LanguageInfo("es", "es", "Español", "es"));
+                options.Languages.Add(new LanguageInfo("en", "en", "English"));
+                options.Languages.Add(new LanguageInfo("tr", "tr", "Türkçe"));
+                options.Languages.Add(new LanguageInfo("sl", "sl", "Slovenščina"));
+                options.Languages.Add(new LanguageInfo("zh-Hans", "zh-Hans", "简体中文"));
+                options.Languages.Add(new LanguageInfo("de-DE", "de-DE", "Deutsche"));
+                options.Languages.Add(new LanguageInfo("es", "es", "Español"));
             });
         }
     }

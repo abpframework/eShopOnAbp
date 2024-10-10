@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@abp/aspnetcore.mvc.ui.theme.leptonxlite": "~3.0.0",
-    "@abp/signalr": "^8.1.3",
-    "@abp/cms-kit": "^8.1.3"
+    "@abp/signalr": "^8.3.1",
+    "@abp/cms-kit": "^8.3.1"
   }
 }

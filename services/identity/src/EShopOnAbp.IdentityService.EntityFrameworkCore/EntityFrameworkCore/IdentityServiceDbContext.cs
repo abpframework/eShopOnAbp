@@ -26,6 +26,8 @@ namespace EShopOnAbp.IdentityService.EntityFrameworkCore
         public DbSet<IdentityLinkUser> LinkUsers { get; set; }
         public DbSet<IdentityUserDelegation> UserDelegations { get; }
 
+        public DbSet<IdentitySession> Sessions { get; set; }
+
         public IdentityServiceDbContext(DbContextOptions<IdentityServiceDbContext> options)
             : base(options)
         {
