@@ -30,7 +30,7 @@
             @foreach (var product in Model.Products)
             {
                 var productPrice = product.Price.ToString("C", new CultureInfo("en-US"));
-                string productImage = !product.ImageName.IsNullOrEmpty() ? $"product-images/{product.ImageName}" : $"product-images/@product.ImageName";
+                string productImage = !product.ImageName.IsNullOrEmpty() ? $"products/product-images/{product.ImageName}" : $"products/product-images/@product.ImageName";
                 string buyText = L["Index:AddToBasket"];
                 <div class="product-container">
                     <div class="product-list-item" data-product-id="@product.Id.ToString()">

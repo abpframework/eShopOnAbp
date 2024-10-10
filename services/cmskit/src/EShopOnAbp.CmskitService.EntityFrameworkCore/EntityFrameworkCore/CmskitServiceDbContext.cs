@@ -12,6 +12,7 @@ using Volo.CmsKit.Ratings;
 using Volo.CmsKit.Reactions;
 using Volo.CmsKit.Tags;
 using Volo.CmsKit.Users;
+using Volo.CmsKit.MarkedItems;
 
 namespace EShopOnAbp.CmskitService.EntityFrameworkCore;
 
@@ -49,6 +50,8 @@ public class CmskitServiceDbContext : AbpDbContext<CmskitServiceDbContext>, ICms
     public DbSet<MenuItem> MenuItems { get; set; }
 
     public DbSet<GlobalResource> GlobalResources { get; set; }
+
+    public DbSet<UserMarkedItem> UserMarkedItems { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -19,7 +19,7 @@ namespace EShopOnAbp.CmskitService.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("_Abp_DatabaseProvider", EfCoreDatabaseProvider.PostgreSql)
-                .HasAnnotation("ProductVersion", "8.0.0")
+                .HasAnnotation("ProductVersion", "8.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -62,6 +62,9 @@ namespace EShopOnAbp.CmskitService.Migrations
                     b.Property<string>("IdempotencyToken")
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)");
+
+                    b.Property<bool?>("IsApproved")
+                        .HasColumnType("boolean");
 
                     b.Property<Guid?>("RepliedCommentId")
                         .HasColumnType("uuid");
