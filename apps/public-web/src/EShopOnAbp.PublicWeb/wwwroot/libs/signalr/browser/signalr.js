@@ -7,7 +7,7 @@
 		exports["signalR"] = factory();
 	else
 		root["signalR"] = factory();
-})(self, function() {
+})(self, () => {
 return /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	// The require scope
@@ -133,7 +133,7 @@ class UnsupportedTransportError extends Error {
     /** Constructs a new instance of {@link @microsoft/signalr.UnsupportedTransportError}.
      *
      * @param {string} message A descriptive error message.
-     * @param {HttpTransportType} transport The {@link @microsoft/signalr.HttpTransportType} this error occured on.
+     * @param {HttpTransportType} transport The {@link @microsoft/signalr.HttpTransportType} this error occurred on.
      */
     constructor(message, transport) {
         const trueProto = new.target.prototype;
@@ -151,7 +151,7 @@ class DisabledTransportError extends Error {
     /** Constructs a new instance of {@link @microsoft/signalr.DisabledTransportError}.
      *
      * @param {string} message A descriptive error message.
-     * @param {HttpTransportType} transport The {@link @microsoft/signalr.HttpTransportType} this error occured on.
+     * @param {HttpTransportType} transport The {@link @microsoft/signalr.HttpTransportType} this error occurred on.
      */
     constructor(message, transport) {
         const trueProto = new.target.prototype;
@@ -169,7 +169,7 @@ class FailedToStartTransportError extends Error {
     /** Constructs a new instance of {@link @microsoft/signalr.FailedToStartTransportError}.
      *
      * @param {string} message A descriptive error message.
-     * @param {HttpTransportType} transport The {@link @microsoft/signalr.HttpTransportType} this error occured on.
+     * @param {HttpTransportType} transport The {@link @microsoft/signalr.HttpTransportType} this error occurred on.
      */
     constructor(message, transport) {
         const trueProto = new.target.prototype;
@@ -197,7 +197,7 @@ class FailedToNegotiateWithServerError extends Error {
         this.__proto__ = trueProto;
     }
 }
-/** Error thrown when multiple errors have occured. */
+/** Error thrown when multiple errors have occurred. */
 /** @private */
 class AggregateErrors extends Error {
     /** Constructs a new instance of {@link @microsoft/signalr.AggregateErrors}.
@@ -310,7 +310,7 @@ NullLogger.instance = new NullLogger();
 
 // Version token that will be replaced by the prepack command
 /** The version of the SignalR client. */
-const VERSION = "6.0.9";
+const VERSION = "8.0.7";
 /** @private */
 class Arg {
     static isRequired(val, name) {
@@ -334,20 +334,20 @@ class Arg {
 class Platform {
     // react-native has a window but no document so we should check both
     static get isBrowser() {
-        return typeof window === "object" && typeof window.document === "object";
+        return !Platform.isNode && typeof window === "object" && typeof window.document === "object";
     }
     // WebWorkers don't have a window object so the isBrowser check would fail
     static get isWebWorker() {
-        return typeof self === "object" && "importScripts" in self;
+        return !Platform.isNode && typeof self === "object" && "importScripts" in self;
     }
     // react-native has a window but no document
     static get isReactNative() {
-        return typeof window === "object" && typeof window.document === "undefined";
+        return !Platform.isNode && typeof window === "object" && typeof window.document === "undefined";
     }
     // Node apps shouldn't have a window object, but WebWorkers don't either
     // so we need to check for both WebWorker and window
     static get isNode() {
-        return !this.isBrowser && !this.isWebWorker && !this.isReactNative;
+        return typeof process !== "undefined" && process.release && process.release.name === "node";
     }
 }
 /** @private */
@@ -388,16 +388,8 @@ function isArrayBuffer(val) {
             (val.constructor && val.constructor.name === "ArrayBuffer"));
 }
 /** @private */
-async function sendMessage(logger, transportName, httpClient, url, accessTokenFactory, content, options) {
-    let headers = {};
-    if (accessTokenFactory) {
-        const token = await accessTokenFactory();
-        if (token) {
-            headers = {
-                ["Authorization"]: `Bearer ${token}`,
-            };
-        }
-    }
+async function sendMessage(logger, transportName, httpClient, url, content, options) {
+    const headers = {};
     const [name, value] = getUserAgentHeader();
     headers[name] = value;
     logger.log(LogLevel.Trace, `(${transportName} transport) sending data. ${getDataDetail(content, options.logMessageContent)}.`);
@@ -571,13 +563,21 @@ class FetchHttpClient extends HttpClient {
     constructor(logger) {
         super();
         this._logger = logger;
-        if (typeof fetch === "undefined") {
+        // Node added a fetch implementation to the global scope starting in v18.
+        // We need to add a cookie jar in node to be able to share cookies with WebSocket
+        if (typeof fetch === "undefined" || Platform.isNode) {
             // In order to ignore the dynamic require in webpack builds we need to do this magic
             // @ts-ignore: TS doesn't know about these names
             const requireFunc =  true ? require : 0;
             // Cookies aren't automatically handled in Node so we need to add a CookieJar to preserve cookies across requests
             this._jar = new (requireFunc("tough-cookie")).CookieJar();
-            this._fetchType = requireFunc("node-fetch");
+            if (typeof fetch === "undefined") {
+                this._fetchType = requireFunc("node-fetch");
+            }
+            else {
+                // Use fetch from Node if available
+                this._fetchType = fetch;
+            }
             // node-fetch doesn't have a nice API for getting and setting cookies
             // fetch-cookie will wrap a fetch implementation with a default CookieJar or a provided one
             this._fetchType = requireFunc("fetch-cookie")(this._fetchType, this._jar);
@@ -628,6 +628,19 @@ class FetchHttpClient extends HttpClient {
                 error = new TimeoutError();
             }, msTimeout);
         }
+        if (request.content === "") {
+            request.content = undefined;
+        }
+        if (request.content) {
+            // Explicitly setting the Content-Type header for React Native on Android platform.
+            request.headers = request.headers || {};
+            if (isArrayBuffer(request.content)) {
+                request.headers["Content-Type"] = "application/octet-stream";
+            }
+            else {
+                request.headers["Content-Type"] = "text/plain;charset=UTF-8";
+            }
+        }
         let response;
         try {
             response = await this._fetchType(request.url, {
@@ -635,7 +648,6 @@ class FetchHttpClient extends HttpClient {
                 cache: "no-cache",
                 credentials: request.withCredentials === true ? "include" : "same-origin",
                 headers: {
-                    "Content-Type": "text/plain;charset=UTF-8",
                     "X-Requested-With": "XMLHttpRequest",
                     ...request.headers,
                 },
@@ -703,6 +715,7 @@ function deserializeContent(response, responseType) {
 
 
 
+
 class XhrHttpClient extends HttpClient {
     constructor(logger) {
         super();
@@ -725,8 +738,18 @@ class XhrHttpClient extends HttpClient {
             xhr.open(request.method, request.url, true);
             xhr.withCredentials = request.withCredentials === undefined ? true : request.withCredentials;
             xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-            // Explicitly setting the Content-Type header for React Native on Android platform.
-            xhr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
+            if (request.content === "") {
+                request.content = undefined;
+            }
+            if (request.content) {
+                // Explicitly setting the Content-Type header for React Native on Android platform.
+                if (isArrayBuffer(request.content)) {
+                    xhr.setRequestHeader("Content-Type", "application/octet-stream");
+                }
+                else {
+                    xhr.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
+                }
+            }
             const headers = request.headers;
             if (headers) {
                 Object.keys(headers)
@@ -765,7 +788,7 @@ class XhrHttpClient extends HttpClient {
                 this._logger.log(LogLevel.Warning, `Timeout from HTTP request.`);
                 reject(new TimeoutError());
             };
-            xhr.send(request.content || "");
+            xhr.send(request.content);
         });
     }
 }
@@ -905,6 +928,8 @@ var MessageType;
     MessageType[MessageType["Ping"] = 6] = "Ping";
     /** Indicates the message is a Close message and implements the {@link @microsoft/signalr.CloseMessage} interface. */
     MessageType[MessageType["Close"] = 7] = "Close";
+    MessageType[MessageType["Ack"] = 8] = "Ack";
+    MessageType[MessageType["Sequence"] = 9] = "Sequence";
 })(MessageType || (MessageType = {}));
 
 ;// CONCATENATED MODULE: ./src/Subject.ts
@@ -941,6 +966,201 @@ class Subject {
     }
 }
 
+;// CONCATENATED MODULE: ./src/MessageBuffer.ts
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+
+
+/** @private */
+class MessageBuffer {
+    constructor(protocol, connection, bufferSize) {
+        this._bufferSize = 100000;
+        this._messages = [];
+        this._totalMessageCount = 0;
+        this._waitForSequenceMessage = false;
+        // Message IDs start at 1 and always increment by 1
+        this._nextReceivingSequenceId = 1;
+        this._latestReceivedSequenceId = 0;
+        this._bufferedByteCount = 0;
+        this._reconnectInProgress = false;
+        this._protocol = protocol;
+        this._connection = connection;
+        this._bufferSize = bufferSize;
+    }
+    async _send(message) {
+        const serializedMessage = this._protocol.writeMessage(message);
+        let backpressurePromise = Promise.resolve();
+        // Only count invocation messages. Acks, pings, etc. don't need to be resent on reconnect
+        if (this._isInvocationMessage(message)) {
+            this._totalMessageCount++;
+            let backpressurePromiseResolver = () => { };
+            let backpressurePromiseRejector = () => { };
+            if (isArrayBuffer(serializedMessage)) {
+                this._bufferedByteCount += serializedMessage.byteLength;
+            }
+            else {
+                this._bufferedByteCount += serializedMessage.length;
+            }
+            if (this._bufferedByteCount >= this._bufferSize) {
+                backpressurePromise = new Promise((resolve, reject) => {
+                    backpressurePromiseResolver = resolve;
+                    backpressurePromiseRejector = reject;
+                });
+            }
+            this._messages.push(new BufferedItem(serializedMessage, this._totalMessageCount, backpressurePromiseResolver, backpressurePromiseRejector));
+        }
+        try {
+            // If this is set it means we are reconnecting or resending
+            // We don't want to send on a disconnected connection
+            // And we don't want to send if resend is running since that would mean sending
+            // this message twice
+            if (!this._reconnectInProgress) {
+                await this._connection.send(serializedMessage);
+            }
+        }
+        catch {
+            this._disconnected();
+        }
+        await backpressurePromise;
+    }
+    _ack(ackMessage) {
+        let newestAckedMessage = -1;
+        // Find index of newest message being acked
+        for (let index = 0; index < this._messages.length; index++) {
+            const element = this._messages[index];
+            if (element._id <= ackMessage.sequenceId) {
+                newestAckedMessage = index;
+                if (isArrayBuffer(element._message)) {
+                    this._bufferedByteCount -= element._message.byteLength;
+                }
+                else {
+                    this._bufferedByteCount -= element._message.length;
+                }
+                // resolve items that have already been sent and acked
+                element._resolver();
+            }
+            else if (this._bufferedByteCount < this._bufferSize) {
+                // resolve items that now fall under the buffer limit but haven't been acked
+                element._resolver();
+            }
+            else {
+                break;
+            }
+        }
+        if (newestAckedMessage !== -1) {
+            // We're removing everything including the message pointed to, so add 1
+            this._messages = this._messages.slice(newestAckedMessage + 1);
+        }
+    }
+    _shouldProcessMessage(message) {
+        if (this._waitForSequenceMessage) {
+            if (message.type !== MessageType.Sequence) {
+                return false;
+            }
+            else {
+                this._waitForSequenceMessage = false;
+                return true;
+            }
+        }
+        // No special processing for acks, pings, etc.
+        if (!this._isInvocationMessage(message)) {
+            return true;
+        }
+        const currentId = this._nextReceivingSequenceId;
+        this._nextReceivingSequenceId++;
+        if (currentId <= this._latestReceivedSequenceId) {
+            if (currentId === this._latestReceivedSequenceId) {
+                // Should only hit this if we just reconnected and the server is sending
+                // Messages it has buffered, which would mean it hasn't seen an Ack for these messages
+                this._ackTimer();
+            }
+            // Ignore, this is a duplicate message
+            return false;
+        }
+        this._latestReceivedSequenceId = currentId;
+        // Only start the timer for sending an Ack message when we have a message to ack. This also conveniently solves
+        // timer throttling by not having a recursive timer, and by starting the timer via a network call (recv)
+        this._ackTimer();
+        return true;
+    }
+    _resetSequence(message) {
+        if (message.sequenceId > this._nextReceivingSequenceId) {
+            // eslint-disable-next-line @typescript-eslint/no-floating-promises
+            this._connection.stop(new Error("Sequence ID greater than amount of messages we've received."));
+            return;
+        }
+        this._nextReceivingSequenceId = message.sequenceId;
+    }
+    _disconnected() {
+        this._reconnectInProgress = true;
+        this._waitForSequenceMessage = true;
+    }
+    async _resend() {
+        const sequenceId = this._messages.length !== 0
+            ? this._messages[0]._id
+            : this._totalMessageCount + 1;
+        await this._connection.send(this._protocol.writeMessage({ type: MessageType.Sequence, sequenceId }));
+        // Get a local variable to the _messages, just in case messages are acked while resending
+        // Which would slice the _messages array (which creates a new copy)
+        const messages = this._messages;
+        for (const element of messages) {
+            await this._connection.send(element._message);
+        }
+        this._reconnectInProgress = false;
+    }
+    _dispose(error) {
+        error !== null && error !== void 0 ? error : (error = new Error("Unable to reconnect to server."));
+        // Unblock backpressure if any
+        for (const element of this._messages) {
+            element._rejector(error);
+        }
+    }
+    _isInvocationMessage(message) {
+        // There is no way to check if something implements an interface.
+        // So we individually check the messages in a switch statement.
+        // To make sure we don't miss any message types we rely on the compiler
+        // seeing the function returns a value and it will do the
+        // exhaustive check for us on the switch statement, since we don't use 'case default'
+        switch (message.type) {
+            case MessageType.Invocation:
+            case MessageType.StreamItem:
+            case MessageType.Completion:
+            case MessageType.StreamInvocation:
+            case MessageType.CancelInvocation:
+                return true;
+            case MessageType.Close:
+            case MessageType.Sequence:
+            case MessageType.Ping:
+            case MessageType.Ack:
+                return false;
+        }
+    }
+    _ackTimer() {
+        if (this._ackTimerHandle === undefined) {
+            this._ackTimerHandle = setTimeout(async () => {
+                try {
+                    if (!this._reconnectInProgress) {
+                        await this._connection.send(this._protocol.writeMessage({ type: MessageType.Ack, sequenceId: this._latestReceivedSequenceId }));
+                    }
+                    // Ignore errors, that means the connection is closed and we don't care about the Ack message anymore.
+                }
+                catch { }
+                clearTimeout(this._ackTimerHandle);
+                this._ackTimerHandle = undefined;
+                // 1 second delay so we don't spam Ack messages if there are many messages being received at once.
+            }, 1000);
+        }
+    }
+}
+class BufferedItem {
+    constructor(message, id, resolver, rejector) {
+        this._message = message;
+        this._id = id;
+        this._resolver = resolver;
+        this._rejector = rejector;
+    }
+}
+
 ;// CONCATENATED MODULE: ./src/HubConnection.ts
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
@@ -949,8 +1169,11 @@ class Subject {
 
 
 
+
+
 const DEFAULT_TIMEOUT_IN_MS = 30 * 1000;
 const DEFAULT_PING_INTERVAL_IN_MS = 15 * 1000;
+const DEFAULT_STATEFUL_RECONNECT_BUFFER_SIZE = 100000;
 /** Describes the current state of the {@link HubConnection} to the server. */
 var HubConnectionState;
 (function (HubConnectionState) {
@@ -967,16 +1190,25 @@ var HubConnectionState;
 })(HubConnectionState || (HubConnectionState = {}));
 /** Represents a connection to a SignalR Hub. */
 class HubConnection {
-    constructor(connection, logger, protocol, reconnectPolicy) {
+    /** @internal */
+    // Using a public static factory method means we can have a private constructor and an _internal_
+    // create method that can be used by HubConnectionBuilder. An "internal" constructor would just
+    // be stripped away and the '.d.ts' file would have no constructor, which is interpreted as a
+    // public parameter-less constructor.
+    static create(connection, logger, protocol, reconnectPolicy, serverTimeoutInMilliseconds, keepAliveIntervalInMilliseconds, statefulReconnectBufferSize) {
+        return new HubConnection(connection, logger, protocol, reconnectPolicy, serverTimeoutInMilliseconds, keepAliveIntervalInMilliseconds, statefulReconnectBufferSize);
+    }
+    constructor(connection, logger, protocol, reconnectPolicy, serverTimeoutInMilliseconds, keepAliveIntervalInMilliseconds, statefulReconnectBufferSize) {
         this._nextKeepAlive = 0;
         this._freezeEventListener = () => {
-            this._logger.log(LogLevel.Warning, "The page is being frozen, this will likely lead to the connection being closed and messages being lost. For more information see the docs at https://docs.microsoft.com/aspnet/core/signalr/javascript-client#bsleep");
+            this._logger.log(LogLevel.Warning, "The page is being frozen, this will likely lead to the connection being closed and messages being lost. For more information see the docs at https://learn.microsoft.com/aspnet/core/signalr/javascript-client#bsleep");
         };
         Arg.isRequired(connection, "connection");
         Arg.isRequired(logger, "logger");
         Arg.isRequired(protocol, "protocol");
-        this.serverTimeoutInMilliseconds = DEFAULT_TIMEOUT_IN_MS;
-        this.keepAliveIntervalInMilliseconds = DEFAULT_PING_INTERVAL_IN_MS;
+        this.serverTimeoutInMilliseconds = serverTimeoutInMilliseconds !== null && serverTimeoutInMilliseconds !== void 0 ? serverTimeoutInMilliseconds : DEFAULT_TIMEOUT_IN_MS;
+        this.keepAliveIntervalInMilliseconds = keepAliveIntervalInMilliseconds !== null && keepAliveIntervalInMilliseconds !== void 0 ? keepAliveIntervalInMilliseconds : DEFAULT_PING_INTERVAL_IN_MS;
+        this._statefulReconnectBufferSize = statefulReconnectBufferSize !== null && statefulReconnectBufferSize !== void 0 ? statefulReconnectBufferSize : DEFAULT_STATEFUL_RECONNECT_BUFFER_SIZE;
         this._logger = logger;
         this._protocol = protocol;
         this.connection = connection;
@@ -994,14 +1226,6 @@ class HubConnection {
         this._connectionState = HubConnectionState.Disconnected;
         this._connectionStarted = false;
         this._cachedPingMessage = this._protocol.writeMessage({ type: MessageType.Ping });
-    }
-    /** @internal */
-    // Using a public static factory method means we can have a private constructor and an _internal_
-    // create method that can be used by HubConnectionBuilder. An "internal" constructor would just
-    // be stripped away and the '.d.ts' file would have no constructor, which is interpreted as a
-    // public parameter-less constructor.
-    static create(connection, logger, protocol, reconnectPolicy) {
-        return new HubConnection(connection, logger, protocol, reconnectPolicy);
     }
     /** Indicates the state of the {@link HubConnection} to the server. */
     get state() {
@@ -1071,9 +1295,15 @@ class HubConnection {
         });
         await this.connection.start(this._protocol.transferFormat);
         try {
+            let version = this._protocol.version;
+            if (!this.connection.features.reconnect) {
+                // Stateful Reconnect starts with HubProtocol version 2, newer clients connecting to older servers will fail to connect due to
+                // the handshake only supporting version 1, so we will try to send version 1 during the handshake to keep old servers working.
+                version = 1;
+            }
             const handshakeRequest = {
                 protocol: this._protocol.name,
-                version: this._protocol.version,
+                version,
             };
             this._logger.log(LogLevel.Debug, "Sending handshake request.");
             await this._sendMessage(this._handshakeProtocol.writeHandshakeRequest(handshakeRequest));
@@ -1093,6 +1323,19 @@ class HubConnection {
                 // eslint-disable-next-line @typescript-eslint/no-throw-literal
                 throw this._stopDuringStartError;
             }
+            const useStatefulReconnect = this.connection.features.reconnect || false;
+            if (useStatefulReconnect) {
+                this._messageBuffer = new MessageBuffer(this._protocol, this.connection, this._statefulReconnectBufferSize);
+                this.connection.features.disconnected = this._messageBuffer._disconnected.bind(this._messageBuffer);
+                this.connection.features.resend = () => {
+                    if (this._messageBuffer) {
+                        return this._messageBuffer._resend();
+                    }
+                };
+            }
+            if (!this.connection.features.inherentKeepAlive) {
+                await this._sendMessage(this._cachedPingMessage);
+            }
         }
         catch (e) {
             this._logger.log(LogLevel.Debug, `Hub handshake failed with error '${e}' during start(). Stopping HubConnection.`);
@@ -1111,6 +1354,7 @@ class HubConnection {
     async stop() {
         // Capture the start promise before the connection might be restarted in an onclose callback.
         const startPromise = this._startPromise;
+        this.connection.features.reconnect = false;
         this._stopPromise = this._stopInternal();
         await this._stopPromise;
         try {
@@ -1130,6 +1374,7 @@ class HubConnection {
             this._logger.log(LogLevel.Debug, `Call to HttpConnection.stop(${error}) ignored because the connection is already in the disconnecting state.`);
             return this._stopPromise;
         }
+        const state = this._connectionState;
         this._connectionState = HubConnectionState.Disconnecting;
         this._logger.log(LogLevel.Debug, "Stopping HubConnection.");
         if (this._reconnectDelayHandle) {
@@ -1142,13 +1387,25 @@ class HubConnection {
             this._completeClose();
             return Promise.resolve();
         }
+        if (state === HubConnectionState.Connected) {
+            // eslint-disable-next-line @typescript-eslint/no-floating-promises
+            this._sendCloseMessage();
+        }
         this._cleanupTimeout();
         this._cleanupPingTimer();
-        this._stopDuringStartError = error || new Error("The connection was stopped before the hub handshake could complete.");
+        this._stopDuringStartError = error || new AbortError("The connection was stopped before the hub handshake could complete.");
         // HttpConnection.stop() should not complete until after either HttpConnection.start() fails
         // or the onclose callback is invoked. The onclose callback will transition the HubConnection
         // to the disconnected state if need be before HttpConnection.stop() completes.
         return this.connection.stop(error);
+    }
+    async _sendCloseMessage() {
+        try {
+            await this._sendWithProtocol(this._createCloseMessage());
+        }
+        catch {
+            // Ignore, this is a best effort attempt to let the server know the client closed gracefully.
+        }
     }
     /** Invokes a streaming hub method on the server using the specified name and arguments.
      *
@@ -1207,7 +1464,12 @@ class HubConnection {
      * @param message The js object to serialize and send.
      */
     _sendWithProtocol(message) {
-        return this._sendMessage(this._protocol.writeMessage(message));
+        if (this._messageBuffer) {
+            return this._messageBuffer._send(message);
+        }
+        else {
+            return this._sendMessage(this._protocol.writeMessage(message));
+        }
     }
     /** Invokes a hub method on the server using the specified name and arguments. Does not wait for a response from the receiver.
      *
@@ -1270,11 +1532,6 @@ class HubConnection {
         });
         return p;
     }
-    /** Registers a handler that will be invoked when the hub method with the specified method name is invoked.
-     *
-     * @param {string} methodName The name of the hub method to define.
-     * @param {Function} newMethod The handler that will be raised when the hub method is invoked.
-     */
     on(methodName, newMethod) {
         if (!methodName || !newMethod) {
             return;
@@ -1349,9 +1606,16 @@ class HubConnection {
             // Parse the messages
             const messages = this._protocol.parseMessages(data, this._logger);
             for (const message of messages) {
+                if (this._messageBuffer && !this._messageBuffer._shouldProcessMessage(message)) {
+                    // Don't process the message, we are either waiting for a SequenceMessage or received a duplicate message
+                    continue;
+                }
                 switch (message.type) {
                     case MessageType.Invocation:
-                        this._invokeClientMethod(message);
+                        this._invokeClientMethod(message)
+                            .catch((e) => {
+                            this._logger.log(LogLevel.Error, `Invoke client method threw error: ${getErrorString(e)}`);
+                        });
                         break;
                     case MessageType.StreamItem:
                     case MessageType.Completion: {
@@ -1387,6 +1651,16 @@ class HubConnection {
                         }
                         break;
                     }
+                    case MessageType.Ack:
+                        if (this._messageBuffer) {
+                            this._messageBuffer._ack(message);
+                        }
+                        break;
+                    case MessageType.Sequence:
+                        if (this._messageBuffer) {
+                            this._messageBuffer._resetSequence(message);
+                        }
+                        break;
                     default:
                         this._logger.log(LogLevel.Warning, `Invalid message type: ${message.type}.`);
                         break;
@@ -1463,31 +1737,70 @@ class HubConnection {
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
         this.connection.stop(new Error("Server timeout elapsed without receiving a message from the server."));
     }
-    _invokeClientMethod(invocationMessage) {
-        const methods = this._methods[invocationMessage.target.toLowerCase()];
-        if (methods) {
+    async _invokeClientMethod(invocationMessage) {
+        const methodName = invocationMessage.target.toLowerCase();
+        const methods = this._methods[methodName];
+        if (!methods) {
+            this._logger.log(LogLevel.Warning, `No client method with the name '${methodName}' found.`);
+            // No handlers provided by client but the server is expecting a response still, so we send an error
+            if (invocationMessage.invocationId) {
+                this._logger.log(LogLevel.Warning, `No result given for '${methodName}' method and invocation ID '${invocationMessage.invocationId}'.`);
+                await this._sendWithProtocol(this._createCompletionMessage(invocationMessage.invocationId, "Client didn't provide a result.", null));
+            }
+            return;
+        }
+        // Avoid issues with handlers removing themselves thus modifying the list while iterating through it
+        const methodsCopy = methods.slice();
+        // Server expects a response
+        const expectsResponse = invocationMessage.invocationId ? true : false;
+        // We preserve the last result or exception but still call all handlers
+        let res;
+        let exception;
+        let completionMessage;
+        for (const m of methodsCopy) {
             try {
-                methods.forEach((m) => m.apply(this, invocationMessage.arguments));
+                const prevRes = res;
+                res = await m.apply(this, invocationMessage.arguments);
+                if (expectsResponse && res && prevRes) {
+                    this._logger.log(LogLevel.Error, `Multiple results provided for '${methodName}'. Sending error to server.`);
+                    completionMessage = this._createCompletionMessage(invocationMessage.invocationId, `Client provided multiple results.`, null);
+                }
+                // Ignore exception if we got a result after, the exception will be logged
+                exception = undefined;
             }
             catch (e) {
-                this._logger.log(LogLevel.Error, `A callback for the method ${invocationMessage.target.toLowerCase()} threw error '${e}'.`);
-            }
-            if (invocationMessage.invocationId) {
-                // This is not supported in v1. So we return an error to avoid blocking the server waiting for the response.
-                const message = "Server requested a response, which is not supported in this version of the client.";
-                this._logger.log(LogLevel.Error, message);
-                // We don't want to wait on the stop itself.
-                this._stopPromise = this._stopInternal(new Error(message));
+                exception = e;
+                this._logger.log(LogLevel.Error, `A callback for the method '${methodName}' threw error '${e}'.`);
             }
         }
+        if (completionMessage) {
+            await this._sendWithProtocol(completionMessage);
+        }
+        else if (expectsResponse) {
+            // If there is an exception that means either no result was given or a handler after a result threw
+            if (exception) {
+                completionMessage = this._createCompletionMessage(invocationMessage.invocationId, `${exception}`, null);
+            }
+            else if (res !== undefined) {
+                completionMessage = this._createCompletionMessage(invocationMessage.invocationId, null, res);
+            }
+            else {
+                this._logger.log(LogLevel.Warning, `No result given for '${methodName}' method and invocation ID '${invocationMessage.invocationId}'.`);
+                // Client didn't provide a result or throw from a handler, server expects a response so we send an error
+                completionMessage = this._createCompletionMessage(invocationMessage.invocationId, "Client didn't provide a result.", null);
+            }
+            await this._sendWithProtocol(completionMessage);
+        }
         else {
-            this._logger.log(LogLevel.Warning, `No client method with the name '${invocationMessage.target}' found.`);
+            if (res) {
+                this._logger.log(LogLevel.Error, `Result given for '${methodName}' method but server is not expecting a result.`);
+            }
         }
     }
     _connectionClosed(error) {
         this._logger.log(LogLevel.Debug, `HubConnection.connectionClosed(${error}) called while in state ${this._connectionState}.`);
         // Triggering this.handshakeRejecter is insufficient because it could already be resolved without the continuation having run yet.
-        this._stopDuringStartError = this._stopDuringStartError || error || new Error("The underlying connection was closed before the hub handshake could complete.");
+        this._stopDuringStartError = this._stopDuringStartError || error || new AbortError("The underlying connection was closed before the hub handshake could complete.");
         // If the handshake is in progress, start will be waiting for the handshake promise, so we complete it.
         // If it has already completed, this should just noop.
         if (this._handshakeResolver) {
@@ -1516,6 +1829,10 @@ class HubConnection {
         if (this._connectionStarted) {
             this._connectionState = HubConnectionState.Disconnected;
             this._connectionStarted = false;
+            if (this._messageBuffer) {
+                this._messageBuffer._dispose(error !== null && error !== void 0 ? error : new Error("Connection closed."));
+                this._messageBuffer = undefined;
+            }
             if (Platform.isBrowser) {
                 window.document.removeEventListener("freeze", this._freezeEventListener);
             }
@@ -1779,6 +2096,9 @@ class HubConnection {
             type: MessageType.Completion,
         };
     }
+    _createCloseMessage() {
+        return { type: MessageType.Close };
+    }
 }
 
 ;// CONCATENATED MODULE: ./src/DefaultReconnectPolicy.ts
@@ -1803,6 +2123,53 @@ class HeaderNames {
 }
 HeaderNames.Authorization = "Authorization";
 HeaderNames.Cookie = "Cookie";
+
+;// CONCATENATED MODULE: ./src/AccessTokenHttpClient.ts
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+
+
+/** @private */
+class AccessTokenHttpClient extends HttpClient {
+    constructor(innerClient, accessTokenFactory) {
+        super();
+        this._innerClient = innerClient;
+        this._accessTokenFactory = accessTokenFactory;
+    }
+    async send(request) {
+        let allowRetry = true;
+        if (this._accessTokenFactory && (!this._accessToken || (request.url && request.url.indexOf("/negotiate?") > 0))) {
+            // don't retry if the request is a negotiate or if we just got a potentially new token from the access token factory
+            allowRetry = false;
+            this._accessToken = await this._accessTokenFactory();
+        }
+        this._setAuthorizationHeader(request);
+        const response = await this._innerClient.send(request);
+        if (allowRetry && response.statusCode === 401 && this._accessTokenFactory) {
+            this._accessToken = await this._accessTokenFactory();
+            this._setAuthorizationHeader(request);
+            return await this._innerClient.send(request);
+        }
+        return response;
+    }
+    _setAuthorizationHeader(request) {
+        if (!request.headers) {
+            request.headers = {};
+        }
+        if (this._accessToken) {
+            request.headers[HeaderNames.Authorization] = `Bearer ${this._accessToken}`;
+        }
+        // don't remove the header if there isn't an access token factory, the user manually added the header in this case
+        else if (this._accessTokenFactory) {
+            if (request.headers[HeaderNames.Authorization]) {
+                delete request.headers[HeaderNames.Authorization];
+            }
+        }
+    }
+    getCookieString(url) {
+        return this._innerClient.getCookieString(url);
+    }
+}
 
 ;// CONCATENATED MODULE: ./src/ITransport.ts
 // Licensed to the .NET Foundation under one or more agreements.
@@ -1866,23 +2233,21 @@ class AbortController_AbortController {
 
 
 
-
 // Not exported from 'index', this type is internal.
 /** @private */
 class LongPollingTransport {
-    constructor(httpClient, accessTokenFactory, logger, options) {
+    // This is an internal type, not exported from 'index' so this is really just internal.
+    get pollAborted() {
+        return this._pollAbort.aborted;
+    }
+    constructor(httpClient, logger, options) {
         this._httpClient = httpClient;
-        this._accessTokenFactory = accessTokenFactory;
         this._logger = logger;
         this._pollAbort = new AbortController_AbortController();
         this._options = options;
         this._running = false;
         this.onreceive = null;
         this.onclose = null;
-    }
-    // This is an internal type, not exported from 'index' so this is really just internal.
-    get pollAborted() {
-        return this._pollAbort.aborted;
     }
     async connect(url, transferFormat) {
         Arg.isRequired(url, "url");
@@ -1906,8 +2271,6 @@ class LongPollingTransport {
         if (transferFormat === TransferFormat.Binary) {
             pollOptions.responseType = "arraybuffer";
         }
-        const token = await this._getAccessToken();
-        this._updateHeaderToken(pollOptions, token);
         // Make initial long polling request
         // Server uses first long polling request to finish initializing connection and it returns without data
         const pollUrl = `${url}&_=${Date.now()}`;
@@ -1924,30 +2287,9 @@ class LongPollingTransport {
         }
         this._receiving = this._poll(this._url, pollOptions);
     }
-    async _getAccessToken() {
-        if (this._accessTokenFactory) {
-            return await this._accessTokenFactory();
-        }
-        return null;
-    }
-    _updateHeaderToken(request, token) {
-        if (!request.headers) {
-            request.headers = {};
-        }
-        if (token) {
-            request.headers[HeaderNames.Authorization] = `Bearer ${token}`;
-            return;
-        }
-        if (request.headers[HeaderNames.Authorization]) {
-            delete request.headers[HeaderNames.Authorization];
-        }
-    }
     async _poll(url, pollOptions) {
         try {
             while (this._running) {
-                // We have to get the access token on each poll, in case it changes
-                const token = await this._getAccessToken();
-                this._updateHeaderToken(pollOptions, token);
                 try {
                     const pollUrl = `${url}&_=${Date.now()}`;
                     this._logger.log(LogLevel.Trace, `(LongPolling transport) polling: ${pollUrl}.`);
@@ -2008,7 +2350,7 @@ class LongPollingTransport {
         if (!this._running) {
             return Promise.reject(new Error("Cannot send until the transport is connected"));
         }
-        return sendMessage(this._logger, "LongPolling", this._httpClient, this._url, this._accessTokenFactory, data, this._options);
+        return sendMessage(this._logger, "LongPolling", this._httpClient, this._url, data, this._options);
     }
     async stop() {
         this._logger.log(LogLevel.Trace, "(LongPolling transport) Stopping polling.");
@@ -2027,10 +2369,26 @@ class LongPollingTransport {
                 timeout: this._options.timeout,
                 withCredentials: this._options.withCredentials,
             };
-            const token = await this._getAccessToken();
-            this._updateHeaderToken(deleteOptions, token);
-            await this._httpClient.delete(this._url, deleteOptions);
-            this._logger.log(LogLevel.Trace, "(LongPolling transport) DELETE request sent.");
+            let error;
+            try {
+                await this._httpClient.delete(this._url, deleteOptions);
+            }
+            catch (err) {
+                error = err;
+            }
+            if (error) {
+                if (error instanceof HttpError) {
+                    if (error.statusCode === 404) {
+                        this._logger.log(LogLevel.Trace, "(LongPolling transport) A 404 response was returned from sending a DELETE request.");
+                    }
+                    else {
+                        this._logger.log(LogLevel.Trace, `(LongPolling transport) Error sending a DELETE request: ${error}`);
+                    }
+                }
+            }
+            else {
+                this._logger.log(LogLevel.Trace, "(LongPolling transport) DELETE request accepted.");
+            }
         }
         finally {
             this._logger.log(LogLevel.Trace, "(LongPolling transport) Stop finished.");
@@ -2059,9 +2417,9 @@ class LongPollingTransport {
 
 /** @private */
 class ServerSentEventsTransport {
-    constructor(httpClient, accessTokenFactory, logger, options) {
+    constructor(httpClient, accessToken, logger, options) {
         this._httpClient = httpClient;
-        this._accessTokenFactory = accessTokenFactory;
+        this._accessToken = accessToken;
         this._logger = logger;
         this._options = options;
         this.onreceive = null;
@@ -2072,13 +2430,10 @@ class ServerSentEventsTransport {
         Arg.isRequired(transferFormat, "transferFormat");
         Arg.isIn(transferFormat, TransferFormat, "transferFormat");
         this._logger.log(LogLevel.Trace, "(SSE transport) Connecting.");
-        // set url before accessTokenFactory because this.url is only for send and we set the auth header instead of the query string for send
+        // set url before accessTokenFactory because this._url is only for send and we set the auth header instead of the query string for send
         this._url = url;
-        if (this._accessTokenFactory) {
-            const token = await this._accessTokenFactory();
-            if (token) {
-                url += (url.indexOf("?") < 0 ? "?" : "&") + `access_token=${encodeURIComponent(token)}`;
-            }
+        if (this._accessToken) {
+            url += (url.indexOf("?") < 0 ? "?" : "&") + `access_token=${encodeURIComponent(this._accessToken)}`;
         }
         return new Promise((resolve, reject) => {
             let opened = false;
@@ -2141,7 +2496,7 @@ class ServerSentEventsTransport {
         if (!this._eventSource) {
             return Promise.reject(new Error("Cannot send until the transport is connected"));
         }
-        return sendMessage(this._logger, "SSE", this._httpClient, this._url, this._accessTokenFactory, data, this._options);
+        return sendMessage(this._logger, "SSE", this._httpClient, this._url, data, this._options);
     }
     stop() {
         this._close();
@@ -2182,28 +2537,34 @@ class WebSocketTransport {
         Arg.isRequired(transferFormat, "transferFormat");
         Arg.isIn(transferFormat, TransferFormat, "transferFormat");
         this._logger.log(LogLevel.Trace, "(WebSockets transport) Connecting.");
+        let token;
         if (this._accessTokenFactory) {
-            const token = await this._accessTokenFactory();
-            if (token) {
-                url += (url.indexOf("?") < 0 ? "?" : "&") + `access_token=${encodeURIComponent(token)}`;
-            }
+            token = await this._accessTokenFactory();
         }
         return new Promise((resolve, reject) => {
             url = url.replace(/^http/, "ws");
             let webSocket;
             const cookies = this._httpClient.getCookieString(url);
             let opened = false;
-            if (Platform.isNode) {
+            if (Platform.isNode || Platform.isReactNative) {
                 const headers = {};
                 const [name, value] = getUserAgentHeader();
                 headers[name] = value;
+                if (token) {
+                    headers[HeaderNames.Authorization] = `Bearer ${token}`;
+                }
                 if (cookies) {
-                    headers[HeaderNames.Cookie] = `${cookies}`;
+                    headers[HeaderNames.Cookie] = cookies;
                 }
                 // Only pass headers when in non-browser environments
                 webSocket = new this._webSocketConstructor(url, undefined, {
                     headers: { ...headers, ...this._headers },
                 });
+            }
+            else {
+                if (token) {
+                    url += (url.indexOf("?") < 0 ? "?" : "&") + `access_token=${encodeURIComponent(token)}`;
+                }
             }
             if (!webSocket) {
                 // Chrome is not happy with passing 'undefined' as protocol
@@ -2364,8 +2725,8 @@ class HttpConnection {
                 options.EventSource = eventSourceModule;
             }
         }
-        this._httpClient = options.httpClient || new DefaultHttpClient(this._logger);
-        this._connectionState = "Disconnected" /* Disconnected */;
+        this._httpClient = new AccessTokenHttpClient(options.httpClient || new DefaultHttpClient(this._logger), options.accessTokenFactory);
+        this._connectionState = "Disconnected" /* ConnectionState.Disconnected */;
         this._connectionStarted = false;
         this._options = options;
         this.onreceive = null;
@@ -2375,31 +2736,31 @@ class HttpConnection {
         transferFormat = transferFormat || TransferFormat.Binary;
         Arg.isIn(transferFormat, TransferFormat, "transferFormat");
         this._logger.log(LogLevel.Debug, `Starting connection with transfer format '${TransferFormat[transferFormat]}'.`);
-        if (this._connectionState !== "Disconnected" /* Disconnected */) {
+        if (this._connectionState !== "Disconnected" /* ConnectionState.Disconnected */) {
             return Promise.reject(new Error("Cannot start an HttpConnection that is not in the 'Disconnected' state."));
         }
-        this._connectionState = "Connecting" /* Connecting */;
+        this._connectionState = "Connecting" /* ConnectionState.Connecting */;
         this._startInternalPromise = this._startInternal(transferFormat);
         await this._startInternalPromise;
         // The TypeScript compiler thinks that connectionState must be Connecting here. The TypeScript compiler is wrong.
-        if (this._connectionState === "Disconnecting" /* Disconnecting */) {
+        if (this._connectionState === "Disconnecting" /* ConnectionState.Disconnecting */) {
             // stop() was called and transitioned the client into the Disconnecting state.
             const message = "Failed to start the HttpConnection before stop() was called.";
             this._logger.log(LogLevel.Error, message);
             // We cannot await stopPromise inside startInternal since stopInternal awaits the startInternalPromise.
             await this._stopPromise;
-            return Promise.reject(new Error(message));
+            return Promise.reject(new AbortError(message));
         }
-        else if (this._connectionState !== "Connected" /* Connected */) {
+        else if (this._connectionState !== "Connected" /* ConnectionState.Connected */) {
             // stop() was called and transitioned the client into the Disconnecting state.
             const message = "HttpConnection.startInternal completed gracefully but didn't enter the connection into the connected state!";
             this._logger.log(LogLevel.Error, message);
-            return Promise.reject(new Error(message));
+            return Promise.reject(new AbortError(message));
         }
         this._connectionStarted = true;
     }
     send(data) {
-        if (this._connectionState !== "Connected" /* Connected */) {
+        if (this._connectionState !== "Connected" /* ConnectionState.Connected */) {
             return Promise.reject(new Error("Cannot send data if the connection is not in the 'Connected' State."));
         }
         if (!this._sendQueue) {
@@ -2409,15 +2770,15 @@ class HttpConnection {
         return this._sendQueue.send(data);
     }
     async stop(error) {
-        if (this._connectionState === "Disconnected" /* Disconnected */) {
+        if (this._connectionState === "Disconnected" /* ConnectionState.Disconnected */) {
             this._logger.log(LogLevel.Debug, `Call to HttpConnection.stop(${error}) ignored because the connection is already in the disconnected state.`);
             return Promise.resolve();
         }
-        if (this._connectionState === "Disconnecting" /* Disconnecting */) {
+        if (this._connectionState === "Disconnecting" /* ConnectionState.Disconnecting */) {
             this._logger.log(LogLevel.Debug, `Call to HttpConnection.stop(${error}) ignored because the connection is already in the disconnecting state.`);
             return this._stopPromise;
         }
-        this._connectionState = "Disconnecting" /* Disconnecting */;
+        this._connectionState = "Disconnecting" /* ConnectionState.Disconnecting */;
         this._stopPromise = new Promise((resolve) => {
             // Don't complete stop() until stopConnection() completes.
             this._stopPromiseResolver = resolve;
@@ -2459,6 +2820,7 @@ class HttpConnection {
         // as part of negotiating
         let url = this.baseUrl;
         this._accessTokenFactory = this._options.accessTokenFactory;
+        this._httpClient._accessTokenFactory = this._accessTokenFactory;
         try {
             if (this._options.skipNegotiation) {
                 if (this._options.transport === HttpTransportType.WebSockets) {
@@ -2478,8 +2840,8 @@ class HttpConnection {
                 do {
                     negotiateResponse = await this._getNegotiationResponse(url);
                     // the user tries to stop the connection when it is being started
-                    if (this._connectionState === "Disconnecting" /* Disconnecting */ || this._connectionState === "Disconnected" /* Disconnected */) {
-                        throw new Error("The connection was stopped during negotiation.");
+                    if (this._connectionState === "Disconnecting" /* ConnectionState.Disconnecting */ || this._connectionState === "Disconnected" /* ConnectionState.Disconnected */) {
+                        throw new AbortError("The connection was stopped during negotiation.");
                     }
                     if (negotiateResponse.error) {
                         throw new Error(negotiateResponse.error);
@@ -2495,6 +2857,9 @@ class HttpConnection {
                         // the returned access token
                         const accessToken = negotiateResponse.accessToken;
                         this._accessTokenFactory = () => accessToken;
+                        // set the factory to undefined so the AccessTokenHttpClient won't retry with the same token, since we know it won't change until a connection restart
+                        this._httpClient._accessToken = accessToken;
+                        this._httpClient._accessTokenFactory = undefined;
                     }
                     redirects++;
                 } while (negotiateResponse.url && redirects < MAX_REDIRECTS);
@@ -2506,11 +2871,11 @@ class HttpConnection {
             if (this.transport instanceof LongPollingTransport) {
                 this.features.inherentKeepAlive = true;
             }
-            if (this._connectionState === "Connecting" /* Connecting */) {
+            if (this._connectionState === "Connecting" /* ConnectionState.Connecting */) {
                 // Ensure the connection transitions to the connected state prior to completing this.startInternalPromise.
                 // start() will handle the case when stop was called and startInternal exits still in the disconnecting state.
                 this._logger.log(LogLevel.Debug, "The HttpConnection connected successfully.");
-                this._connectionState = "Connected" /* Connected */;
+                this._connectionState = "Connected" /* ConnectionState.Connected */;
             }
             // stop() is waiting on us via this.startInternalPromise so keep this.transport around so it can clean up.
             // This is the only case startInternal can exit in neither the connected nor disconnected state because stopConnection()
@@ -2518,7 +2883,7 @@ class HttpConnection {
         }
         catch (e) {
             this._logger.log(LogLevel.Error, "Failed to start the connection: " + e);
-            this._connectionState = "Disconnected" /* Disconnected */;
+            this._connectionState = "Disconnected" /* ConnectionState.Disconnected */;
             this.transport = undefined;
             // if start fails, any active calls to stop assume that start will complete the stop promise
             this._stopPromiseResolver();
@@ -2527,12 +2892,6 @@ class HttpConnection {
     }
     async _getNegotiationResponse(url) {
         const headers = {};
-        if (this._accessTokenFactory) {
-            const token = await this._accessTokenFactory();
-            if (token) {
-                headers[HeaderNames.Authorization] = `Bearer ${token}`;
-            }
-        }
         const [name, value] = getUserAgentHeader();
         headers[name] = value;
         const negotiateUrl = this._resolveNegotiateUrl(url);
@@ -2552,6 +2911,9 @@ class HttpConnection {
                 // Negotiate version 0 doesn't use connectionToken
                 // So we set it equal to connectionId so all our logic can use connectionToken without being aware of the negotiate version
                 negotiateResponse.connectionToken = negotiateResponse.connectionId;
+            }
+            if (negotiateResponse.useStatefulReconnect && this._options._useStatefulReconnect !== true) {
+                return Promise.reject(new FailedToNegotiateWithServerError("Client didn't negotiate Stateful Reconnect but the server did."));
             }
             return negotiateResponse;
         }
@@ -2585,7 +2947,7 @@ class HttpConnection {
         const transports = negotiateResponse.availableTransports || [];
         let negotiate = negotiateResponse;
         for (const endpoint of transports) {
-            const transportOrError = this._resolveTransportOrError(endpoint, requestedTransport, requestedTransferFormat);
+            const transportOrError = this._resolveTransportOrError(endpoint, requestedTransport, requestedTransferFormat, (negotiate === null || negotiate === void 0 ? void 0 : negotiate.useStatefulReconnect) === true);
             if (transportOrError instanceof Error) {
                 // Store the error and continue, we don't want to cause a re-negotiate in these cases
                 transportExceptions.push(`${endpoint.transport} failed:`);
@@ -2611,10 +2973,10 @@ class HttpConnection {
                     this._logger.log(LogLevel.Error, `Failed to start the transport '${endpoint.transport}': ${ex}`);
                     negotiate = undefined;
                     transportExceptions.push(new FailedToStartTransportError(`${endpoint.transport} failed: ${ex}`, HttpTransportType[endpoint.transport]));
-                    if (this._connectionState !== "Connecting" /* Connecting */) {
+                    if (this._connectionState !== "Connecting" /* ConnectionState.Connecting */) {
                         const message = "Failed to select transport before stop() was called.";
                         this._logger.log(LogLevel.Debug, message);
-                        return Promise.reject(new Error(message));
+                        return Promise.reject(new AbortError(message));
                     }
                 }
             }
@@ -2635,19 +2997,43 @@ class HttpConnection {
                 if (!this._options.EventSource) {
                     throw new Error("'EventSource' is not supported in your environment.");
                 }
-                return new ServerSentEventsTransport(this._httpClient, this._accessTokenFactory, this._logger, this._options);
+                return new ServerSentEventsTransport(this._httpClient, this._httpClient._accessToken, this._logger, this._options);
             case HttpTransportType.LongPolling:
-                return new LongPollingTransport(this._httpClient, this._accessTokenFactory, this._logger, this._options);
+                return new LongPollingTransport(this._httpClient, this._logger, this._options);
             default:
                 throw new Error(`Unknown transport: ${transport}.`);
         }
     }
     _startTransport(url, transferFormat) {
         this.transport.onreceive = this.onreceive;
-        this.transport.onclose = (e) => this._stopConnection(e);
+        if (this.features.reconnect) {
+            this.transport.onclose = async (e) => {
+                let callStop = false;
+                if (this.features.reconnect) {
+                    try {
+                        this.features.disconnected();
+                        await this.transport.connect(url, transferFormat);
+                        await this.features.resend();
+                    }
+                    catch {
+                        callStop = true;
+                    }
+                }
+                else {
+                    this._stopConnection(e);
+                    return;
+                }
+                if (callStop) {
+                    this._stopConnection(e);
+                }
+            };
+        }
+        else {
+            this.transport.onclose = (e) => this._stopConnection(e);
+        }
         return this.transport.connect(url, transferFormat);
     }
-    _resolveTransportOrError(endpoint, requestedTransport, requestedTransferFormat) {
+    _resolveTransportOrError(endpoint, requestedTransport, requestedTransferFormat, useStatefulReconnect) {
         const transport = HttpTransportType[endpoint.transport];
         if (transport === null || transport === undefined) {
             this._logger.log(LogLevel.Debug, `Skipping transport '${endpoint.transport}' because it is not supported by this client.`);
@@ -2665,6 +3051,7 @@ class HttpConnection {
                     else {
                         this._logger.log(LogLevel.Debug, `Selecting transport '${HttpTransportType[transport]}'.`);
                         try {
+                            this.features.reconnect = transport === HttpTransportType.WebSockets ? useStatefulReconnect : undefined;
                             return this._constructTransport(transport);
                         }
                         catch (ex) {
@@ -2692,15 +3079,15 @@ class HttpConnection {
         // If we have a stopError, it takes precedence over the error from the transport
         error = this._stopError || error;
         this._stopError = undefined;
-        if (this._connectionState === "Disconnected" /* Disconnected */) {
+        if (this._connectionState === "Disconnected" /* ConnectionState.Disconnected */) {
             this._logger.log(LogLevel.Debug, `Call to HttpConnection.stopConnection(${error}) was ignored because the connection is already in the disconnected state.`);
             return;
         }
-        if (this._connectionState === "Connecting" /* Connecting */) {
+        if (this._connectionState === "Connecting" /* ConnectionState.Connecting */) {
             this._logger.log(LogLevel.Warning, `Call to HttpConnection.stopConnection(${error}) was ignored because the connection is still in the connecting state.`);
             throw new Error(`HttpConnection.stopConnection(${error}) was called while the connection is still in the connecting state.`);
         }
-        if (this._connectionState === "Disconnecting" /* Disconnecting */) {
+        if (this._connectionState === "Disconnecting" /* ConnectionState.Disconnecting */) {
             // A call to stop() induced this call to stopConnection and needs to be completed.
             // Any stop() awaiters will be scheduled to continue after the onclose callback fires.
             this._stopPromiseResolver();
@@ -2718,7 +3105,7 @@ class HttpConnection {
             this._sendQueue = undefined;
         }
         this.connectionId = undefined;
-        this._connectionState = "Disconnected" /* Disconnected */;
+        this._connectionState = "Disconnected" /* ConnectionState.Disconnected */;
         if (this._connectionStarted) {
             this._connectionStarted = false;
             try {
@@ -2750,18 +3137,27 @@ class HttpConnection {
         return aTag.href;
     }
     _resolveNegotiateUrl(url) {
-        const index = url.indexOf("?");
-        let negotiateUrl = url.substring(0, index === -1 ? url.length : index);
-        if (negotiateUrl[negotiateUrl.length - 1] !== "/") {
-            negotiateUrl += "/";
+        const negotiateUrl = new URL(url);
+        if (negotiateUrl.pathname.endsWith('/')) {
+            negotiateUrl.pathname += "negotiate";
         }
-        negotiateUrl += "negotiate";
-        negotiateUrl += index === -1 ? "" : url.substring(index);
-        if (negotiateUrl.indexOf("negotiateVersion") === -1) {
-            negotiateUrl += index === -1 ? "?" : "&";
-            negotiateUrl += "negotiateVersion=" + this._negotiateVersion;
+        else {
+            negotiateUrl.pathname += "/negotiate";
         }
-        return negotiateUrl;
+        const searchParams = new URLSearchParams(negotiateUrl.searchParams);
+        if (!searchParams.has("negotiateVersion")) {
+            searchParams.append("negotiateVersion", this._negotiateVersion.toString());
+        }
+        if (searchParams.has("useStatefulReconnect")) {
+            if (searchParams.get("useStatefulReconnect") === "true") {
+                this._options._useStatefulReconnect = true;
+            }
+        }
+        else if (this._options._useStatefulReconnect === true) {
+            searchParams.append("useStatefulReconnect", "true");
+        }
+        negotiateUrl.search = searchParams.toString();
+        return negotiateUrl.toString();
     }
 }
 function transportMatches(requestedTransport, actualTransport) {
@@ -2859,7 +3255,7 @@ class JsonHubProtocol {
         /** @inheritDoc */
         this.name = JSON_HUB_PROTOCOL_NAME;
         /** @inheritDoc */
-        this.version = 1;
+        this.version = 2;
         /** @inheritDoc */
         this.transferFormat = TransferFormat.Text;
     }
@@ -2903,6 +3299,12 @@ class JsonHubProtocol {
                 case MessageType.Close:
                     // All optional values, no need to validate
                     break;
+                case MessageType.Ack:
+                    this._isAckMessage(parsedMessage);
+                    break;
+                case MessageType.Sequence:
+                    this._isSequenceMessage(parsedMessage);
+                    break;
                 default:
                     // Future protocol changes can add message types, old clients can ignore them
                     logger.log(LogLevel.Information, "Unknown message type '" + parsedMessage.type + "' ignored.");
@@ -2940,6 +3342,16 @@ class JsonHubProtocol {
             this._assertNotEmptyString(message.error, "Invalid payload for Completion message.");
         }
         this._assertNotEmptyString(message.invocationId, "Invalid payload for Completion message.");
+    }
+    _isAckMessage(message) {
+        if (typeof message.sequenceId !== 'number') {
+            throw new Error("Invalid SequenceId for Ack message.");
+        }
+    }
+    _isSequenceMessage(message) {
+        if (typeof message.sequenceId !== 'number') {
+            throw new Error("Invalid SequenceId for Sequence message.");
+        }
     }
     _assertNotEmptyString(value, errorMessage) {
         if (typeof value !== "string" || value === "") {
@@ -3038,6 +3450,36 @@ class HubConnectionBuilder {
         }
         return this;
     }
+    /** Configures {@link @microsoft/signalr.HubConnection.serverTimeoutInMilliseconds} for the {@link @microsoft/signalr.HubConnection}.
+     *
+     * @returns The {@link @microsoft/signalr.HubConnectionBuilder} instance, for chaining.
+     */
+    withServerTimeout(milliseconds) {
+        Arg.isRequired(milliseconds, "milliseconds");
+        this._serverTimeoutInMilliseconds = milliseconds;
+        return this;
+    }
+    /** Configures {@link @microsoft/signalr.HubConnection.keepAliveIntervalInMilliseconds} for the {@link @microsoft/signalr.HubConnection}.
+     *
+     * @returns The {@link @microsoft/signalr.HubConnectionBuilder} instance, for chaining.
+     */
+    withKeepAliveInterval(milliseconds) {
+        Arg.isRequired(milliseconds, "milliseconds");
+        this._keepAliveIntervalInMilliseconds = milliseconds;
+        return this;
+    }
+    /** Enables and configures options for the Stateful Reconnect feature.
+     *
+     * @returns The {@link @microsoft/signalr.HubConnectionBuilder} instance, for chaining.
+     */
+    withStatefulReconnect(options) {
+        if (this.httpConnectionOptions === undefined) {
+            this.httpConnectionOptions = {};
+        }
+        this.httpConnectionOptions._useStatefulReconnect = true;
+        this._statefulReconnectBufferSize = options === null || options === void 0 ? void 0 : options.bufferSize;
+        return this;
+    }
     /** Creates a {@link @microsoft/signalr.HubConnection} from the configuration options specified in this builder.
      *
      * @returns {HubConnection} The configured {@link @microsoft/signalr.HubConnection}.
@@ -3056,7 +3498,7 @@ class HubConnectionBuilder {
             throw new Error("The 'HubConnectionBuilder.withUrl' method must be called before building the connection.");
         }
         const connection = new HttpConnection(this.url, httpConnectionOptions);
-        return HubConnection.create(connection, this.logger || NullLogger.instance, this.protocol || new JsonHubProtocol(), this.reconnectPolicy);
+        return HubConnection.create(connection, this.logger || NullLogger.instance, this.protocol || new JsonHubProtocol(), this.reconnectPolicy, this._serverTimeoutInMilliseconds, this._keepAliveIntervalInMilliseconds, this._statefulReconnectBufferSize);
     }
 }
 function isLogger(logger) {

@@ -10,7 +10,7 @@ var profile = "http";
 var administrationService =
     builder.AddProject<Projects.EShopOnAbp_AdministrationService_HttpApi_Host>("administrationService", profile);
 var identityService = builder.AddProject<Projects.EShopOnAbp_IdentityService_HttpApi_Host>("identityService", profile);
-var catalogService = builder.AddProject<Projects.EShopOnAbp_CatalogService_HttpApi_Host>("catalogService")
+var catalogService = builder.AddProject<Projects.EShopOnAbp_CatalogService_HttpApi_Host>("catalogService", null)
     .WithHttpEndpoint(name: "http", port: 5054, isProxied: false)
     .WithEndpoint(
         endpointName: "grpc",
