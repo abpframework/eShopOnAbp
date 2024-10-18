@@ -25,6 +25,7 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using EShopOnAbp.PublicWeb.Components.Toolbar.Footer;
+using EShopOnAbp.PublicWeb.HealthChecks;
 using Microsoft.AspNetCore.Authentication.OAuth.Claims;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -110,7 +111,7 @@ public class EShopOnAbpPublicWebModule : AbpModule
     {
         Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
         var configuration = context.Services.GetConfiguration();
-        
+
         context.Services.AddHttpForwarderWithServiceDiscovery();
 
         ConfigureBasketHttpClient(context);
@@ -278,6 +279,8 @@ public class EShopOnAbpPublicWebModule : AbpModule
                     );
                 });
             });
+
+        context.Services.AddEShopOnAbpHealthChecks();
     }
 
     public override void OnApplicationInitialization(ApplicationInitializationContext context)
