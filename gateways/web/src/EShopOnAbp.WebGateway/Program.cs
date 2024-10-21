@@ -20,6 +20,7 @@ public class Program
         {
             Log.Information($"Starting {assemblyName}.");
             var builder = WebApplication.CreateBuilder(args);
+           
             builder.Host
                 .AddAppSettingsSecretsJson()
                 .AddYarpJson()
