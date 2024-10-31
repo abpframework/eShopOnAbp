@@ -2,25 +2,28 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Volo.Abp.AspNetCore.Mvc.ApplicationConfigurations;
 using Volo.Abp.DependencyInjection;
-using Volo.Abp.Identity;
 
 namespace EShopOnAbp.PublicWeb.HealthChecks;
 
 public class EShopOnAbpHealthCheck : IHealthCheck, ITransientDependency
 {
-    protected readonly IIdentityUserAppService IdentityUserAppService;
+    protected readonly IAbpApplicationConfigurationAppService ApplicationConfigurationAppService;
 
-    public EShopOnAbpHealthCheck(IIdentityUserAppService identityUserAppService)
+    public EShopOnAbpHealthCheck(IAbpApplicationConfigurationAppService applicationConfigurationAppService)
     {
-        IdentityUserAppService = identityUserAppService;
+        ApplicationConfigurationAppService = applicationConfigurationAppService;
     }
 
     public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
     {
         try
         {
-            await IdentityUserAppService.GetListAsync(new GetIdentityUsersInput { MaxResultCount = 1 });
+            await ApplicationConfigurationAppService.GetAsync(new ApplicationConfigurationRequestOptions()
+            {
+                IncludeLocalizationResources = false
+            });
 
             return HealthCheckResult.Healthy($"Could connect to database and get record.");
         }
