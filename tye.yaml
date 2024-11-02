@@ -35,6 +35,8 @@ services:
   env:
     - Kestrel__Certificates__Default__Path=../../../../etc/dev-cert/localhost.pfx
     - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49
+    - ASPNETCORE_ENVIRONMENT=Tye
+    - DOTNET_ENVIRONMENT=Tye
 
 - name: ordering-service
   project: services/ordering/src/EShopOnAbp.OrderingService.HttpApi.Host/EShopOnAbp.OrderingService.HttpApi.Host.csproj
@@ -84,6 +86,8 @@ services:
   env:
     - Kestrel__Certificates__Default__Path=../../../../etc/dev-cert/localhost.pfx
     - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49
+    - ASPNETCORE_ENVIRONMENT=Tye
+    - DOTNET_ENVIRONMENT=Tye
 
 - name: public-web
   project: apps/public-web/src/EShopOnAbp.PublicWeb/EShopOnAbp.PublicWeb.csproj
@@ -93,6 +97,8 @@ services:
   env:
     - Kestrel__Certificates__Default__Path=../../../../etc/dev-cert/localhost.pfx
     - Kestrel__Certificates__Default__Password=8b6039b6-c67a-448b-977b-0ce6d3fcfd49
+    - ASPNETCORE_ENVIRONMENT=Tye
+    - DOTNET_ENVIRONMENT=Tye
 
 - name: keycloak-seeder
   project: shared/EShopOnAbp.Keycloak.DbMigrator/EShopOnAbp.Keycloak.DbMigrator.csproj    
