@@ -82,7 +82,7 @@ public class OrderingServiceHttpApiHostModule : AbpModule
         app.UseCorrelationId();
         app.UseCors();
         app.UseAbpRequestLocalization();
-        app.UseStaticFiles();
+        app.MapAbpStaticAssets();
         app.UseRouting();
         app.UseAuthentication();
         app.UseAbpClaimsMap();

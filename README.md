@@ -2,7 +2,7 @@
 
 This is a reference project for those who want to build microservice solutions with the ABP Framework.
 
-See [the blog post](https://blog.abp.io/abp/Introducing-the-eShopOnAbp-Project) for more info.
+See [the blog post](https://abp.io/blog/Introducing-the-eShopOnAbp-Project) for more info.
 
 Live demo 👉 https://www.eshoponabp.com/
 
@@ -17,7 +17,7 @@ You can run it in Visual Studio or use [Microsoft Tye](https://github.com/dotnet
  ### Requirements
 
 - .NET 6.0 Runtime (required for TYE)
-- .NET 8.0 SDK
+- .NET 9.0 SDK
 - Docker
 - Yarn v1.20+(not v2) or npm v6+ (already installed with Node)
 

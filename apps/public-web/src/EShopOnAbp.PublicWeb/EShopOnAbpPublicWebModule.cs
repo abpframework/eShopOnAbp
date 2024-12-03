@@ -194,7 +194,7 @@ public class EShopOnAbpPublicWebModule : AbpModule
                     RoleClaimType = ClaimTypes.Role,
                     ValidateIssuer = true
                 };
-
+                
                 options.Events.OnAuthorizationCodeReceived = async (authContext) =>
                 {
                     var userLoggedInEto = CreateUserLoggedInEto(authContext.Principal, authContext.HttpContext);
@@ -233,9 +233,9 @@ public class EShopOnAbpPublicWebModule : AbpModule
                         await previousOnRedirectToIdentityProvider(ctx);
                     }
                 };
-                var previousOnRedirectToIdentityProviderForSignOut =
-                    options.Events.OnRedirectToIdentityProviderForSignOut;
-                options.Events.OnRedirectToIdentityProviderForSignOut = async ctx =>
+                var previousOnRedirectToIdentityProviderForSignOut = options.Events.OnRedirectToIdentityProviderForSignOut;
+                
+                options.Events.OnRedirectToIdentityProviderForSignOut = async (ctx) =>
                 {
                     // Intercept the redirection for signout so the browser navigates to the right URL in your host
                     ctx.ProtocolMessage.IssuerAddress = configuration["AuthServer:Authority"].EnsureEndsWith('/') +
@@ -245,6 +245,7 @@ public class EShopOnAbpPublicWebModule : AbpModule
                     {
                         await previousOnRedirectToIdentityProviderForSignOut(ctx);
                     }
+                    
                 };
             });
         }
@@ -312,7 +313,7 @@ public class EShopOnAbpPublicWebModule : AbpModule
         });
 
         app.UseCorrelationId();
-        app.UseStaticFiles();
+        app.MapAbpStaticAssets();
         app.UseRouting();
         app.UseAuthentication();
         app.UseAbpSerilogEnrichers();

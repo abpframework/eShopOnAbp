@@ -44,7 +44,7 @@ public class EShopOnAbpWebPublicGatewayModule : AbpModule
         }
 
         app.UseCorrelationId();
-        app.UseStaticFiles();
+        app.MapAbpStaticAssets();
         app.UseRouting();
         app.UseAuthorization();
         app.UseSwaggerUIWithYarp(context);

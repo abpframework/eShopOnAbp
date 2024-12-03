@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <RootNamespace>EShopOnAbp.CmskitService</RootNamespace>
     <PreserveCompilationReferences>true</PreserveCompilationReferences>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.5">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
@@ -25,7 +25,7 @@
     <ProjectReference Include="..\EShopOnAbp.CmskitService.Application\EShopOnAbp.CmskitService.Application.csproj" />
     <ProjectReference Include="..\EShopOnAbp.CmskitService.EntityFrameworkCore\EShopOnAbp.CmskitService.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\EShopOnAbp.CmskitService.HttpApi\EShopOnAbp.CmskitService.HttpApi.csproj" />
-    <PackageReference Include="Volo.Abp.Identity.HttpApi.Client" Version="8.3.1" />
+    <PackageReference Include="Volo.Abp.Identity.HttpApi.Client" Version="9.0.0" />
   </ItemGroup>
 
   <ItemGroup>
