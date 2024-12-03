@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFramework>net9.0</TargetFramework>
         <Nullable>enable</Nullable>
         <RootNamespace>EShopOnAbp.Shared.Hosting.Microservices</RootNamespace>
     </PropertyGroup>
@@ -11,17 +11,17 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="8.0.4" />
+        <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="9.0.0" />
         <PackageReference Include="DistributedLock.Redis" Version="1.0.2" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Volo.Abp.MongoDB" Version="8.3.1" />
-        <PackageReference Include="Volo.Abp.AspNetCore.Authentication.JwtBearer" Version="8.3.1" />
-        <PackageReference Include="Volo.Abp.EventBus.RabbitMQ" Version="8.3.1" />
-        <PackageReference Include="Volo.Abp.BackgroundJobs.RabbitMQ" Version="8.3.1" />
-        <PackageReference Include="Volo.Abp.Caching.StackExchangeRedis" Version="8.3.1" />
-        <PackageReference Include="Volo.Abp.DistributedLocking" Version="8.3.1" />        
+        <PackageReference Include="Volo.Abp.MongoDB" Version="9.0.0" />
+        <PackageReference Include="Volo.Abp.AspNetCore.Authentication.JwtBearer" Version="9.0.0" />
+        <PackageReference Include="Volo.Abp.EventBus.RabbitMQ" Version="9.0.0" />
+        <PackageReference Include="Volo.Abp.BackgroundJobs.RabbitMQ" Version="9.0.0" />
+        <PackageReference Include="Volo.Abp.Caching.StackExchangeRedis" Version="9.0.0" />
+        <PackageReference Include="Volo.Abp.DistributedLocking" Version="9.0.0" />        
     </ItemGroup>
 
     <ItemGroup>

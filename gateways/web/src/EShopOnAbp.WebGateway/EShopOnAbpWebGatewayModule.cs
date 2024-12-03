@@ -70,7 +70,7 @@ public class EShopOnAbpWebGatewayModule : AbpModule
         app.UseCorrelationId();
         app.UseCors();
         app.UseAbpRequestLocalization();
-        app.UseStaticFiles();
+        app.MapAbpStaticAssets();
         app.UseRouting();
         app.UseAuthorization();
         app.UseSwaggerUIWithYarp(context);
