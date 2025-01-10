@@ -21,26 +21,8 @@ public class Program
         try
         {
             Log.Information($"Starting {assemblyName}.");
-            var builder = WebApplication.CreateBuilder(args);
-            builder.Host
-                .UseAutofac()
-                .UseSerilog();
-            
-            builder.AddServiceDefaults();
-            builder.WebHost.ConfigureKestrel(options =>
-            {
-                options.ListenAnyIP(5054, listenOptions =>
-                {
-                    listenOptions.Protocols = HttpProtocols.Http1AndHttp2;
-                });
-                options.ListenAnyIP(8181, listenOptions =>
-                {
-                    listenOptions.Protocols = HttpProtocols.Http2;
-                });
-            });
-
-            await builder.AddApplicationAsync<CatalogServiceHttpApiHostModule>();
-            var app = builder.Build();
+            var app = await ApplicationBuilderHelper
+                .BuildApplicationAsync<CatalogServiceHttpApiHostModule>(args);
             await app.InitializeApplicationAsync();
             await app.RunAsync();
 
